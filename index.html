@@ -10,9 +10,22 @@
 
     <div class="main">
 
+        <select name="countries" id="countries">
+            <option value="">Select a country</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Peru">Peru</option>
+            <option value="Chile">Chile</option>
+            <option value="Mexico">Mexico</option>
+        </select>
+
         <div class="container">
 
-            <div class="map-container"></div>
+            <div class="map-container">
+
+                <svg class="map"></svg>
+
+            </div>
 
             <div class="text-container">
 
@@ -29,6 +42,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="script.js"></script>
     
 </body>
