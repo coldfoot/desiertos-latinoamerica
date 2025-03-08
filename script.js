@@ -71,6 +71,22 @@ function init(data) {
         plot_country(data, country);
     });
 
+    const countries = ["Argentina", "Colombia", "Peru", "Chile", "Mexico"];
+
+    const countries_paths = {};
+
+    countries.forEach(country => {
+
+        plot_country(data, country);
+
+        countries_paths[country] = d3.select("path").attr("d");
+
+    });
+
+    console.log(countries_paths);
+
+    // com isso aqui, fazer as transições.
+
 }
 
 read_data('data.json');
