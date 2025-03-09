@@ -1,60 +1,14 @@
-let data;
 
-function read_data(data_file) {
 
-    fetch(data_file)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
 
-            init(data);
+function plot_country(country) {
 
-        });
+    console.log(country);
+
 
 }
 
-function plot_country(data, country) {
-
-    const country_data = {
-        
-        type: 'FeatureCollection',
-        features: data.features.filter(d => d.properties.country_name === country)
-
-    }
-
-    console.log(country_data);
-
-    const svg = d3.select('svg');
-
-    const width = +svg.style('width').slice(0,-2);
-    const height = +svg.style('height').slice(0,-2);
-
-    const margin = {top: 40, right: 40, bottom: 40, left: 40};
-    const innerWidth = width - margin.left - margin.right;
-    const innerHeight = height - margin.top - margin.bottom;
-
-    // Define the projection
-
-    const projection = d3.geoNaturalEarth1()
-        .fitSize([innerWidth, innerHeight], country_data)
-    ;
-
-    const path = d3.geoPath().projection(projection);
-
-    svg.selectAll("g").remove();
-
-    svg.append("g")
-        .attr("class", "map")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`)
-        .selectAll("path")
-        .data(country_data.features)
-        .join("path")
-        .attr("d", path)
-    ;
-
-}
-
-function init(data) {
+function init() {
 
     console.log("initi");
 
@@ -68,25 +22,62 @@ function init(data) {
 
         console.log(country);
         
-        plot_country(data, country);
+        plot_country(country);
     });
 
     const countries = ["Argentina", "Colombia", "Peru", "Chile", "Mexico"];
 
-    const countries_paths = {};
+    mapboxgl.accessToken = 'pk.eyJ1IjoidGlhZ29tYnAiLCJhIjoiY2thdjJmajYzMHR1YzJ5b2huM2pscjdreCJ9.oT7nAiasQnIMjhUB-VFvmw';
 
-    countries.forEach(country => {
+    const map = new mapboxgl.Map({
+        container: 'map',
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        style: 'mapbox://styles/tiagombp/clgxtpl6400eg01p6dtzv8igv',
+        center: [-6.126,-64.099],
+        zoom: 2
+    });
+    
+    let hoveredPolygonId = null;
 
-        plot_country(data, country);
+    map.on('load', () => {
+        map.addSource('countries', {
+            'type': 'vector',
+            'url': 'mapbox://tiagombp.bmw9axxy'
+        });
 
-        countries_paths[country] = d3.select("path").attr("d");
+        // The feature-state dependent fill-opacity expression will render the hover effect
+        // when a feature's hover state is set to true.
+        map.addLayer({
+            'id': 'countries-fills',
+            'type': 'fill',
+            'source': 'countries',
+            'source-layer' : 'data-blt69d',
+            'layout': {},
+            'paint': {
+                'fill-color': '#627BC1',
+                'fill-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    1,
+                    0.5
+                ]
+            }
+        });
+
+        map.addLayer({
+            'id': 'countries-borders',
+            'type': 'line',
+            'source': 'countries',
+            'source-layer' : 'data-blt69d',
+            'layout': {},
+            'paint': {
+                'line-color': '#627BC1',
+                'line-width': 2
+            }
+        });
 
     });
 
-    console.log(countries_paths);
-
-    // com isso aqui, fazer as transições.
-
 }
 
-read_data('data.json');
+init();
