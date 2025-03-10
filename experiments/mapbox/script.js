@@ -8,6 +8,8 @@ function plot_country(country) {
 
 }
 
+let map;
+
 function init() {
 
     console.log("initi");
@@ -29,11 +31,11 @@ function init() {
 
     mapboxgl.accessToken = 'pk.eyJ1IjoidGlhZ29tYnAiLCJhIjoiY2thdjJmajYzMHR1YzJ5b2huM2pscjdreCJ9.oT7nAiasQnIMjhUB-VFvmw';
 
-    const map = new mapboxgl.Map({
+    map = new mapboxgl.Map({
         container: 'map',
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
         style: 'mapbox://styles/tiagombp/clgxtpl6400eg01p6dtzv8igv',
-        center: [-6.126,-64.099],
+        center: [-76.8, -4.48],
         zoom: 2
     });
     
@@ -75,6 +77,8 @@ function init() {
                 'line-width': 2
             }
         });
+
+        //map.querySourceFeatures("countries", {'sourceLayer' : 'data-blt69d'})
 
     });
 
