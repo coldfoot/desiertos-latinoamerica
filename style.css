@@ -6,6 +6,7 @@
 
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
+    font-family: 'Roboto Condensed', sans-serif;
 
 }
 
@@ -80,6 +81,13 @@ select#countries {
 
 }
 
+.wrapper-arrow {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 [data-slide="opening"] {
 
     display: grid;
@@ -117,7 +125,14 @@ select#countries {
 [data-slide="2"] {
 
     background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+}
+
+[data-slide="2"] .inner-container-text-slide p {
+    font-size: 3rem;
 }
 
 .inner-container-text-slide {

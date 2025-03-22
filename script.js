@@ -56,7 +56,7 @@ function init() {
             'source-layer' : 'data-blt69d',
             'layout': {},
             'paint': {
-                'fill-color': '#627BC1',
+                'fill-color': 'gray',
                 'fill-opacity': [
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
@@ -73,7 +73,7 @@ function init() {
             'source-layer' : 'data-blt69d',
             'layout': {},
             'paint': {
-                'line-color': '#627BC1',
+                'line-color': 'gray',
                 'line-width': 2
             }
         });
