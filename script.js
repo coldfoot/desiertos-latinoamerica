@@ -85,3 +85,16 @@ function init() {
 }
 
 init();
+
+class Story {
+
+    constructor() {
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        
+
+
+    }
+
+}
