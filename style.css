@@ -7,6 +7,10 @@
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
     font-family: 'Roboto Condensed', sans-serif;
+    --color-bg: #FBF3E4;
+    --color-accent: #FF571D;
+
+    background-color: var(--color-bg);
 
 }
 
@@ -53,7 +57,7 @@ select#countries {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: cornsilk;
+    background-color: var(--color-bg);
     transition: opacity .5s;
     opacity: 1;
 
@@ -77,50 +81,75 @@ select#countries {
     width: 100%;
     height: 100vh;
     position: relative;
-    scroll-snap-align: start;
+    /*scroll-snap-align: start;*/
 
 }
 
-.wrapper-arrow {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
 
 [data-slide="opening"] {
 
-    display: grid;
-    grid-template-columns: 0.05fr 0.35fr 0.2fr 0.35fr 0.05fr;
-    grid-template-rows: 0.2fr 0.6fr 0.2fr;
+    padding: 3rem;
+    display: flex;
+    align-items: center;
 
 }
 
-[data-slide="opening"] > * {
-    margin: 0;
-    align-self: end;
+[data-slide="opening"] .text-slide-inner-wrapper {
+
+    max-width: 400px;
+
 }
 
 [data-slide="opening"] h1 {
 
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
-    text-align: left;
     font-size: 3rem;
-    max-width: 400px;
 
+}
+
+[data-slide="opening"] * + * {
+    margin-top: 1.5rem;
 }
 
 [data-slide="opening"] p {
 
-    grid-column: 4 / 5;
-    grid-row: 2 / 3;
-    text-align: right;
     font-size: 1.5rem;
-    max-width: 400px;
-    justify-self: right;
 
 }
+
+[data-slide="opening"] .goo {
+    font-size: 3rem;
+    line-height: 1.35;
+    display: inline;
+    box-decoration-break: clone;
+    background: var(--color-accent);
+    padding: 0.5rem 1rem;
+    filter: url('#goo');
+    color: var(--color-bg);
+}
+
+[data-slide="opening"] .subtitle, 
+[data-slide="opening"] .btn-descubra a, 
+[data-slide="opening"] .btn-vaya-datos a {
+    padding: 0.5rem 1rem;
+}
+
+[data-slide="opening"] a {
+    text-decoration: none;
+    font-style: italic;
+    font-family: Serif;
+}
+
+[data-slide="opening"] .btn-descubra a {
+    color: var(--color-bg);
+    border-radius: 10px;
+    background-color: var(--color-accent);
+}
+
+[data-slide="opening"] .btn-vaya-datos a {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
 
 [data-slide="2"] {
 
@@ -131,23 +160,27 @@ select#countries {
 
 }
 
-[data-slide="2"] .inner-container-text-slide p {
+[data-slide="2"] .text-slide-inner-wrapper p {
     font-size: 3rem;
 }
 
-.inner-container-text-slide {
+.text-slide-inner-wrapper {
 
+    /*
     margin: 1rem auto;
     max-width: 600px;
     padding: 1rem;
     padding-top: 4rem;
+    */
 
 
 }
 
-.inner-container-text-slide p {
+.text-slide-inner-wrapper p {
 
+    /*
     font-size: 1.2rem;
+    */
 
 
 }

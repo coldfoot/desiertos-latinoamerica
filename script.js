@@ -10,6 +10,8 @@ function plot_country(country) {
 
 let map;
 
+const overall_bbox = [-118.4013671875, -55.891699218750006, -53.66855468749999, 32.71533203125];
+
 function init() {
 
     console.log("initi");
@@ -42,6 +44,7 @@ function init() {
     let hoveredPolygonId = null;
 
     map.on('load', () => {
+
         map.addSource('countries', {
             'type': 'vector',
             'url': 'mapbox://tiagombp.bmw9axxy'
@@ -56,13 +59,13 @@ function init() {
             'source-layer' : 'data-blt69d',
             'layout': {},
             'paint': {
-                'fill-color': 'gray',
-                'fill-opacity': [
+                'fill-color': "#FF571D",
+                /*'fill-opacity': [
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
                     1,
                     0.5
-                ]
+                ]*/
             }
         });
 
@@ -73,8 +76,14 @@ function init() {
             'source-layer' : 'data-blt69d',
             'layout': {},
             'paint': {
-                'line-color': 'gray',
-                'line-width': 2
+                'line-color': 'black',
+                'line-width': 1
+            }
+        });
+
+        map.fitBounds(overall_bbox, {
+            padding:  {
+                left: 400
             }
         });
 

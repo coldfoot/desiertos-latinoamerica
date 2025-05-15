@@ -14,3 +14,5 @@ ggplot(countries) + geom_sf()
 
 write(sf_geojson(countries), "data.json")
 
+sf::st_bbox(countries)
+
