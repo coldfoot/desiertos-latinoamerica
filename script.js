@@ -1,14 +1,79 @@
 
+class MenuPaises {
 
+    constructor(ref) {
+
+        this.ref = ref;
+        this.el = document.querySelector(ref);
+
+        console.log(this.el);
+
+        this.el.addEventListener("click", e => {
+
+            let pais;
+
+            if (e.target.tagName == "IMG" || e.target.tagName == "SPAN") pais = e.target.parentElement.parentElement.dataset.pais;
+            if (e.target.tagName == "A") pais = e.target.parentElement.dataset.pais;
+            if (e.target.tagName == "LI") pais = e.target.dataset.pais;
+
+            console.log(pais);
+
+            if (pais, plot_country(pais));
+        });
+
+    }
+
+    showCountry(country) {
+
+    }
+
+}
 
 function plot_country(country) {
 
     console.log(country);
 
+    const bbox_highlighted = bboxes[country];
+
+    map.fitBounds(
+        bbox_highlighted, 
+        {
+            linear : false, // false means the map transitions using map.flyTo()
+            speed: 1, 
+            padding:  {
+                left: 500,
+                top: 20,
+                right: 50,
+                bottom: 20
+            }
+        }
+    );
+
+}
+
+function get_bbox(country) {
+
+    console.log(country);
+
+    let locations = map.querySourceFeatures("countries", {
+        sourceLayer: 'data-blt69d'
+    })
+        
+    let desired_features = locations.filter(d => d.properties.country_name == country)[0];
+
+    console.log(desired_features);
+
+    let bbox_highlighted = turf.bbox(desired_features)
+    
+    console.log(desired_features, bbox_highlighted);
+
+    bboxes[country] = bbox_highlighted;
 
 }
 
 let map;
+
+const bboxes = {};
 
 const overall_bbox = [-118.4013671875, -55.891699218750006, -53.66855468749999, 32.71533203125];
 
@@ -28,6 +93,8 @@ function init() {
         
         plot_country(country);
     });
+
+    const menu_paises = new MenuPaises(".menu-paises");
 
     const countries = ["Argentina", "Colombia", "Peru", "Chile", "Mexico"];
 
@@ -83,9 +150,24 @@ function init() {
 
         map.fitBounds(overall_bbox, {
             padding:  {
-                left: 400
+                left: 500,
+                top: 20,
+                right: 50,
+                bottom: 20
             }
         });
+
+        let flag_start = true;
+
+        map.on('sourcedata', () => { // para garantir que o source foi carregado
+            if (flag_start) {
+                console.log("Começou")
+                countries.forEach(country => get_bbox(country));
+                flag_start = false;
+            }
+        });
+
+
 
         //map.querySourceFeatures("countries", {'sourceLayer' : 'data-blt69d'})
 
