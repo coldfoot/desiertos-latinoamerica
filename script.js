@@ -53,6 +53,42 @@ function plot_country(country, padding) {
         }
     );
 
+    console.log(colors["accent"], colors["map"]);
+
+    map.setPaintProperty(
+        'countries-fills', 
+        'fill-opacity',
+        ['case',
+            [
+                '==',
+                ['get', 'country_name'],
+                country
+            ],
+
+            1,
+            
+            0
+        ]
+
+    );
+
+    map.setPaintProperty(
+        'countries-borders', 
+        'line-opacity',
+        ['case',
+            [
+                '==',
+                ['get', 'country_name'],
+                country
+            ],
+
+            1,
+            
+            0
+        ]
+
+    );
+
 }
 
 function get_bbox(country) {
@@ -88,22 +124,18 @@ const bboxes = {
 
 const overall_bbox = [-118.4013671875, -55.891699218750006, -53.66855468749999, 32.71533203125];
 
+const colors = {};
+
 function init() {
 
-    console.log("initi");
+    console.log("init");
 
-    const selector = document.querySelector('select#countries');
+    // COLORS
+    const root = document.documentElement;
+    const rootStyles = getComputedStyle(root);
+    colors["accent"] = rootStyles.getPropertyValue('--color-accent');
+    colors["map"] = rootStyles.getPropertyValue('--color-map');
 
-    selector.addEventListener('change', function(e) {
-
-        console.log("hi");
-
-        const country = e.target.value;
-
-        console.log(country);
-        
-        plot_country(country);
-    });
 
     const menu_paises = new MenuPaises(".menu-paises");
 

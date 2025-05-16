@@ -10,6 +10,7 @@
     --color-bg: #FBF3E4;
     --color-accent: #FF571D;
     --color-text: #333;
+    --color-map: #e7e7e8;
 
     background-color: var(--color-bg);
 
@@ -30,12 +31,39 @@ body {
 
 }
 
-select#countries {
+header.top-bar {
 
     position: fixed;
-    top: 1em;
-    left: 1em;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    z-index: 2;
 
+}
+
+header.top-bar button.btn-menu {
+
+    display: block;
+    margin-left: auto;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-top: 25px;
+    margin-right: 25px;
+
+
+}
+
+
+
+.btn-menu-img {
+    stroke: var(--color-accent);
+    display: block;
+    width: 60px;
+    height: 60px;
+    stroke-width: 5px;
+    stroke-linecap: round;
 }
 
 .container {
