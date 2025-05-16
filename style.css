@@ -55,8 +55,6 @@ header.top-bar button.btn-menu {
 
 }
 
-
-
 .btn-menu-img {
     stroke: var(--color-accent);
     display: block;
@@ -64,6 +62,21 @@ header.top-bar button.btn-menu {
     height: 60px;
     stroke-width: 5px;
     stroke-linecap: round;
+}
+
+.btn-menu-img .line-bottom { transform-origin: 12.5% 75%; }
+.btn-menu-img .line-mid    { transform-origin: 87.5% 25%; }
+
+.btn-menu-img line {
+    transition: transform .5s;
+}
+
+header.top-bar button.btn-menu:hover .line-bottom {
+    transform: translate(0, -50%) rotate(60deg);
+}
+
+header.top-bar button.btn-menu:hover .line-mid {
+    transform: rotate(-60deg) translate(0, -25%);
 }
 
 .container {
