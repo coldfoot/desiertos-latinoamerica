@@ -237,6 +237,7 @@ select#countries {
     margin: 0;
     position: relative;
     z-index: 1;
+    transform: translate(0, -10vh);
 }
 
 [data-slide="2"] .quiere-explorar-star {
@@ -244,29 +245,54 @@ select#countries {
     display: block;
     width: 100%;
     height: 33%;
-    transform: translate(0, 50%);
+    transform: translate(0, 10vh);
 }
 
-.text-slide-inner-wrapper {
+/***** Page 3 *****/
 
-    /*
-    margin: 1rem auto;
-    max-width: 600px;
-    padding: 1rem;
-    padding-top: 4rem;
-    */
+[data-slide="3"] .text-slide-inner-wrapper {
 
-
-}
-
-.text-slide-inner-wrapper p {
-
-    /*
-    font-size: 1.2rem;
-    */
-
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 5fr 1fr;
+    height: 100%;
 
 }
 
+[data-slide="3"] .text-slide-inner-wrapper .placeholder-map {
 
+    grid-row: 2/3;
+    grid-column: 1/2;
+
+}
+
+[data-slide="3"] .text-slide-inner-wrapper .slide-main-text {
+
+    grid-row: 2/3;
+    grid-column: 2/3;
+    place-content: center;
+
+}
+
+[data-slide="3"] .text-slide-inner-wrapper .slide-main-text p {
+    
+    font-size: 2.5rem;
+    max-width: 800px;
+    margin: 0 3rem
+
+}
+
+[data-slide="3"] .text-slide-inner-wrapper .wrapper-arrow {
+    
+    grid-row: 3/4;
+    grid-column: 2/3;
+    stroke: var(--color-accent)
+}
+
+span.highlight {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    padding: 0.1rem 0.5rem;
+    border-radius: 10px;
+}
 
