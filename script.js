@@ -18,7 +18,16 @@ class MenuPaises {
 
             console.log(pais);
 
-            if (pais, plot_country(pais));
+            const screen_width = window.innerWidth;
+
+            const padding = {
+                right: screen_width / 2,
+                left: 30,
+                top: 30,
+                bottom: 30
+            }
+
+            if (pais, plot_country(pais, padding));
         });
 
     }
@@ -29,7 +38,7 @@ class MenuPaises {
 
 }
 
-function plot_country(country) {
+function plot_country(country, padding) {
 
     console.log(country);
 
@@ -40,12 +49,7 @@ function plot_country(country) {
         {
             linear : false, // false means the map transitions using map.flyTo()
             speed: 1, 
-            padding:  {
-                left: 500,
-                top: 20,
-                right: 50,
-                bottom: 20
-            }
+            padding:  padding
         }
     );
 
