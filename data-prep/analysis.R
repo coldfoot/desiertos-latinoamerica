@@ -12,7 +12,10 @@ countries <- data %>%
 
 ggplot(countries) + geom_sf()
 
-write(sf_geojson(countries), "data.json")
+#write(sf_geojson(countries), "data.json")
 
 sf::st_bbox(countries)
+
+bbox <- sf::st_bbox(countries %>% filter(country_name == "Peru")) 
+paste0("[", paste(bbox, collapse = ", "), "]")
 
