@@ -337,3 +337,38 @@ span.highlight {
     border-radius: 10px;
 }
 
+
+/******* DASHBOARD *********/
+
+.dashboard-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: initial;
+    border: 2px solid hotpink;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-bar-dashboard {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.logo-wrapper {
+    width: 60px;
+    background-color: forestgreen;
+}
+
+.main-dashboard {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.main-dashboard > div {
+    flex: 0 0 50%;
+    border: 1px solid gold;
+}

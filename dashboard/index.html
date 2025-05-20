@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DESIERTOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
+</head>
+<body class="dashboard-wrapper">
+
+    <header class="top-bar-dashboard">
+
+        <div class="logo-wrapper"></div>
+
+        <div class="title-wrapper">
+            <h1 class="title">Desiertos de Noticias en Latino América</h1>
+        </div>
+
+        <button class="btn-menu" data-state="burger">
+            <svg class="btn-menu-img" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="5" x2="35" y1="10" y2="10" class="line-top"></line>
+                <line x1="5" x2="35" y1="20" y2="20" class="line-mid"></line>
+                <line x1="5" x2="35" y1="30" y2="30" class="line-bottom"></line>
+            </svg>
+        </button>
+    </header>
+
+    <div class="main-dashboard">
+
+        <div class="map-panel-container">
+
+            <div class="map-panel-header">
+                <div class="tipo-paisage-container">
+                    <div data-tipo-paisage="desierto"></div>
+                    <div data-tipo-paisage="semidesierto"></div>
+                    <div data-tipo-paisage="semibosque"></div>
+                    <div data-tipo-paisage="bosque"></div>
+                </div>
+            </div>
+
+            <div id="map-dashboard">
+
+
+            </div>
+
+        </div>
+
+        <div class="text-panel-container">
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://unpkg.com/@turf/turf@%5E7/turf.min.js"></script>
+    <script src="../script.js"></script>
+    
+</body>
+</html>
