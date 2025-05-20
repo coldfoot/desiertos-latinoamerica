@@ -35,16 +35,32 @@
         <div class="map-panel-container">
 
             <div class="map-panel-header">
-                <div class="tipo-paisage-container">
-                    <div data-tipo-paisage="desierto"></div>
-                    <div data-tipo-paisage="semidesierto"></div>
-                    <div data-tipo-paisage="semibosque"></div>
-                    <div data-tipo-paisage="bosque"></div>
+                <div class="tipo-paisage-container tipo-paisage-active">
+                    <div data-tipo-paisage="desierto" class="tipo-paisage-selected">
+                        <img src="" alt="" data-icone="desierto">
+                        <p class="description-tipo-paisage">Desiertos Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt est ipsam eum</p>
+                    </div>
+                    <div data-tipo-paisage="semidesierto">
+                        <img src="" alt="" data-icone="semidesierto">
+                        <p class="description-tipo-paisage">SEMIDesiertos Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt est ipsam eum</p>
+                    </div>
+                    <div data-tipo-paisage="semibosque">
+                        <img src="" alt="" data-icone="semibosque">
+                        <p class="description-tipo-paisage">SEMIBOSQUE Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt est ipsam eum</p>
+                    </div>
+                    <div data-tipo-paisage="bosque">
+                        <img src="" alt="" data-icone="bosque">
+                        <p class="description-tipo-paisage">BOSQUE Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt est ipsam eum</p>
+                    </div>
                 </div>
             </div>
 
-            <div id="map-dashboard">
+            <div class="map-panel-country-selector-container">
+                <div data-pais="Argentina"><img src="" alt="" data-icone-pais="Argentina"><span>ARG</span></div>
+                <div data-pais="Mexico"><img src="" alt="" data-icone-pais="Mexico"><span>MEX</span></div>
+            </div>
 
+            <div id="map-dashboard">
 
             </div>
 

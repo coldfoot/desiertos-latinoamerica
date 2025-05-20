@@ -372,3 +372,67 @@ div.logo-wrapper {
     flex: 0 0 50%;
     border: 1px solid gold;
 }
+
+/* MAP PANEL */
+
+.map-panel-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+}
+
+.map-panel-container > div {
+    border: 1px solid pink;
+}
+
+.tipo-paisage-container {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+}
+
+.tipo-paisage-container img[data-icone] {
+    height: 30px;
+    width: 30px;
+    display: block;
+    border: 1px solid gray;
+}
+
+div[data-tipo-paisage] {
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.tipo-paisage-container.tipo-paisage-active div[data-tipo-paisage] {
+    flex: 0 1 50px;
+    justify-content: flex-start;
+}
+
+.tipo-paisage-container.tipo-paisage-active div[data-tipo-paisage].tipo-paisage-selected {
+    flex-grow: 1;
+}
+
+p.description-tipo-paisage {
+    margin: 0;
+    margin-left: .5rem;
+}
+
+.tipo-paisage-container.tipo-paisage-active p.description-tipo-paisage {
+    display: none;
+}
+
+.tipo-paisage-container.tipo-paisage-active div[data-tipo-paisage].tipo-paisage-selected p.description-tipo-paisage {
+    display: block;
+}
+
+#map-dashboard {
+    flex-grow: 1;
+    background-color: gray;
+}
+
+div[data-tipo-paisage="desierto"] {background-color: chocolate;}
+div[data-tipo-paisage="semidesierto"] {background-color: khaki;}
+div[data-tipo-paisage="semibosque"] {background-color: greenyellow;}
+div[data-tipo-paisage="bosque"] {background-color: forestgreen;}
