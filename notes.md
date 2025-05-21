@@ -9,6 +9,13 @@ https://stackoverflow.com/questions/59828938/multi-line-padded-text-with-outer-a
 map.queryRenderedFeatures({target: {layerId: 'countries-fills'}})
 ```
 
+Menu paisage
+`tipo-paisage-has-selection`
+``
+
+
+
+
 # To-do
 
 Mudar bbox para América do Sul?

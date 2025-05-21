@@ -136,15 +136,18 @@ function init() {
     colors["accent"] = rootStyles.getPropertyValue('--color-accent');
     colors["map"] = rootStyles.getPropertyValue('--color-map');
 
+    const dashboard = root.dataset.page;
 
-    const menu_paises = new MenuPaises(".menu-paises");
+    let menu_paises;
+
+    if (!dashboard) menu_paises = new MenuPaises(".menu-paises");
 
     const countries = ["Argentina", "Colombia", "Peru", "Chile", "Mexico"];
 
     mapboxgl.accessToken = 'pk.eyJ1IjoidGlhZ29tYnAiLCJhIjoiY2thdjJmajYzMHR1YzJ5b2huM2pscjdreCJ9.oT7nAiasQnIMjhUB-VFvmw';
 
     map = new mapboxgl.Map({
-        container: 'map',
+        container: dashboard ? 'map-dashboard' : 'map',
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
         style: 'mapbox://styles/tiagombp/clgxtpl6400eg01p6dtzv8igv',
         center: [-76.8, -4.48],

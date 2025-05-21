@@ -42,7 +42,9 @@ header.top-bar {
 
 }
 
-header.top-bar button.btn-menu {
+/* HAMBURGER MENU */
+
+button.btn-menu {
 
     display: block;
     margin-left: auto;
@@ -52,7 +54,10 @@ header.top-bar button.btn-menu {
     margin-top: 25px;
     margin-right: 25px;
 
+}
 
+header.top-bar-dashboard button.btn-menu {
+    margin-top: 0;
 }
 
 .btn-menu-img {
@@ -71,13 +76,15 @@ header.top-bar button.btn-menu {
     transition: transform .5s;
 }
 
-header.top-bar button.btn-menu:hover .line-bottom {
+button.btn-menu:hover .line-bottom {
     transform: translate(0, -50%) rotate(60deg);
 }
 
-header.top-bar button.btn-menu:hover .line-mid {
+button.btn-menu:hover .line-mid {
     transform: rotate(-60deg) translate(0, -25%);
 }
+
+/* */
 
 .container {
     border: 3px solid green;
@@ -375,7 +382,8 @@ div.logo-wrapper {
 
 /* MAP PANEL */
 
-.map-panel-container {
+.map-panel-container,
+.text-panel-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -386,10 +394,13 @@ div.logo-wrapper {
     border: 1px solid pink;
 }
 
+/* MENU TIPO PAISAGE */
+
 .menu-tipo-paisage {
     display: flex;
     flex-direction: row;
     gap: .5rem;
+    margin: 1rem;
 }
 
 .menu-tipo-paisage img[data-icone] {
@@ -441,3 +452,59 @@ div[data-tipo-paisage="desierto"] {background-color: chocolate;}
 div[data-tipo-paisage="semidesierto"] {background-color: khaki;}
 div[data-tipo-paisage="semibosque"] {background-color: greenyellow;}
 div[data-tipo-paisage="bosque"] {background-color: forestgreen;}
+
+/* MENU PAIS */
+
+.menu-pais-dash {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    justify-content: flex-start;
+}
+
+.menu-pais-dash > div[data-pais] {
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 1 15%;
+}
+
+div[data-pais] > img {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin-right: .5rem;
+}
+
+div[data-pais].pais-selected > span {
+    font-weight: bold;
+}
+
+div[data-pais].pais-selected > img {
+    border-color: var(--color-accent);
+}
+
+div[data-pais]:hover {
+    font-weight: bold;
+}
+
+
+/* SELECT UBICACIÓN */
+
+div.seleccione-ubicacion-container {
+
+    width: 100%;
+    padding: 1rem;
+
+}
+
+select#dash-ubicacion {
+
+    width: 100%;
+    height: 2rem;
+    background-color: transparent;
+    border: 2px solid currentColor;
+    border-radius: 5px;
+}

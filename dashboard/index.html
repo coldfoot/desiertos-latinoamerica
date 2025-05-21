@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-page="dashboard">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,6 +35,7 @@
         <div class="map-panel-container">
 
             <div class="map-panel-header">
+
                 <div class="menu-tipo-paisage tipo-paisage-has-selection">
                     <div data-tipo-paisage="desierto" class="tipo-paisage-selected">
                         <img src="" alt="" data-icone="desierto">
@@ -53,12 +54,24 @@
                         <p class="description-tipo-paisage">BOSQUE Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt est ipsam eum</p>
                     </div>
                 </div>
+
+                <div class="menu-pais-dash pais-has-selection">
+                    <div data-pais="Argentina"><img src="" alt="" data-icone-pais="Argentina"><span>ARG</span></div>
+                    <div data-pais="Chile" class="pais-selected"><img src="" alt="" data-icone-pais="Chile"><span>CHI</span></div>
+                    <div data-pais="Colombia"><img src="" alt="" data-icone-pais="Colombia"><span>COL</span></div>
+                    <div data-pais="Mexico"><img src="" alt="" data-icone-pais="Mexico"><span>MEX</span></div>
+                    <div data-pais="Peru"><img src="" alt="" data-icone-pais="Peru"><span>PER</span></div>
+                </div>
+
+                <div class="seleccione-ubicacion-container">
+                    <select name="dash-ubicacion" id="dash-ubicacion">
+                        <option value="">Seleccione una ubicación</option>
+                    </select>
+                </div>
+
             </div>
 
-            <div class="map-panel-country-selector-container">
-                <div data-pais="Argentina"><img src="" alt="" data-icone-pais="Argentina"><span>ARG</span></div>
-                <div data-pais="Mexico"><img src="" alt="" data-icone-pais="Mexico"><span>MEX</span></div>
-            </div>
+
 
             <div id="map-dashboard">
 
@@ -67,6 +80,19 @@
         </div>
 
         <div class="text-panel-container">
+
+            <div class="breadcrumbs">
+                BREADCRUMBS | ...
+
+            </div>
+
+            <h1>Nombre</h1>
+
+            <div class="place-summary">Numeros, numeros</div>
+
+            <div class="place-paisage-composition">Barrinha</div>
+
+            <div class="conteudo">Bla bla</div>
 
         </div>
     </div>
