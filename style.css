@@ -386,13 +386,13 @@ div.logo-wrapper {
     border: 1px solid pink;
 }
 
-.tipo-paisage-container {
+.menu-tipo-paisage {
     display: flex;
     flex-direction: row;
     gap: .5rem;
 }
 
-.tipo-paisage-container img[data-icone] {
+.menu-tipo-paisage img[data-icone] {
     height: 30px;
     width: 30px;
     display: block;
@@ -403,14 +403,19 @@ div[data-tipo-paisage] {
     border-radius: 5px;
     display: flex;
     justify-content: center;
+    transition: flex-grow .5s;
 }
 
-.tipo-paisage-container.tipo-paisage-active div[data-tipo-paisage] {
+.menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage] {
     flex: 0 1 50px;
     justify-content: flex-start;
 }
 
-.tipo-paisage-container.tipo-paisage-active div[data-tipo-paisage].tipo-paisage-selected {
+.menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage]:hover {
+    flex-grow: 0.5;
+}
+
+.menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage].tipo-paisage-selected {
     flex-grow: 1;
 }
 
@@ -419,11 +424,11 @@ p.description-tipo-paisage {
     margin-left: .5rem;
 }
 
-.tipo-paisage-container.tipo-paisage-active p.description-tipo-paisage {
+.menu-tipo-paisage.tipo-paisage-has-selection p.description-tipo-paisage {
     display: none;
 }
 
-.tipo-paisage-container.tipo-paisage-active div[data-tipo-paisage].tipo-paisage-selected p.description-tipo-paisage {
+.menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage].tipo-paisage-selected p.description-tipo-paisage {
     display: block;
 }
 
