@@ -20,4 +20,5 @@ Menu paisage
 
 Mudar bbox para América do Sul?
 remover textos do estilo?
+Reflow quando hover nos itens do menu de paises do dashboard
 

@@ -1,5 +1,6 @@
 const menu_tipo_paisage = document.querySelector(".menu-tipo-paisage");
 const menu_pais         = document.querySelector(".menu-pais-dash");
+const menu_nav_conteudo = document.querySelector(".wrapper-btns-nav");
 
 menu_tipo_paisage.addEventListener("click", e => {
 
@@ -37,6 +38,30 @@ menu_pais.addEventListener("click", e => {
 
         plot_country(pais, 50);
         update_breadcrumbs("pais", pais);
+
+    }
+
+})
+
+menu_nav_conteudo.addEventListener("click", e => {
+
+    let tipo_conteudo;
+
+    if (e.target.tagName == "BUTTON") {
+
+        tipo_conteudo = e.target.dataset.btnNav;
+
+        console.log(tipo_conteudo);
+
+        //switch_conteudo()
+
+        document.querySelectorAll("[data-tipo-conteudo]").forEach(div => {
+
+            div.classList.remove("conteudo-active");
+
+        })
+
+        document.querySelector(`[data-tipo-conteudo="${tipo_conteudo}"]`).classList.add("conteudo-active");
 
     }
 

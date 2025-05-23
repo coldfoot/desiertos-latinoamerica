@@ -12,6 +12,11 @@
     --color-text: #333;
     --color-map: #e7e7e8;
 
+    --color-desierto: chocolate;
+    --color-semidesierto: khaki;
+    --color-semibosque: greenyellow;
+    --color-bosque: forestgreen;
+
     background-color: var(--color-bg);
 
 }
@@ -362,11 +367,26 @@ span.highlight {
 .top-bar-dashboard {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-accent);
+    color: white;
+}
+
+.btn-menu-img {
+    stroke: white;
+}
+
+.dashboard-wrapper .btn-menu {
+    margin-left: initial;
 }
 
 div.logo-wrapper {
     width: 60px;
-    background-color: forestgreen;
+    background-color: white;
+    border-radius: 50%;
+    height: 2rem;
+    width: 2rem;
+    margin: 1rem;
 }
 
 .main-dashboard {
@@ -448,10 +468,10 @@ p.description-tipo-paisage {
     background-color: gray;
 }
 
-div[data-tipo-paisage="desierto"] {background-color: chocolate;}
-div[data-tipo-paisage="semidesierto"] {background-color: khaki;}
-div[data-tipo-paisage="semibosque"] {background-color: greenyellow;}
-div[data-tipo-paisage="bosque"] {background-color: forestgreen;}
+div[data-tipo-paisage="desierto"] {background-color: var(--color-desierto);}
+div[data-tipo-paisage="semidesierto"] {background-color: var(--color-semidesierto);}
+div[data-tipo-paisage="semibosque"] {background-color: var(--color-semibosque);}
+div[data-tipo-paisage="bosque"] {background-color: var(--color-bosque);}
 
 /* MENU PAIS */
 
@@ -460,19 +480,22 @@ div[data-tipo-paisage="bosque"] {background-color: forestgreen;}
     flex-direction: row;
     margin: 1rem;
     justify-content: flex-start;
+    gap: 1rem;
+    margin-bottom: 0;
 }
 
 .menu-pais-dash > div[data-pais] {
-    margin-right: 1rem;
+    /*margin-right: 1rem;*/
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex: 1 1 15%;
+    flex: 0 0 4rem;
+    /*flex: 1 1 15%;*/
 }
 
 div[data-pais] > img {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border: 1px solid black;
     border-radius: 50%;
     margin-right: .5rem;
@@ -488,6 +511,10 @@ div[data-pais].pais-selected > img {
 
 div[data-pais]:hover {
     font-weight: bold;
+}
+
+div[data-pais]:hover img {
+    box-shadow: 2px 2px currentColor;
 }
 
 
@@ -515,6 +542,14 @@ select#dash-ubicacion {
     padding: 1rem;
 }
 
+.text-panel-container h1 {
+    margin: 0;
+}
+
+.text-panel-container .author {
+    font-style: italic;
+}
+
 /* BREADCRUMBS */
 
 .breadcrumbs {
@@ -529,4 +564,84 @@ select#dash-ubicacion {
 
 .breadcrumbs .breadcrumb-inativo {
     display: none;
+}
+
+/* BARCHART PAISAGE COMPOSITION */
+
+.place-paisage-composition {
+    display: flex;
+    flex-direction: row;
+}
+
+.place-paisage-composition > span {
+    flex: 0 0 25%;
+    height: 1.5rem;
+}
+
+span[data-barchart="desierto"] {background-color: var(--color-desierto);}
+span[data-barchart="semidesierto"] {background-color: var(--color-semidesierto);}
+span[data-barchart="semibosque"] {background-color: var(--color-semibosque);}
+span[data-barchart="bosque"] {background-color: var(--color-bosque);}
+
+/* BUTTONS NAV DATOS RELATO MEDIO */
+
+.wrapper-btns-nav {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+}
+
+.wrapper-btns-nav > button {
+    font-size: 1.2rem;
+    padding: .5em 1em;
+    border-radius: 10px;
+    font-weight: bold;
+    background-color: transparent;
+    color: var(--color-accent);
+    border: 1px solid currentColor;
+}
+
+.wrapper-btns-nav > button:hover {
+    box-shadow: 2px 2px var(--color-accent);
+}
+
+.wrapper-btns-nav > button.btn-nav-active:hover {
+    box-shadow: none;
+}
+
+.wrapper-btns-nav > button.btn-nav-active {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+}
+
+/* CONTEUDO */
+
+.text-panel-container .conteudo {
+    font-size: 1.2rem;
+    flex-basis: 100%;
+    position: relative;
+    border: 1px dashed green;
+    overflow: hidden;
+}
+
+.text-panel-container .conteudo .leer-mas {
+    font-weight: bold;
+}
+
+.text-panel-container .conteudo > [data-tipo-conteudo] {
+    height: 100%;
+    transition: transform 1s, opacity 1s;    
+    transform: rotate(45deg) translate(100% ,100%);
+    pointer-events: none;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.text-panel-container .conteudo > [data-tipo-conteudo].conteudo-active {
+    transform: rotate(0) translate(0,0);
+    opacity: 1;
+    pointer-events: initial;
 }
