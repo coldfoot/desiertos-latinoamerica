@@ -36,6 +36,7 @@ menu_pais.addEventListener("click", e => {
         div_pais.classList.add("pais-selected");
 
         plot_country(pais, 50);
+        update_breadcrumbs("pais", pais);
 
     }
 
@@ -44,5 +45,36 @@ menu_pais.addEventListener("click", e => {
 function display_paisage(tipo_paisage) {
 
     console.log(tipo_paisage);
+
+}
+
+function update_breadcrumbs(nivel, local) {
+
+    const breadcrumbs = document.querySelector(".breadcrumbs");
+
+    const bc_country = breadcrumbs.querySelector(".breadcrumb-country");
+    const bc_ut_maior = breadcrumbs.querySelector(".breadcrumb-ut-maior");
+    const bc_ut_menor = breadcrumbs.querySelector(".breadcrumb-ut-menor");
+
+    if (nivel == "pais") {
+        bc_ut_maior.classList.add("breadcrumb-inativo");
+        bc_ut_menor.classList.add("breadcrumb-inativo");
+        
+        bc_country.textContent = local;
+    }
+
+    if (nivel == "ut-maior") {
+        bc_ut_maior.classList.remove("breadcrumb-inativo");
+        bc_ut_menor.classList.add("breadcrumb-inativo");
+        
+        bc_ut_maior.textContent = local;
+    }
+
+    if (nivel == "ut-menor") {
+        bc_ut_maior.classList.remove("breadcrumb-inativo");
+        bc_ut_menor.classList.remove("breadcrumb-inativo");
+        
+        bc_ut_menor.textContent = local;
+    }
 
 }

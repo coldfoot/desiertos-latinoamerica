@@ -508,3 +508,25 @@ select#dash-ubicacion {
     border: 2px solid currentColor;
     border-radius: 5px;
 }
+
+/* TEXT PANEL */
+
+.text-panel-container {
+    padding: 1rem;
+}
+
+/* BREADCRUMBS */
+
+.breadcrumbs {
+    text-transform: uppercase;
+}
+
+.breadcrumb-ut-maior::before,
+.breadcrumb-ut-menor::before {
+    content: "|";
+    margin: 1rem;
+}
+
+.breadcrumbs .breadcrumb-inativo {
+    display: none;
+}

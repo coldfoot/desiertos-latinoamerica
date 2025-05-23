@@ -196,7 +196,7 @@ function init() {
 
         map.fitBounds(overall_bbox, {
             padding:  {
-                left: 500,
+                left: dashboard ? 50 : 500,
                 top: 20,
                 right: 50,
                 bottom: 20
