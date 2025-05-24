@@ -37,6 +37,8 @@ const dados_versao_pais = {
 
                 bbox : '',
 
+                avg_value_of_variable : '',
+
                 'etc'
             }
         ]

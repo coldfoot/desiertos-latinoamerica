@@ -538,6 +538,12 @@ select#dash-ubicacion {
 
 /* TEXT PANEL */
 
+.text-panel-container .expand-card-mobile {
+    display: none;
+    background-color: transparent;
+    border: none;
+}
+
 .text-panel-container {
     padding: 1rem;
 }
@@ -644,4 +650,48 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     /*transform: rotate(0) translate(0,0);*/
     opacity: 1;
     pointer-events: initial;
+}
+
+@media (max-width: 900px) {
+    
+    .main-dashboard {
+        height: 100%;
+        position: relative;
+        display: block;
+    }
+
+    .text-panel-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        transform: translate(0, 90%);
+        background-color: var(--color-bg);
+        transition: transform .5s;
+    }
+
+    /* BUTTON */
+
+    .text-panel-container .expand-card-mobile {
+
+        display: block;
+
+    }
+
+    .text-panel-container .expand-card-mobile line {
+
+        transition: transform .5s .5s;
+        transform-origin: 50% 50%;
+
+    }
+
+    .text-panel-container.expanded-mobile .expand-card-mobile line {
+        transform: rotate(180deg);
+    }
+
+    .text-panel-container.expanded-mobile {
+        transform: translate(0, 0);
+    }
+
+
 }

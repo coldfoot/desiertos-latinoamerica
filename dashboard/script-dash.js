@@ -1,6 +1,8 @@
 const menu_tipo_paisage = document.querySelector(".menu-tipo-paisage");
 const menu_pais         = document.querySelector(".menu-pais-dash");
 const menu_nav_conteudo = document.querySelector(".wrapper-btns-nav");
+const expand_button_mobile = document.querySelector(".expand-card-mobile");
+const text_panel = document.querySelector(".text-panel-container");
 
 menu_tipo_paisage.addEventListener("click", e => {
 
@@ -36,8 +38,7 @@ menu_pais.addEventListener("click", e => {
         // adds the selected class to the clicked div
         div_pais.classList.add("pais-selected");
 
-        plot_country(pais, 50);
-        update_breadcrumbs("pais", pais);
+        render_place(pais);
 
     }
 
@@ -64,6 +65,12 @@ menu_nav_conteudo.addEventListener("click", e => {
         document.querySelector(`[data-tipo-conteudo="${tipo_conteudo}"]`).classList.add("conteudo-active");
 
     }
+
+})
+
+expand_button_mobile.addEventListener("click", (e) => {
+
+    text_panel.classList.toggle("expanded-mobile");
 
 })
 
@@ -101,6 +108,22 @@ function update_breadcrumbs(nivel, local) {
         
         bc_ut_menor.textContent = local;
     }
+
+}
+
+function update_infocard(local) {
+
+    const fields = ['title'];
+
+    const mini_data = {
+        'title' : local
+    };
+
+    fields.forEach(field => {
+
+        document.querySelector(`[data-infocard-field="${field}"`).textContent = mini_data[field];
+
+    })
 
 }
 
@@ -159,8 +182,6 @@ function mouse_enter_handler(e) {
     
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = 'pointer';
-
-    console.log(e);
       
     /*
     let coordinates = [
@@ -321,7 +342,8 @@ function render_place(pais) {
 
     plot_country(pais, 50);
     update_breadcrumbs("pais", pais);
-    update_text_header(pais);
-
+    update_infocard(pais);
 
 }
+
+monitor_events("on");
