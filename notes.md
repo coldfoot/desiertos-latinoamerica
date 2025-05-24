@@ -17,6 +17,88 @@ Menu paisage
 Ter uma variável "local", com todos os dados para os breadcrumbs
 E ter uma função `render_place()`, por exemplo.
 
+# Data structures
+
+Mais organizado ou flat?
+
+Mais genérico, ou um array para cada país, para cada provincia?
+
+```js
+
+const dados_versao_pais = {
+
+    "Argentina" : {
+
+        'uts-maiores' : [
+            {
+                name : '',
+
+                center : '',
+
+                bbox : '',
+
+                'etc'
+            }
+        ]
+
+    }
+
+
+}
+
+const dados_versao_generico_hierarquicos = [
+
+    {
+
+        id : '',
+
+        level : '', // country / ut_maior / ut_menor
+
+        name : '',
+
+        center : [], // [lat, lon]
+
+        bbox : [], // [lat0, lon0, lat1, lon1]
+
+        breadcrumbs : {
+
+            country : '',
+            ut_mayor : '',
+            ut_menor : ''
+
+        },
+
+        header_data : {
+
+            pop : '',
+            superficie : '',
+            proyectos : '',
+            periodistas : ''
+
+        },
+
+        type : '', // desierto / semidesierto / ...
+
+        distribution_types : {
+            'desiertos' : '',
+            'semidesiertos' : '',
+            'semibosques' : '',
+            'bosques' : ''
+        },
+
+        main_data : {},
+
+        relato : {},
+
+        medio : {}
+
+    }
+]
+
+const summary_data = [];
+
+```
+
 
 # To-do
 
