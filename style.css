@@ -668,6 +668,7 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
         transform: translate(0, 90%);
         background-color: var(--color-bg);
         transition: transform .5s;
+        z-index: 3; /* para ficar acima do "i" do mapbox */
     }
 
     /* BUTTON */
