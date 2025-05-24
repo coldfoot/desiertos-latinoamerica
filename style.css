@@ -631,7 +631,7 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
 
 .text-panel-container .conteudo > [data-tipo-conteudo] {
     height: 100%;
-    transition: transform 1s, opacity 1s;    
+    transition: transform 1s, opacity .25s;    
     transform: rotate(45deg) translate(100% ,100%);
     pointer-events: none;
     opacity: 0;
