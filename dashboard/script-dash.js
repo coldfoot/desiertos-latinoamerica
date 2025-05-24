@@ -56,6 +56,8 @@ menu_nav_conteudo.addEventListener("click", e => {
 
         //switch_conteudo()
 
+        // conteúdos
+
         document.querySelectorAll("[data-tipo-conteudo]").forEach(div => {
 
             div.classList.remove("conteudo-active");
@@ -63,6 +65,16 @@ menu_nav_conteudo.addEventListener("click", e => {
         })
 
         document.querySelector(`[data-tipo-conteudo="${tipo_conteudo}"]`).classList.add("conteudo-active");
+
+        // botoes
+
+        document.querySelectorAll("[data-btn-nav]").forEach(div => {
+
+            div.classList.remove("btn-nav-active");
+
+        })
+
+        document.querySelector(`[data-btn-nav="${tipo_conteudo}"]`).classList.add("btn-nav-active");
 
     }
 
