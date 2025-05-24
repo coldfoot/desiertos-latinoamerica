@@ -14,6 +14,8 @@ Menu paisage
 ``
 
 
+Ter uma variável "local", com todos os dados para os breadcrumbs
+E ter uma função `render_place()`, por exemplo.
 
 
 # To-do
