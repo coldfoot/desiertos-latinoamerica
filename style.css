@@ -632,7 +632,7 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
 .text-panel-container .conteudo > [data-tipo-conteudo] {
     height: 100%;
     transition: transform 1s, opacity .25s;    
-    transform: rotate(45deg) translate(100% ,100%);
+    /*transform: rotate(45deg) translate(100% ,100%);*/
     pointer-events: none;
     opacity: 0;
     position: absolute;
@@ -641,7 +641,7 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
 }
 
 .text-panel-container .conteudo > [data-tipo-conteudo].conteudo-active {
-    transform: rotate(0) translate(0,0);
+    /*transform: rotate(0) translate(0,0);*/
     opacity: 1;
     pointer-events: initial;
 }

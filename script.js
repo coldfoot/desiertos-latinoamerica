@@ -160,7 +160,8 @@ function init() {
 
         map.addSource('countries', {
             'type': 'vector',
-            'url': 'mapbox://tiagombp.bmw9axxy'
+            'url': 'mapbox://tiagombp.bmw9axxy',
+            'promoteId' : 'country_name'
         });
 
         // The feature-state dependent fill-opacity expression will render the hover effect
