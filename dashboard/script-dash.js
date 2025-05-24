@@ -248,6 +248,46 @@ function mouse_leave_handler() {
 
 }
 
+function click_handler(e) {
+
+
+    //const localidad = e.features[0].properties.local; //feature.properties.local;
+    //const localidad_name = e.features[0].properties.nam;
+    //const provincia = e.features[0].properties.provincia; //feature.properties.provincia;
+    const country = e.features[0].properties.country_name;
+
+    const local = {
+
+        local : '',//localidad,
+        tipo  : 'country',
+        text  : '',//localidad_name,
+        provincia : '',//provincia
+        country: country
+
+    };
+
+    //console.log("Clicou em ", localidad, local, dash.vis.location_card.state.user_location_province);
+
+    // clears hover featureState
+    // o id da localidad é o randId. Só ver o 'promoteId' no addSource lá em cima.
+
+    const pais = e.features[0].properties.country_name;
+
+    map.setFeatureState(
+        { 
+            source: 'countries',
+            sourceLayer: 'data-blt69d', // countries-borders
+            id: hoveredStateId
+        },
+
+        { hover : false }
+    );
+
+    render_place(pais)
+
+
+}
+
 function monitor_events(option) {
     
     if (option == 'on') {
@@ -260,6 +300,8 @@ function monitor_events(option) {
                 
         map.on('mouseleave', 'countries-fills', mouse_leave_handler);
 
+        map.on('click', 'countries-fills', click_handler);
+
 
     } else {
 
@@ -267,10 +309,19 @@ function monitor_events(option) {
 
         map.off('mousemove', 'countries-fills', mouse_enter_handler);
                 
-        map.off('mouseleave', 'countries-fills', mouse_leave_handler);
+        map.off('click', 'countries-fills', click_handler);
 
         hoveredStateId = null;
         
     }
+
+}
+
+function render_place(pais) {
+
+    plot_country(pais, 50);
+    update_breadcrumbs("pais", pais);
+    update_text_header(pais);
+
 
 }
