@@ -175,7 +175,8 @@ map.on("load", () => {
         }
     }); 
 
-    load_localidads();
+    load_localidads_argentina();
+    load_provincias_argentina();
 
 })
 
@@ -358,6 +359,31 @@ function render_place(pais) {
     update_breadcrumbs("pais", pais);
     update_infocard(pais);
 
+    render_country_subnational(pais);
+    monitor_events('off'); // desliga monitor de eventos no nível de país
+
+}
+
+function render_country_subnational(pais) {
+
+    if (pais == "Argentina") {
+
+        map.setPaintProperty(
+            'localidad',
+            'fill-color', 
+            ['get', 'color_real']
+        );
+
+        map.setPaintProperty(
+            'provincia-border-hover',
+            'line-color',
+            '#666'
+        );
+
+    } else {
+        console.log("No data yet.")
+    }
+
 }
 
 const levels = {
@@ -376,7 +402,7 @@ const levels = {
 
 }
 
-function load_localidads() {
+function load_localidads_argentina() {
 
     map.addSource('localidad', {
         type: 'vector',
@@ -459,6 +485,71 @@ function load_localidads() {
             'line-width': 3,
         }, 'filter': ['==', 'local', '']
     }); 
+
+}
+
+function load_provincias_argentina() {
+
+
+    map.addSource('provincia', {
+        type: 'vector',
+        url : 'mapbox://tiagombp.4fk72g1y',
+        'promoteId' : 'nam'
+    });
+
+    map.addLayer({
+        'id': 'provincia',
+        'type': 'fill',
+        'source': 'provincia',
+        'source-layer': 'provincia',
+        'layout': {},
+        'paint': {
+            'fill-color': 'transparent',
+            'fill-opacity': [
+            'case',
+            [
+                'boolean', 
+                ['feature-state', 'hover'], 
+                false
+            ],
+            .1,
+            0
+        ]
+        }
+    }); 
+
+    map.addLayer({
+        'id': 'provincia-border-hover',
+        'type': 'line',
+        'source': 'provincia',
+        'source-layer': 'provincia',
+        'layout': {},
+        'paint': {
+            'line-color': 'transparent',
+            'line-width': [
+            'case',
+            [
+                'boolean', 
+                ['feature-state', 'hover'], 
+                false
+            ],
+            4,
+            1
+        ]
+        }
+    }); 
+
+    map.addLayer({
+        'id': 'provincia-border',
+        'type': 'line',
+        'source': 'provincia',
+        'source-layer': 'provincia',
+        'layout': {},
+        'paint': {
+            'line-color': 'black',
+            'line-width': 4
+        },
+        'filter': ['==', 'provincia', '']}); // puts behind road-label
 
 }
 
