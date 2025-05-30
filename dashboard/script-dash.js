@@ -175,6 +175,8 @@ map.on("load", () => {
         }
     }); 
 
+    load_localidads();
+
 })
 
 
@@ -209,7 +211,7 @@ function mouse_enter_handler(e) {
     ]
 
 
-    console.log(name, coordinates);
+    //console.log(name, coordinates);
 
 
 
@@ -355,6 +357,108 @@ function render_place(pais) {
     plot_country(pais, 50);
     update_breadcrumbs("pais", pais);
     update_infocard(pais);
+
+}
+
+const levels = {
+
+    provincia : {
+        
+        url: 'mapbox://tiagombp.4fk72g1y',
+        opacity_hover    : .1,
+        opacity_normal   : 0,
+        linewidth_hover  : 4,
+        linewidth_normal : 1,
+
+    },
+
+    localidad : 'mapbox://tiagombp.d8u3a43g'
+
+}
+
+function load_localidads() {
+
+    map.addSource('localidad', {
+        type: 'vector',
+        url : 'mapbox://tiagombp.d8u3a43g',
+        'promoteId' : 'randId'
+    });
+
+    map.addLayer({
+        'id': 'localidad',
+        'type': 'fill',
+        'source': 'localidad',
+        'source-layer': 'localidad',
+        'layout': {},
+        'paint': {
+            'fill-color': 'transparent',
+            'fill-outline-color' : 'transparent',
+            'fill-opacity': [
+            'case',
+            [
+                'boolean', 
+                ['feature-state', 'hover'], 
+                false
+            ],
+            1,
+            .8
+            ]
+        }
+    }); 
+
+    map.addLayer({
+        'id': 'localidad-border-hover',
+        'type': 'line',
+        'source': 'localidad',
+        'source-layer': 'localidad',
+        'layout': {},
+        'paint': {
+            'line-color': [
+            'case',
+            [
+                'boolean', 
+                ['feature-state', 'hover'], 
+                false
+            ],
+            '#212121',
+            '#666'
+        ],
+            'line-width': [
+            'case',
+            [
+                'boolean', 
+                ['feature-state', 'hover'], 
+                false
+            ],
+            3,
+            0
+        ]
+        }
+    }); 
+
+    map.addLayer({
+        'id': 'localidad-border',
+        'type': 'line',
+        'source': 'localidad',
+        'source-layer': 'localidad',
+        'layout': {},
+        'paint': {
+            'line-color': '#666',
+            'line-width': 0,
+        }
+    }); 
+
+    map.addLayer({
+        'id': 'localidad-highlight',
+        'type': 'line',
+        'source': 'localidad',
+        'source-layer': 'localidad',
+        'layout': {},
+        'paint': {
+            'line-color': 'black',
+            'line-width': 3,
+        }, 'filter': ['==', 'local', '']
+    }); 
 
 }
 
