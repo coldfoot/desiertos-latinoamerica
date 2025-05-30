@@ -591,6 +591,8 @@ function toggle_hightlight_border_provincia_argentina(provincia) {
 
 function render_provincia_argentina(provincia) {
 
+    update_breadcrumbs('ut-maior', provincia);
+
     console.log(provincia);
 
 };
