@@ -88,11 +88,20 @@ const dados_versao_generico_hierarquicos = [
             'bosques' : ''
         },
 
-        main_data : {},
+        main_data : {
 
-        relato : {},
+            // no caso de uts maiores e paises, trazer as médias?
 
-        medio : {}
+            plataforma : '',
+            vinculo_laboral : '',
+            temas: '',
+            ...         
+
+        },
+
+        relato : [p, p, ...],
+
+        medio : ''
 
     }
 ]
