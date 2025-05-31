@@ -64,13 +64,7 @@ menu_pais.addEventListener("click", e => {
         
         const pais = div_pais.dataset.pais; 
 
-        // remove selected class to current "selected" element
-        menu_pais.querySelector(".pais-selected").classList.remove("pais-selected");
-
-        // adds the selected class to the clicked div
-        div_pais.classList.add("pais-selected");
-
-        render_place(pais);
+        render_pais(pais);
 
     }
 
@@ -168,6 +162,19 @@ function update_infocard(local) {
         document.querySelector(`[data-infocard-field="${field}"`).textContent = mini_data[field];
 
     })
+
+}
+
+function update_country_button(pais) {
+
+    menu_pais.classList.add("pais-has-selection");
+
+    const pais_ja_selecionado = menu_pais.querySelector(".pais-selected");
+
+    // remove selected class to current "selected" element
+    if (pais_ja_selecionado) pais_ja_selecionado.classList.remove("pais-selected");
+
+    menu_pais.querySelector(`[data-pais="${pais}"]`).classList.add("pais-selected");
 
 }
 
@@ -351,7 +358,7 @@ function click_handler(e) {
         { hover : false }
     );
 
-    render_place(pais)
+    render_pais(pais)
 
 
 }
@@ -385,11 +392,13 @@ function monitor_events(option) {
 
 }
 
-function render_place(pais) {
+function render_pais(pais) {
 
     plot_country(pais, 50);
     update_breadcrumbs("pais", pais);
     update_infocard(pais);
+    update_country_button(pais);
+
 
     render_country_subnational(pais); // os eventos do subnacional estao aqui dentro
     monitor_events('off'); // desliga monitor de eventos no nível de país
@@ -413,6 +422,7 @@ function render_country_subnational(pais) {
         );
 
         provincias_argentina.monitor_events("on");
+        localidads_argentina.monitor_events("off");
 
     } else {
         console.log("No data yet.")

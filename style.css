@@ -507,6 +507,7 @@ div[data-pais].pais-selected > span {
 
 div[data-pais].pais-selected > img {
     border-color: var(--color-accent);
+    background-color: var(--color-accent);
 }
 
 div[data-pais]:hover {
