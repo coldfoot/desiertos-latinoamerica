@@ -563,10 +563,21 @@ select#dash-ubicacion {
     text-transform: uppercase;
 }
 
+.breadcrumbs > span {
+    cursor: pointer;
+}
+
 .breadcrumb-ut-maior::before,
 .breadcrumb-ut-menor::before {
     content: "|";
     margin: 1rem;
+}
+
+.breadcrumb-country:hover,
+.breadcrumb-ut-maior:hover {
+
+    color: var(--color-accent);
+
 }
 
 .breadcrumbs .breadcrumb-inativo {

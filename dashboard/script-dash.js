@@ -4,6 +4,8 @@ const menu_nav_conteudo = document.querySelector(".wrapper-btns-nav");
 const expand_button_mobile = document.querySelector(".expand-card-mobile");
 const text_panel = document.querySelector(".text-panel-container");
 
+const breadcrumbs = document.querySelector(".breadcrumbs");
+
 const colors_css = {
     'desierto' : '',
     'semidesierto' : '',
@@ -25,6 +27,7 @@ function populate_colors() {
 
 }
 
+let last_country;
 let last_provincia_location_data;
 let last_localidad_location_data;
 
@@ -35,6 +38,18 @@ const current_place = {
     provincia : '',
     localidad : ''
 }
+
+breadcrumbs.addEventListener("click", e => {
+
+    const breadcrumb_clicado = e.target.closest('.breadcrumbs > span');
+
+    const tipo = breadcrumb_clicado.dataset.breadcrumb;
+
+    if (tipo == "pais") render_pais(last_country);
+    if (tipo == "ut-maior") render_provincia_argentina(last_provincia_location_data.local);
+    //if (tipo == "ut-menor") render_localidad_argentina(last_localidad_location_data.nam); // na verdade nao precisa fazer nada, já está no local
+
+})
 
 menu_tipo_paisage.addEventListener("click", e => {
 
@@ -131,6 +146,7 @@ function update_breadcrumbs(nivel, local) {
         bc_ut_menor.classList.add("breadcrumb-inativo");
         
         bc_country.textContent = local;
+        last_country = local;
     }
 
     if (nivel == "ut-maior") {
@@ -619,7 +635,9 @@ function load_provincias_argentina() {
 
 }
 
-function render_provincia_argentina(provincia) {
+function render_provincia_argentina(provincia) { // desnecessario o argumento, melhorar
+
+
 
     update_breadcrumbs('ut-maior', provincia);
 
@@ -641,6 +659,7 @@ function render_provincia_argentina(provincia) {
 
     localidads_argentina.toggle_borders("on");
     provincias_argentina.toggle_hightlight_border(provincia);
+    localidads_argentina.toggle_highlight('');
 
     provincias_argentina.monitor_events("off");
     localidads_argentina.monitor_events("on");
@@ -649,7 +668,7 @@ function render_provincia_argentina(provincia) {
 
 };
 
-function render_localidad_argentina(localidad) {
+function render_localidad_argentina(localidad) { // desnecessario o argumento, melhorar
 
     const bbox_localidad = [
         last_localidad_location_data.xmin, last_localidad_location_data.ymin,
