@@ -12,10 +12,10 @@
     --color-text: #333;
     --color-map: #e7e7e8;
 
-    --color-desierto: chocolate;
-    --color-semidesierto: khaki;
-    --color-semibosque: greenyellow;
-    --color-bosque: forestgreen;
+    --color-desierto: #F77A27;
+    --color-semidesierto: #F8CB3E;
+    --color-semibosque: #82C45C;
+    --color-bosque: #207001;
 
     background-color: var(--color-bg);
 
