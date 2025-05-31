@@ -403,6 +403,8 @@ function render_pais(pais) {
     render_country_subnational(pais); // os eventos do subnacional estao aqui dentro
     monitor_events('off'); // desliga monitor de eventos no nível de país
 
+
+
 }
 
 function render_country_subnational(pais) {
@@ -423,6 +425,11 @@ function render_country_subnational(pais) {
 
         provincias_argentina.monitor_events("on");
         localidads_argentina.monitor_events("off");
+
+        localidads_argentina.toggle_borders("off");
+        provincias_argentina.toggle_hightlight_border('');
+        localidads_argentina.toggle_highlight('');
+
 
     } else {
         console.log("No data yet.")
@@ -644,8 +651,6 @@ function render_provincia_argentina(provincia) {
 
 function render_localidad_argentina(localidad) {
 
-    update_breadcrumbs('ut-menor', localidad);
-
     const bbox_localidad = [
         last_localidad_location_data.xmin, last_localidad_location_data.ymin,
         last_localidad_location_data.xmax, last_localidad_location_data.ymax
@@ -661,6 +666,31 @@ function render_localidad_argentina(localidad) {
             padding: {top: 80, bottom: 100, left: 30, right: 30},
         }
     );
+
+    // no caso de o usuário clicar numa localidade de outra provincia!
+    if (last_localidad_location_data.provincia != last_provincia_location_data.nam) {
+        // updates a provincia
+        const provincia_features = map.queryRenderedFeatures(
+            { 
+                layers: ['provincia'], 
+                filter : [
+                    '==',
+                    ['get', 'nam'],
+                    last_localidad_location_data.provincia
+                ] 
+            }
+        );
+
+        last_provincia_location_data = provincia_features[0].properties;
+
+
+
+        update_breadcrumbs('ut-maior', last_provincia_location_data.local);
+
+
+    }
+
+    update_breadcrumbs('ut-menor', localidad);
 
     localidads_argentina.toggle_borders("on");
     provincias_argentina.toggle_hightlight_border(last_provincia_location_data.local);
@@ -855,7 +885,11 @@ const localidads_argentina = {
 
     toggle_highlight : function(localidad) {
 
-        const local = last_localidad_location_data.local;
+        // desnecessário isso aqui, melhorar.
+        let local;
+
+        if (localidad == '') local = localidad;
+        else local = last_localidad_location_data.local;
 
         map.setFilter(
             'localidad-highlight', [
