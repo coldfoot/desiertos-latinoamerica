@@ -194,6 +194,255 @@ function update_country_button(pais) {
 
 }
 
+class Country {}
+
+class UTmaior {
+
+    country;
+
+    hoveredStateId;
+    popup;
+
+    constructor() {
+
+        const url = 'mapbox://tiagombp.4fk72g1y'
+
+        this.load(country, url);
+
+        this.hoveredStateId = null;
+
+        this.popup = new mapboxgl.Popup(
+            {
+                closeButton: false,
+                loseOnClick: false
+            }
+        );
+
+    }
+
+    load(country, url) {
+
+        map.addSource(country + '-provincia', {
+            type: 'vector',
+            url : url,
+            'promoteId' : 'nam'
+        });
+
+        map.addLayer({
+            'id': country + '-provincia',
+            'type': 'fill',
+            'source': country + '-provincia',
+            'source-layer': 'provincia', // isso vai estar hardcoded no mapbox
+            'layout': {},
+            'paint': {
+                'fill-color': 'transparent',
+                'fill-opacity': [
+                'case',
+                [
+                    'boolean', 
+                    ['feature-state', 'hover'], 
+                    false
+                ],
+                .1,
+                0
+            ]
+            }
+        }); 
+
+        map.addLayer({
+            'id': country + '-provincia-border-hover',
+            'type': 'line',
+            'source': country + '-provincia',
+            'source-layer': 'provincia',
+            'layout': {},
+            'paint': {
+                'line-color': 'transparent',
+                'line-width': [
+                'case',
+                [
+                    'boolean', 
+                    ['feature-state', 'hover'], 
+                    false
+                ],
+                4,
+                1
+            ]
+            }
+        }); 
+
+        map.addLayer({
+            'id': country + '-provincia-border',
+            'type': 'line',
+            'source': country + '-provincia',
+            'source-layer': 'provincia',
+            'layout': {},
+            'paint': {
+                'line-color': 'black',
+                'line-width': 4
+            },
+            'filter': ['==', 'provincia', '']}); // puts behind road-label
+
+    }
+
+    toggle_hightlight_border(provincia) {
+
+        map.setFilter(
+            this.country + '-provincia-border', [
+                '==',
+                ['get', 'nam'],
+                provincia
+            ]
+        );
+
+    }
+
+    mouse_enter_handler(e) {
+
+        // pop up
+        let coordinates = [
+            e.features[0].properties.xc,
+            e.features[0].properties.yc
+        ]; 
+
+        let name = e.features[0].properties.nam;
+
+        this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
+
+        // precisa desse if aqui para fazer tirar o estado de hover da provincia anterior quando passa para outra provincia
+
+        if (this.hoveredStateId) {
+            map.setFeatureState(
+                { 
+                    source: this.country + '-provincia',
+                    sourceLayer: 'provincia',
+                    id: this.hoveredStateId
+                },
+
+                { hover : false }
+            )
+
+        }
+
+        this.hoveredStateId = e.features[0].properties.nam;
+
+        map.setFeatureState(
+            { 
+                source: this.country + '-provincia',
+                sourceLayer: 'provincia',
+                id: this.hoveredStateId
+            },
+
+            { hover : true }
+        )
+
+        //console.log('Hover no ', hoveredStateId)
+
+        // algo mais a fazer aqui
+
+    }
+
+    mouse_leave_handler() {
+
+        this.popup.remove();
+
+        if (this.hoveredStateId) {
+            map.setFeatureState(
+                { 
+                    source: this.country + '-provincia', 
+                    sourceLayer: 'provincia',
+                    id: this.hoveredStateId 
+                },
+
+                { hover: false }
+            );
+        }
+    
+        this.hoveredStateId = null;
+    }
+
+    click_event_handler(e) {
+
+        const province_name = e.features[0].properties.nam;
+
+        last_provincia_location_data = e.features[0].properties;
+
+        console.log(last_provincia_location_data);
+
+        /* Para evitar re-renderizar quando clica na mesma província
+        if (province_name != current_place.provincia) {
+
+            const local = {
+
+                local : province_name,
+                tipo  : "provincia",
+                text  : province_name
+
+            };
+        */
+
+        // clears hover featureState
+        // o id da da provincia é o nam. Só ver o 'promoteId' no addSource lá em cima.
+        map.setFeatureState(
+            { 
+                source: this.country + '-provincia',
+                sourceLayer: 'provincia',
+                id: province_name
+            },
+
+            { hover : false }
+        );
+
+        render_provincia_argentina(province_name);
+
+    }
+
+    monitor_events(option) {
+
+        if (option == 'on') {
+
+            if (this.hoveredStateId) {
+
+                map.setFeatureState(
+                    { 
+                        source: this.country + '-provincia',
+                        sourceLayer: 'provincia',
+                        id: this.hoveredStateId 
+                    },
+
+                    { hover: false }
+                );
+            }
+
+            //dash.map.localidad.hoveredStateId = null;
+
+            map.on('mousemove', this.country + '-provincia', this.mouse_enter_handler);
+
+            map.on('mouseleave', this.country + '-provincia', this.mouse_leave_handler);
+
+            map.on('click', this.country + '-provincia', this.click_event_handler);
+
+            // como tem o layer aqui, dá para no handler pegar o e.features!
+
+        } else {
+
+            //console.log('turning off province event monitor');
+
+            map.off('mousemove', this.country + '-provincia', this.mouse_enter_handler);
+
+            map.off('mouseleave', this.country + '-provincia', this.mouse_leave_handler);
+
+            map.off('click', this.country + '-provincia', this.click_event_handler);
+
+            //dash.map.province.hoveredStateId = null;
+            
+        }
+
+    }
+
+}
+
+class UTmenor {}
+
 map.on("load", () => {
 
     map.addLayer({
@@ -570,73 +819,7 @@ function load_localidads_argentina() {
 
 }
 
-function load_provincias_argentina() {
-
-
-    map.addSource('provincia', {
-        type: 'vector',
-        url : 'mapbox://tiagombp.4fk72g1y',
-        'promoteId' : 'nam'
-    });
-
-    map.addLayer({
-        'id': 'provincia',
-        'type': 'fill',
-        'source': 'provincia',
-        'source-layer': 'provincia',
-        'layout': {},
-        'paint': {
-            'fill-color': 'transparent',
-            'fill-opacity': [
-            'case',
-            [
-                'boolean', 
-                ['feature-state', 'hover'], 
-                false
-            ],
-            .1,
-            0
-        ]
-        }
-    }); 
-
-    map.addLayer({
-        'id': 'provincia-border-hover',
-        'type': 'line',
-        'source': 'provincia',
-        'source-layer': 'provincia',
-        'layout': {},
-        'paint': {
-            'line-color': 'transparent',
-            'line-width': [
-            'case',
-            [
-                'boolean', 
-                ['feature-state', 'hover'], 
-                false
-            ],
-            4,
-            1
-        ]
-        }
-    }); 
-
-    map.addLayer({
-        'id': 'provincia-border',
-        'type': 'line',
-        'source': 'provincia',
-        'source-layer': 'provincia',
-        'layout': {},
-        'paint': {
-            'line-color': 'black',
-            'line-width': 4
-        },
-        'filter': ['==', 'provincia', '']}); // puts behind road-label
-
-}
-
 function render_provincia_argentina(provincia) { // desnecessario o argumento, melhorar
-
 
 
     update_breadcrumbs('ut-maior', provincia);
@@ -723,174 +906,6 @@ function render_localidad_argentina(localidad) { // desnecessario o argumento, m
 
 };
 
-
-
-const provincias_argentina = {
-
-    hoveredStateId : null,
-
-    popup: new mapboxgl.Popup(
-        {
-            closeButton: false,
-            loseOnClick: false
-        }
-    ),
-
-    toggle_hightlight_border: function(provincia) {
-
-        map.setFilter(
-            'provincia-border', [
-                '==',
-                ['get', 'nam'],
-                provincia
-            ]
-        );
-
-    },
-
-    mouse_enter_handler : function (e) {
-
-        // pop up
-        let coordinates = [
-            e.features[0].properties.xc,
-            e.features[0].properties.yc
-        ]; 
-
-        let name = e.features[0].properties.nam;
-
-        provincias_argentina.popup.setLngLat(coordinates).setHTML(name).addTo(map);
-
-        // precisa desse if aqui para fazer tirar o estado de hover da provincia anterior quando passa para outra provincia
-
-        if (provincias_argentina.hoveredStateId) {
-            map.setFeatureState(
-                { 
-                    source: 'provincia',
-                    sourceLayer: 'provincia',
-                    id: provincias_argentina.hoveredStateId
-                },
-
-                { hover : false }
-            )
-
-        }
-
-        provincias_argentina.hoveredStateId = e.features[0].properties.nam;
-
-        map.setFeatureState(
-            { 
-                source: 'provincia',
-                sourceLayer: 'provincia',
-                id: provincias_argentina.hoveredStateId
-            },
-
-            { hover : true }
-        )
-
-        //console.log('Hover no ', hoveredStateId)
-
-        // algo mais a fazer aqui
-
-    },
-
-    mouse_leave_handler : function () {
-
-        provincias_argentina.popup.remove();
-
-        if (provincias_argentina.hoveredStateId) {
-            map.setFeatureState(
-                { 
-                    source: 'provincia', 
-                    sourceLayer: 'provincia',
-                    id: provincias_argentina.hoveredStateId 
-                },
-
-                { hover: false }
-            );
-        }
-    
-        provincias_argentina.hoveredStateId = null;
-    },
-
-    click_event_handler : function(e) {
-
-        const province_name = e.features[0].properties.nam;
-
-        last_provincia_location_data = e.features[0].properties;
-
-        console.log(last_provincia_location_data);
-
-        /* Para evitar re-renderizar quando clica na mesma província
-        if (province_name != current_place.provincia) {
-
-            const local = {
-
-                local : province_name,
-                tipo  : "provincia",
-                text  : province_name
-
-            };
-        */
-
-        // clears hover featureState
-        // o id da da provincia é o nam. Só ver o 'promoteId' no addSource lá em cima.
-        map.setFeatureState(
-            { 
-                source: 'provincia',
-                sourceLayer: 'provincia',
-                id: province_name
-            },
-
-            { hover : false }
-        );
-
-        render_provincia_argentina(province_name);
-
-    },
-
-    monitor_events : function(option) {
-
-        if (option == 'on') {
-
-            if (provincias_argentina.hoveredStateId) {
-                map.setFeatureState(
-                    { 
-                        source: 'provincia',
-                        sourceLayer: 'provincia',
-                        id: provincias_argentina.hoveredStateId 
-                    },
-
-                    { hover: false }
-                );
-            }
-
-            //dash.map.localidad.hoveredStateId = null;
-
-            map.on('mousemove', 'provincia', provincias_argentina.mouse_enter_handler);
-
-            map.on('mouseleave', 'provincia', provincias_argentina.mouse_leave_handler);
-
-            map.on('click', 'provincia', provincias_argentina.click_event_handler);
-
-            // como tem o layer aqui, dá para no handler pegar o e.features!
-
-        } else {
-
-            //console.log('turning off province event monitor');
-
-            map.off('mousemove', 'provincia', provincias_argentina.mouse_enter_handler);
-
-            map.off('mouseleave', 'provincia', provincias_argentina.mouse_leave_handler);
-
-            map.off('click', 'provincia', provincias_argentina.click_event_handler);
-
-            //dash.map.province.hoveredStateId = null;
-            
-        }
-
-    }
-
-}
 
 const localidads_argentina = {
 
