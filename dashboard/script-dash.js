@@ -194,7 +194,149 @@ function update_country_button(pais) {
 
 }
 
-class Country {}
+class Country {
+
+    constructor(country_name, bbox_country, url_ut_maior, url_ut_menor) {
+
+        this.country = country_name;
+        this.bbox_country = bbox_country;
+        this.ut_maior = new UTmaior(url_ut_maior);
+        this.ut_menor = new UTmenor(url_ut_menor);
+
+    }
+
+    render_provincia_argentina(provincia) { // desnecessario o argumento, melhorar
+
+
+        update_breadcrumbs('ut-maior', provincia);
+
+        const bbox_provincia = [
+            last_provincia_location_data.xmin, last_provincia_location_data.ymin,
+            last_provincia_location_data.xmax, last_provincia_location_data.ymax
+        ];  
+
+        map.fitBounds(
+
+            bbox_provincia, 
+
+            {
+                linear : false, // false means the map transitions using map.flyTo()
+                speed: 1, 
+                padding: {top: 80, bottom: 100, left: 30, right: 30},
+            }
+        );
+
+        this.ut_menor.toggle_borders("on");
+        this.ut_maior.toggle_hightlight_border(provincia);
+        this.ut_menor.toggle_highlight('');
+
+        this.ut_maior.monitor_events("off");
+        this.ut_menor.monitor_events("on");
+
+        update_infocard(provincia);
+
+    }
+
+    render_localidad_argentina(localidad) { // desnecessario o argumento, melhorar
+
+        const bbox_localidad = [
+            last_localidad_location_data.xmin, last_localidad_location_data.ymin,
+            last_localidad_location_data.xmax, last_localidad_location_data.ymax
+        ];  
+
+        map.fitBounds(
+
+            bbox_localidad, 
+
+            {
+                linear : false, // false means the map transitions using map.flyTo()
+                speed: 1, 
+                padding: {top: 80, bottom: 100, left: 30, right: 30},
+            }
+        );
+
+        // no caso de o usuário clicar numa localidade de outra provincia!
+        if (last_localidad_location_data.provincia != last_provincia_location_data.nam) {
+            // updates a provincia
+            const provincia_features = map.queryRenderedFeatures(
+                { 
+                    layers: ['provincia'], 
+                    filter : [
+                        '==',
+                        ['get', 'nam'],
+                        last_localidad_location_data.provincia
+                    ] 
+                }
+            );
+
+            last_provincia_location_data = provincia_features[0].properties;
+
+
+
+            update_breadcrumbs('ut-maior', last_provincia_location_data.local);
+
+
+        }
+
+        update_breadcrumbs('ut-menor', localidad);
+
+        this.ut_menor.toggle_borders("on");
+        this.ut_maior.toggle_hightlight_border(last_provincia_location_data.local);
+
+        this.ut_menor.toggle_highlight(localidad);
+
+        //this.ut_maior.monitor_events("off");
+        //this.ut_menor.monitor_events("on");
+
+        update_infocard(localidad);
+
+    }
+
+    render_country_subnational(pais) {
+
+        if (pais == "Argentina") {
+
+            map.setPaintProperty(
+                'localidad',
+                'fill-color', 
+                ['get', 'color_real']
+            );
+
+            map.setPaintProperty(
+                'provincia-border-hover',
+                'line-color',
+                '#666'
+            );
+
+            this.ut_maior.monitor_events("on");
+            this.ut_menor.monitor_events("off");
+
+            this.ut_menor.toggle_borders("off");
+            this.ut_maior.toggle_hightlight_border('');
+            this.ut_menor.toggle_highlight('');
+
+
+        } else {
+            console.log("No data yet.")
+
+            map.setPaintProperty(
+                'localidad',
+                'fill-color', 
+                'transparent'
+            );
+
+            map.setPaintProperty(
+                'provincia-border-hover',
+                'line-color',
+                'transparent'
+            );
+
+            this.ut_maior.monitor_events("off");
+
+        }
+
+    }
+}
 
 class UTmaior {
 
@@ -441,7 +583,380 @@ class UTmaior {
 
 }
 
-class UTmenor {}
+class UTmenor {
+
+    country;
+
+    hoveredStateId;
+    popup;
+
+    constructor() {
+
+        const url = 'mapbox://tiagombp.4fk72g1y'
+
+        this.load(country, url);
+
+        this.hoveredStateId = null;
+
+        this.popup = new mapboxgl.Popup(
+            {
+                closeButton: false,
+                loseOnClick: false
+            }
+        );
+
+    }
+
+    load(country, url) {
+
+        map.addSource(country + '-localidad', {
+            type: 'vector',
+            url : 'mapbox://tiagombp.d8u3a43g',
+            'promoteId' : 'randId'
+        });
+
+        map.addLayer({
+            'id': country + '-localidad',
+            'type': 'fill',
+            'source': country + '-localidad',
+            'source-layer': 'localidad',
+            'layout': {},
+            'paint': {
+                'fill-color': 'transparent',
+                'fill-outline-color' : 'transparent',
+                'fill-opacity': [
+                'case',
+                [
+                    'boolean', 
+                    ['feature-state', 'hover'], 
+                    false
+                ],
+                1,
+                .8
+                ]
+            }
+        }); 
+
+        map.addLayer({
+            'id': country + '-localidad-border-hover',
+            'type': 'line',
+            'source': country + '-localidad',
+            'source-layer': 'localidad',
+            'layout': {},
+            'paint': {
+                'line-color': [
+                'case',
+                [
+                    'boolean', 
+                    ['feature-state', 'hover'], 
+                    false
+                ],
+                '#212121',
+                '#666'
+            ],
+                'line-width': [
+                'case',
+                [
+                    'boolean', 
+                    ['feature-state', 'hover'], 
+                    false
+                ],
+                3,
+                0
+            ]
+            }
+        }); 
+
+        map.addLayer({
+            'id': country + '-localidad-border',
+            'type': 'line',
+            'source': country + '-localidad',
+            'source-layer': 'localidad',
+            'layout': {},
+            'paint': {
+                'line-color': '#666',
+                'line-width': 0,
+            }
+        }); 
+
+        map.addLayer({
+            'id': country + '-localidad-highlight',
+            'type': 'line',
+            'source': country + '-localidad',
+            'source-layer': 'localidad',
+            'layout': {},
+            'paint': {
+                'line-color': 'black',
+                'line-width': 3,
+            }, 'filter': ['==', 'local', '']
+        }); 
+
+    }
+
+    toggle_highlight(localidad) {
+
+        // desnecessário isso aqui, melhorar.
+        let local;
+
+        if (localidad == '') local = localidad;
+        else local = last_localidad_location_data.local;
+
+        map.setFilter(
+            this.country + '-localidad-highlight', [
+                '==',
+                ['get', 'local'],
+                local
+            ]
+        );
+
+        map.setPaintProperty(
+            
+            this.country + '-localidad', 
+            'fill-opacity',
+            [
+                'case',
+                [
+                    '==',
+                    ['get', 'local'],
+                    local
+                ],
+                1,
+                .8
+            ]
+        );
+
+    }
+
+    toggle_borders(option) {
+
+        // option: on/off
+
+        map.setPaintProperty(
+            this.country + '-localidad-border', 
+            'line-width', option == 'on' ? 1 : 0
+            // [
+            //     'case', [
+            //         'boolean', 
+            //         ['feature-state', 'hover'], 
+            //         false
+            //     ], 
+            //     option == 'on' ? 2 : 0,
+            //     option == 'on' ? 1 : 0
+            // ]
+        );
+
+    }
+
+    /*
+    color_map_category : function(category) {
+
+        if (category != '') {
+
+            const cat = dash.utils.get_numeric_category_from_name(category);
+
+            dash.map_obj.setPaintProperty(
+                'localidad', 'fill-color',
+                [
+                    'case',
+                    [
+                        '==',
+                        ['get', 'categoria'],
+                        cat
+                    ],
+                    ['get', 'color_real'],
+                    '#f0e9df'
+                ]
+            );
+
+        } else {
+
+            dash.map_obj.setPaintProperty(
+                'localidad', 'fill-color', ['get', 'color_real']
+            );
+
+        }
+
+    },*/
+
+
+    mouse_enter_handler(e) {
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+
+        //console.log(e);
+            
+        let coordinates = [
+            e.features[0].properties.xc,
+            e.features[0].properties.yc
+        ]; //e.features[0].geometry.coordinates.slice();
+
+        let name = e.features[0].properties.nam;
+
+        //console.log('mouse enter fired ', coordinates, name);
+            
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+
+        // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        // coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        // }
+            
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
+
+        ////////////
+        // highlight polygon
+
+        if (this.hoveredStateId !== null) {
+
+            map.setFeatureState(
+                { 
+                    source: this.country + '-localidad',
+                    sourceLayer: 'localidad',
+                    id: this.hoveredStateId
+                },
+
+                { hover : false }
+            )
+
+
+        }
+
+        this.hoveredStateId = e.features[0].properties.randId;
+
+        map.setFeatureState(
+            { 
+                source: this.country + '-localidad',
+                sourceLayer: 'localidad',
+                id: this.hoveredStateId
+            },
+
+            { hover : true }
+        )
+    }
+
+    mouse_leave_handler() {
+
+        map.getCanvas().style.cursor = '';
+        this.popup.remove();
+
+        //console.log('fired mouse leave!!!!!!!', dash.map.localidad.hoveredStateId);
+
+        // return circle to normal sizing and color
+        if (this.hoveredStateId !== null) {
+            map.setFeatureState(
+                { 
+                    source: this.country + '-localidad', 
+                    sourceLayer: 'localidad', 
+                    id: this.hoveredStateId 
+                },
+
+                { hover: false }
+            );
+        }
+    
+        this.hoveredStateId = null;
+
+    }
+
+    monitor_events(option) {
+
+        if (option == 'on') {
+
+            //console.log('MONITORING LOCALIDAD EVENTS');
+
+            this.hoveredStateId = null;
+
+            map.on('mousemove', this.country + '-localidad', this.mouse_enter_handler);
+                    
+            map.on('mouseleave', this.country + '-localidad', this.mouse_leave_handler);
+
+            map.on('click', this.country + '-localidad', this.click_event_handler);
+
+            // como tem o layer aqui, dá para no handler pegar o e.features!
+
+        } else {
+
+            //console.log('turning off localidad event monitor');
+
+            map.off('mousemove', this.country + '-localidad', this.mouse_enter_handler);
+                    
+            map.off('mouseleave', this.country + '-localidad', this.mouse_leave_handler);
+
+            map.off('click', this.country + '-localidad', this.click_event_handler);
+
+            this.hoveredStateId = null;
+            
+        }
+
+    }
+
+    click_event_handler(e) {
+
+
+        const localidad = e.features[0].properties.local; //feature.properties.local;
+        const localidad_name = e.features[0].properties.nam;
+        const provincia = e.features[0].properties.provincia; //feature.properties.provincia;
+
+        last_localidad_location_data = e.features[0].properties; // isso aqui provavelmente vai fazer todo o resto ser desnecessário
+
+        console.log(last_localidad_location_data);
+
+        const local = {
+
+            local : localidad,
+            tipo  : "localidad",
+            text  : localidad_name,
+            provincia : provincia
+
+        };
+
+        //console.log("Clicou em ", localidad, local, dash.vis.location_card.state.user_location_province);
+
+        // clears hover featureState
+        // o id da localidad é o randId. Só ver o 'promoteId' no addSource lá em cima.
+
+        const id = e.features[0].properties.randId;
+
+        map.setFeatureState(
+            { 
+                source: 'localidad',
+                sourceLayer: 'localidad',
+                id: id
+            },
+
+            { hover : false }
+        );
+
+        render_localidad_argentina(last_localidad_location_data.nam);
+
+    }
+
+    sets_opacity_on_hover(option) {
+
+        if (option == 'off') {
+
+            dash.map_obj.setPaintProperty('localidad', 'fill-opacity', 1);
+
+        } else {
+
+            dash.map_obj.setPaintProperty('localidad', 'fill-opacity', [
+                'case',
+                [
+                    'boolean', 
+                    ['feature-state', 'hover'], 
+                    false
+                ],
+                1,
+                .8
+                ])
+        }
+
+    }
+
+}
 
 map.on("load", () => {
 
@@ -487,176 +1002,6 @@ map.on("load", () => {
 
 // talvez definir uma classe, e criar uma instância para nível geográfico
 
-const popup = new mapboxgl.Popup(
-
-    {
-        closeButton: false,
-        loseOnClick: false
-    }
-);
-
-let hoveredStateId = null;
-
-function mouse_enter_handler(e) {
-    
-    // Change the cursor style as a UI indicator.
-    map.getCanvas().style.cursor = 'pointer';
-      
-    /*
-    let coordinates = [
-        e.features[0].properties.xc,
-        e.features[0].properties.yc
-    ]; */
-
-    const name = e.features[0].properties.country_name;
-
-    let coordinates = [
-        ( bboxes[name][0] + bboxes[name][2] ) / 2,
-        ( bboxes[name][1] + bboxes[name][3] ) / 2
-    ]
-
-
-    //console.log(name, coordinates);
-
-
-
-    //console.log('mouse enter fired ', coordinates, name);
-        
-    // Ensure that if the map is zoomed out such that multiple
-    // copies of the feature are visible, the popup appears
-    // over the copy being pointed to.
-
-    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-    // coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    // }
-        
-    // Populate the popup and set its coordinates
-    // based on the feature found.
-    popup.setLngLat(coordinates).setHTML(name).addTo(map);
-
-    ////////////
-    // highlight polygon
-
-    if (hoveredStateId !== null) {
-
-        map.setFeatureState(
-            { 
-                source: 'countries',
-                sourceLayer: 'data-blt69d', // countries-borders
-                id: hoveredStateId
-            },
-
-            { hover : false }
-        )
-
-
-    }
-
-    hoveredStateId = e.features[0].properties.country_name;
-
-    map.setFeatureState(
-        { 
-            source: 'countries',
-            sourceLayer: 'data-blt69d', // countries-borders
-            id: hoveredStateId
-        },
-
-        { hover : true }
-    );
-}
-
-function mouse_leave_handler() {
-
-    map.getCanvas().style.cursor = '';
-    popup.remove();
-
-    //console.log('fired mouse leave!!!!!!!', dash.map.localidad.hoveredStateId);
-
-    if (hoveredStateId !== null) {
-        map.setFeatureState(
-            { 
-                source: 'countries',
-                sourceLayer: 'data-blt69d', // countries-borders
-                id: hoveredStateId
-            },
-
-            { hover: false }
-        );
-    }
-
-    hoveredStateId = null;
-
-}
-
-function click_handler(e) {
-
-
-    //const localidad = e.features[0].properties.local; //feature.properties.local;
-    //const localidad_name = e.features[0].properties.nam;
-    //const provincia = e.features[0].properties.provincia; //feature.properties.provincia;
-    const country = e.features[0].properties.country_name;
-
-    const local = {
-
-        local : '',//localidad,
-        tipo  : 'country',
-        text  : '',//localidad_name,
-        provincia : '',//provincia
-        country: country
-
-    };
-
-    //console.log("Clicou em ", localidad, local, dash.vis.location_card.state.user_location_province);
-
-    // clears hover featureState
-    // o id da localidad é o randId. Só ver o 'promoteId' no addSource lá em cima.
-
-    const pais = e.features[0].properties.country_name;
-
-    map.setFeatureState(
-        { 
-            source: 'countries',
-            sourceLayer: 'data-blt69d', // countries-borders
-            id: hoveredStateId
-        },
-
-        { hover : false }
-    );
-
-    render_pais(pais)
-
-
-}
-
-function monitor_events(option) {
-    
-    if (option == 'on') {
-
-        console.log('MONITORING COUNTRY EVENTS');
-
-        hoveredStateId = null;
-
-        map.on('mousemove', 'countries-fills', mouse_enter_handler);
-                
-        map.on('mouseleave', 'countries-fills', mouse_leave_handler);
-
-        map.on('click', 'countries-fills', click_handler);
-
-
-    } else {
-
-        console.log('turning off COUNTRY event monitor');
-
-        map.off('mousemove', 'countries-fills', mouse_enter_handler);
-                
-        map.off('click', 'countries-fills', click_handler);
-
-        hoveredStateId = null;
-        
-    }
-
-}
-
 function render_pais(pais) {
 
     plot_country(pais, 50);
@@ -672,50 +1017,7 @@ function render_pais(pais) {
 
 }
 
-function render_country_subnational(pais) {
 
-    if (pais == "Argentina") {
-
-        map.setPaintProperty(
-            'localidad',
-            'fill-color', 
-            ['get', 'color_real']
-        );
-
-        map.setPaintProperty(
-            'provincia-border-hover',
-            'line-color',
-            '#666'
-        );
-
-        provincias_argentina.monitor_events("on");
-        localidads_argentina.monitor_events("off");
-
-        localidads_argentina.toggle_borders("off");
-        provincias_argentina.toggle_hightlight_border('');
-        localidads_argentina.toggle_highlight('');
-
-
-    } else {
-        console.log("No data yet.")
-
-        map.setPaintProperty(
-            'localidad',
-            'fill-color', 
-            'transparent'
-        );
-
-        map.setPaintProperty(
-            'provincia-border-hover',
-            'line-color',
-            'transparent'
-        );
-
-        provincias_argentina.monitor_events("off");
-
-    }
-
-}
 
 const levels = {
 
@@ -730,456 +1032,6 @@ const levels = {
     },
 
     localidad : 'mapbox://tiagombp.d8u3a43g'
-
-}
-
-function load_localidads_argentina() {
-
-    map.addSource('localidad', {
-        type: 'vector',
-        url : 'mapbox://tiagombp.d8u3a43g',
-        'promoteId' : 'randId'
-    });
-
-    map.addLayer({
-        'id': 'localidad',
-        'type': 'fill',
-        'source': 'localidad',
-        'source-layer': 'localidad',
-        'layout': {},
-        'paint': {
-            'fill-color': 'transparent',
-            'fill-outline-color' : 'transparent',
-            'fill-opacity': [
-            'case',
-            [
-                'boolean', 
-                ['feature-state', 'hover'], 
-                false
-            ],
-            1,
-            .8
-            ]
-        }
-    }); 
-
-    map.addLayer({
-        'id': 'localidad-border-hover',
-        'type': 'line',
-        'source': 'localidad',
-        'source-layer': 'localidad',
-        'layout': {},
-        'paint': {
-            'line-color': [
-            'case',
-            [
-                'boolean', 
-                ['feature-state', 'hover'], 
-                false
-            ],
-            '#212121',
-            '#666'
-        ],
-            'line-width': [
-            'case',
-            [
-                'boolean', 
-                ['feature-state', 'hover'], 
-                false
-            ],
-            3,
-            0
-        ]
-        }
-    }); 
-
-    map.addLayer({
-        'id': 'localidad-border',
-        'type': 'line',
-        'source': 'localidad',
-        'source-layer': 'localidad',
-        'layout': {},
-        'paint': {
-            'line-color': '#666',
-            'line-width': 0,
-        }
-    }); 
-
-    map.addLayer({
-        'id': 'localidad-highlight',
-        'type': 'line',
-        'source': 'localidad',
-        'source-layer': 'localidad',
-        'layout': {},
-        'paint': {
-            'line-color': 'black',
-            'line-width': 3,
-        }, 'filter': ['==', 'local', '']
-    }); 
-
-}
-
-function render_provincia_argentina(provincia) { // desnecessario o argumento, melhorar
-
-
-    update_breadcrumbs('ut-maior', provincia);
-
-    const bbox_provincia = [
-        last_provincia_location_data.xmin, last_provincia_location_data.ymin,
-        last_provincia_location_data.xmax, last_provincia_location_data.ymax
-    ];  
-
-    map.fitBounds(
-
-        bbox_provincia, 
-
-        {
-            linear : false, // false means the map transitions using map.flyTo()
-            speed: 1, 
-            padding: {top: 80, bottom: 100, left: 30, right: 30},
-        }
-    );
-
-    localidads_argentina.toggle_borders("on");
-    provincias_argentina.toggle_hightlight_border(provincia);
-    localidads_argentina.toggle_highlight('');
-
-    provincias_argentina.monitor_events("off");
-    localidads_argentina.monitor_events("on");
-
-    update_infocard(provincia);
-
-};
-
-function render_localidad_argentina(localidad) { // desnecessario o argumento, melhorar
-
-    const bbox_localidad = [
-        last_localidad_location_data.xmin, last_localidad_location_data.ymin,
-        last_localidad_location_data.xmax, last_localidad_location_data.ymax
-    ];  
-
-    map.fitBounds(
-
-        bbox_localidad, 
-
-        {
-            linear : false, // false means the map transitions using map.flyTo()
-            speed: 1, 
-            padding: {top: 80, bottom: 100, left: 30, right: 30},
-        }
-    );
-
-    // no caso de o usuário clicar numa localidade de outra provincia!
-    if (last_localidad_location_data.provincia != last_provincia_location_data.nam) {
-        // updates a provincia
-        const provincia_features = map.queryRenderedFeatures(
-            { 
-                layers: ['provincia'], 
-                filter : [
-                    '==',
-                    ['get', 'nam'],
-                    last_localidad_location_data.provincia
-                ] 
-            }
-        );
-
-        last_provincia_location_data = provincia_features[0].properties;
-
-
-
-        update_breadcrumbs('ut-maior', last_provincia_location_data.local);
-
-
-    }
-
-    update_breadcrumbs('ut-menor', localidad);
-
-    localidads_argentina.toggle_borders("on");
-    provincias_argentina.toggle_hightlight_border(last_provincia_location_data.local);
-
-    localidads_argentina.toggle_highlight(localidad);
-
-    //provincias_argentina.monitor_events("off");
-    //localidads_argentina.monitor_events("on");
-
-    update_infocard(localidad);
-
-};
-
-
-const localidads_argentina = {
-
-    hoveredStateId : null,
-
-    popup: new mapboxgl.Popup(
-        {
-            closeButton: false,
-            loseOnClick: false
-        }),
-
-    toggle_highlight : function(localidad) {
-
-        // desnecessário isso aqui, melhorar.
-        let local;
-
-        if (localidad == '') local = localidad;
-        else local = last_localidad_location_data.local;
-
-        map.setFilter(
-            'localidad-highlight', [
-                '==',
-                ['get', 'local'],
-                local
-            ]
-        );
-
-        map.setPaintProperty(
-            
-            'localidad', 
-            'fill-opacity',
-            [
-                'case',
-                [
-                    '==',
-                    ['get', 'local'],
-                    local
-                ],
-                1,
-                .8
-            ]
-        );
-
-    },
-
-    toggle_borders : function(option) {
-
-        // option: on/off
-
-        map.setPaintProperty(
-            'localidad-border', 
-            'line-width', option == 'on' ? 1 : 0
-            // [
-            //     'case', [
-            //         'boolean', 
-            //         ['feature-state', 'hover'], 
-            //         false
-            //     ], 
-            //     option == 'on' ? 2 : 0,
-            //     option == 'on' ? 1 : 0
-            // ]
-        );
-
-    },
-
-    /*
-    color_map_category : function(category) {
-
-        if (category != '') {
-
-            const cat = dash.utils.get_numeric_category_from_name(category);
-
-            dash.map_obj.setPaintProperty(
-                'localidad', 'fill-color',
-                [
-                    'case',
-                    [
-                        '==',
-                        ['get', 'categoria'],
-                        cat
-                    ],
-                    ['get', 'color_real'],
-                    '#f0e9df'
-                ]
-            );
-
-        } else {
-
-            dash.map_obj.setPaintProperty(
-                'localidad', 'fill-color', ['get', 'color_real']
-            );
-
-        }
-
-    },*/
-
-
-    mouse_enter_handler : function (e) {
-        // Change the cursor style as a UI indicator.
-        map.getCanvas().style.cursor = 'pointer';
-
-        //console.log(e);
-            
-        let coordinates = [
-            e.features[0].properties.xc,
-            e.features[0].properties.yc
-        ]; //e.features[0].geometry.coordinates.slice();
-
-        let name = e.features[0].properties.nam;
-
-        //console.log('mouse enter fired ', coordinates, name);
-            
-        // Ensure that if the map is zoomed out such that multiple
-        // copies of the feature are visible, the popup appears
-        // over the copy being pointed to.
-
-        // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        // coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        // }
-            
-        // Populate the popup and set its coordinates
-        // based on the feature found.
-        localidads_argentina.popup.setLngLat(coordinates).setHTML(name).addTo(map);
-
-        ////////////
-        // highlight polygon
-
-        if (localidads_argentina.hoveredStateId !== null) {
-
-            map.setFeatureState(
-                { 
-                    source: 'localidad',
-                    sourceLayer: 'localidad',
-                    id: localidads_argentina.hoveredStateId
-                },
-
-                { hover : false }
-            )
-
-
-        }
-
-        localidads_argentina.hoveredStateId = e.features[0].properties.randId;
-
-        map.setFeatureState(
-            { 
-                source: 'localidad',
-                sourceLayer: 'localidad',
-                id: localidads_argentina.hoveredStateId
-            },
-
-            { hover : true }
-        )
-    },
-
-    mouse_leave_handler : function () {
-
-        map.getCanvas().style.cursor = '';
-        localidads_argentina.popup.remove();
-
-        //console.log('fired mouse leave!!!!!!!', dash.map.localidad.hoveredStateId);
-
-        // return circle to normal sizing and color
-        if (localidads_argentina.hoveredStateId !== null) {
-            map.setFeatureState(
-                { 
-                    source: 'localidad', 
-                    sourceLayer: 'localidad', 
-                    id: localidads_argentina.hoveredStateId 
-                },
-
-                { hover: false }
-            );
-        }
-    
-        localidads_argentina.hoveredStateId = null;
-
-    },
-
-    monitor_events : function(option) {
-
-        if (option == 'on') {
-
-            //console.log('MONITORING LOCALIDAD EVENTS');
-
-            localidads_argentina.hoveredStateId = null;
-
-            map.on('mousemove', 'localidad', localidads_argentina.mouse_enter_handler);
-                    
-            map.on('mouseleave', 'localidad', localidads_argentina.mouse_leave_handler);
-
-            map.on('click', 'localidad', localidads_argentina.click_event_handler);
-
-            // como tem o layer aqui, dá para no handler pegar o e.features!
-
-        } else {
-
-            //console.log('turning off localidad event monitor');
-
-            map.off('mousemove', 'localidad', localidads_argentina.mouse_enter_handler);
-                    
-            map.off('mouseleave', 'localidad', localidads_argentina.mouse_leave_handler);
-
-            map.off('click', 'localidad', localidads_argentina.click_event_handler);
-
-            localidads_argentina.hoveredStateId = null;
-            
-        }
-
-    },
-
-    click_event_handler : function(e) {
-
-
-        const localidad = e.features[0].properties.local; //feature.properties.local;
-        const localidad_name = e.features[0].properties.nam;
-        const provincia = e.features[0].properties.provincia; //feature.properties.provincia;
-
-        last_localidad_location_data = e.features[0].properties; // isso aqui provavelmente vai fazer todo o resto ser desnecessário
-
-        console.log(last_localidad_location_data);
-
-        const local = {
-
-            local : localidad,
-            tipo  : "localidad",
-            text  : localidad_name,
-            provincia : provincia
-
-        };
-
-        //console.log("Clicou em ", localidad, local, dash.vis.location_card.state.user_location_province);
-
-        // clears hover featureState
-        // o id da localidad é o randId. Só ver o 'promoteId' no addSource lá em cima.
-
-        const id = e.features[0].properties.randId;
-
-        map.setFeatureState(
-            { 
-                source: 'localidad',
-                sourceLayer: 'localidad',
-                id: id
-            },
-
-            { hover : false }
-        );
-
-        render_localidad_argentina(last_localidad_location_data.nam);
-
-    },
-
-    sets_opacity_on_hover : function(option) {
-
-        if (option == 'off') {
-
-            dash.map_obj.setPaintProperty('localidad', 'fill-opacity', 1);
-
-        } else {
-
-            dash.map_obj.setPaintProperty('localidad', 'fill-opacity', [
-                'case',
-                [
-                    'boolean', 
-                    ['feature-state', 'hover'], 
-                    false
-                ],
-                1,
-                .8
-                ])
-        }
-
-    }
-
 
 }
 
