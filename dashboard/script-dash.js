@@ -39,6 +39,8 @@ const current_place = {
     localidad : ''
 }
 
+let argentina;
+
 breadcrumbs.addEventListener("click", e => {
 
     const breadcrumb_clicado = e.target.closest('.breadcrumbs > span');
@@ -196,12 +198,162 @@ function update_country_button(pais) {
 
 class Country {
 
+    popup;
+    hoveredStateId;
+
     constructor(country_name, bbox_country, url_ut_maior, url_ut_menor) {
 
         this.country = country_name;
         this.bbox_country = bbox_country;
-        this.ut_maior = new UTmaior(url_ut_maior);
-        this.ut_menor = new UTmenor(url_ut_menor);
+        this.ut_maior = new UTmaior(country_name, url_ut_maior);
+        this.ut_menor = new UTmenor(country_name, url_ut_menor);
+
+        this.popup = new mapboxgl.Popup(
+
+            {
+                closeButton: false,
+                loseOnClick: false
+            }
+        );
+
+        this.hoveredStateId = null;
+
+    }
+
+    mouse_enter_handler(e) {
+        
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+        
+        /*
+        let coordinates = [
+            e.features[0].properties.xc,
+            e.features[0].properties.yc
+        ]; */
+
+        const name = e.features[0].properties.country_name;
+
+        let coordinates = [
+            ( bboxes[name][0] + bboxes[name][2] ) / 2,
+            ( bboxes[name][1] + bboxes[name][3] ) / 2
+        ]
+
+        console.log(this);
+
+        this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
+
+        ////////////
+        // highlight polygon
+
+        if (this.hoveredStateId !== null) {
+
+            map.setFeatureState(
+                { 
+                    source: 'countries',
+                    sourceLayer: 'data-blt69d', // countries-borders
+                    id: this.overedStateId
+                },
+
+                { hover : false }
+            )
+
+
+        }
+
+        this.hoveredStateId = e.features[0].properties.country_name;
+
+        map.setFeatureState(
+            { 
+                source: 'countries',
+                sourceLayer: 'data-blt69d', // countries-borders
+                id: this.hoveredStateId
+            },
+
+            { hover : true }
+        );
+    }
+
+    mouse_leave_handler() {
+
+        map.getCanvas().style.cursor = '';
+        this.popup.remove();
+
+        //console.log('fired mouse leave!!!!!!!', dash.map.localidad.hoveredStateId);
+
+        if (this.hoveredStateId !== null) {
+
+            map.setFeatureState(
+                { 
+                    source: 'countries',
+                    sourceLayer: 'data-blt69d', // countries-borders
+                    id: this.hoveredStateId
+                },
+
+                { hover: false }
+            );
+        }
+
+        this.hoveredStateId = null;
+
+    }
+
+    click_handler(e) {
+
+        const country = e.features[0].properties.country_name;
+
+        const local = {
+
+            local : '',//localidad,
+            tipo  : 'country',
+            text  : '',//localidad_name,
+            provincia : '',//provincia
+            country: country
+
+        };
+
+        const pais = e.features[0].properties.country_name;
+
+        map.setFeatureState(
+            { 
+                source: 'countries',
+                sourceLayer: 'data-blt69d', // countries-borders
+                id: this.hoveredStateId
+            },
+
+            { hover : false }
+        );
+
+        this.render_pais(pais)
+
+
+    }
+
+    monitor_events(option) {
+        
+        if (option == 'on') {
+
+            console.log('MONITORING COUNTRY EVENTS');
+
+            this.hoveredStateId = null;
+
+            map.on('mousemove', 'countries-fills', this.mouse_enter_handler);
+                    
+            map.on('mouseleave', 'countries-fills', this.mouse_leave_handler);
+
+            map.on('click', 'countries-fills', this.click_handler);
+
+
+        } else {
+
+            console.log('turning off COUNTRY event monitor');
+
+            map.off('mousemove', 'countries-fills', this.mouse_enter_handler);
+                    
+            map.off('click', 'countries-fills', this.click_handler);
+
+            this.hoveredStateId = null;
+            
+        }
 
     }
 
@@ -271,8 +423,6 @@ class Country {
 
             last_provincia_location_data = provincia_features[0].properties;
 
-
-
             update_breadcrumbs('ut-maior', last_provincia_location_data.local);
 
 
@@ -292,18 +442,18 @@ class Country {
 
     }
 
-    render_country_subnational(pais) {
+    render_country_subnational() {
 
-        if (pais == "Argentina") {
+        if (this.country == "Argentina") {
 
             map.setPaintProperty(
-                'localidad',
+                this.country + '-localidad',
                 'fill-color', 
                 ['get', 'color_real']
             );
 
             map.setPaintProperty(
-                'provincia-border-hover',
+                this.country + '-provincia-border-hover',
                 'line-color',
                 '#666'
             );
@@ -317,6 +467,7 @@ class Country {
 
 
         } else {
+
             console.log("No data yet.")
 
             map.setPaintProperty(
@@ -345,9 +496,9 @@ class UTmaior {
     hoveredStateId;
     popup;
 
-    constructor() {
+    constructor(country, url) {
 
-        const url = 'mapbox://tiagombp.4fk72g1y'
+        this.country = country;
 
         this.load(country, url);
 
@@ -590,9 +741,9 @@ class UTmenor {
     hoveredStateId;
     popup;
 
-    constructor() {
+    constructor(country, url) {
 
-        const url = 'mapbox://tiagombp.4fk72g1y'
+        this.country = country;
 
         this.load(country, url);
 
@@ -994,8 +1145,11 @@ map.on("load", () => {
         }
     }); 
 
-    load_localidads_argentina();
-    load_provincias_argentina();
+    argentina = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "mapbox://tiagombp.d8u3a43g");
+
+    argentina.monitor_events("on");
+    //load_localidads_argentina();
+    //load_provincias_argentina();
 
 })
 
@@ -1012,8 +1166,6 @@ function render_pais(pais) {
 
     render_country_subnational(pais); // os eventos do subnacional estao aqui dentro
     monitor_events('off'); // desliga monitor de eventos no nível de país
-
-
 
 }
 
@@ -1035,4 +1187,3 @@ const levels = {
 
 }
 
-monitor_events("on");
