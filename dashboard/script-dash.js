@@ -251,7 +251,7 @@ class Country {
                 { 
                     source: 'countries',
                     sourceLayer: 'data-blt69d', // countries-borders
-                    id: this.overedStateId
+                    id: this.hoveredStateId
                 },
 
                 { hover : false }
@@ -336,11 +336,11 @@ class Country {
 
             this.hoveredStateId = null;
 
-            map.on('mousemove', 'countries-fills', this.mouse_enter_handler);
+            map.on('mousemove', 'countries-fills', e => this.mouse_enter_handler(e));
                     
-            map.on('mouseleave', 'countries-fills', this.mouse_leave_handler);
+            map.on('mouseleave', 'countries-fills', e => this.mouse_leave_handler(e));
 
-            map.on('click', 'countries-fills', this.click_handler);
+            map.on('click', 'countries-fills', e => this.click_handler(e));
 
 
         } else {
