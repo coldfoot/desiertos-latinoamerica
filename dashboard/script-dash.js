@@ -39,7 +39,7 @@ const current_place = {
     localidad : ''
 }
 
-let argentina;
+let countries = {};
 
 breadcrumbs.addEventListener("click", e => {
 
@@ -81,7 +81,7 @@ menu_pais.addEventListener("click", e => {
         
         const pais = div_pais.dataset.pais; 
 
-        render_pais(pais);
+        countries[pais].render_pais(pais);
 
     }
 
@@ -343,9 +343,11 @@ class Country {
 
         } else {
 
-            console.log('turning off COUNTRY event monitor');
+            console.log('turning off COUNTRY event monitor', this);
 
             map.off('mousemove', 'countries-fills', e => this.mouse_enter_handler(e));
+
+            map.off('mouseleave', 'countries-fills', e => this.mouse_leave_handler(e));
                     
             map.off('click', 'countries-fills', e => this.click_handler(e));
 
@@ -442,6 +444,8 @@ class Country {
 
     render_country_subnational() {
 
+        console.log("Render country sub, ", this.country);
+
         if (this.country == "Argentina") {
 
             map.setPaintProperty(
@@ -487,6 +491,8 @@ class Country {
     }
 
     render_pais(pais) {
+
+        console.log("Render pais, ", pais);
 
         plot_country(pais, 50);
         update_breadcrumbs("pais", pais);
@@ -1156,9 +1162,9 @@ map.on("load", () => {
         }
     }); 
 
-    argentina = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "mapbox://tiagombp.d8u3a43g");
+    countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "mapbox://tiagombp.d8u3a43g");
 
-    argentina.monitor_events("on");
+    countries["Argentina"].monitor_events("on");
     //load_localidads_argentina();
     //load_provincias_argentina();
 
