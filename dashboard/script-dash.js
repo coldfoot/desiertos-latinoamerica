@@ -236,9 +236,7 @@ class Country {
         let coordinates = [
             ( bboxes[name][0] + bboxes[name][2] ) / 2,
             ( bboxes[name][1] + bboxes[name][3] ) / 2
-        ]
-
-        console.log(this);
+        ];
 
         this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
 
@@ -347,9 +345,9 @@ class Country {
 
             console.log('turning off COUNTRY event monitor');
 
-            map.off('mousemove', 'countries-fills', this.mouse_enter_handler);
+            map.off('mousemove', 'countries-fills', e => this.mouse_enter_handler(e));
                     
-            map.off('click', 'countries-fills', this.click_handler);
+            map.off('click', 'countries-fills', e => this.click_handler(e));
 
             this.hoveredStateId = null;
             
@@ -485,6 +483,19 @@ class Country {
             this.ut_maior.monitor_events("off");
 
         }
+
+    }
+
+    render_pais(pais) {
+
+        plot_country(pais, 50);
+        update_breadcrumbs("pais", pais);
+        update_infocard(pais);
+        update_country_button(pais);
+
+
+        this.render_country_subnational(pais); // os eventos do subnacional estao aqui dentro
+        this.monitor_events('off'); // desliga monitor de eventos no nível de país
 
     }
 }
@@ -708,11 +719,11 @@ class UTmaior {
 
             //dash.map.localidad.hoveredStateId = null;
 
-            map.on('mousemove', this.country + '-provincia', this.mouse_enter_handler);
+            map.on('mousemove', this.country + '-provincia', e => this.mouse_enter_handler(e));
 
-            map.on('mouseleave', this.country + '-provincia', this.mouse_leave_handler);
+            map.on('mouseleave', this.country + '-provincia', e => this.mouse_leave_handler(e));
 
-            map.on('click', this.country + '-provincia', this.click_event_handler);
+            map.on('click', this.country + '-provincia', e => this.click_event_handler(e));
 
             // como tem o layer aqui, dá para no handler pegar o e.features!
 
@@ -720,11 +731,11 @@ class UTmaior {
 
             //console.log('turning off province event monitor');
 
-            map.off('mousemove', this.country + '-provincia', this.mouse_enter_handler);
+            map.off('mousemove', this.country + '-provincia', e => this.mouse_enter_handler(e));
 
-            map.off('mouseleave', this.country + '-provincia', this.mouse_leave_handler);
+            map.off('mouseleave', this.country + '-provincia', e => this.mouse_leave_handler(e));
 
-            map.off('click', this.country + '-provincia', this.click_event_handler);
+            map.off('click', this.country + '-provincia', e => this.click_event_handler(e));
 
             //dash.map.province.hoveredStateId = null;
             
@@ -1020,11 +1031,11 @@ class UTmenor {
 
             this.hoveredStateId = null;
 
-            map.on('mousemove', this.country + '-localidad', this.mouse_enter_handler);
+            map.on('mousemove', this.country + '-localidad', e => this.mouse_enter_handler(e));
                     
-            map.on('mouseleave', this.country + '-localidad', this.mouse_leave_handler);
+            map.on('mouseleave', this.country + '-localidad', e => this.mouse_leave_handler(e));
 
-            map.on('click', this.country + '-localidad', this.click_event_handler);
+            map.on('click', this.country + '-localidad', e => this.click_event_handler(e));
 
             // como tem o layer aqui, dá para no handler pegar o e.features!
 
@@ -1032,11 +1043,11 @@ class UTmenor {
 
             //console.log('turning off localidad event monitor');
 
-            map.off('mousemove', this.country + '-localidad', this.mouse_enter_handler);
+            map.off('mousemove', this.country + '-localidad', e => this.mouse_enter_handler(e));
                     
-            map.off('mouseleave', this.country + '-localidad', this.mouse_leave_handler);
+            map.off('mouseleave', this.country + '-localidad', e => this.mouse_leave_handler(e));
 
-            map.off('click', this.country + '-localidad', this.click_event_handler);
+            map.off('click', this.country + '-localidad', e => this.click_event_handler(e));
 
             this.hoveredStateId = null;
             
@@ -1155,19 +1166,6 @@ map.on("load", () => {
 
 
 // talvez definir uma classe, e criar uma instância para nível geográfico
-
-function render_pais(pais) {
-
-    plot_country(pais, 50);
-    update_breadcrumbs("pais", pais);
-    update_infocard(pais);
-    update_country_button(pais);
-
-
-    render_country_subnational(pais); // os eventos do subnacional estao aqui dentro
-    monitor_events('off'); // desliga monitor de eventos no nível de país
-
-}
 
 
 
