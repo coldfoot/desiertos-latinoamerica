@@ -70,8 +70,8 @@ breadcrumbs.addEventListener("click", e => {
 
     const tipo = breadcrumb_clicado.dataset.breadcrumb;
 
-    if (tipo == "pais") render_pais(last_country);
-    if (tipo == "ut-maior") render_provincia_argentina(last_provincia_location_data.local);
+    if (tipo == "pais") countries[last_country].render_pais();
+    if (tipo == "ut-maior") countries[last_country].render_provincia_argentina(last_provincia_location_data.local);
     //if (tipo == "ut-menor") render_localidad_argentina(last_localidad_location_data.nam); // na verdade nao precisa fazer nada, já está no local
 
 })
@@ -445,7 +445,7 @@ class Country {
             // updates a provincia
             const provincia_features = map.queryRenderedFeatures(
                 { 
-                    layers: ['provincia'], 
+                    layers: [this.country + '-provincia'], 
                     filter : [
                         '==',
                         ['get', 'nam'],
@@ -477,42 +477,13 @@ class Country {
 
     render_country_subnational() {
 
-        console.log("Render country sub, ", this.country);
-
         if (["Argentina", "Chile"].includes(this.country)) {
 
-            if (this.country == "Argentina") {
-
-                map.setPaintProperty(
-                    this.country + '-localidad',
-                    'fill-color', 
-                    ['get', 'color_real']
-                );
-
-            } else {
-
-                map.setPaintProperty(
-                    this.country + '-localidad',
-                    'fill-color',
-                    [
-                        'match',
-                        ['get', 'CLASSIFICATION'],
-                        ...Object.keys(colors_css).flatMap(key => [key, colors_css[key]]),
-                        'gray'
-                    ]
-                );
-
-            }
-
-            map.setPaintProperty(
-                this.country + '-provincia-border-hover',
-                'line-color',
-                '#666'
-            );
+            this.paint_country_subnational("on");
 
             this.ut_maior.monitor_events("on");
+            this.ut_maior.toggle_hover_border(); // será que não teria que estar junto com o monitor_events do ut_maior
             this.ut_menor.monitor_events("off");
-
             this.ut_menor.toggle_borders("off");
             this.ut_maior.toggle_hightlight_border('');
             this.ut_menor.toggle_highlight('');
@@ -522,9 +493,53 @@ class Country {
 
             console.log("No data yet.")
 
+            this.ut_maior.monitor_events("off");
+
+        }
+
+
+    }
+
+    paint_country_subnational(mode) {
+
+        if (mode == "on") {
+
+            if (this.country == "Argentina") {
+
+                map.setPaintProperty(
+                    this.country + '-localidad',
+                    'fill-color', 
+                    ['get', 'color_real']
+                );
+
+                converte_cores_argentina();
+
+            } else {
+
+                map.setPaintProperty(
+                    this.country + '-localidad',
+                    'fill-color',
+                    [
+                        'match',
+                        ['get', 'CLASSIFICATION'],
+                        ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
+                        'gray'
+                    ]
+                );
+
+            }
+
+        } else {
+
             map.setPaintProperty(
                 this.country + '-localidad',
                 'fill-color', 
+                'transparent'
+            );
+
+            map.setPaintProperty(
+                this.country + '-provincia-border',
+                'line-color',
                 'transparent'
             );
 
@@ -534,8 +549,6 @@ class Country {
                 'transparent'
             );
 
-            this.ut_maior.monitor_events("off");
-
         }
 
     }
@@ -544,17 +557,12 @@ class Country {
 
         console.log(this.country + ' to clear')
 
-        map.setPaintProperty(
-            this.country + '-localidad',
-            'fill-color', 
-            'transparent'
-        );
+        this.paint_country_subnational("off");
 
-        map.setPaintProperty(
-            this.country + '-provincia-border-hover',
-            'line-color',
-            'transparent'
-        );
+        this.ut_menor.toggle_borders("off");
+        this.ut_maior.toggle_hightlight_border('');
+        this.ut_menor.toggle_highlight('');
+        this.ut_menor.monitor_events("off");
 
         this.ut_maior.monitor_events("off");
 
@@ -575,6 +583,7 @@ class Country {
 
         console.log( (pais != last_country) & (last_country != undefined), (pais != last_country), last_country, pais);
 
+        // troca de país
         if ( (pais != last_country) & (last_country != undefined) ) {
 
             console.log("Clear");
@@ -584,7 +593,6 @@ class Country {
         }
 
         last_country = pais;
-
 
     }
 }
@@ -686,6 +694,16 @@ class UTmaior {
                 ['get', 'nam'],
                 provincia
             ]
+        );
+
+    }
+
+    toggle_hover_border() {
+
+        map.setPaintProperty(
+            this.country + '-provincia-border-hover',
+            'line-color',
+            '#666'
         );
 
     }
@@ -1139,6 +1157,8 @@ class UTmenor {
             map.on('click', this.country + '-localidad', this._bound_click_handler);
 
         } else {
+
+            console.log("Turning off MONITORING for Localidads events in " + this.country)
 
             map.off('mousemove', this.country + '-localidad', this._bound_mouse_enter_handler);
 
