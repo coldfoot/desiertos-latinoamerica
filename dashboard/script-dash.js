@@ -171,7 +171,7 @@ function update_breadcrumbs(nivel, local) {
         bc_ut_menor.classList.add("breadcrumb-inativo");
         
         bc_country.textContent = local;
-        last_country = local;
+        //last_country = local;
     }
 
     if (nivel == "ut-maior") {
@@ -540,16 +540,51 @@ class Country {
 
     }
 
-    render_pais(pais) {
+    clear_country_subnational() {
+
+        console.log(this.country + ' to clear')
+
+        map.setPaintProperty(
+            this.country + '-localidad',
+            'fill-color', 
+            'transparent'
+        );
+
+        map.setPaintProperty(
+            this.country + '-provincia-border-hover',
+            'line-color',
+            'transparent'
+        );
+
+        this.ut_maior.monitor_events("off");
+
+    }
+
+    render_pais() {
+
+        const pais = this.country;
 
         plot_country(pais, 50);
         update_breadcrumbs("pais", pais);
         update_infocard(pais);
         update_country_button(pais);
 
-        console.log("Render pais, ", pais, this.country);
+        console.log("Render pais, ", pais, this.country, last_country);
         this.render_country_subnational(pais); // os eventos do subnacional estao aqui dentro
         countries_events.monitor_events('off'); // desliga monitor de eventos no nível de país
+
+        console.log( (pais != last_country) & (last_country != undefined), (pais != last_country), last_country, pais);
+
+        if ( (pais != last_country) & (last_country != undefined) ) {
+
+            console.log("Clear");
+            countries[last_country].clear_country_subnational();
+
+
+        }
+
+        last_country = pais;
+
 
     }
 }
