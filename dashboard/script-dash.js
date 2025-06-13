@@ -15,6 +15,28 @@ const colors_css = {
 
 const colours = Object.keys(colors_css);
 
+const cores_argentina = {
+    "#D27B51" : "desierto",
+    "#DAB28D" : "semidesierto",
+    "#EEC471" : "semibosque",
+    "#99A860" : "bosque"
+}
+
+function converte_cores_argentina() {
+    map.setPaintProperty(
+        "Argentina-localidad", 
+        "fill-color", 
+        [ "case",
+
+            ["==", ["get", "color_real"], "#D27B51"], "#F77A27", //desierto
+            ["==", ["get", "color_real"], "#DAB28D"], "#F8CB3E", //semidesierto 
+            ["==", ["get", "color_real"], "#EEC471"], "#82C45C", //semibosque 
+            ["==", ["get", "color_real"], "#99A860"], "#207001", //semibosque 
+            
+            "gray"
+        ])
+}
+
 function populate_colors() {
 
     const root = document.documentElement;
@@ -39,6 +61,7 @@ const current_place = {
     localidad : ''
 }
 
+// object that will hold the Country objects instances
 let countries = {};
 
 breadcrumbs.addEventListener("click", e => {
@@ -81,7 +104,7 @@ menu_pais.addEventListener("click", e => {
         
         const pais = div_pais.dataset.pais; 
 
-        countries[pais].render_pais(pais);
+        countries[pais].render_pais();
 
     }
 
@@ -196,17 +219,9 @@ function update_country_button(pais) {
 
 }
 
-class Country {
+class CountriesEvents {
 
-    popup;
-    hoveredStateId;
-
-    constructor(country_name, bbox_country, url_ut_maior, url_ut_menor) {
-
-        this.country = country_name;
-        this.bbox_country = bbox_country;
-        this.ut_maior = new UTmaior(country_name, url_ut_maior);
-        this.ut_menor = new UTmenor(country_name, url_ut_menor);
+    constructor() {
 
         this.popup = new mapboxgl.Popup(
 
@@ -271,7 +286,7 @@ class Country {
         );
     }
 
-    mouse_leave_handler() {
+    mouse_leave_handler(e) {
 
         map.getCanvas().style.cursor = '';
         this.popup.remove();
@@ -309,7 +324,7 @@ class Country {
 
         };
 
-        const pais = e.features[0].properties.country_name;
+        console.log(country);
 
         map.setFeatureState(
             { 
@@ -321,39 +336,57 @@ class Country {
             { hover : false }
         );
 
-        this.render_pais(pais)
+
+        countries[country].render_pais();
 
 
     }
 
     monitor_events(option) {
-        
+
+        // Bind handlers once and reuse them for on/off
+        if (!this._bound_mouse_enter_handler) {
+            this._bound_mouse_enter_handler = this.mouse_enter_handler.bind(this);
+            this._bound_mouse_leave_handler = this.mouse_leave_handler.bind(this);
+            this._bound_click_handler = this.click_handler.bind(this);
+        }
+
         if (option == 'on') {
 
             console.log('MONITORING COUNTRY EVENTS');
 
             this.hoveredStateId = null;
 
-            map.on('mousemove', 'countries-fills', e => this.mouse_enter_handler(e));
-                    
-            map.on('mouseleave', 'countries-fills', e => this.mouse_leave_handler(e));
-
-            map.on('click', 'countries-fills', e => this.click_handler(e));
-
+            map.on('mousemove', 'countries-fills', this._bound_mouse_enter_handler);
+            map.on('mouseleave', 'countries-fills', this._bound_mouse_leave_handler);
+            map.on('click', 'countries-fills', this._bound_click_handler);
 
         } else {
 
-            console.log('turning off COUNTRY event monitor', this);
+            console.log('turning off COUNTRY event monitor');
 
-            map.off('mousemove', 'countries-fills', e => this.mouse_enter_handler(e));
-
-            map.off('mouseleave', 'countries-fills', e => this.mouse_leave_handler(e));
-                    
-            map.off('click', 'countries-fills', e => this.click_handler(e));
+            map.off('mousemove', 'countries-fills', this._bound_mouse_enter_handler);
+            map.off('mouseleave', 'countries-fills', this._bound_mouse_leave_handler);
+            map.off('click', 'countries-fills', this._bound_click_handler);
 
             this.hoveredStateId = null;
-            
+
         }
+
+    }
+
+}
+
+const countries_events = new CountriesEvents();
+
+class Country {
+
+    constructor(country_name, bbox_country, url_ut_maior, source_layer_ut_maior, url_ut_menor, source_layer_ut_menor) {
+
+        this.country = country_name;
+        this.bbox_country = bbox_country;
+        this.ut_maior = new UTmaior(country_name, url_ut_maior, source_layer_ut_maior);
+        this.ut_menor = new UTmenor(country_name, url_ut_menor, source_layer_ut_menor);
 
     }
 
@@ -446,13 +479,30 @@ class Country {
 
         console.log("Render country sub, ", this.country);
 
-        if (this.country == "Argentina") {
+        if (["Argentina", "Chile"].includes(this.country)) {
 
-            map.setPaintProperty(
-                this.country + '-localidad',
-                'fill-color', 
-                ['get', 'color_real']
-            );
+            if (this.country == "Argentina") {
+
+                map.setPaintProperty(
+                    this.country + '-localidad',
+                    'fill-color', 
+                    ['get', 'color_real']
+                );
+
+            } else {
+
+                map.setPaintProperty(
+                    this.country + '-localidad',
+                    'fill-color',
+                    [
+                        'match',
+                        ['get', 'CLASSIFICATION'],
+                        ...Object.keys(colors_css).flatMap(key => [key, colors_css[key]]),
+                        'gray'
+                    ]
+                );
+
+            }
 
             map.setPaintProperty(
                 this.country + '-provincia-border-hover',
@@ -473,13 +523,13 @@ class Country {
             console.log("No data yet.")
 
             map.setPaintProperty(
-                'localidad',
+                this.country + '-localidad',
                 'fill-color', 
                 'transparent'
             );
 
             map.setPaintProperty(
-                'provincia-border-hover',
+                this.country + '-provincia-border-hover',
                 'line-color',
                 'transparent'
             );
@@ -492,16 +542,14 @@ class Country {
 
     render_pais(pais) {
 
-        console.log("Render pais, ", pais);
-
         plot_country(pais, 50);
         update_breadcrumbs("pais", pais);
         update_infocard(pais);
         update_country_button(pais);
 
-
+        console.log("Render pais, ", pais, this.country);
         this.render_country_subnational(pais); // os eventos do subnacional estao aqui dentro
-        this.monitor_events('off'); // desliga monitor de eventos no nível de país
+        countries_events.monitor_events('off'); // desliga monitor de eventos no nível de país
 
     }
 }
@@ -513,11 +561,12 @@ class UTmaior {
     hoveredStateId;
     popup;
 
-    constructor(country, url) {
+    constructor(country, url, source_layer_name) {
 
         this.country = country;
+        this.source_layer_name = source_layer_name
 
-        this.load(country, url);
+        this.load(country, url, source_layer_name);
 
         this.hoveredStateId = null;
 
@@ -530,7 +579,7 @@ class UTmaior {
 
     }
 
-    load(country, url) {
+    load(country, url, source_layer_name) {
 
         map.addSource(country + '-provincia', {
             type: 'vector',
@@ -542,7 +591,7 @@ class UTmaior {
             'id': country + '-provincia',
             'type': 'fill',
             'source': country + '-provincia',
-            'source-layer': 'provincia', // isso vai estar hardcoded no mapbox
+            'source-layer': source_layer_name, // isso vai estar hardcoded no mapbox
             'layout': {},
             'paint': {
                 'fill-color': 'transparent',
@@ -563,7 +612,7 @@ class UTmaior {
             'id': country + '-provincia-border-hover',
             'type': 'line',
             'source': country + '-provincia',
-            'source-layer': 'provincia',
+            'source-layer': source_layer_name,
             'layout': {},
             'paint': {
                 'line-color': 'transparent',
@@ -584,7 +633,7 @@ class UTmaior {
             'id': country + '-provincia-border',
             'type': 'line',
             'source': country + '-provincia',
-            'source-layer': 'provincia',
+            'source-layer': source_layer_name,
             'layout': {},
             'paint': {
                 'line-color': 'black',
@@ -624,7 +673,7 @@ class UTmaior {
             map.setFeatureState(
                 { 
                     source: this.country + '-provincia',
-                    sourceLayer: 'provincia',
+                    sourceLayer: this.source_layer_name,
                     id: this.hoveredStateId
                 },
 
@@ -638,7 +687,7 @@ class UTmaior {
         map.setFeatureState(
             { 
                 source: this.country + '-provincia',
-                sourceLayer: 'provincia',
+                sourceLayer: this.source_layer_name,
                 id: this.hoveredStateId
             },
 
@@ -659,7 +708,7 @@ class UTmaior {
             map.setFeatureState(
                 { 
                     source: this.country + '-provincia', 
-                    sourceLayer: 'provincia',
+                    sourceLayer: this.source_layer_name,
                     id: this.hoveredStateId 
                 },
 
@@ -695,18 +744,25 @@ class UTmaior {
         map.setFeatureState(
             { 
                 source: this.country + '-provincia',
-                sourceLayer: 'provincia',
+                sourceLayer: this.source_layer_name,
                 id: province_name
             },
 
             { hover : false }
         );
 
-        render_provincia_argentina(province_name);
+        countries[this.country].render_provincia_argentina(province_name);
 
     }
 
     monitor_events(option) {
+
+        // Bind handlers once and reuse them for on/off
+        if (!this._bound_mouse_enter_handler) {
+            this._bound_mouse_enter_handler = this.mouse_enter_handler.bind(this);
+            this._bound_mouse_leave_handler = this.mouse_leave_handler.bind(this);
+            this._bound_click_handler = this.click_event_handler.bind(this);
+        }
 
         if (option == 'on') {
 
@@ -715,7 +771,7 @@ class UTmaior {
                 map.setFeatureState(
                     { 
                         source: this.country + '-provincia',
-                        sourceLayer: 'provincia',
+                        sourceLayer: this.source_layer_name,
                         id: this.hoveredStateId 
                     },
 
@@ -723,28 +779,20 @@ class UTmaior {
                 );
             }
 
-            //dash.map.localidad.hoveredStateId = null;
+            map.on('mousemove', this.country + '-provincia', this._bound_mouse_enter_handler);
 
-            map.on('mousemove', this.country + '-provincia', e => this.mouse_enter_handler(e));
+            map.on('mouseleave', this.country + '-provincia', this._bound_mouse_leave_handler);
 
-            map.on('mouseleave', this.country + '-provincia', e => this.mouse_leave_handler(e));
-
-            map.on('click', this.country + '-provincia', e => this.click_event_handler(e));
-
-            // como tem o layer aqui, dá para no handler pegar o e.features!
+            map.on('click', this.country + '-provincia', this._bound_click_handler);
 
         } else {
 
-            //console.log('turning off province event monitor');
+            map.off('mousemove', this.country + '-provincia', this._bound_mouse_enter_handler);
 
-            map.off('mousemove', this.country + '-provincia', e => this.mouse_enter_handler(e));
+            map.off('mouseleave', this.country + '-provincia', this._bound_mouse_leave_handler);
 
-            map.off('mouseleave', this.country + '-provincia', e => this.mouse_leave_handler(e));
+            map.off('click', this.country + '-provincia', this._bound_click_handler);
 
-            map.off('click', this.country + '-provincia', e => this.click_event_handler(e));
-
-            //dash.map.province.hoveredStateId = null;
-            
         }
 
     }
@@ -758,11 +806,12 @@ class UTmenor {
     hoveredStateId;
     popup;
 
-    constructor(country, url) {
+    constructor(country, url, source_layer_name) {
 
         this.country = country;
+        this.source_layer_name = source_layer_name;
 
-        this.load(country, url);
+        this.load(country, url, source_layer_name);
 
         this.hoveredStateId = null;
 
@@ -775,11 +824,11 @@ class UTmenor {
 
     }
 
-    load(country, url) {
+    load(country, url, source_layer_name) {
 
         map.addSource(country + '-localidad', {
             type: 'vector',
-            url : 'mapbox://tiagombp.d8u3a43g',
+            url : url,
             'promoteId' : 'randId'
         });
 
@@ -787,7 +836,7 @@ class UTmenor {
             'id': country + '-localidad',
             'type': 'fill',
             'source': country + '-localidad',
-            'source-layer': 'localidad',
+            'source-layer': source_layer_name,
             'layout': {},
             'paint': {
                 'fill-color': 'transparent',
@@ -809,7 +858,7 @@ class UTmenor {
             'id': country + '-localidad-border-hover',
             'type': 'line',
             'source': country + '-localidad',
-            'source-layer': 'localidad',
+            'source-layer': source_layer_name,
             'layout': {},
             'paint': {
                 'line-color': [
@@ -839,7 +888,7 @@ class UTmenor {
             'id': country + '-localidad-border',
             'type': 'line',
             'source': country + '-localidad',
-            'source-layer': 'localidad',
+            'source-layer': source_layer_name,
             'layout': {},
             'paint': {
                 'line-color': '#666',
@@ -851,7 +900,7 @@ class UTmenor {
             'id': country + '-localidad-highlight',
             'type': 'line',
             'source': country + '-localidad',
-            'source-layer': 'localidad',
+            'source-layer': source_layer_name,
             'layout': {},
             'paint': {
                 'line-color': 'black',
@@ -1031,36 +1080,42 @@ class UTmenor {
 
     monitor_events(option) {
 
-        if (option == 'on') {
+        // Bind handlers once and reuse them for on/off
+        // Otherwise I couldn't use the `this` reference inside the handler functions, because if I 
+        // use arrow functions in the .on, .off handlers, JS will create a new function each time
+        // I would not be able to turn the event listener off.
+        //
+        // Since all properties that reference the handlers are created together, I just need to check one of them.
+        // the .bind(this) sorta passes the `this` object (that refers to the class instance object) to the event handler function
+        if (!this._bound_mouse_enter_handler) {
+            this._bound_mouse_enter_handler = this.mouse_enter_handler.bind(this);
+            this._bound_mouse_leave_handler = this.mouse_leave_handler.bind(this);
+            this._bound_click_handler = this.click_event_handler.bind(this);
+        }
 
-            //console.log('MONITORING LOCALIDAD EVENTS');
+        if (option == 'on') {
 
             this.hoveredStateId = null;
 
-            map.on('mousemove', this.country + '-localidad', e => this.mouse_enter_handler(e));
-                    
-            map.on('mouseleave', this.country + '-localidad', e => this.mouse_leave_handler(e));
+            map.on('mousemove', this.country + '-localidad', this._bound_mouse_enter_handler);
 
-            map.on('click', this.country + '-localidad', e => this.click_event_handler(e));
+            map.on('mouseleave', this.country + '-localidad', this._bound_mouse_leave_handler);
 
-            // como tem o layer aqui, dá para no handler pegar o e.features!
+            map.on('click', this.country + '-localidad', this._bound_click_handler);
 
         } else {
 
-            //console.log('turning off localidad event monitor');
+            map.off('mousemove', this.country + '-localidad', this._bound_mouse_enter_handler);
 
-            map.off('mousemove', this.country + '-localidad', e => this.mouse_enter_handler(e));
-                    
-            map.off('mouseleave', this.country + '-localidad', e => this.mouse_leave_handler(e));
+            map.off('mouseleave', this.country + '-localidad', this._bound_mouse_leave_handler);
 
-            map.off('click', this.country + '-localidad', e => this.click_event_handler(e));
+            map.off('click', this.country + '-localidad', this._bound_click_handler);
 
             this.hoveredStateId = null;
-            
+
         }
 
     }
-
     click_event_handler(e) {
 
 
@@ -1090,7 +1145,7 @@ class UTmenor {
 
         map.setFeatureState(
             { 
-                source: 'localidad',
+                source: this.country + '-localidad',
                 sourceLayer: 'localidad',
                 id: id
             },
@@ -1098,7 +1153,7 @@ class UTmenor {
             { hover : false }
         );
 
-        render_localidad_argentina(last_localidad_location_data.nam);
+        countries[this.country].render_localidad_argentina(last_localidad_location_data.nam);
 
     }
 
@@ -1106,11 +1161,11 @@ class UTmenor {
 
         if (option == 'off') {
 
-            dash.map_obj.setPaintProperty('localidad', 'fill-opacity', 1);
+            dash.map_obj.setPaintProperty(this.country + '-localidad', 'fill-opacity', 1);
 
         } else {
 
-            dash.map_obj.setPaintProperty('localidad', 'fill-opacity', [
+            dash.map_obj.setPaintProperty(this.country + '-localidad', 'fill-opacity', [
                 'case',
                 [
                     'boolean', 
@@ -1126,6 +1181,7 @@ class UTmenor {
 
 }
 
+// main function
 map.on("load", () => {
 
     map.addLayer({
@@ -1162,11 +1218,10 @@ map.on("load", () => {
         }
     }); 
 
-    countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "mapbox://tiagombp.d8u3a43g");
+    countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "provincia", "mapbox://tiagombp.d8u3a43g", "localidad");
+    countries["Chile"]     = new Country("Chile", "", "mapbox://tiagombp.af5egui6", "larger-units-chile-ctx9m7", "mapbox://tiagombp.5gi1do4b", "smaller-units-chile-81ipdl")
 
-    countries["Argentina"].monitor_events("on");
-    //load_localidads_argentina();
-    //load_provincias_argentina();
+    countries_events.monitor_events("on");
 
 })
 

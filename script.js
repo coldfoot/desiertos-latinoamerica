@@ -138,8 +138,6 @@ function init() {
 
     const dashboard = root.dataset.page;
 
-    let menu_paises;
-
     if (!dashboard) menu_paises = new MenuPaises(".menu-paises");
 
     const countries = ["Argentina", "Colombia", "Peru", "Chile", "Mexico"];
@@ -153,8 +151,6 @@ function init() {
         center: [-76.8, -4.48],
         zoom: 2
     });
-    
-    let hoveredPolygonId = null;
 
     map.on('load', () => {
 
