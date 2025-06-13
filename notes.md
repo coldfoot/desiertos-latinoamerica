@@ -17,6 +17,12 @@ Menu paisage
 Ter uma variável "local", com todos os dados para os breadcrumbs
 E ter uma função `render_place()`, por exemplo.
 
+# Úteis
+
+```js
+map.queryRenderedFeatures({ layers: ['Chile-localidad'], }).map(d => d.properties.CLASSIFICATION).filter((d,i,a) => a.indexOf(d) == i)
+```
+
 # Data structures
 
 Mais organizado ou flat?
@@ -117,4 +123,14 @@ Mudar bbox para América do Sul?
 remover textos do estilo?
 Reflow quando hover nos itens do menu de paises do dashboard
 Flashes no mapa? Que diabo é isso?
+Incluir tipo na argentina.
+Por a camada do hover acima.
+
+# Perguntas
+
+Faz sentido ter o botão de tipo de terreno na visão global de todos os países juntos?
+
+# Problemas
+
+Monitor de eventos não parece estar sendo desligado
 
