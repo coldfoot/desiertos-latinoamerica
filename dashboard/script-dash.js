@@ -445,14 +445,34 @@ class Country {
 
     render_localidad_argentina(localidad) { // desnecessario o argumento, melhorar
 
-        const bbox_localidad = [
-            last_localidad_location_data.xmin, last_localidad_location_data.ymin,
-            last_localidad_location_data.xmax, last_localidad_location_data.ymax
-        ];  
+
+
+
+        let bbox_provincia;
+
+        /*
+        if (this.country == "Argentina") {
+
+            bbox_localidad = [
+                last_localidad_location_data.xmin, last_localidad_location_data.ymin,
+                last_localidad_location_data.xmax, last_localidad_location_data.ymax
+            ];
+
+        } */
+
+        // o mapa vai ficar centrado na PROVINCIA da Localidad.
+        const features = map.queryRenderedFeatures({ layers: [this.country + '-provincia'] });
+        console.log(features, this.ut_menor.key_id, last_localidad_location_data, );
+
+        // pode acontecer de retornar mais de um feature
+        const desired_feature = features.filter(d => d.properties[this.ut_maior.key_name] == last_localidad_location_data[this.ut_menor.key_parent])[0];
+
+        
+        bbox_provincia = turf.bbox(desired_feature);
 
         map.fitBounds(
 
-            bbox_localidad, 
+            bbox_provincia, 
 
             {
                 linear : false, // false means the map transitions using map.flyTo()
