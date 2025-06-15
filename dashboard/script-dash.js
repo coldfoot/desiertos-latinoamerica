@@ -73,8 +73,8 @@ breadcrumbs.addEventListener("click", e => {
     let provincia_id = last_country == "Argentina" ? 'nam' : 'KEY';
 
     if (tipo == "pais") countries[last_country].render_pais();
-    if (tipo == "ut-maior") countries[last_country].render_provincia_argentina(last_provincia_location_data[provincia_id]);
-    //if (tipo == "ut-menor") render_localidad_argentina(last_localidad_location_data[this.key_name]); // na verdade nao precisa fazer nada, já está no local
+    if (tipo == "ut-maior") countries[last_country].render_provincia(last_provincia_location_data[provincia_id]);
+    //if (tipo == "ut-menor") render_localidad(last_localidad_location_data[this.key_name]); // na verdade nao precisa fazer nada, já está no local
 
 })
 
@@ -392,7 +392,7 @@ class Country {
 
     }
 
-    render_provincia_argentina(provincia) { // desnecessario o argumento, melhorar
+    render_provincia(provincia) { // desnecessario o argumento, melhorar
 
 
         update_breadcrumbs('ut-maior', provincia);
@@ -405,21 +405,30 @@ class Country {
 
         } else {
 
-            const features = map.queryRenderedFeatures({ layers: [this.country + '-provincia'] });
-            console.log(features, last_provincia_location_data, this.ut_maior.key_id);
-            const desired_feature = features.filter(d => d.properties[this.ut_maior.key_id] == last_provincia_location_data[this.ut_maior.key_id])[0];
-            console.log(desired_feature);
-            bbox_provincia = turf.bbox(desired_feature);
-            
-            last_provincia_location_data["bbox"] = bbox_provincia;
+            if (this.country == "Chile") {
+
+                const provincia_data = main_data.larger_units.filter(d => d.NAME == provincia)[0];
+                console.log(provincia, provincia_data);
+
+                bbox_provincia = [
+                    provincia_data.bbox.minx, provincia_data.bbox.miny,
+                    provincia_data.bbox.maxx, provincia_data.bbox.maxy
+                ]; 
+
+            } else {
+                        
+                bbox_provincia = [
+                    last_provincia_location_data.xmin, last_provincia_location_data.ymin,
+                    last_provincia_location_data.xmax, last_provincia_location_data.ymax
+                ]; 
+
+            }
+
+            last_provincia_location_data.bbox = bbox_provincia;
 
         }
 
-        /*
-        const bbox_provincia = [
-            last_provincia_location_data.xmin, last_provincia_location_data.ymin,
-            last_provincia_location_data.xmax, last_provincia_location_data.ymax
-        ];  */
+
 
         map.fitBounds(
 
@@ -443,32 +452,29 @@ class Country {
 
     }
 
-    render_localidad_argentina(localidad) { // desnecessario o argumento, melhorar
-
-
-
+    render_localidad(localidad) { // desnecessario o argumento, melhorar
 
         let bbox_provincia;
 
-        /*
         if (this.country == "Argentina") {
 
-            bbox_localidad = [
+            bbox_provincia = [
                 last_localidad_location_data.xmin, last_localidad_location_data.ymin,
                 last_localidad_location_data.xmax, last_localidad_location_data.ymax
             ];
 
-        } */
+        } else {
 
-        // o mapa vai ficar centrado na PROVINCIA da Localidad.
-        const features = map.queryRenderedFeatures({ layers: [this.country + '-provincia'] });
-        console.log(features, this.ut_menor.key_id, last_localidad_location_data, );
+            const provincia_data = main_data.larger_units.filter(d => d.NAME == last_localidad_location_data[this.ut_menor.key_parent])[0];
+    
+            console.log(provincia_data);
 
-        // pode acontecer de retornar mais de um feature
-        const desired_feature = features.filter(d => d.properties[this.ut_maior.key_name] == last_localidad_location_data[this.ut_menor.key_parent])[0];
+            bbox_provincia = [
+                provincia_data.bbox.minx, provincia_data.bbox.miny,
+                provincia_data.bbox.maxx, provincia_data.bbox.maxy
+            ]; 
 
-        
-        bbox_provincia = turf.bbox(desired_feature);
+        }
 
         map.fitBounds(
 
@@ -497,7 +503,7 @@ class Country {
             );
 
             last_provincia_location_data = provincia_features[0].properties;
-            last_provincia_location_data.bbox = turf.bbox(provincia_features[0]);
+            last_provincia_location_data.bbox = bbox_provincia;
             console.log(last_provincia_location_data.bbox);
 
             update_breadcrumbs('ut-maior', last_localidad_location_data[this.ut_menor.key_parent]);
@@ -862,7 +868,7 @@ class UTmaior {
             { hover : false }
         );
 
-        countries[this.country].render_provincia_argentina(province_name);
+        countries[this.country].render_provincia(province_name);
 
     }
 
@@ -1287,7 +1293,7 @@ class UTmenor {
             { hover : false }
         );
 
-        countries[this.country].render_localidad_argentina(last_localidad_location_data[this.key_name]);
+        countries[this.country].render_localidad(last_localidad_location_data[this.key_name]);
 
     }
 
@@ -1315,47 +1321,55 @@ class UTmenor {
 
 }
 
+let main_data;
+
 // main function
 map.on("load", () => {
 
-    map.addLayer({
+    fetch("../chile.json").then(response => response.json()).then(data => {
 
-        'id': 'countries-border-hover',
-        'type': 'line',
-        'source': 'countries',
-        'source-layer' : 'data-blt69d',
-        'layout': {},
+        main_data = data;
 
-        'paint': {
+        map.addLayer({
 
-            'line-color': [
-            'case',
-            [
-                'boolean', 
-                ['feature-state', 'hover'], 
-                false
+            'id': 'countries-border-hover',
+            'type': 'line',
+            'source': 'countries',
+            'source-layer' : 'data-blt69d',
+            'layout': {},
+
+            'paint': {
+
+                'line-color': [
+                'case',
+                [
+                    'boolean', 
+                    ['feature-state', 'hover'], 
+                    false
+                ],
+                '#212121',
+                '#666'
             ],
-            '#212121',
-            '#666'
-        ],
 
-            'line-width': [
-            'case',
-            [
-                'boolean', 
-                ['feature-state', 'hover'], 
-                false
-            ],
-            3,
-            0
-        ]
-        }
-    }); 
+                'line-width': [
+                'case',
+                [
+                    'boolean', 
+                    ['feature-state', 'hover'], 
+                    false
+                ],
+                3,
+                0
+            ]
+            }
+        }); 
 
-    countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "provincia", "mapbox://tiagombp.d8u3a43g", "localidad");
-    countries["Chile"]     = new Country("Chile", "", "mapbox://tiagombp.af5egui6", "larger-units-chile-ctx9m7", "mapbox://tiagombp.5gi1do4b", "smaller-units-chile-81ipdl")
+        countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "provincia", "mapbox://tiagombp.d8u3a43g", "localidad");
+        countries["Chile"]     = new Country("Chile", "", "mapbox://tiagombp.af5egui6", "larger-units-chile-ctx9m7", "mapbox://tiagombp.5gi1do4b", "smaller-units-chile-81ipdl")
 
-    countries_events.monitor_events("on");
+        countries_events.monitor_events("on");
+        
+    })
 
 })
 
