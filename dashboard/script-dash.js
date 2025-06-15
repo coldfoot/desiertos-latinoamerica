@@ -1196,7 +1196,14 @@ class UTmenor {
             this._bound_click_handler = this.click_event_handler.bind(this);
         }
 
+        // to avoid duplicating the listeners;
+        if (this.last_option == option) return;
+
+        this.last_option = option;
+
         if (option == 'on') {
+
+            console.log("Turning on MONITORING for LOCALIDADS in " + this.country);
 
             this.hoveredStateId = null;
 
@@ -1208,7 +1215,7 @@ class UTmenor {
 
         } else {
 
-            console.log("Turning off MONITORING for Localidads events in " + this.country)
+            console.log("Turning off MONITORING for LOCALIDAS events in " + this.country)
 
             map.off('mousemove', this.country + '-localidad', this._bound_mouse_enter_handler);
 
