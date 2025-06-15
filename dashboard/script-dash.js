@@ -70,9 +70,11 @@ breadcrumbs.addEventListener("click", e => {
 
     const tipo = breadcrumb_clicado.dataset.breadcrumb;
 
+    let provincia_id = last_country == "Argentina" ? 'nam' : 'KEY';
+
     if (tipo == "pais") countries[last_country].render_pais();
-    if (tipo == "ut-maior") countries[last_country].render_provincia_argentina(last_provincia_location_data.local);
-    //if (tipo == "ut-menor") render_localidad_argentina(last_localidad_location_data.nam); // na verdade nao precisa fazer nada, já está no local
+    if (tipo == "ut-maior") countries[last_country].render_provincia_argentina(last_provincia_location_data[provincia_id]);
+    //if (tipo == "ut-menor") render_localidad_argentina(last_localidad_location_data[this.key_name]); // na verdade nao precisa fazer nada, já está no local
 
 })
 
@@ -395,10 +397,29 @@ class Country {
 
         update_breadcrumbs('ut-maior', provincia);
 
+        let bbox_provincia;
+
+        if (last_provincia_location_data.bbox) {
+
+            bbox_provincia = last_provincia_location_data.bbox;
+
+        } else {
+
+            const features = map.queryRenderedFeatures({ layers: [this.country + '-provincia'] });
+            console.log(features, last_provincia_location_data, this.ut_maior.key_id);
+            const desired_feature = features.filter(d => d.properties[this.ut_maior.key_id] == last_provincia_location_data[this.ut_maior.key_id])[0];
+            console.log(desired_feature);
+            bbox_provincia = turf.bbox(desired_feature);
+            
+            last_provincia_location_data["bbox"] = bbox_provincia;
+
+        }
+
+        /*
         const bbox_provincia = [
             last_provincia_location_data.xmin, last_provincia_location_data.ymin,
             last_provincia_location_data.xmax, last_provincia_location_data.ymax
-        ];  
+        ];  */
 
         map.fitBounds(
 
@@ -441,22 +462,25 @@ class Country {
         );
 
         // no caso de o usuário clicar numa localidade de outra provincia!
-        if (last_localidad_location_data.provincia != last_provincia_location_data.nam) {
+        if (last_localidad_location_data[this.ut_menor.key_parent] != last_provincia_location_data[this.ut_maior.key_name]) {
             // updates a provincia
+
             const provincia_features = map.queryRenderedFeatures(
                 { 
                     layers: [this.country + '-provincia'], 
                     filter : [
                         '==',
-                        ['get', 'nam'],
-                        last_localidad_location_data.provincia
+                        ['get', this.ut_maior.key_name],
+                        last_localidad_location_data[this.ut_menor.key_parent]
                     ] 
                 }
             );
 
             last_provincia_location_data = provincia_features[0].properties;
+            last_provincia_location_data.bbox = turf.bbox(provincia_features[0]);
+            console.log(last_provincia_location_data.bbox);
 
-            update_breadcrumbs('ut-maior', last_provincia_location_data.local);
+            update_breadcrumbs('ut-maior', last_localidad_location_data[this.ut_menor.key_parent]);
 
 
         }
@@ -464,7 +488,7 @@ class Country {
         update_breadcrumbs('ut-menor', localidad);
 
         this.ut_menor.toggle_borders("on");
-        this.ut_maior.toggle_hightlight_border(last_provincia_location_data.local);
+        this.ut_maior.toggle_hightlight_border(last_provincia_location_data[this.ut_maior.key_name]);
 
         this.ut_menor.toggle_highlight(localidad);
 
@@ -607,7 +631,19 @@ class UTmaior {
     constructor(country, url, source_layer_name) {
 
         this.country = country;
-        this.source_layer_name = source_layer_name
+        this.source_layer_name = source_layer_name;
+
+        if (this.country == "Argentina") {
+
+            this.key_id = 'nam';
+            this.key_name = 'local';
+
+        } else {
+
+            this.key_id = 'KEY';
+            this.key_name = 'NAME';
+
+        }
 
         this.load(country, url, source_layer_name);
 
@@ -627,7 +663,7 @@ class UTmaior {
         map.addSource(country + '-provincia', {
             type: 'vector',
             url : url,
-            'promoteId' : 'nam'
+            'promoteId' : this.key_id
         });
 
         map.addLayer({
@@ -691,7 +727,7 @@ class UTmaior {
         map.setFilter(
             this.country + '-provincia-border', [
                 '==',
-                ['get', 'nam'],
+                ['get', this.key_name],
                 provincia
             ]
         );
@@ -716,7 +752,7 @@ class UTmaior {
             e.features[0].properties.yc
         ]; 
 
-        let name = e.features[0].properties.nam;
+        let name = e.features[0].properties[this.key_name];
 
         this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
 
@@ -735,7 +771,7 @@ class UTmaior {
 
         }
 
-        this.hoveredStateId = e.features[0].properties.nam;
+        this.hoveredStateId = e.features[0].properties[this.key_name];
 
         map.setFeatureState(
             { 
@@ -774,14 +810,14 @@ class UTmaior {
 
     click_event_handler(e) {
 
-        const province_name = e.features[0].properties.nam;
+        const province_name = e.features[0].properties[this.key_name];
 
         last_provincia_location_data = e.features[0].properties;
 
         console.log(last_provincia_location_data);
 
         /* Para evitar re-renderizar quando clica na mesma província
-        if (province_name != current_place.provincia) {
+        if (province_name != current_place[this.key_parent]) {
 
             const local = {
 
@@ -864,6 +900,20 @@ class UTmenor {
         this.country = country;
         this.source_layer_name = source_layer_name;
 
+        if (this.country == "Argentina") {
+
+            this.key_id = 'randId';
+            this.key_name = 'nam';
+            this.key_parent = 'provincia'
+
+        } else {
+
+            this.key_id = 'KEY';
+            this.key_name = 'NAME';
+            this.key_parent = 'PARENT';
+
+        }
+
         this.load(country, url, source_layer_name);
 
         this.hoveredStateId = null;
@@ -882,7 +932,7 @@ class UTmenor {
         map.addSource(country + '-localidad', {
             type: 'vector',
             url : url,
-            'promoteId' : 'randId'
+            'promoteId' : this.key_id
         });
 
         map.addLayer({
@@ -958,7 +1008,7 @@ class UTmenor {
             'paint': {
                 'line-color': 'black',
                 'line-width': 3,
-            }, 'filter': ['==', 'local', '']
+            }, 'filter': ['==', this.key_id, '']
         }); 
 
     }
@@ -969,12 +1019,12 @@ class UTmenor {
         let local;
 
         if (localidad == '') local = localidad;
-        else local = last_localidad_location_data.local;
+        else local = last_localidad_location_data[this.key_id];
 
         map.setFilter(
             this.country + '-localidad-highlight', [
                 '==',
-                ['get', 'local'],
+                ['get', this.key_id],
                 local
             ]
         );
@@ -987,7 +1037,7 @@ class UTmenor {
                 'case',
                 [
                     '==',
-                    ['get', 'local'],
+                    ['get', this.key_id],
                     local
                 ],
                 1,
@@ -1060,7 +1110,7 @@ class UTmenor {
             e.features[0].properties.yc
         ]; //e.features[0].geometry.coordinates.slice();
 
-        let name = e.features[0].properties.nam;
+        let name = e.features[0].properties[this.key_name];
 
         //console.log('mouse enter fired ', coordinates, name);
             
@@ -1094,7 +1144,7 @@ class UTmenor {
 
         }
 
-        this.hoveredStateId = e.features[0].properties.randId;
+        this.hoveredStateId = e.features[0].properties[this.key_id];
 
         map.setFeatureState(
             { 
@@ -1174,9 +1224,9 @@ class UTmenor {
     click_event_handler(e) {
 
 
-        const localidad = e.features[0].properties.local; //feature.properties.local;
-        const localidad_name = e.features[0].properties.nam;
-        const provincia = e.features[0].properties.provincia; //feature.properties.provincia;
+        //const localidad = e.features[0].properties.local; //feature.properties.local;
+        const localidad_name = e.features[0].properties[this.key_name];
+        const provincia = e.features[0].properties[this.key_parent]; //feature.properties[this.key_parent];
 
         last_localidad_location_data = e.features[0].properties; // isso aqui provavelmente vai fazer todo o resto ser desnecessário
 
@@ -1184,7 +1234,7 @@ class UTmenor {
 
         const local = {
 
-            local : localidad,
+            //local : localidad,
             tipo  : "localidad",
             text  : localidad_name,
             provincia : provincia
@@ -1196,7 +1246,7 @@ class UTmenor {
         // clears hover featureState
         // o id da localidad é o randId. Só ver o 'promoteId' no addSource lá em cima.
 
-        const id = e.features[0].properties.randId;
+        const id = e.features[0].properties[this.key_id];
 
         map.setFeatureState(
             { 
@@ -1208,7 +1258,7 @@ class UTmenor {
             { hover : false }
         );
 
-        countries[this.country].render_localidad_argentina(last_localidad_location_data.nam);
+        countries[this.country].render_localidad_argentina(last_localidad_location_data[this.key_name]);
 
     }
 
