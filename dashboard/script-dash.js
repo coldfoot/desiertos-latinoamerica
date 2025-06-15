@@ -28,10 +28,10 @@ function converte_cores_argentina() {
         "fill-color", 
         [ "case",
 
-            ["==", ["get", "color_real"], "#D27B51"], "#F77A27", //desierto
-            ["==", ["get", "color_real"], "#DAB28D"], "#F8CB3E", //semidesierto 
-            ["==", ["get", "color_real"], "#EEC471"], "#82C45C", //semibosque 
-            ["==", ["get", "color_real"], "#99A860"], "#207001", //semibosque 
+            ["==", ["get", "color_real"], "#D27B51"], "#F6CEAB", //desierto
+            ["==", ["get", "color_real"], "#DAB28D"], "#EEAE7F", //semidesierto 
+            ["==", ["get", "color_real"], "#EEC471"], "#85A573", //semibosque 
+            ["==", ["get", "color_real"], "#99A860"], "#688E50", //semibosque 
             
             "gray"
         ])

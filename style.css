@@ -7,15 +7,15 @@
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
     font-family: 'Roboto Condensed', sans-serif;
-    --color-bg: #FBF3E4;
+    --color-bg: #F9F1E3;
     --color-accent: #FF571D;
     --color-text: #333;
     --color-map: #e7e7e8;
 
-    --color-desierto: #F77A27;
-    --color-semidesierto: #F8CB3E;
-    --color-semibosque: #82C45C;
-    --color-bosque: #207001;
+    --color-desierto: #F6CEAB;
+    --color-semidesierto: #EEAE7F;
+    --color-semibosque: #85A573;
+    --color-bosque: #688E50;
 
     background-color: var(--color-bg);
 
@@ -493,16 +493,22 @@ div[data-tipo-paisage="bosque"] {background-color: var(--color-bosque);}
     /*flex: 1 1 15%;*/
 }
 
+.menu-pais-dash > div[data-pais].unavailable {
+    pointer-events: none;
+    filter: grayscale();
+}
+
 div[data-pais] > img {
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid black;
+    border: 3px solid transparent;
     border-radius: 50%;
     margin-right: .5rem;
 }
 
 div[data-pais].pais-selected > span {
     font-weight: bold;
+    color: var(--color-accent);
 }
 
 div[data-pais].pais-selected > img {
@@ -515,7 +521,8 @@ div[data-pais]:hover {
 }
 
 div[data-pais]:hover img {
-    box-shadow: 2px 2px currentColor;
+    /*box-shadow: 2px 2px currentColor;*/
+    border-color: black;
 }
 
 
