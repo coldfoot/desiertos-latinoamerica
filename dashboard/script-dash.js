@@ -736,13 +736,15 @@ class UTmaior {
             'layout': {},
             'paint': {
                 'line-color': 'black',
-                'line-width': 4
+                'line-width': 6
             },
             'filter': ['==', 'provincia', '']}); // puts behind road-label
 
     }
 
     toggle_hightlight_border(provincia) {
+
+        console.log(provincia);
 
         map.setFilter(
             this.country + '-provincia-border', [
