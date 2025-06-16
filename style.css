@@ -610,6 +610,11 @@ select#dash-ubicacion {
     margin: 0;
 }
 
+.text-panel-container[data-classification-localidad="desierto"] h3[data-resumen-campo="classification"] { color: var(--color-desierto); }
+.text-panel-container[data-classification-localidad="semidesierto"] h3[data-resumen-campo="classification"] { color: var(--color-semidesierto); }
+.text-panel-container[data-classification-localidad="semibosque"] h3[data-resumen-campo="classification"] { color: var(--color-semibosque); }
+.text-panel-container[data-classification-localidad="bosque"] h3[data-resumen-campo="classification"] { color: var(--color-bosque); }
+
 .text-panel-container .author {
     font-style: italic;
 }
@@ -651,12 +656,29 @@ select#dash-ubicacion {
 .place-paisage-composition > span {
     flex: 0 0 25%;
     height: 1.5rem;
+    transition: flex-basis 0.4s;
 }
 
 span[data-barchart="desierto"] {background-color: var(--color-desierto);}
 span[data-barchart="semidesierto"] {background-color: var(--color-semidesierto);}
 span[data-barchart="semibosque"] {background-color: var(--color-semibosque);}
 span[data-barchart="bosque"] {background-color: var(--color-bosque);}
+
+[data-classification-localidad="desierto"] .place-paisage-composition > span,
+[data-classification-localidad="semidesierto"] .place-paisage-composition > span,
+[data-classification-localidad="semibosque"] .place-paisage-composition > span,
+[data-classification-localidad="bosque"] .place-paisage-composition > span {
+    flex-basis: 0;
+}
+
+[data-classification-localidad="desierto"] .place-paisage-composition > span[data-barchart="desierto"],
+[data-classification-localidad="semidesierto"] .place-paisage-composition > span[data-barchart="semidesierto"],
+[data-classification-localidad="semibosque"] .place-paisage-composition > span[data-barchart="semibosque"],
+[data-classification-localidad="bosque"] .place-paisage-composition > span[data-barchart="bosque"] { 
+    flex-basis: 100%;
+}
+
+
 
 /* BUTTONS NAV DATOS RELATO MEDIO */
 

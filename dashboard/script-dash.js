@@ -276,6 +276,7 @@ function update_breadcrumbs(nivel, local) {
 
 }
 
+
 function update_infocard(name, key, country, tipo) {
 
     // por numa função melhorzinha
@@ -304,6 +305,8 @@ function update_infocard(name, key, country, tipo) {
 
         })
 
+        document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = "";
+
     }
 
     if (tipo == "localidad" & country == "Chile") {
@@ -311,7 +314,7 @@ function update_infocard(name, key, country, tipo) {
         const classification = main_data.smaller_units.filter(d => d.KEY == key)[0].BASIC_INFO.classification;
 
         document.querySelector("[data-resumen-campo]").innerHTML = classification;
-        document.querySelector("[data-resumen-classification]").dataset.resumenClassification = classification;
+        document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = classification.toLowerCase();
 
     }
 
