@@ -70,7 +70,7 @@ breadcrumbs.addEventListener("click", e => {
 
     const tipo = breadcrumb_clicado.dataset.breadcrumb;
 
-    let provincia_id = last_country == "Argentina" ? 'nam' : 'KEY';
+    let provincia_id = last_country == "Argentina" ? 'nam' : 'NAME';
 
     if (tipo == "pais") countries[last_country].render_pais();
     if (tipo == "ut-maior") countries[last_country].render_provincia(last_provincia_location_data[provincia_id]);
@@ -192,19 +192,22 @@ function update_breadcrumbs(nivel, local) {
 
 }
 
-function update_infocard(local) {
+function update_infocard(local, country, tipo) {
 
-    const fields = ['title'];
+    if (tipo == "provincia" & country == "Chile") {
 
-    const mini_data = {
-        'title' : local
-    };
+        const fields = ["TITLE", "DATE", "AUTHOR"];
 
-    fields.forEach(field => {
+        const mini_data = main_data.larger_units.filter(d => d.NAME == local)[0];
+        console.log(mini_data, local);
 
-        document.querySelector(`[data-infocard-field="${field}"`).textContent = mini_data[field];
+        fields.forEach(field => {
 
-    })
+            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = mini_data[field];
+
+        })
+
+    }
 
 }
 
@@ -448,7 +451,7 @@ class Country {
         this.ut_maior.monitor_events("off");
         this.ut_menor.monitor_events("on");
 
-        update_infocard(provincia);
+        update_infocard(provincia, this.country, "provincia");
 
     }
 
