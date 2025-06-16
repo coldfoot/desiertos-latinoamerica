@@ -3,6 +3,8 @@ const menu_pais         = document.querySelector(".menu-pais-dash");
 const menu_nav_conteudo = document.querySelector(".wrapper-btns-nav");
 const expand_button_mobile = document.querySelector(".expand-card-mobile");
 const text_panel = document.querySelector(".text-panel-container");
+const container_relato = document.querySelector(".container-relato");
+const relato = document.querySelector("[data-relato-completo]")
 
 const breadcrumbs = document.querySelector(".breadcrumbs");
 
@@ -199,17 +201,35 @@ function update_infocard(local, country, tipo) {
         const fields = ["TITLE", "DATE", "AUTHOR"];
 
         const mini_data = main_data.larger_units.filter(d => d.NAME == local)[0];
-        console.log(mini_data, local);
+
+        document.querySelector("[data-relato-completo]").dataset.relatoCompleto = mini_data.RELATO;
 
         fields.forEach(field => {
 
-            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = mini_data[field];
+            const element = document.querySelector(`[data-relato-campo="${field}"]`);
+            
+            element.innerHTML = mini_data[field];
+
+            if (field = "AUTHOR") {
+                container_relato.classList.remove("expandido");
+                container_relato.classList.add("recolhido");
+            }
 
         })
 
     }
 
 }
+
+const btn_leer_mas = document.querySelector(".leer-mas");
+
+btn_leer_mas.addEventListener("click", e => {
+
+    relato.innerHTML = relato.dataset.relatoCompleto;
+    container_relato.classList.add("expandido");
+    container_relato.classList.remove("recolhido");
+
+})
 
 function update_country_button(pais) {
 

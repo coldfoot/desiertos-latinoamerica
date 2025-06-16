@@ -647,11 +647,19 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     flex-basis: 100%;
     position: relative;
     border: 1px dashed green;
-    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .text-panel-container .conteudo .leer-mas {
     font-weight: bold;
+}
+
+.container-relato.expandido .leer-mas {
+    display: none;
+}
+
+.leer-mas:hover {
+    color: var(--color-accent);
 }
 
 .text-panel-container .conteudo > [data-tipo-conteudo] {

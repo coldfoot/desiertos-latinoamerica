@@ -126,6 +126,8 @@ Flashes no mapa? Que diabo é isso?
 Incluir tipo na argentina.
 Por a camada do hover acima.
 
+Leer MAs: incluir uma animação?
+
 # Perguntas
 
 Faz sentido ter o botão de tipo de terreno na visão global de todos os países juntos?
