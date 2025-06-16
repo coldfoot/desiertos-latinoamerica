@@ -655,6 +655,9 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     flex-basis: 100%;
     position: relative;
     border: 1px dashed green;
+}
+
+.text-panel-container .conteudo.scroll {
     overflow-y: scroll;
 }
 
@@ -665,6 +668,11 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
 .container-relato.expandido .leer-mas {
     display: none;
 }
+
+.container-relato.expandido [data-relato-campo="AUTHOR"] { display: none; }
+.container-relato.expandido [data-relato-campo="RELATO"] { display: initial; }
+.container-relato.recolhido [data-relato-campo="AUTHOR"] { display: initial; }
+.container-relato.recolhido [data-relato-campo="RELATO"] { display: none; }
 
 .leer-mas:hover {
     color: var(--color-accent);

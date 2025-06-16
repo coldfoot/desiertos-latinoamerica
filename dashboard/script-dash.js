@@ -156,6 +156,16 @@ function control_nav_buttons(modo) {
 
 function show_conteudo(tipo_conteudo) {
 
+    // melhorar
+    document.querySelector(".text-panel-container .conteudo").classList.remove("scroll");
+
+    if (tipo_conteudo == "relato") {
+        container_relato.classList.remove("expandido");
+        container_relato.classList.add("recolhido");
+
+    }
+
+
     document.querySelectorAll("[data-tipo-conteudo]").forEach(div => {
 
         div.classList.remove("conteudo-active");
@@ -248,6 +258,9 @@ function update_breadcrumbs(nivel, local) {
 
 function update_infocard(name, key, country, tipo) {
 
+    // por numa função melhorzinha
+    document.querySelector(".text-panel-container .conteudo").classList.remove("scroll");
+
     console.log(name, key, country, tipo);
 
     document.querySelector("[data-infocard-field]").innerHTML = name;
@@ -256,17 +269,13 @@ function update_infocard(name, key, country, tipo) {
 
     if (tipo == "provincia" & country == "Chile") {
 
-        const fields = ["TITLE", "DATE", "AUTHOR", "MEDIO"];
+        const fields = ["TITLE", "DATE", "AUTHOR", "RELATO", "MEDIO"];
 
         const mini_data = main_data.larger_units.filter(d => d.NAME == name)[0];
 
-        document.querySelector("[data-relato-completo]").dataset.relatoCompleto = mini_data.RELATO;
-
         fields.forEach(field => {
 
-            const element = document.querySelector(`[data-relato-campo="${field}"]`);
-            
-            element.innerHTML = mini_data[field];
+            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = mini_data[field];
 
             if (field = "AUTHOR") {
                 container_relato.classList.remove("expandido");
@@ -292,9 +301,9 @@ const btn_leer_mas = document.querySelector(".leer-mas");
 
 btn_leer_mas.addEventListener("click", e => {
 
-    relato.innerHTML = relato.dataset.relatoCompleto;
     container_relato.classList.add("expandido");
     container_relato.classList.remove("recolhido");
+    document.querySelector(".text-panel-container .conteudo").classList.add("scroll");
 
 })
 
