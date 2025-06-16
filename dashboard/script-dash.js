@@ -530,6 +530,10 @@ class Country {
 
     render_country_subnational() {
 
+        map.setPaintProperty("countries-fills", "fill-color", "transparent");
+        map.moveLayer(this.country + "-provincia-border-hover");
+        map.moveLayer(this.country + "-provincia-border");
+
         if (["Argentina", "Chile"].includes(this.country)) {
 
             this.paint_country_subnational("on");
@@ -549,7 +553,6 @@ class Country {
             this.ut_maior.monitor_events("off");
 
         }
-
 
     }
 
