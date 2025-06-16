@@ -4,7 +4,27 @@ const menu_nav_conteudo = document.querySelector(".wrapper-btns-nav");
 const expand_button_mobile = document.querySelector(".expand-card-mobile");
 const text_panel = document.querySelector(".text-panel-container");
 const container_relato = document.querySelector(".container-relato");
-const relato = document.querySelector("[data-relato-completo]")
+const relato = document.querySelector("[data-relato-completo]");
+const header = document.querySelector("header");
+const btn_menu = document.querySelector(".btn-menu");
+
+btn_menu.addEventListener("click", e => {
+
+    const state = btn_menu.dataset.state;
+
+    if (state == "burger") {
+
+        btn_menu.dataset.state = "close menu";
+        header.classList.add("show-menu");
+
+    } else if (state == "close menu") {
+
+        btn_menu.dataset.state = "burger";
+        header.classList.remove("show-menu");
+
+    }
+
+})
 
 const breadcrumbs = document.querySelector(".breadcrumbs");
 

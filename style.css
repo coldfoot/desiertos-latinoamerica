@@ -61,7 +61,7 @@ button.btn-menu {
 
 }
 
-header.top-bar-dashboard button.btn-menu {
+.top-bar-dashboard button.btn-menu {
     margin-top: 0;
 }
 
@@ -74,11 +74,12 @@ header.top-bar-dashboard button.btn-menu {
     stroke-linecap: round;
 }
 
+.btn-menu-img .line-top { transform-origin: 12.5% 12.5%; }
 .btn-menu-img .line-bottom { transform-origin: 12.5% 75%; }
 .btn-menu-img .line-mid    { transform-origin: 87.5% 25%; }
 
 .btn-menu-img line {
-    transition: transform .5s;
+    transition: transform .5s, opacity .5s;
 }
 
 button.btn-menu:hover .line-bottom {
@@ -87,6 +88,55 @@ button.btn-menu:hover .line-bottom {
 
 button.btn-menu:hover .line-mid {
     transform: rotate(-60deg) translate(0, -25%);
+}
+
+button.btn-menu[data-state="close menu"] .line-bottom {
+    transform: rotate(-45deg);
+}
+
+button.btn-menu[data-state="close menu"] .line-top {
+    transform: rotate(45deg) translate(12.5%, 0);
+}
+
+button.btn-menu[data-state="close menu"] .line-mid {
+    opacity: 0;
+}
+
+.btn-menu-content {
+    position: absolute;
+    top: 81px;
+    right: 0;
+    background-color: var(--color-accent);
+    z-index: 3;
+    transition: transform .4s;
+    transform: translateX(100%);
+}
+
+header.show-menu .btn-menu-content {
+    transform: translateX(0);
+}
+
+.btn-menu-content ul {
+    padding: 1rem;
+    margin: 0;
+}
+
+.btn-menu-content li {
+    list-style: none;
+    text-align: right;
+}
+
+.btn-menu-content li a {
+    color: white;
+    text-decoration: none;
+    padding: 1rem;
+    display: inline-block;
+    width: 100%;
+    border-radius: 5px;
+}
+.btn-menu-content li a:hover {
+    background-color: white;
+    color: var(--color-accent);
 }
 
 /* */

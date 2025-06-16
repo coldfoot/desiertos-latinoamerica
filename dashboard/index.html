@@ -13,21 +13,34 @@
 </head>
 <body class="dashboard-wrapper">
 
-    <header class="top-bar-dashboard">
+    <header>
+    
+        <div class="top-bar-dashboard">
 
-        <div class="logo-wrapper"></div>
+            <div class="logo-wrapper"></div>
 
-        <div class="title-wrapper">
-            <h1 class="title">Desiertos de noticias en América Latina</h1>
+            <div class="title-wrapper">
+                <h1 class="title">Desiertos de noticias en América Latina</h1>
+            </div>
+
+            <button class="btn-menu" data-state="burger">
+                <svg class="btn-menu-img" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="5" x2="35" y1="10" y2="10" class="line-top"></line>
+                    <line x1="5" x2="35" y1="20" y2="20" class="line-mid"></line>
+                    <line x1="5" x2="35" y1="30" y2="30" class="line-bottom"></line>
+                </svg>
+            </button>
+        
         </div>
 
-        <button class="btn-menu" data-state="burger">
-            <svg class="btn-menu-img" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="5" x2="35" y1="10" y2="10" class="line-top"></line>
-                <line x1="5" x2="35" y1="20" y2="20" class="line-mid"></line>
-                <line x1="5" x2="35" y1="30" y2="30" class="line-bottom"></line>
-            </svg>
-        </button>
+        <div class="btn-menu-content">
+            <ul>
+                <li><a href="../index.html">Introducción</a></li>
+                <li><a href="#">⁠Mapa interactivo</a></li>
+                <li><a href="https://github.com/coldfoot/desiertos-latinoamerica-data">⁠Datos y metodología</a></li>
+                <li><a href="#">⁠Créditos</a></li>
+            </ul>
+        </div>
     </header>
 
     <div class="main-dashboard">
