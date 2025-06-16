@@ -625,6 +625,7 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     background-color: transparent;
     color: var(--color-accent);
     border: 1px solid currentColor;
+    flex-basis: 33%;
 }
 
 .wrapper-btns-nav > button:hover {

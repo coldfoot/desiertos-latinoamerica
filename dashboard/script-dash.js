@@ -198,7 +198,7 @@ function update_infocard(local, country, tipo) {
 
     if (tipo == "provincia" & country == "Chile") {
 
-        const fields = ["TITLE", "DATE", "AUTHOR"];
+        const fields = ["TITLE", "DATE", "AUTHOR", "MEDIO"];
 
         const mini_data = main_data.larger_units.filter(d => d.NAME == local)[0];
 
