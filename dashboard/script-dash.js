@@ -114,6 +114,70 @@ menu_pais.addEventListener("click", e => {
 
 })
 
+// NAV BUTTONS
+
+function control_nav_buttons(modo) {
+
+    const container_btns = document.querySelector(".wrapper-btns-nav");
+    const btns = document.querySelectorAll("[data-btn-nav]");
+
+    let btns_to_show;
+
+    if (modo == "localidad") {
+
+        container_btns.dataset.modo = "localidad";
+
+        btns_to_show = ["resumen", "datos"];
+
+        show_conteudo("resumen");
+        activate_button("resumen");
+
+    }
+
+    if (modo == "provincia" | modo == "pais") {
+
+        container_btns.dataset.modo = "provincia";
+
+        btns_to_show = ["relato", "medio", "datos"];
+
+        show_conteudo("relato");
+        activate_button("relato");
+
+    }
+
+    btns.forEach(btn => {
+
+        if (btns_to_show.includes(btn.dataset.btnNav)) btn.classList.remove("btn-hidden");
+        else btn.classList.add("btn-hidden");
+
+    })
+
+}
+
+function show_conteudo(tipo_conteudo) {
+
+    document.querySelectorAll("[data-tipo-conteudo]").forEach(div => {
+
+        div.classList.remove("conteudo-active");
+
+    })
+
+    document.querySelector(`[data-tipo-conteudo="${tipo_conteudo}"]`).classList.add("conteudo-active");
+
+}
+
+function activate_button(tipo_conteudo) {
+
+    document.querySelectorAll("[data-btn-nav]").forEach(div => {
+
+        div.classList.remove("btn-nav-active");
+
+    })
+
+    document.querySelector(`[data-btn-nav="${tipo_conteudo}"]`).classList.add("btn-nav-active");
+
+}
+
 menu_nav_conteudo.addEventListener("click", e => {
 
     let tipo_conteudo;
@@ -128,23 +192,11 @@ menu_nav_conteudo.addEventListener("click", e => {
 
         // conteúdos
 
-        document.querySelectorAll("[data-tipo-conteudo]").forEach(div => {
+        show_conteudo(tipo_conteudo);
 
-            div.classList.remove("conteudo-active");
+        // botoes)
 
-        })
-
-        document.querySelector(`[data-tipo-conteudo="${tipo_conteudo}"]`).classList.add("conteudo-active");
-
-        // botoes
-
-        document.querySelectorAll("[data-btn-nav]").forEach(div => {
-
-            div.classList.remove("btn-nav-active");
-
-        })
-
-        document.querySelector(`[data-btn-nav="${tipo_conteudo}"]`).classList.add("btn-nav-active");
+        activate_button(tipo_conteudo);
 
     }
 
@@ -194,13 +246,19 @@ function update_breadcrumbs(nivel, local) {
 
 }
 
-function update_infocard(local, country, tipo) {
+function update_infocard(name, key, country, tipo) {
+
+    console.log(name, key, country, tipo);
+
+    document.querySelector("[data-infocard-field]").innerHTML = name;
+
+    control_nav_buttons(tipo);
 
     if (tipo == "provincia" & country == "Chile") {
 
         const fields = ["TITLE", "DATE", "AUTHOR", "MEDIO"];
 
-        const mini_data = main_data.larger_units.filter(d => d.NAME == local)[0];
+        const mini_data = main_data.larger_units.filter(d => d.NAME == name)[0];
 
         document.querySelector("[data-relato-completo]").dataset.relatoCompleto = mini_data.RELATO;
 
@@ -216,6 +274,15 @@ function update_infocard(local, country, tipo) {
             }
 
         })
+
+    }
+
+    if (tipo == "localidad" & country == "Chile") {
+
+        const classification = main_data.smaller_units.filter(d => d.KEY == key)[0].BASIC_INFO.classification;
+
+        document.querySelector("[data-resumen-campo]").innerHTML = classification;
+        document.querySelector("[data-resumen-classification]").dataset.resumenClassification = classification;
 
     }
 
@@ -471,7 +538,7 @@ class Country {
         this.ut_maior.monitor_events("off");
         this.ut_menor.monitor_events("on");
 
-        update_infocard(provincia, this.country, "provincia");
+        update_infocard(provincia, provincia, this.country, "provincia");
 
     }
 
@@ -544,7 +611,12 @@ class Country {
         //this.ut_maior.monitor_events("off");
         //this.ut_menor.monitor_events("on");
 
-        update_infocard(localidad);
+        update_infocard(
+            last_localidad_location_data[this.ut_menor.key_name],
+            last_localidad_location_data[this.ut_menor.key_id],
+            this.country,
+            "localidad"
+         );
 
     }
 
@@ -650,7 +722,7 @@ class Country {
 
         plot_country(pais, 50);
         update_breadcrumbs("pais", pais);
-        update_infocard(pais);
+        update_infocard(pais, pais, pais, "pais");
         update_country_button(pais);
 
         console.log("Render pais, ", pais, this.country, last_country);

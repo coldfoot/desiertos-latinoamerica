@@ -625,8 +625,11 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     background-color: transparent;
     color: var(--color-accent);
     border: 1px solid currentColor;
-    flex-basis: 33%;
+    transition: flex-basis .3s;
 }
+
+.wrapper-btns-nav[data-modo="localidad"] > button { flex-basis: 50%; }
+.wrapper-btns-nav[data-modo="provincia"] > button { flex-basis: 33%; }
 
 .wrapper-btns-nav > button:hover {
     box-shadow: 2px 2px var(--color-accent);
@@ -639,6 +642,10 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
 .wrapper-btns-nav > button.btn-nav-active {
     background-color: var(--color-accent);
     color: var(--color-bg);
+}
+
+.wrapper-btns-nav > button.btn-hidden {
+    display: none;
 }
 
 /* CONTEUDO */

@@ -110,6 +110,11 @@
 
             <div class="conteudo">
 
+                <div data-tipo-conteudo="resumen">
+                    <h3 data-resumen-campo="classification" data-resumen-classification=""></h3>
+                    <p data-resumen-campo="descricao classificacao"></p>
+                </div>
+
                 <div data-tipo-conteudo="relato" class="conteudo-active">
                     <h2 data-relato-campo="TITLE">Relato de investigación</h2>
                     <p data-relato-campo="DATE">Data</p>
@@ -155,7 +160,8 @@
 
             </div>
 
-            <div class="wrapper-btns-nav">
+            <div class="wrapper-btns-nav" data-modo="provincia">
+                <button data-btn-nav="resumen" class="btn-hidden">Resumén</button>
                 <button data-btn-nav="relato" class="btn-nav-active">Relato de investigación</button>
                 <button data-btn-nav="medio">Medio prototípico</button>
                 <button data-btn-nav="datos">Más datos</button>
