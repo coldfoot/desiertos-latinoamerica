@@ -136,3 +136,42 @@ Faz sentido ter o botão de tipo de terreno na visão global de todos os países
 
 Monitor de eventos não parece estar sendo desligado
 
+# Ideias scroller
+
+```js
+            monitora_steps : () => {
+
+                const steps = document.querySelectorAll('.linechart-steps-regioes');
+
+                steps.forEach(step => {
+
+                    const step_name = step.dataset.linechartStep;
+                    const selector = '[data-linechart-step="' + step_name + '"]';
+
+                    gsap.to(
+
+                        selector, // só para constar, não vamos fazer nada com ele, na verdade
+
+                        {
+                            scrollTrigger : {
+                                trigger: selector,
+                                markers: false,
+                                toggleClass: 'active',
+                                pin: false,
+                                start: "25% 60%",
+                                end: "75% 40%", 
+
+                                onEnter : () => v.scroller.linechart_regioes.render[step_name](forward = true),
+                                onEnterBack : () => v.scroller.linechart_regioes.render[step_name](forward = false),
+                                onLeave : () => v.scroller.linechart_regioes.render[step_name](forward = true),
+                                onLeaveBack : () => v.scroller.linechart_regioes.render[step_name](forward = false)
+
+                            }
+        
+                        })
+                    ;
+
+
+                })
+```
+
