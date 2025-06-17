@@ -1186,5 +1186,4 @@ class UTmenor {
 
     }
 
->>>>>>> Stashed changes
 }
