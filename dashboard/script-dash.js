@@ -102,19 +102,35 @@ breadcrumbs.addEventListener("click", e => {
 
 menu_tipo_paisage.addEventListener("click", e => {
 
+    const tipo_paisage_selected = menu_tipo_paisage.querySelector(".tipo-paisage-selected");
+
+    menu_tipo_paisage.classList.add("tipo-paisage-has-selection");
+
     const div_tipo_paisage = e.target.closest('.menu-tipo-paisage > div[data-tipo-paisage]');
 
     if (div_tipo_paisage) {
 
         const tipo_paisage = div_tipo_paisage.dataset.tipoPaisage; 
 
+        if (div_tipo_paisage == tipo_paisage_selected) {
+
+            display_paisage("", last_country);
+
+            menu_tipo_paisage.classList.remove("tipo-paisage-has-selection");
+
+            div_tipo_paisage.classList.remove("tipo-paisage-selected");
+
+            return
+            
+        }
+
         // remove selected class to current "selected" element
-        menu_tipo_paisage.querySelector(".tipo-paisage-selected").classList.remove("tipo-paisage-selected");
+        if (tipo_paisage_selected) tipo_paisage_selected.classList.remove("tipo-paisage-selected");
 
         // adds the selected class to the clicked div
         div_tipo_paisage.classList.add("tipo-paisage-selected");
 
-        display_paisage(tipo_paisage);
+        display_paisage(tipo_paisage, last_country);
 
     }
 
@@ -242,20 +258,51 @@ function display_paisage(tipo_paisage, country) {
 
     console.log(tipo_paisage);
 
-    map.setPaintProperty(
-        country + '-localidad',
-        'fill-color',
-        [
-            'case',
+    if (tipo_paisage != '') {
+
+        map.setPaintProperty(
+            country + '-localidad',
+            'fill-color',
             [
-                '==',
-                ['get', 'CLASSIFICATION'],
-                tipo_paisage.toUpperCase()
-            ],
-            colors_css[tipo_paisage],
-            'transparent'
-        ]
-    )
+                'case',
+                [
+                    '==',
+                    ['get', 'CLASSIFICATION'],
+                    tipo_paisage.toUpperCase()
+                ],
+                colors_css[tipo_paisage],
+                'transparent'
+            ]
+        )
+
+    } else {
+
+        if (country == "Argentina") {
+
+            map.setPaintProperty(
+                country + '-localidad',
+                'fill-color', 
+                ['get', 'color_real']
+            );
+
+            converte_cores_argentina();
+
+        } else {
+
+            map.setPaintProperty(
+                country + '-localidad',
+                'fill-color',
+                [
+                    'match',
+                    ['get', 'CLASSIFICATION'],
+                    ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
+                    'gray'
+                ]
+            );
+
+        }
+
+    }
 
 }
 

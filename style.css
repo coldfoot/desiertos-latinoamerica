@@ -470,7 +470,8 @@ div.logo-wrapper {
     display: flex;
     flex-direction: row;
     gap: .5rem;
-    margin: 1rem;
+    padding: 1rem;
+    width: 100%;
 }
 
 .menu-tipo-paisage img[data-icone] {
@@ -484,12 +485,16 @@ div[data-tipo-paisage] {
     border-radius: 5px;
     display: flex;
     justify-content: center;
-    transition: flex-grow .5s;
+    transition: flex-grow .5s, flex-shrink .5s;
+    flex-basis: 50px;
+    flex-grow: 1;
+    flex-shrink: 0;
 }
 
 .menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage] {
-    flex: 0 1 50px;
-    justify-content: flex-start;
+    /*flex: 0 1 50px;*/
+    flex-grow: 0;
+    flex-shrink: 1;
 }
 
 .menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage]:hover {
@@ -498,11 +503,13 @@ div[data-tipo-paisage] {
 
 .menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage].tipo-paisage-selected {
     flex-grow: 1;
+    flex-shrink: 1;
+    border: 2px solid var(--color-accent);
 }
 
 p.description-tipo-paisage {
     margin: 0;
-    margin-left: .5rem;
+    /*margin-left: .5rem;*/
 }
 
 .menu-tipo-paisage.tipo-paisage-has-selection p.description-tipo-paisage {
