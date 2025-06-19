@@ -730,28 +730,24 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
 /* CONTEUDO */
 
 .text-panel-container .conteudo {
-    font-size: 1.2rem;
+    font-size: 1rem;
     flex-basis: 100%;
     position: relative;
     border: 1px dashed green;
-}
-
-.text-panel-container .conteudo.scroll {
-    overflow-y: scroll;
 }
 
 .text-panel-container .conteudo .leer-mas {
     font-weight: bold;
 }
 
-.container-relato.expandido .leer-mas {
+[data-tipo-conteudo="relato"].expandido .leer-mas {
     display: none;
 }
 
-.container-relato.expandido [data-relato-campo="AUTHOR"] { display: none; }
-.container-relato.expandido [data-relato-campo="RELATO"] { display: initial; }
-.container-relato.recolhido [data-relato-campo="AUTHOR"] { display: initial; }
-.container-relato.recolhido [data-relato-campo="RELATO"] { display: none; }
+[data-tipo-conteudo="relato"].expandido [data-relato-campo="AUTHOR"] { display: none; }
+[data-tipo-conteudo="relato"].expandido [data-relato-campo="RELATO"] { display: initial; }
+[data-tipo-conteudo="relato"].recolhido [data-relato-campo="AUTHOR"] { display: initial; }
+[data-tipo-conteudo="relato"].recolhido [data-relato-campo="RELATO"] { display: none; }
 
 .leer-mas:hover {
     color: var(--color-accent);
@@ -766,6 +762,14 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: auto;
+}
+
+[data-tipo-conteudo] h2,
+[data-tipo-conteudo] p.medio {
+    margin-top: 0;
 }
 
 .text-panel-container .conteudo > [data-tipo-conteudo].conteudo-active {

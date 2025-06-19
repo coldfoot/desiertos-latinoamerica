@@ -3,7 +3,7 @@ const menu_pais         = document.querySelector(".menu-pais-dash");
 const menu_nav_conteudo = document.querySelector(".wrapper-btns-nav");
 const expand_button_mobile = document.querySelector(".expand-card-mobile");
 const text_panel = document.querySelector(".text-panel-container");
-const container_relato = document.querySelector(".container-relato");
+const container_relato = document.querySelector("[data-tipo-conteudo='relato']");
 const relato = document.querySelector("[data-relato-completo]");
 const header = document.querySelector("header");
 const btn_menu = document.querySelector(".btn-menu");
@@ -192,9 +192,6 @@ function control_nav_buttons(modo) {
 
 function show_conteudo(tipo_conteudo) {
 
-    // melhorar
-    document.querySelector(".text-panel-container .conteudo").classList.remove("scroll");
-
     if (tipo_conteudo == "relato") {
         container_relato.classList.remove("expandido");
         container_relato.classList.add("recolhido");
@@ -341,9 +338,6 @@ function update_breadcrumbs(nivel, local) {
 
 function update_infocard(name, key, country, tipo) {
 
-    // por numa função melhorzinha
-    document.querySelector(".text-panel-container .conteudo").classList.remove("scroll");
-
     console.log(name, key, country, tipo);
 
     document.querySelector("[data-infocard-field]").innerHTML = name;
@@ -388,7 +382,6 @@ btn_leer_mas.addEventListener("click", e => {
 
     container_relato.classList.add("expandido");
     container_relato.classList.remove("recolhido");
-    document.querySelector(".text-panel-container .conteudo").classList.add("scroll");
 
 })
 
