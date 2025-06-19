@@ -176,8 +176,8 @@ function control_nav_buttons(modo) {
 
         btns_to_show = ["relato", "medio", "datos"];
 
-        show_conteudo("relato");
-        activate_button("relato");
+        show_conteudo("medio");
+        activate_button("medio");
 
     }
 
