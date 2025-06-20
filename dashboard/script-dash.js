@@ -7,6 +7,7 @@ const container_relato = document.querySelector("[data-tipo-conteudo='relato']")
 const relato = document.querySelector("[data-relato-completo]");
 const header = document.querySelector("header");
 const btn_menu = document.querySelector(".btn-menu");
+const place_summary = document.querySelector(".place-summary");
 
 btn_menu.addEventListener("click", e => {
 
@@ -335,7 +336,6 @@ function update_breadcrumbs(nivel, local) {
 
 }
 
-
 function update_infocard(name, key, country, tipo) {
 
     console.log(name, key, country, tipo);
@@ -363,16 +363,44 @@ function update_infocard(name, key, country, tipo) {
 
         document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = "";
 
+        const basic_info_data = mini_data.BASIC_INFO;
+
+        update_place_summary(basic_info_data);
+
     }
 
     if (tipo == "localidad" & country == "Chile") {
 
-        const classification = main_data.smaller_units.filter(d => d.KEY == key)[0].BASIC_INFO.classification;
+        const basic_info_data = main_data.smaller_units.filter(d => d.KEY == key)[0].BASIC_INFO
+        
+        const classification = basic_info_data.classification;
 
         document.querySelector("[data-resumen-campo]").innerHTML = classification;
         document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = classification.toLowerCase();
 
+        console.log(basic_info_data);
+
+        update_place_summary(basic_info_data);
+
     }
+
+}
+
+function update_place_summary(basic_info_data) {
+
+    place_summary.querySelectorAll('[data-summary-field]').forEach(div => {
+
+        const field = div.dataset.summaryField;
+
+        div.querySelector(".summary-value").innerHTML = basic_info_data[field] == null ? 0 : basic_info_data[field].toLocaleString('pt-BR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+                useGrouping: true
+        });
+
+        
+
+    })
 
 }
 

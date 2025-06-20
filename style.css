@@ -653,6 +653,14 @@ select#dash-ubicacion {
     display: none;
 }
 
+/* PLACE SUMMARY */
+
+[data-summary-field="population"],
+[data-summary-field="area"] {
+    display: inline;
+}
+
+
 /* BARCHART PAISAGE COMPOSITION */
 
 .place-paisage-composition {
