@@ -371,22 +371,41 @@ function update_infocard(name, key, country, tipo) {
 
     if (tipo == "localidad" & country == "Chile") {
 
-        const basic_info_data = main_data.smaller_units.filter(d => d.KEY == key)[0].BASIC_INFO
+        const existem_dados = main_data.smaller_units.filter(d => d.KEY == key).length > 0;
+
+        let classification, basic_info_data;
+
+        if (existem_dados) {
+
+            basic_info_data = main_data.smaller_units.filter(d => d.KEY == key)[0].BASIC_INFO;
         
-        const classification = basic_info_data.classification;
+            classification = basic_info_data.classification;
 
-        document.querySelector("[data-resumen-campo]").innerHTML = classification;
-        document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = classification.toLowerCase();
+            document.querySelector("[data-resumen-campo]").innerHTML = classification;
+            
+            document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = classification.toLowerCase();
 
-        console.log(basic_info_data);
 
-        update_place_summary(basic_info_data);
+        } else {
+
+            basic_info_data = null;
+
+            document.querySelector("[data-resumen-campo]").innerHTML = "SIN DATOS :(";
+            
+            document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = "sin datos";
+
+        }
+
+         update_place_summary(basic_info_data);
 
     }
 
 }
 
 function update_place_summary(basic_info_data) {
+
+    if (basic_info_data == null) place_summary.classList.add("sin-datos")
+        else place_summary.classList.remove("sin-datos");
 
     place_summary.querySelectorAll('[data-summary-field]').forEach(div => {
 
@@ -398,8 +417,9 @@ function update_place_summary(basic_info_data) {
                 useGrouping: true
         });
 
-        
 
+
+        
     })
 
 }

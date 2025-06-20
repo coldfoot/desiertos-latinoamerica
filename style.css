@@ -655,6 +655,18 @@ select#dash-ubicacion {
 
 /* PLACE SUMMARY */
 
+.place-summary .info-sin-datos {
+    display: none;
+}
+
+.place-summary.sin-datos .info-sin-datos {
+    display: initial;
+}
+
+.place-summary.sin-datos .info-con-datos {
+    display: none;
+}
+
 [data-summary-field="population"],
 [data-summary-field="area"] {
     display: inline;
