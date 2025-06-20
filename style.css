@@ -610,8 +610,10 @@ select#dash-ubicacion {
     padding: 1rem;
 }
 
-.text-panel-container h1 {
+.text-panel-container h2 {
     margin: 0;
+    font-size: 2rem;
+    color: var(--color-accent);
 }
 
 .text-panel-container[data-classification-localidad="desierto"] h3[data-resumen-campo="classification"] { color: var(--color-desierto); }
@@ -784,7 +786,7 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     overflow-y: auto;
 }
 
-[data-tipo-conteudo] h2,
+[data-tipo-conteudo] h3,
 [data-tipo-conteudo] p.medio {
     margin-top: 0;
 }
