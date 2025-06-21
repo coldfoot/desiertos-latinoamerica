@@ -623,7 +623,7 @@ class UTmaior {
             'layout': {},
             'paint': {
                 'line-color': 'black',
-                'line-width': 6
+                'line-width': 4
             },
             'filter': ['==', 'provincia', '']}); // puts behind road-label
 
