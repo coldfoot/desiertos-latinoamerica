@@ -119,13 +119,16 @@ const summary_data = [];
 
 # To-do
 
+[ ] Passos da história
+[ ] Dash / Barras de percentuais
+[ ] Dash / Textos dos tipos de terreno
+
 Mudar bbox para América do Sul?
 remover textos do estilo?
 Reflow quando hover nos itens do menu de paises do dashboard
 Flashes no mapa? Que diabo é isso?
 Incluir tipo na argentina.
 Por a camada do hover acima.
-
 Leer MAs: incluir uma animação?
 
 # Perguntas
