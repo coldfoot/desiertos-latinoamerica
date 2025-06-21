@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'buendia';
+  src: url('./fonts/buendia-regular.woff2') format('woff2'),
+       url('./fonts/buendia-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'buendia';
+  src: url('./fonts/buendia-italic.woff2') format('woff2'),
+       url('./fonts/buendia-italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -6,7 +22,7 @@
 
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'buendia', sans-serif;
     --color-bg: #F9F1E3;
     --color-accent: #FF571D;
     --color-text: #333;
@@ -608,12 +624,13 @@ div.seleccione-ubicacion-container {
 }
 
 .text-panel-container {
-    padding: 1rem;
+    padding: 1.2rem;
 }
 
 .text-panel-container h2 {
     margin: 0;
-    font-size: 2rem;
+    font-size: 2em;
+    font-style: italic;
     color: var(--color-accent);
 }
 
@@ -720,11 +737,12 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     font-size: 1.2rem;
     padding: .5em 1em;
     border-radius: 10px;
-    font-weight: bold;
+    font-style: italic;
     background-color: transparent;
     color: var(--color-accent);
     border: 1px solid currentColor;
     transition: flex-basis .3s;
+    font-family: 'buendia';
 }
 
 .wrapper-btns-nav[data-modo="localidad"] > button { flex-basis: 50%; }
