@@ -8,6 +8,7 @@ const relato = document.querySelector("[data-relato-completo]");
 const header = document.querySelector("header");
 const btn_menu = document.querySelector(".btn-menu");
 const place_summary = document.querySelector(".place-summary");
+const search_container = document.querySelector(".seleccione-ubicacion-container");
 
 btn_menu.addEventListener("click", e => {
 
@@ -446,6 +447,122 @@ function update_country_button(pais) {
 
 }
 
+function populate_datalist(data) {
+
+    const ref_datalist = search_container.querySelector("datalist");
+
+    const localidads = data.smaller_units;
+    const provincias = data.larger_units;
+
+    provincias.forEach(row => {
+
+        const new_option = document.createElement("option");
+
+        const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
+        
+        new_option.label = `${row.NAME} (${country})`
+        //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+        new_option.value = `${row.NAME} (${country})`
+        new_option.dataset.tipoLocalidade = "provincia";
+        new_option.dataset.key = row.KEY;
+        new_option.dataset.country = country;
+
+        ref_datalist.appendChild(new_option);
+
+    })
+    
+    localidads.forEach(row => {
+
+        const new_option = document.createElement("option");
+
+        const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
+        
+        new_option.label = `${row.NAME} (${row.PARENT}, ${country})`;
+        //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+        new_option.value = `${row.NAME} (${row.PARENT}, ${country})`;
+        new_option.dataset.tipoLocalidade = "localidad";
+        new_option.dataset.key = row.KEY;
+        new_option.dataset.country = country;
+        new_option.dataset.parent = row.PARENT;
+
+        ref_datalist.appendChild(new_option);
+
+    })
+
+}
+
+function monitor_search_bar(data) {
+
+    const datalist = search_container.querySelector("datalist");
+    const datalist_options = Array.from(datalist.options);
+
+    const search_input = search_container.querySelector("input[list]");
+
+    /*
+    search_input.addEventListener("input", (e) => {
+        // Fires on every keystroke, can be used for live filtering or suggestions
+        // Optionally, you can handle "input" events here if needed
+    });*/
+
+    search_input.addEventListener("change", (e) => {
+        // Fires when the user selects an option from the datalist or manually changes the value
+        const value = e.target.value;
+
+        const selectedOption = datalist_options.find(
+            option => option.value === value
+        );
+
+        if (selectedOption) {
+            const tipo = selectedOption.dataset.tipoLocalidade;
+            const key = selectedOption.dataset.key;
+            const country = selectedOption.dataset.country;
+            console.log("Selected option:", selectedOption, "Tipo:", tipo, "Key:", key);
+
+            console.log(value, selectedOption, key, tipo, country);
+
+            last_country = country;
+
+            update_country_button(country);
+            update_breadcrumbs("pais", country);
+            countries_events.monitor_events('off');
+            map.setPaintProperty("countries-borders", "line-color", "transparent");
+            map.setPaintProperty("countries-fills", "fill-color", "transparent");
+            countries[country].paint_country_subnational("on");
+
+            if (tipo == "localidad") {
+
+                const parent = selectedOption.dataset.parent;
+
+                last_localidad_location_data = data.smaller_units.filter(d => d.KEY == key)[0];
+                last_provincia_location_data = data.larger_units.filter(d => d.NAME == parent)[0];
+
+                console.log(last_localidad_location_data);
+
+                // encapsular?
+
+                update_breadcrumbs('ut-maior', parent);
+
+                countries[country].render_localidad(last_localidad_location_data[
+                countries[country].ut_menor.key_name]);
+                countries[country].ut_menor.monitor_events("on");
+
+
+            }
+
+            if (tipo == "provincia") {
+
+                last_provincia_location_data = data.larger_units.filter(d => d.KEY == key)[0];
+                countries[country].render_provincia(last_provincia_location_data[countries[country].ut_maior.key_name]);
+
+            }
+
+        }
+    });
+
+}
+
 class CountriesEvents {
 
     constructor() {
@@ -653,6 +770,9 @@ map.on("load", () => {
         countries["Chile"]     = new Country("Chile", "", "mapbox://tiagombp.af5egui6", "larger-units-chile-ctx9m7", "mapbox://tiagombp.5gi1do4b", "smaller-units-chile-81ipdl")
 
         countries_events.monitor_events("on");
+
+        populate_datalist(data);
+        monitor_search_bar(data);
         
     })
 

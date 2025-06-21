@@ -258,9 +258,22 @@ class Country {
 
         let bbox_provincia;
 
+        console.log(provincia, last_provincia_location_data.bbox);
+
         if (last_provincia_location_data.bbox) {
 
-            bbox_provincia = last_provincia_location_data.bbox;
+            if (last_provincia_location_data.bbox.minx) {
+
+                bbox_provincia = [
+                    last_provincia_location_data.bbox.minx, last_provincia_location_data.bbox.miny,
+                    last_provincia_location_data.bbox.maxx, last_provincia_location_data.bbox.maxy
+                ]; 
+
+            } else {
+
+                bbox_provincia = last_provincia_location_data.bbox;
+
+            }
 
         } else {
 
@@ -391,6 +404,7 @@ class Country {
 
     render_country_subnational() {
 
+        map.setPaintProperty("countries-borders", "line-color", "transparent");
         map.setPaintProperty("countries-fills", "fill-color", "transparent");
         map.moveLayer(this.country + "-provincia-border-hover");
         map.moveLayer(this.country + "-provincia-border");
