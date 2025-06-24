@@ -111,7 +111,32 @@ function get_bbox(country) {
 
 }
 
+function plot_latam(dashboard = false) {
+    map.fitBounds(overall_bbox, {
+        padding:  {
+            left: dashboard ? 50 : 500,
+            top: 20,
+            right: 50,
+            bottom: 20
+        }
+    });
+
+    map.setPaintProperty(
+        'countries-fills', 
+        'fill-opacity',
+        1
+
+    );
+
+    map.setPaintProperty(
+        'countries-borders', 
+        'line-opacity',
+        1
+    );
+}
+
 let map;
+let story;
 
 //const bboxes = {};
 const bboxes = {
@@ -191,14 +216,10 @@ function init() {
             }
         });
 
-        map.fitBounds(overall_bbox, {
-            padding:  {
-                left: dashboard ? 50 : 500,
-                top: 20,
-                right: 50,
-                bottom: 20
-            }
-        });
+        plot_latam();
+
+        story = new Story(".scroller-step");
+
 
         /*
         let flag_start = true;
@@ -224,17 +245,86 @@ init();
 
 class Story {
 
-    steps = {
+    step_actions = {
 
-        
+        "country selection" : (direction) => {
+
+            if (direction == "forward") {
+
+                console.log("Country. Going down...");
+
+            } else {
+
+                plot_latam();
+                console.log("Country.Going up...");
+
+            }
+
+        },
+
+        "first paragraph" : (direction) => {
+
+            if (direction == "forward") {
+
+                console.log("First paragraph. Going down...");
+
+            } else {
+
+                console.log("First paragraph. Going up...");
+
+            }
+
+        }
 
     };
 
-    constructor() {
+    constructor(step_selector) {
+
+        this.step_selector = step_selector;
 
         gsap.registerPlugin(ScrollTrigger);
 
-    
+        this.steps_elements = document.querySelectorAll(step_selector);
+
+        this.monitora_scroller();
+
+    }
+
+    monitora_scroller() {
+
+        this.steps_elements.forEach(step_element => {
+
+            const step_name = step_element.dataset.slide;
+            const selector = this.step_selector + '[data-slide="' + step_name + '"]';
+
+            console.log(step_name, selector);
+
+            gsap.to(
+
+                selector, // só para constar, não vamos fazer nada com ele, na verdade
+
+                {
+                    scrollTrigger : {
+                        trigger: selector,
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,
+                        start: "25% 60%",
+                        end: "75% 40%", 
+
+                        onEnter : () => this.step_actions[step_name]("forward"),
+                        onEnterBack : () => this.step_actions[step_name]("back"),
+                        //onLeave : () => v.scroller.linechart_regioes.render[step_name](forward = true),
+                        //onLeaveBack : () => v.scroller.linechart_regioes.render[step_name](forward = false)
+
+                    }
+
+                })
+            ;
+
+
+        })
+
 
     }
 
