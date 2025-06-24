@@ -85,9 +85,6 @@ const current_place = {
     localidad : ''
 }
 
-// object that will hold the Country objects instances
-let countries = {};
-
 breadcrumbs.addEventListener("click", e => {
 
     const breadcrumb_clicado = e.target.closest('.breadcrumbs > span');
