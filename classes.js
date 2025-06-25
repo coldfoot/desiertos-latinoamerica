@@ -9,7 +9,7 @@ class Country {
 
     }
 
-    render_provincia() { // desnecessario o argumento, melhorar
+    render_provincia() {
 
         const provincia_name = last_provincia_location_data.BASIC_INFO.NAME;
         const provincia_key = last_provincia_location_data.BASIC_INFO.KEY;
@@ -75,7 +75,7 @@ class Country {
 
     }
 
-    render_localidad(localidad) { // desnecessario o argumento, melhorar
+    render_localidad() {
 
         // aqui já se assume que o last_localidad_location_data já foi atualizado.
 
@@ -94,8 +94,6 @@ class Country {
             last_provincia_location_data = main_data[this.country].large_units.filter(d => d.BASIC_INFO.NAME == provincia_name)[0];
 
         }
-
-        // e o caso da busca textual? tem que atualizar o
 
         const provincia_key = last_provincia_location_data.BASIC_INFO.KEY;
 
@@ -250,6 +248,10 @@ class Country {
         }
 
         last_country = pais;
+
+    }
+
+    update_provincia_data(provincia_name) {
 
     }
 }

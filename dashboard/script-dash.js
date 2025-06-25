@@ -518,17 +518,12 @@ function monitor_search_bar(data) {
 
                 const parent = selectedOption.dataset.parent;
 
-                last_localidad_location_data = data.smaller_units.filter(d => d.KEY == key)[0];
-                last_provincia_location_data = data.larger_units.filter(d => d.NAME == parent)[0];
-
-                console.log(last_localidad_location_data);
-
-                // encapsular?
+                last_localidad_location_data = main_data[country].smaller_units.filter(d => d.BASIC_INFO.KEY == key)[0];
+                last_provincia_location_data = main_data[country].larger_units.filter(d => d.BASIC_INFO.NAME == parent)[0];
 
                 update_breadcrumbs('ut-maior', parent);
 
-                countries[country].render_localidad(last_localidad_location_data[
-                countries[country].ut_menor.key_name]);
+                countries[country].render_localidad();
                 countries[country].ut_menor.monitor_events("on");
 
 
@@ -536,8 +531,8 @@ function monitor_search_bar(data) {
 
             if (tipo == "provincia") {
 
-                last_provincia_location_data = data.larger_units.filter(d => d.KEY == key)[0];
-                countries[country].render_provincia(last_provincia_location_data[countries[country].ut_maior.key_name]);
+                last_provincia_location_data = main_data[country].larger_units.filter(d => d.BASIC_INFO.KEY == key)[0];
+                countries[country].render_provincia();
 
             }
 
