@@ -247,13 +247,20 @@ function init() {
 
         story = new Story(".scroller-step");
 
-        if (!dashboard) {
+        //if (!dashboard) {
             
-            countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "provincia", "mapbox://tiagombp.d8u3a43g", "localidad");
+            countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.2c7pqb06", "large-units-argentina-9wj09y", "mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
 
-            countries["Chile"]     = new Country("Chile", "", "mapbox://tiagombp.af5egui6", "larger-units-chile-ctx9m7", "mapbox://tiagombp.5gi1do4b", "smaller-units-chile-81ipdl");
+            countries["Chile"]     = new Country("Chile", "", "mapbox://tiagombp.0l57h9et", "large-units-chile-9v7av2", "mapbox://tiagombp.54kh6vm7", "small-units-chile-auxnhe");
 
-        }
+            countries["Peru"] = new Country(
+                "Peru", "",
+                "mapbox://tiagombp.d899dc8k", "large-units-peru-42epjp",
+                "mapbox://tiagombp.3636aktg",
+                "small-units-peru-3glt7j"
+            )
+
+        //}
 
 
         /*
@@ -310,7 +317,7 @@ class Story {
             }
 
             clear_latam();
-            
+
             countries[current_country].ut_maior.toggle_hover_border();
 
 
