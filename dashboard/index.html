@@ -93,7 +93,7 @@
 
         </div>
 
-        <div class="text-panel-container" data-classification-localidad="">
+        <div class="text-panel-container" data-view="latam" data-classification-localidad="">
 
             <button class="expand-card-mobile" aria-hidden="true" aria-label="expands information card">
                 <span aria-hidden="true" class="up-arrow">
@@ -138,6 +138,12 @@
             </div>
 
             <div class="conteudo">
+
+                <div data-tipo-conteudo="apresentacao" class="conteudo-active">
+                    <p>¿Tu comunidad vive en un desierto o en un bosque informativo? Este mapa interactivo, construido con el trabajo de más de 100 investigadores locales, clasifica las condiciones para el ejercicio del periodismo de servicio público en cinco países de América Latina.</p>
+                    <p>Haz clic en cualquier país para conocer la clasificación de sus territorios y el perfil de sus ecosistemas informativos.</p>
+                    
+                </div>
 
                 <div data-tipo-conteudo="resumen">
                     <h3 data-resumen-campo="classification"></h3>
@@ -184,17 +190,18 @@
 
                 </div>
 
-                <div data-tipo-conteudo="medio" data-relato-campo="MEDIO" class="conteudo-active">
+                <div data-tipo-conteudo="medio" data-relato-campo="MEDIO" class="">
                     El medio estándar en la provincia de Buenos Aires es un portal digital de noticias que emplea a alrededor de cinco periodistas, pero cuyas condiciones de contratación son inciertas. Este medio prototípico recibe publicidad oficial, aunque sus responsables no saben o prefieren no contestar qué porcentaje representa el aporte del Estado en el ingreso total. Su agenda informativa está centrada en la atención sanitaria, preocupación que coincide con la pandemia del coronavirus vigente al momento de la investigación.
                 </div>
 
             </div>
 
-            <div class="wrapper-btns-nav" data-modo="provincia">
-                <button data-btn-nav="medio" class="btn-nav-active">Medio prototípico</button>
+            <div class="wrapper-btns-nav" data-modo="latam">
+                <button data-btn-nav="apresentacao" class="btn-nav-active">Presentación</button>
+                <button data-btn-nav="medio" class="btn-hidden">Medio prototípico</button>
                 <button data-btn-nav="resumen" class="btn-hidden">Resumén</button>
-                <button data-btn-nav="relato">Relato de investigación</button>
-                <button data-btn-nav="datos">Más datos</button>
+                <button data-btn-nav="relato">Principales Hallazgos</button>
+                <button data-btn-nav="datos" class="btn-hidden">Más datos</button>
             </div>
 
         </div>

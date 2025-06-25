@@ -143,6 +143,8 @@ menu_pais.addEventListener("click", e => {
         
         const pais = div_pais.dataset.pais; 
 
+        text_panel.dataset.view = "country";
+
         countries[pais].render_pais();
 
     }
@@ -169,7 +171,7 @@ function control_nav_buttons(modo) {
 
     }
 
-    if (modo == "provincia" | modo == "pais") {
+    if (modo == "provincia") {
 
         container_btns.dataset.modo = "provincia";
 
@@ -177,6 +179,16 @@ function control_nav_buttons(modo) {
 
         show_conteudo("medio");
         activate_button("medio");
+
+    }
+
+    if (modo == "pais" | modo == "latam") {
+
+        container_btns.dataset.modo = "pais";
+
+        btns_to_show = ["apresentacao", "relato"];
+        show_conteudo("apresentacao");
+        activate_button("apresentacao");
 
     }
 
@@ -668,6 +680,7 @@ class CountriesEvents {
             { hover : false }
         );
 
+        text_panel.dataset.view = "country";
 
         countries[country].render_pais();
 
