@@ -36,9 +36,9 @@ class Country {
 
         } else {
 
-            if (this.country == "Chile") {
+            if (this.country == "chile") {
 
-                const provincia_data = main_data.larger_units.filter(d => d.NAME == provincia)[0];
+                const provincia_data = main_data[country].larger_units.filter(d => d.NAME == provincia)[0];
                 console.log(provincia, provincia_data);
 
                 bbox_provincia = [
@@ -87,7 +87,7 @@ class Country {
 
         let bbox_provincia;
 
-        if (this.country == "Argentina") {
+        if (this.country == "argentina") {
 
             bbox_provincia = [
                 last_localidad_location_data.xmin, last_localidad_location_data.ymin,
@@ -96,7 +96,7 @@ class Country {
 
         } else {
 
-            const provincia_data = main_data.larger_units.filter(d => d.NAME == last_localidad_location_data[this.ut_menor.key_parent])[0];
+            const provincia_data = main_data[country].larger_units.filter(d => d.NAME == last_localidad_location_data[this.ut_menor.key_parent])[0];
     
             console.log(provincia_data);
 
@@ -168,7 +168,7 @@ class Country {
         map.moveLayer(this.country + "-provincia-border-hover");
         map.moveLayer(this.country + "-provincia-border");
 
-        if (["Argentina", "Chile"].includes(this.country)) {
+        if (["argentina", "chile", "peru"].includes(this.country)) {
 
             this.paint_country_subnational("on");
 
@@ -194,30 +194,17 @@ class Country {
 
         if (mode == "on") {
 
-            if (this.country == "Argentina") {
+            map.setPaintProperty(
+                this.country + '-localidad',
+                'fill-color',
+                [
+                    'match',
+                    ['get', 'classification'],
+                    ...Object.keys(colors_css).flatMap(key => [key, colors_css[key]]),
+                    'gray'
+                ]
+            );
 
-                map.setPaintProperty(
-                    this.country + '-localidad',
-                    'fill-color', 
-                    ['get', 'color_real']
-                );
-
-                converte_cores_argentina();
-
-            } else {
-
-                map.setPaintProperty(
-                    this.country + '-localidad',
-                    'fill-color',
-                    [
-                        'match',
-                        ['get', 'CLASSIFICATION'],
-                        ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
-                        'gray'
-                    ]
-                );
-
-            }
 
         } else {
 
@@ -305,7 +292,7 @@ class UTmaior {
         this.country = country;
         this.source_layer_name = source_layer_name;
 
-        if (this.country == "Argentina") {
+        if (this.country == "argentina") {
 
             this.key_id = 'nam';
             this.key_name = 'local';
@@ -574,7 +561,7 @@ class UTmenor {
         this.country = country;
         this.source_layer_name = source_layer_name;
 
-        if (this.country == "Argentina") {
+        if (this.country == "argentina") {
 
             this.key_id = 'randId';
             this.key_name = 'nam';
