@@ -162,11 +162,11 @@ let story;
 
 //const bboxes = {};
 const bboxes = {
-    "Argentina" : [-73.57626953125, -55.03212890625, -53.6685546875, -21.8025390625],
-    "Chile" : [-109.434130859375, -55.89169921875, -66.435791015625, -17.5060546875],
-    "Colombia" : [-79.025439453125, -4.23593750000001, -66.876025390625, 12.434375],
-    "Mexico" : [-118.4013671875, 14.54541015625, -86.6962890625, 32.71533203125],
-    "Peru" : [-81.33662109375, -18.34560546875, -68.68525390625, -0.041748046875]
+    "argentina" : [-73.57626953125, -55.03212890625, -53.6685546875, -21.8025390625],
+    "chile" : [-109.434130859375, -55.89169921875, -66.435791015625, -17.5060546875],
+    "colombia" : [-79.025439453125, -4.23593750000001, -66.876025390625, 12.434375],
+    "mexico" : [-118.4013671875, 14.54541015625, -86.6962890625, 32.71533203125],
+    "peru" : [-81.33662109375, -18.34560546875, -68.68525390625, -0.041748046875]
 }
 
 const overall_bbox = [-118.4013671875, -55.891699218750006, -53.66855468749999, 32.71533203125];
@@ -249,12 +249,12 @@ function init() {
 
         //if (!dashboard) {
             
-            countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.2c7pqb06", "large-units-argentina-9wj09y", "mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
+            countries["argentina"] = new Country("argentina", "", "mapbox://tiagombp.2c7pqb06", "large-units-argentina-9wj09y", "mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
 
-            countries["Chile"]     = new Country("Chile", "", "mapbox://tiagombp.0l57h9et", "large-units-chile-9v7av2", "mapbox://tiagombp.54kh6vm7", "small-units-chile-auxnhe");
+            countries["chile"]     = new Country("chile", "", "mapbox://tiagombp.0l57h9et", "large-units-chile-9v7av2", "mapbox://tiagombp.54kh6vm7", "small-units-chile-auxnhe");
 
-            countries["Peru"] = new Country(
-                "Peru", "",
+            countries["peru"] = new Country(
+                "peru", "",
                 "mapbox://tiagombp.d899dc8k", "large-units-peru-42epjp",
                 "mapbox://tiagombp.3636aktg",
                 "small-units-peru-3glt7j"
