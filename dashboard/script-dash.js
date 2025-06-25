@@ -263,8 +263,8 @@ function display_paisage(tipo_paisage, country) {
                 'case',
                 [
                     '==',
-                    ['get', 'CLASSIFICATION'],
-                    tipo_paisage.toUpperCase()
+                    ['get', 'classification'],
+                    tipo_paisage
                 ],
                 colors_css[tipo_paisage],
                 'transparent'
@@ -273,30 +273,16 @@ function display_paisage(tipo_paisage, country) {
 
     } else {
 
-        if (country == "Argentina") {
-
-            map.setPaintProperty(
-                country + '-localidad',
-                'fill-color', 
-                ['get', 'color_real']
-            );
-
-            converte_cores_argentina();
-
-        } else {
-
-            map.setPaintProperty(
-                country + '-localidad',
-                'fill-color',
-                [
-                    'match',
-                    ['get', 'CLASSIFICATION'],
-                    ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
-                    'gray'
-                ]
-            );
-
-        }
+        map.setPaintProperty(
+            country + '-localidad',
+            'fill-color',
+            [
+                'match',
+                ['get', 'classification'],
+                ...Object.keys(colors_css).flatMap(key => [key, colors_css[key]]),
+                'gray'
+            ]
+        );
 
     }
 
@@ -342,11 +328,11 @@ function update_infocard(name, key, country, tipo) {
 
     control_nav_buttons(tipo);
 
-    if (tipo == "provincia" & country == "Chile") {
+    if (tipo == "provincia" & country == "chile") {
 
         const fields = ["TITLE", "DATE", "AUTHOR", "RELATO", "MEDIO"];
 
-        const mini_data = main_data.larger_units.filter(d => d.NAME == name)[0];
+        const mini_data = main_data[country].larger_units.filter(d => d.NAME == name)[0];
 
         fields.forEach(field => {
 
@@ -367,15 +353,15 @@ function update_infocard(name, key, country, tipo) {
 
     }
 
-    if (tipo == "localidad" & country == "Chile") {
+    if (tipo == "localidad" & country == "chile") {
 
-        const existem_dados = main_data.smaller_units.filter(d => d.KEY == key).length > 0;
+        const existem_dados = main_data[country].smaller_units.filter(d => d.KEY == key).length > 0;
 
         let classification, basic_info_data;
 
         if (existem_dados) {
 
-            basic_info_data = main_data.smaller_units.filter(d => d.KEY == key)[0].BASIC_INFO;
+            basic_info_data = main_data[country].smaller_units.filter(d => d.KEY == key)[0].BASIC_INFO;
         
             classification = basic_info_data.classification;
 
@@ -725,7 +711,7 @@ let main_data;
 // main function
 map.on("load", () => {
 
-    fetch("../chile.json").then(response => response.json()).then(data => {
+    fetch("../data.json").then(response => response.json()).then(data => {
 
         main_data = data;
 
@@ -763,8 +749,10 @@ map.on("load", () => {
             }
         }); 
 
+        /*
         countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "provincia", "mapbox://tiagombp.d8u3a43g", "localidad");
         countries["Chile"]     = new Country("Chile", "", "mapbox://tiagombp.af5egui6", "larger-units-chile-ctx9m7", "mapbox://tiagombp.5gi1do4b", "smaller-units-chile-81ipdl")
+        */
 
         countries_events.monitor_events("on");
 
