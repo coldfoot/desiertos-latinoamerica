@@ -526,6 +526,10 @@ function monitor_search_bar(data) {
 
             console.log(value, selectedOption, key, tipo, country);
 
+            if (last_country) {
+                countries[last_country].clear_country_subnational();
+            }
+
             last_country = country;
 
             update_country_button(country);
@@ -552,7 +556,7 @@ function monitor_search_bar(data) {
 
             if (tipo == "provincia") {
 
-                last_provincia_location_data = main_data[country].larger_units.filter(d => d.BASIC_INFO.KEY == key)[0];
+                last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.KEY == key)[0];
                 countries[country].render_provincia();
 
             }
