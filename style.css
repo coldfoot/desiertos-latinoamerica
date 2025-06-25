@@ -415,6 +415,10 @@ span.highlight {
     border-radius: 10px;
 }
 
+span.highlight[data-tipo-paisage="bosque"] {
+    color: var(--color-bg);
+}
+
 
 /******* DASHBOARD *********/
 
@@ -643,6 +647,17 @@ div.seleccione-ubicacion-container {
 .text-panel-container[data-classification-localidad="semidesierto"] h3[data-resumen-campo="classification"] { color: var(--color-semidesierto); }
 .text-panel-container[data-classification-localidad="semibosque"] h3[data-resumen-campo="classification"] { color: var(--color-semibosque); }
 .text-panel-container[data-classification-localidad="bosque"] h3[data-resumen-campo="classification"] { color: var(--color-bosque); }
+
+span[data-resumen-tipo-classificacao] {
+    display: none;
+}
+
+.text-panel-container[data-classification-localidad="desierto"] span[data-resumen-tipo-classificacao="desierto"],
+.text-panel-container[data-classification-localidad="semidesierto"] span[data-resumen-tipo-classificacao="semidesierto"],
+.text-panel-container[data-classification-localidad="semibosque"] span[data-resumen-tipo-classificacao="semibosque"],
+.text-panel-container[data-classification-localidad="bosque"] span[data-resumen-tipo-classificacao="bosque"] {
+    display: initial;
+}
 
 .text-panel-container .author {
     font-style: italic;
