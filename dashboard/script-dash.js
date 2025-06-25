@@ -328,15 +328,16 @@ function update_infocard(name, key, country, tipo) {
 
     control_nav_buttons(tipo);
 
-    if (tipo == "provincia" & country == "chile") {
+    if (tipo == "provincia") {
 
         const fields = ["TITLE", "DATE", "AUTHOR", "RELATO", "MEDIO"];
 
-        const mini_data = main_data[country].larger_units.filter(d => d.NAME == name)[0];
+        const mini_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == name)[0]
+        const narrative_data = mini_data.NARRATIVE;
 
         fields.forEach(field => {
 
-            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = mini_data[field];
+            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
 
             if (field = "AUTHOR") {
                 container_relato.classList.remove("expandido");
@@ -353,17 +354,17 @@ function update_infocard(name, key, country, tipo) {
 
     }
 
-    if (tipo == "localidad" & country == "chile") {
+    if (tipo == "localidad") {
 
-        const existem_dados = main_data[country].smaller_units.filter(d => d.KEY == key).length > 0;
+        const existem_dados = main_data[country].small_units.filter(d => d.BASIC_INFO.KEY == key).length > 0;
 
         let classification, basic_info_data;
 
         if (existem_dados) {
 
-            basic_info_data = main_data[country].smaller_units.filter(d => d.KEY == key)[0].BASIC_INFO;
+            basic_info_data = main_data[country].small_units.filter(d => d.BASIC_INFO.KEY == key)[0].BASIC_INFO;
         
-            classification = basic_info_data.classification;
+            classification = basic_info_data.CLASSIFICATION;
 
             document.querySelector("[data-resumen-campo]").innerHTML = classification;
             
@@ -434,43 +435,51 @@ function populate_datalist(data) {
 
     const ref_datalist = search_container.querySelector("datalist");
 
-    const localidads = data.smaller_units;
-    const provincias = data.larger_units;
+    const countries = Object.keys(data);
 
-    provincias.forEach(row => {
+    countries.forEach(country => {
 
-        const new_option = document.createElement("option");
+        const country_name = country[0].toUpperCase() + country.slice(1);
 
-        const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
+        const localidads = data[country].small_units;
+        const provincias = data[country].large_units;
+
+        provincias.forEach(row => {
+
+            const new_option = document.createElement("option");
+
+            //const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
+            
+            new_option.label = `${row.BASIC_INFO.NAME}, ${country_name}`
+            //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+            new_option.value = `${row.BASIC_INFO.NAME}, ${country_name}`
+            new_option.dataset.tipoLocalidade = "provincia";
+            new_option.dataset.key = row.BASIC_INFO.KEY;
+            new_option.dataset.country = country;
+
+            ref_datalist.appendChild(new_option);
+
+        })
         
-        new_option.label = `${row.NAME} (${country})`
-        //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        localidads.forEach(row => {
 
-        new_option.value = `${row.NAME} (${country})`
-        new_option.dataset.tipoLocalidade = "provincia";
-        new_option.dataset.key = row.KEY;
-        new_option.dataset.country = country;
+            const new_option = document.createElement("option");
 
-        ref_datalist.appendChild(new_option);
+            //const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
+            
+            new_option.label = `${row.BASIC_INFO.NAME}, ${row.BASIC_INFO.PARENT}, ${country_name}`;
+            //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
-    })
-    
-    localidads.forEach(row => {
+            new_option.value = `${row.BASIC_INFO.NAME}, ${row.BASIC_INFO.PARENT}, ${country_name}`;
+            new_option.dataset.tipoLocalidade = "localidad";
+            new_option.dataset.key = row.BASIC_INFO.KEY;
+            new_option.dataset.country = country;
+            new_option.dataset.parent = row.BASIC_INFO.PARENT;
 
-        const new_option = document.createElement("option");
+            ref_datalist.appendChild(new_option);
 
-        const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
-        
-        new_option.label = `${row.NAME} (${row.PARENT}, ${country})`;
-        //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-
-        new_option.value = `${row.NAME} (${row.PARENT}, ${country})`;
-        new_option.dataset.tipoLocalidade = "localidad";
-        new_option.dataset.key = row.KEY;
-        new_option.dataset.country = country;
-        new_option.dataset.parent = row.PARENT;
-
-        ref_datalist.appendChild(new_option);
+        })
 
     })
 
@@ -569,10 +578,11 @@ class CountriesEvents {
         ]; */
 
         const name = e.features[0].properties.country_name;
+        const country_key = name.toLowerCase();
 
         let coordinates = [
-            ( bboxes[name][0] + bboxes[name][2] ) / 2,
-            ( bboxes[name][1] + bboxes[name][3] ) / 2
+            ( bboxes[country_key][0] + bboxes[country_key][2] ) / 2,
+            ( bboxes[country_key][1] + bboxes[country_key][3] ) / 2
         ];
 
         this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
@@ -595,7 +605,7 @@ class CountriesEvents {
 
         }
 
-        this.hoveredStateId = e.features[0].properties.country_name;
+        this.hoveredStateId = name;//e.features[0].properties.country_name;
 
         map.setFeatureState(
             { 
@@ -634,7 +644,7 @@ class CountriesEvents {
 
     click_handler(e) {
 
-        const country = e.features[0].properties.country_name;
+        const country = e.features[0].properties.country_name.toLowerCase();
 
         const local = {
 

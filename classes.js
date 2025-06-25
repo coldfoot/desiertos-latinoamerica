@@ -119,7 +119,7 @@ class Country {
         this.ut_menor.toggle_borders("on");
         this.ut_maior.toggle_highlight_border(provincia_key);
 
-        this.ut_menor.toggle_highlight(localidad);
+        this.ut_menor.toggle_highlight(localidad_key);
 
         //this.ut_maior.monitor_events("off");
         //this.ut_menor.monitor_events("on");
@@ -172,7 +172,7 @@ class Country {
                 [
                     'match',
                     ['get', 'classification'],
-                    ...Object.keys(colors_css).flatMap(key => [key, colors_css[key]]),
+                    ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
                     'gray'
                 ]
             );
@@ -288,7 +288,7 @@ class UTmaior {
         map.addSource(country + '-provincia', {
             type: 'vector',
             url : url,
-            'promoteId' : this.key_id
+            'promoteId' : 'key'
         });
 
         map.addLayer({
@@ -354,8 +354,8 @@ class UTmaior {
         map.setFilter(
             this.country + '-provincia-border', [
                 '==',
-                ['get', this.key_id],
-                provincia_key
+                ['get', 'key'],
+                '__' + provincia_key // por causa
             ]
         );
 
@@ -373,10 +373,9 @@ class UTmaior {
 
     mouse_enter_handler(e) {
 
-        console.log(e.features[0]);
-        const place_key = e.features[0].properties[this.key_name];
+        let place_key = e.features[0].properties.key;
 
-        const place_data = main_data[this.country].large_units.filter(d => d.BASIC_INFO.KEY = place_key);
+        const place_data = main_data[this.country].large_units.filter(d => "__" + d.BASIC_INFO.KEY == place_key)[0];
 
         // pop up
         let coordinates = [
@@ -385,8 +384,6 @@ class UTmaior {
         ]; 
 
         let name = place_data.BASIC_INFO.NAME;
-
-        console.log(place_key, place_data, coordinates, name);
 
         this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
 
@@ -444,9 +441,10 @@ class UTmaior {
 
     click_event_handler(e) {
     
-        const place_key = e.features[0].properties[this.key_name];
-
-        const place_data = main_data[this.country].large_units.filter(d => d.BASIC_INFO.KEY = place_key);
+        const place_key = e.features[0].properties.key; 
+        
+        // porque o key é tipo "__Nome".
+        const place_data = main_data[this.country].large_units.filter(d => "__" + d.BASIC_INFO.KEY == place_key)[0];
 
         const province_name = place_data.BASIC_INFO.NAME;
 
@@ -470,13 +468,13 @@ class UTmaior {
             { 
                 source: this.country + '-provincia',
                 sourceLayer: this.source_layer_name,
-                id: province_name
+                id: place_key
             },
 
             { hover : false }
         );
 
-        countries[this.country].render_provincia(place_key);
+        countries[this.country].render_provincia();
 
     }
 
@@ -568,7 +566,7 @@ class UTmenor {
         map.addSource(country + '-localidad', {
             type: 'vector',
             url : url,
-            'promoteId' : this.key_id
+            'promoteId' : "key"
         });
 
         map.addLayer({
@@ -655,12 +653,12 @@ class UTmenor {
         let local;
 
         if (localidad == '') local = localidad;
-        else local = last_localidad_location_data[this.key_id];
+        else local = last_localidad_location_data.BASIC_INFO.KEY;
 
         map.setFilter(
             this.country + '-localidad-highlight', [
                 '==',
-                ['get', this.key_id],
+                ['get', 'key'],
                 local
             ]
         );
@@ -673,7 +671,7 @@ class UTmenor {
                 'case',
                 [
                     '==',
-                    ['get', this.key_id],
+                    ['get', 'key'],
                     local
                 ],
                 1,
@@ -739,9 +737,9 @@ class UTmenor {
         // Change the cursor style as a UI indicator.
         map.getCanvas().style.cursor = 'pointer';
 
-        const place_key = e.features[0].properties[this.key_name];
+        const place_key = e.features[0].properties.key;
 
-        const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY = place_key);
+        const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
       
         let coordinates = [
             place_data.CENTROID.xc,
@@ -868,9 +866,9 @@ class UTmenor {
     }
     click_event_handler(e) {
 
-        const place_key = e.features[0].properties[this.key_name];
+        const place_key = e.features[0].properties.key;
 
-        const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY = place_key);
+        const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
       
         const localidad_name = place_data.BASIC_INFO.NAME;
         
