@@ -575,8 +575,8 @@ function monitor_search_bar(data) {
 
                 const parent = selectedOption.dataset.parent;
 
-                last_localidad_location_data = main_data[country].smaller_units.filter(d => d.BASIC_INFO.KEY == key)[0];
-                last_provincia_location_data = main_data[country].larger_units.filter(d => d.BASIC_INFO.NAME == parent)[0];
+                last_localidad_location_data = main_data[country].small_units.filter(d => d.BASIC_INFO.KEY == key)[0];
+                last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == parent)[0];
 
                 update_breadcrumbs('ut-maior', parent);
 
