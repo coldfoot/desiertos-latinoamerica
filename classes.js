@@ -73,7 +73,7 @@ class Country {
         );
 
         this.ut_menor.toggle_borders("on");
-        this.ut_maior.toggle_hightlight_border(provincia);
+        this.ut_maior.toggle_highlight_border(provincia);
         this.ut_menor.toggle_highlight('');
 
         this.ut_maior.monitor_events("off");
@@ -145,7 +145,7 @@ class Country {
         update_breadcrumbs('ut-menor', localidad);
 
         this.ut_menor.toggle_borders("on");
-        this.ut_maior.toggle_hightlight_border(last_provincia_location_data[this.ut_maior.key_name]);
+        this.ut_maior.toggle_highlight_border(last_provincia_location_data[this.ut_maior.key_name]);
 
         this.ut_menor.toggle_highlight(localidad);
 
@@ -176,7 +176,7 @@ class Country {
             this.ut_maior.toggle_hover_border(); // será que não teria que estar junto com o monitor_events do ut_maior
             this.ut_menor.monitor_events("off");
             this.ut_menor.toggle_borders("off");
-            this.ut_maior.toggle_hightlight_border('');
+            this.ut_maior.toggle_highlight_border('');
             this.ut_menor.toggle_highlight('');
 
 
@@ -250,7 +250,7 @@ class Country {
         this.paint_country_subnational("off");
 
         this.ut_menor.toggle_borders("off");
-        this.ut_maior.toggle_hightlight_border('');
+        this.ut_maior.toggle_highlight_border('');
         this.ut_menor.toggle_highlight('');
         this.ut_menor.monitor_events("off");
 
@@ -394,7 +394,7 @@ class UTmaior {
 
     }
 
-    toggle_hightlight_border(provincia) {
+    toggle_highlight_border(provincia) {
 
         console.log(provincia);
 
