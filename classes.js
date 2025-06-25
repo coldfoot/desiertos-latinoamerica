@@ -1,4 +1,3 @@
-
 class Country {
 
     constructor(country_name, bbox_country, url_ut_maior, source_layer_ut_maior, url_ut_menor, source_layer_ut_menor) {
@@ -10,16 +9,22 @@ class Country {
 
     }
 
-    render_provincia(provincia) { // desnecessario o argumento, melhorar
+    render_provincia() { // desnecessario o argumento, melhorar
 
+        const provincia_name = last_provincia_location_data.BASIC_INFO.NAME;
+        const provincia_key = last_provincia_location_data.BASIC_INFO.KEY;
 
-        update_breadcrumbs('ut-maior', provincia);
+        update_breadcrumbs('ut-maior', provincia_name);
 
+        const bbox_provincia = [
+            last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
+            last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
+        ]; 
+
+        /*
         let bbox_provincia;
 
-        console.log(provincia, last_provincia_location_data.bbox);
-
-        if (last_provincia_location_data.bbox) {
+        if (last_provincia_location_data.BBOX) {
 
             if (last_provincia_location_data.bbox.minx) {
 
@@ -36,76 +41,17 @@ class Country {
 
         } else {
 
-            if (this.country == "chile") {
-
-                const provincia_data = main_data[country].larger_units.filter(d => d.NAME == provincia)[0];
-                console.log(provincia, provincia_data);
-
-                bbox_provincia = [
-                    provincia_data.bbox.minx, provincia_data.bbox.miny,
-                    provincia_data.bbox.maxx, provincia_data.bbox.maxy
-                ]; 
-
-            } else {
-                        
-                bbox_provincia = [
-                    last_provincia_location_data.xmin, last_provincia_location_data.ymin,
-                    last_provincia_location_data.xmax, last_provincia_location_data.ymax
-                ]; 
-
-            }
-
-            last_provincia_location_data.bbox = bbox_provincia;
-
-        }
-
-
-
-        map.fitBounds(
-
-            bbox_provincia, 
-
-            {
-                linear : false, // false means the map transitions using map.flyTo()
-                speed: 1, 
-                padding: {top: 80, bottom: 100, left: 30, right: 30},
-            }
-        );
-
-        this.ut_menor.toggle_borders("on");
-        this.ut_maior.toggle_highlight_border(provincia);
-        this.ut_menor.toggle_highlight('');
-
-        this.ut_maior.monitor_events("off");
-        this.ut_menor.monitor_events("on");
-
-        update_infocard(provincia, provincia, this.country, "provincia");
-
-    }
-
-    render_localidad(localidad) { // desnecessario o argumento, melhorar
-
-        let bbox_provincia;
-
-        if (this.country == "argentina") {
-
-            bbox_provincia = [
-                last_localidad_location_data.xmin, last_localidad_location_data.ymin,
-                last_localidad_location_data.xmax, last_localidad_location_data.ymax
-            ];
-
-        } else {
-
-            const provincia_data = main_data[country].larger_units.filter(d => d.NAME == last_localidad_location_data[this.ut_menor.key_parent])[0];
-    
-            console.log(provincia_data);
+            const provincia_data = main_data[country].larger_units.filter(d => d.NAME == provincia)[0];
+            console.log(provincia, provincia_data);
 
             bbox_provincia = [
                 provincia_data.bbox.minx, provincia_data.bbox.miny,
                 provincia_data.bbox.maxx, provincia_data.bbox.maxy
             ]; 
 
-        }
+            last_provincia_location_data.bbox = bbox_provincia;
+
+        }*/
 
         map.fitBounds(
 
@@ -118,34 +64,62 @@ class Country {
             }
         );
 
+        this.ut_menor.toggle_borders("on");
+        this.ut_maior.toggle_highlight_border(provincia_key);
+        this.ut_menor.toggle_highlight('');
+
+        this.ut_maior.monitor_events("off");
+        this.ut_menor.monitor_events("on");
+
+        update_infocard(provincia_name, provincia_key, this.country, "provincia");
+
+    }
+
+    render_localidad(localidad) { // desnecessario o argumento, melhorar
+
+        // aqui já se assume que o last_localidad_location_data já foi atualizado.
+
+        const localidad_name = last_localidad_location_data.BASIC_INFO.NAME;
+
+        const localidad_key = last_localidad_location_data.BASIC_INFO.KEY;
+
+        const provincia_name = last_localidad_location_data.BASIC_INFO.PARENT;
+
+        let last_provincia_name = last_provincia_location_data.BASIC_INFO.NAME;
+
         // no caso de o usuário clicar numa localidade de outra provincia!
-        if (last_localidad_location_data[this.ut_menor.key_parent] != last_provincia_location_data[this.ut_maior.key_name]) {
-            // updates a provincia
+        if (provincia_name != last_provincia_name) {
 
-            const provincia_features = map.queryRenderedFeatures(
-                { 
-                    layers: [this.country + '-provincia'], 
-                    filter : [
-                        '==',
-                        ['get', this.ut_maior.key_name],
-                        last_localidad_location_data[this.ut_menor.key_parent]
-                    ] 
-                }
-            );
-
-            last_provincia_location_data = provincia_features[0].properties;
-            last_provincia_location_data.bbox = bbox_provincia;
-            console.log(last_provincia_location_data.bbox);
-
-            update_breadcrumbs('ut-maior', last_localidad_location_data[this.ut_menor.key_parent]);
-
+            // atualizo a provincia
+            last_provincia_location_data = main_data[this.country].large_units.filter(d => d.BASIC_INFO.NAME == provincia_name)[0];
 
         }
 
-        update_breadcrumbs('ut-menor', localidad);
+        // e o caso da busca textual? tem que atualizar o
+
+        const provincia_key = last_provincia_location_data.BASIC_INFO.KEY;
+
+        const bbox_provincia = [
+            last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
+            last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
+        ]; 
+
+        map.fitBounds(
+
+            bbox_provincia, 
+
+            {
+                linear : false, // false means the map transitions using map.flyTo()
+                speed: 1, 
+                padding: {top: 80, bottom: 100, left: 30, right: 30},
+            }
+        );
+
+        update_breadcrumbs('ut-maior', provincia_name);
+        update_breadcrumbs('ut-menor', localidad_name);
 
         this.ut_menor.toggle_borders("on");
-        this.ut_maior.toggle_highlight_border(last_provincia_location_data[this.ut_maior.key_name]);
+        this.ut_maior.toggle_highlight_border(provincia_key);
 
         this.ut_menor.toggle_highlight(localidad);
 
@@ -153,8 +127,8 @@ class Country {
         //this.ut_menor.monitor_events("on");
 
         update_infocard(
-            last_localidad_location_data[this.ut_menor.key_name],
-            last_localidad_location_data[this.ut_menor.key_id],
+            localidad_name,
+            localidad_key,
             this.country,
             "localidad"
          );
@@ -292,17 +266,7 @@ class UTmaior {
         this.country = country;
         this.source_layer_name = source_layer_name;
 
-        if (this.country == "argentina") {
-
-            this.key_id = 'nam';
-            this.key_name = 'local';
-
-        } else {
-
-            this.key_id = 'KEY';
-            this.key_name = 'NAME';
-
-        }
+        this.key_id = 'key';
 
         this.load(country, url, source_layer_name);
 
@@ -381,15 +345,15 @@ class UTmaior {
 
     }
 
-    toggle_highlight_border(provincia) {
+    toggle_highlight_border(provincia_key) {
 
-        console.log(provincia);
+        console.log(provincia_key);
 
         map.setFilter(
             this.country + '-provincia-border', [
                 '==',
-                ['get', this.key_name],
-                provincia
+                ['get', this.key_id],
+                provincia_key
             ]
         );
 
@@ -407,13 +371,20 @@ class UTmaior {
 
     mouse_enter_handler(e) {
 
+        console.log(e.features[0]);
+        const place_key = e.features[0].properties[this.key_name];
+
+        const place_data = main_data[this.country].large_units.filter(d => d.BASIC_INFO.KEY = place_key);
+
         // pop up
         let coordinates = [
-            e.features[0].properties.xc,
-            e.features[0].properties.yc
+            place_data.CENTROID.xc,
+            place_data.CENTROID.yc
         ]; 
 
-        let name = e.features[0].properties[this.key_name];
+        let name = place_data.BASIC_INFO.NAME;
+
+        console.log(place_key, place_data, coordinates, name);
 
         this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
 
@@ -432,7 +403,7 @@ class UTmaior {
 
         }
 
-        this.hoveredStateId = e.features[0].properties[this.key_name];
+        this.hoveredStateId = place_key;
 
         map.setFeatureState(
             { 
@@ -470,12 +441,14 @@ class UTmaior {
     }
 
     click_event_handler(e) {
+    
+        const place_key = e.features[0].properties[this.key_name];
 
-        const province_name = e.features[0].properties[this.key_name];
+        const place_data = main_data[this.country].large_units.filter(d => d.BASIC_INFO.KEY = place_key);
 
-        last_provincia_location_data = e.features[0].properties;
+        const province_name = place_data.BASIC_INFO.NAME;
 
-        console.log(last_provincia_location_data);
+        last_provincia_location_data = place_data;
 
         /* Para evitar re-renderizar quando clica na mesma província
         if (province_name != current_place[this.key_parent]) {
@@ -501,7 +474,7 @@ class UTmaior {
             { hover : false }
         );
 
-        countries[this.country].render_provincia(province_name);
+        countries[this.country].render_provincia(place_key);
 
     }
 
@@ -764,14 +737,16 @@ class UTmenor {
         // Change the cursor style as a UI indicator.
         map.getCanvas().style.cursor = 'pointer';
 
-        //console.log(e);
-            
+        const place_key = e.features[0].properties[this.key_name];
+
+        const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY = place_key);
+      
         let coordinates = [
-            e.features[0].properties.xc,
-            e.features[0].properties.yc
+            place_data.CENTROID.xc,
+            place_data.CENTROID.yc
         ]; //e.features[0].geometry.coordinates.slice();
 
-        let name = e.features[0].properties[this.key_name];
+        let name = place_data.BASIC_INFO.NAME;
 
         //console.log('mouse enter fired ', coordinates, name);
             
@@ -805,7 +780,7 @@ class UTmenor {
 
         }
 
-        this.hoveredStateId = e.features[0].properties[this.key_id];
+        this.hoveredStateId = place_key;
 
         map.setFeatureState(
             { 
@@ -891,30 +866,22 @@ class UTmenor {
     }
     click_event_handler(e) {
 
+        const place_key = e.features[0].properties[this.key_name];
 
-        //const localidad = e.features[0].properties.local; //feature.properties.local;
-        const localidad_name = e.features[0].properties[this.key_name];
-        const provincia = e.features[0].properties[this.key_parent]; //feature.properties[this.key_parent];
+        const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY = place_key);
+      
+        const localidad_name = place_data.BASIC_INFO.NAME;
+        
+        const provincia = place_data.BASIC_INFO.PARENT;
 
-        last_localidad_location_data = e.features[0].properties; // isso aqui provavelmente vai fazer todo o resto ser desnecessário
-
-        console.log(last_localidad_location_data);
-
-        const local = {
-
-            //local : localidad,
-            tipo  : "localidad",
-            text  : localidad_name,
-            provincia : provincia
-
-        };
+        last_localidad_location_data = place_data; // isso aqui provavelmente vai fazer todo o resto ser desnecessário
 
         //console.log("Clicou em ", localidad, local, dash.vis.location_card.state.user_location_province);
 
         // clears hover featureState
         // o id da localidad é o randId. Só ver o 'promoteId' no addSource lá em cima.
 
-        const id = e.features[0].properties[this.key_id];
+        const id = place_key;
 
         map.setFeatureState(
             { 
@@ -926,7 +893,7 @@ class UTmenor {
             { hover : false }
         );
 
-        countries[this.country].render_localidad(last_localidad_location_data[this.key_name]);
+        countries[this.country].render_localidad(place_key);
 
     }
 
