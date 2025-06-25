@@ -264,7 +264,7 @@ function display_paisage(tipo_paisage, country) {
                 [
                     '==',
                     ['get', 'classification'],
-                    tipo_paisage
+                    tipo_paisage.toUpperCase()
                 ],
                 colors_css[tipo_paisage],
                 'transparent'
