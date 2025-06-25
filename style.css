@@ -228,12 +228,12 @@ header.show-menu .btn-menu-content {
 
 [data-slide="opening"] p {
 
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 
 }
 
 [data-slide="opening"] h1.goo {
-    font-size: 4rem;
+    font-size: 3rem;
     line-height: 1.35;
     display: inline;
     box-decoration-break: clone;
@@ -395,7 +395,7 @@ header.show-menu .btn-menu-content {
 
 [data-slide="first paragraph"] .text-slide-inner-wrapper .slide-main-text p {
     
-    font-size: 2.5rem;
+    font-size: 2rem;
     max-width: 800px;
     margin: 0 3rem
 
@@ -409,8 +409,8 @@ header.show-menu .btn-menu-content {
 }
 
 span.highlight {
-    background-color: var(--color-accent);
-    color: var(--color-bg);
+    /*background-color: var(--color-accent);*/
+    color: var(--color-text);/*var(--color-bg);*/
     padding: 0.1rem 0.5rem;
     border-radius: 10px;
 }
@@ -538,10 +538,10 @@ p.description-tipo-paisage {
     background-color: gray;
 }
 
-div[data-tipo-paisage="desierto"] {background-color: var(--color-desierto);}
-div[data-tipo-paisage="semidesierto"] {background-color: var(--color-semidesierto);}
-div[data-tipo-paisage="semibosque"] {background-color: var(--color-semibosque);}
-div[data-tipo-paisage="bosque"] {background-color: var(--color-bosque);}
+[data-tipo-paisage="desierto"] {background-color: var(--color-desierto);}
+[data-tipo-paisage="semidesierto"] {background-color: var(--color-semidesierto);}
+[data-tipo-paisage="semibosque"] {background-color: var(--color-semibosque);}
+[data-tipo-paisage="bosque"] {background-color: var(--color-bosque);}
 
 /* MENU PAIS */
 
