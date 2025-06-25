@@ -243,7 +243,7 @@ function init() {
             }
         });
 
-        plot_latam();
+        plot_latam(dashboard);
 
         story = new Story(".scroller-step");
 
