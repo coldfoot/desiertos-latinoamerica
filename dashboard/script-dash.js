@@ -541,16 +541,16 @@ function update_classification_barcharts(counts) {
 
             value = counts[tipo];
 
-            console.log(tipo, value);
-
             bar.style.flexBasis = value;
             label.innerHTML = value;
 
             // positioning
 
-            const w_bar = +value.slice(0,-1) * container_width;
+            const w_bar = +value.slice(0,-1) * container_width / 100;
             const w_label = +window.getComputedStyle(label).width.slice(0,-2);
             
+            console.log(tipo, value, container_width, w_bar, w_label);
+
             if (w_label > w_bar) {
                 console.log("Adding DISPLACED ", w_label, w_bar );
                 label.classList.add("displaced");
