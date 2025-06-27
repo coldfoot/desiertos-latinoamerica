@@ -143,8 +143,6 @@ menu_pais.addEventListener("click", e => {
         
         const pais = div_pais.dataset.pais; 
 
-        text_panel.dataset.view = "country";
-
         countries[pais].render_pais();
 
     }
@@ -335,6 +333,8 @@ function update_breadcrumbs(nivel, local) {
 function update_infocard(name, key, country, tipo) {
 
     console.log(name, key, country, tipo);
+
+    text_panel.dataset.view = tipo;
 
     document.querySelector("[data-infocard-field]").innerHTML = name;
 
@@ -804,8 +804,6 @@ class CountriesEvents {
 
             { hover : false }
         );
-
-        text_panel.dataset.view = "country";
 
         countries[country].render_pais();
 
