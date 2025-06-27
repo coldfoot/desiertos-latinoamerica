@@ -429,7 +429,8 @@ function update_infocard(name, key, country, tipo) {
 
         update_place_summary(null);
 
-        update_classification_barcharts("reset");
+        const counts = compute_classification(country);
+        update_classification_barcharts(counts);
 
     }
 
@@ -485,10 +486,11 @@ function update_country_button(pais) {
 function compute_classification(country, provincia) {
 
     console.log(provincia);
-    const localidads = main_data[country].small_units
-      .filter(d => d.BASIC_INFO.PARENT == provincia)
-      .map(d => d.BASIC_INFO.CLASSIFICATION.toLowerCase())
-    ;
+    let localidads = main_data[country].small_units;
+
+    if (provincia) localidads = localidads.filter(d => d.BASIC_INFO.PARENT == provincia);
+
+    localidads = localidads.map(d => d.BASIC_INFO.CLASSIFICATION.toLowerCase())
 
     const n = localidads.length;
 
