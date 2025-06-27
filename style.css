@@ -721,13 +721,21 @@ span[data-resumen-tipo-classificacao] {
     flex: 0 0 25%;
     height: 1.5rem;
     transition: flex-basis 0.4s;
+    position: relative;
 }
 
+span[data-barchart="sin datos"] {
+    flex-basis: 0;
+}
+
+
+span[data-barchart="sin datos"] {background-color: grey;}
 span[data-barchart="desierto"] {background-color: var(--color-desierto);}
 span[data-barchart="semidesierto"] {background-color: var(--color-semidesierto);}
 span[data-barchart="semibosque"] {background-color: var(--color-semibosque);}
 span[data-barchart="bosque"] {background-color: var(--color-bosque);}
 
+[data-classification-localidad="sin datos"] .place-paisage-composition > span,
 [data-classification-localidad="desierto"] .place-paisage-composition > span,
 [data-classification-localidad="semidesierto"] .place-paisage-composition > span,
 [data-classification-localidad="semibosque"] .place-paisage-composition > span,
@@ -735,6 +743,7 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     flex-basis: 0;
 }
 
+[data-classification-localidad="sin datos"] .place-paisage-composition > span[data-barchart="sin datos"],
 [data-classification-localidad="desierto"] .place-paisage-composition > span[data-barchart="desierto"],
 [data-classification-localidad="semidesierto"] .place-paisage-composition > span[data-barchart="semidesierto"],
 [data-classification-localidad="semibosque"] .place-paisage-composition > span[data-barchart="semibosque"],
@@ -742,6 +751,17 @@ span[data-barchart="bosque"] {background-color: var(--color-bosque);}
     flex-basis: 100%;
 }
 
+span[data-barchart] .barchart-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: .8em;
+    transform: translate(-50%, -50%);
+}
+
+span[data-barchart] .barchart-label.displaced {
+    transform: translate(-50%, 100%);
+}
 
 
 /* BUTTONS NAV DATOS RELATO MEDIO */

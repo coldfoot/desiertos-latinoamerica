@@ -364,6 +364,9 @@ function update_infocard(name, key, country, tipo) {
 
         update_place_summary(basic_info_data);
 
+        const counts = compute_classification(country, name);
+        update_classification_barcharts(counts);
+
     }
 
     if (tipo == "localidad") {
@@ -395,6 +398,8 @@ function update_infocard(name, key, country, tipo) {
 
          update_place_summary(basic_info_data);
 
+         update_classification_barcharts("reset");
+
     } if (tipo == "pais") {
 
         const textos = {
@@ -423,6 +428,8 @@ function update_infocard(name, key, country, tipo) {
         })
 
         update_place_summary(null);
+
+        update_classification_barcharts("reset");
 
     }
 
@@ -472,6 +479,86 @@ function update_country_button(pais) {
     if (pais_ja_selecionado) pais_ja_selecionado.classList.remove("pais-selected");
 
     menu_pais.querySelector(`[data-pais="${pais}"]`).classList.add("pais-selected");
+
+}
+
+function compute_classification(country, provincia) {
+
+    console.log(provincia);
+    const localidads = main_data[country].small_units
+      .filter(d => d.BASIC_INFO.PARENT == provincia)
+      .map(d => d.BASIC_INFO.CLASSIFICATION.toLowerCase())
+    ;
+
+    const n = localidads.length;
+
+    const classifications = ["sin datos", "desierto", "semidesierto", "semibosque", "bosque"];
+
+    const counts = {};
+
+    classifications.forEach(classification => {
+
+        const count = localidads.filter(d => d == classification).length;
+
+        counts[classification] = (100 * count / n).toFixed(1) + "%";
+
+    })
+
+    return counts;
+
+}
+
+function update_classification_barcharts(counts) {
+
+    const barcharts = document.querySelectorAll("[data-barchart]");
+    const container = document.querySelector(".place-paisage-composition");
+    const container_width = +window.getComputedStyle(container).width.slice(0,-2);
+
+    barcharts.forEach(bar => {
+
+        const tipo = bar.dataset.barchart;
+        const label = bar.querySelector("span.barchart-label");
+
+        let value;
+
+        if (counts == "reset") {
+
+            bar.style.flexBasis = ""; // é diferente ser 0 (pq aí overrides o estilo da classe) de ""
+            label.innerHTML = "";
+            label.classList.remove("displaced");
+
+            return;
+
+        }
+
+        if (counts[tipo] == "0.0%") {
+
+            bar.style.flexBasis = 0;
+            label.innerHTML = "";
+            label.classList.remove("displaced");
+
+        } else {
+
+            value = counts[tipo];
+
+            console.log(tipo, value);
+
+            bar.style.flexBasis = value;
+            label.innerHTML = value;
+
+            // positioning
+
+            const w_bar = +value.slice(0,-1) * container_width;
+            const w_label = +window.getComputedStyle(label).width.slice(0,-2);
+            
+            if (w_label > w_bar) {
+                console.log("Adding DISPLACED ", w_label, w_bar );
+                label.classList.add("displaced");
+            }
+
+        }
+
+    })
 
 }
 
