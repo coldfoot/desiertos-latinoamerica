@@ -158,6 +158,9 @@ function createPopupContent(key, levelData, selectedUnit) {
         createStripplot(stripplotContainer, variable, selectedUnit, peerUnits, key);
     });
     
+    // Add download button
+    addDownloadButton(contentContainer, key, selectedUnit, peerUnits);
+    
     showMenuPopup(translateKeyToTitle(key), contentContainer, key, selectedUnit.BASIC_INFO.NAME);
 }
 
@@ -702,6 +705,153 @@ function createLegendItem(type, text, remainingText = '') {
     }
     
     return legend;
+}
+
+// ============================================================================
+// CSV DOWNLOAD FUNCTIONALITY
+// ============================================================================
+
+/**
+ * Add download button to the content container
+ * @param {HTMLElement} contentContainer - The content container
+ * @param {string} categoryKey - The category key
+ * @param {Object} selectedUnit - The selected unit object
+ * @param {Array} peerUnits - Array of peer units
+ */
+function addDownloadButton(contentContainer, categoryKey, selectedUnit, peerUnits) {
+    // Create footer div
+    const footer = d3.select(contentContainer).append('div')
+        .attr('class', 'footer');
+
+    // Add logo section on the left
+    footer.append('div')
+        .attr('class', 'footer-logo')
+        .html('<div class="logo-placeholder">LOGO</div>');
+
+    // Add download buttons section on the right
+    const downloadSection = footer.append('div')
+        .attr('class', 'footer-downloads');
+
+    // Add CSV download button
+    downloadSection.append('a')
+        .attr('class', 'download-csv-link')
+        .html('Descargar CSV <span class="download-arrow"></span>')
+        .on('click', () => downloadCSV(categoryKey, selectedUnit, peerUnits));
+
+    // Add image download button (placeholder)
+    downloadSection.append('a')
+        .attr('class', 'download-image-link')
+        .html('Descargar imagen <span class="download-arrow"></span>')
+        .on('click', () => console.log('Download image not implemented yet'));
+}
+
+/**
+ * Download CSV with absolute values
+ * @param {string} categoryKey - The category key
+ * @param {Object} selectedUnit - The selected unit object
+ * @param {Array} peerUnits - Array of peer units
+ */
+function downloadCSV(categoryKey, selectedUnit, peerUnits) {
+    const allUnits = [selectedUnit, ...peerUnits];
+    const csvData = generateCSVData(categoryKey, allUnits);
+    const filename = generateFilename(categoryKey, selectedUnit);
+    
+    downloadFile(csvData, filename, 'text/csv');
+}
+
+/**
+ * Generate CSV data with absolute values
+ * @param {string} categoryKey - The category key
+ * @param {Array} units - Array of all units to include
+ * @returns {string} CSV string
+ */
+function generateCSVData(categoryKey, units) {
+    // Get all absolute value variables for this category (excluding _PCT versions)
+    const variables = Object.keys(units[0][categoryKey])
+        .filter(key => !key.endsWith('_PCT'))
+        .sort();
+    
+    // Create headers
+    const headers = [
+        'Unidad',
+        'Región/Estado',
+        ...variables.map(v => translateKeyToTitle(v))
+    ];
+    
+    // Create rows
+    const rows = units.map(unit => {
+        const basicInfo = unit.BASIC_INFO;
+        const categoryData = unit[categoryKey];
+        
+        const row = [
+            basicInfo.NAME || basicInfo.KEY,
+            basicInfo.PARENT || basicInfo.state,
+            ...variables.map(variable => {
+                return categoryData[variable] !== undefined && categoryData[variable] !== null 
+                    ? categoryData[variable] 
+                    : 0;
+            })
+        ];
+        
+        return row;
+    });
+    
+    // Convert to CSV
+    return convertToCSV([headers, ...rows]);
+}
+
+/**
+ * Convert array of arrays to CSV string
+ * @param {Array} data - Array of arrays representing rows
+ * @returns {string} CSV string
+ */
+function convertToCSV(data) {
+    return data.map(row => 
+        row.map(cell => {
+            // Escape quotes and wrap in quotes if contains comma, quote, or newline
+            const cellStr = String(cell);
+            if (cellStr.includes(',') || cellStr.includes('"') || cellStr.includes('\n')) {
+                return `"${cellStr.replace(/"/g, '""')}"`;
+            }
+            return cellStr;
+        }).join(',')
+    ).join('\n');
+}
+
+/**
+ * Generate filename for download
+ * @param {string} categoryKey - The category key
+ * @param {Object} selectedUnit - The selected unit object
+ * @returns {string} Filename
+ */
+function generateFilename(categoryKey, selectedUnit) {
+    const basicInfo = selectedUnit.BASIC_INFO;
+    const unitName = basicInfo.NAME || basicInfo.KEY;
+    const categoryTitle = translateKeyToTitle(categoryKey).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+    const date = new Date().toISOString().split('T')[0];
+    
+    return `datos_${categoryTitle}_${unitName}_${date}.csv`;
+}
+
+/**
+ * Trigger file download
+ * @param {string} content - File content
+ * @param {string} filename - Filename
+ * @param {string} mimeType - MIME type
+ */
+function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Clean up
+    setTimeout(() => URL.revokeObjectURL(url), 100);
 }
 
 // ============================================================================
