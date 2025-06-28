@@ -191,10 +191,14 @@ function handleDrawButton() {
     }
     
     console.log('=== READY FOR DATA VIZ ===');
-    console.log('Call your data visualization function here!');
+    console.log('Calling createDataVisualization function...');
     
-    // Placeholder for data visualization function
-    // createDataVisualization(selectedCountry, selectedLevel, selectedUnit);
+    // Get the country data and pass the entire data object
+    const countryData = data[selectedCountry];
+    const unitKey = selectedUnit ? selectedUnit.BASIC_INFO.KEY : null;
+    
+    // Call the data visualization function with the new parameters
+    createDataVisualization(countryData, selectedLevel, unitKey);
 }
 
 function clearUnitSelector() {
