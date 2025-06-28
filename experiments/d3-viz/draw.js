@@ -180,12 +180,8 @@ function createStripplotContainer(contentContainer) {
     return d3.select(contentContainer).append('div')
         .attr('class', 'stripplot-container')
         .style('display', 'flex')
-        .style('flex-direction', 'column')
-        .style('width', '100%')
-        .append('div')
-        .style('display', 'flex')
         .style('flex-wrap', 'wrap')
-        .style('justify-content', 'center')
+        .style('justify-content', 'flex-start')
         .style('align-items', 'flex-start')
         .style('gap', '15px');
 }
@@ -316,6 +312,9 @@ function createStripplot(container, variable, selectedUnit, peerUnits, categoryK
     const svg = createStripplotSVG(plotContainer);
     const xScale = createXScale();
     
+    // Add subtle background rectangle behind all bars
+    addBackgroundRectangle(svg, xScale);
+    
     addXAxis(svg, xScale);
     addPeerStrips(svg, xScale, peerUnits, categoryKey, variable);
     addSelectedStrip(svg, xScale, selectedUnit, categoryKey, variable);
@@ -365,7 +364,7 @@ function createStripplotSVG(plotContainer) {
     return plotContainer.append('svg')
         .attr('class', 'stripplot-svg')
         .attr('width', 400)
-        .attr('height', 140);
+        .attr('height', 100);
 }
 
 /**
@@ -388,11 +387,11 @@ function addXAxis(svg, xScale) {
         .tickFormat(d3.format('.0%'))
         .tickValues([0, 1])
         .tickSize(0)
-        .tickPadding(8);
+        .tickPadding(3);
     
     svg.append('g')
         .attr('class', 'x-axis')
-        .attr('transform', 'translate(0, 105)')
+        .attr('transform', 'translate(0, 60)')
         .call(xAxis)
         .call(g => g.select('.domain').remove());
 }
@@ -412,9 +411,9 @@ function addPeerStrips(svg, xScale, peerUnits, categoryKey, variable) {
             svg.append('line')
                 .attr('class', 'peer-strip')
                 .attr('x1', xScale(value))
-                .attr('y1', 25)
+                .attr('y1', 15)
                 .attr('x2', xScale(value))
-                .attr('y2', 75)
+                .attr('y2', 55)
                 .attr('stroke', 'var(--color-peer-lines)')
                 .attr('stroke-width', 2);
         }
@@ -436,9 +435,9 @@ function addSelectedStrip(svg, xScale, selectedUnit, categoryKey, variable) {
     svg.append('line')
         .attr('class', 'selected-strip')
         .attr('x1', xScale(selectedValue))
-        .attr('y1', 25)
+        .attr('y1', 15)
         .attr('x2', xScale(selectedValue))
-        .attr('y2', 75)
+        .attr('y2', 55)
         .attr('stroke', 'var(--color-accent)')
         .attr('stroke-width', 2);
     
@@ -455,9 +454,9 @@ function addAverageStrip(svg, xScale, average) {
     svg.append('line')
         .attr('class', 'average-strip')
         .attr('x1', xScale(average))
-        .attr('y1', 25)
+        .attr('y1', 15)
         .attr('x2', xScale(average))
-        .attr('y2', 75)
+        .attr('y2', 55)
         .attr('stroke', 'var(--color-accent-secondary)')
         .attr('stroke-width', 2);
     
@@ -475,7 +474,7 @@ function addValueAnnotation(svg, x, value, color) {
     svg.append('text')
         .attr('class', 'reference-annotation')
         .attr('x', x)
-        .attr('y', 20)
+        .attr('y', 10)
         .attr('text-anchor', 'middle')
         .attr('fill', color)
         .attr('font-size', '12px')
@@ -510,6 +509,22 @@ function handleTextCollisions(svg, xScale, selectedValue, average) {
         averageText.attr('text-anchor', 'end');
     }
     // If they're exactly the same, keep center alignment
+}
+
+/**
+ * Add a subtle background rectangle behind all bars
+ * @param {Object} svg - D3 selection of the SVG
+ * @param {Object} xScale - The x-scale function
+ */
+function addBackgroundRectangle(svg, xScale) {
+    svg.append('rect')
+        .attr('class', 'stripplot-background')
+        .attr('x', xScale.range()[0])
+        .attr('y', 15)
+        .attr('width', xScale.range()[1] - xScale.range()[0])
+        .attr('height', 40)
+        .attr('fill', 'rgba(0, 0, 0, 0.03)') // Very subtle darker background
+        .attr('rx', 2); // Slight rounded corners
 }
 
 // ============================================================================
