@@ -738,11 +738,11 @@ function addDownloadButton(contentContainer, categoryKey, selectedUnit, peerUnit
         .html('Descargar CSV <span class="download-arrow"></span>')
         .on('click', () => downloadCSV(categoryKey, selectedUnit, peerUnits));
 
-    // Add image download button (placeholder)
+    // Add image download button
     downloadSection.append('a')
         .attr('class', 'download-image-link')
         .html('Descargar imagen <span class="download-arrow"></span>')
-        .on('click', () => console.log('Download image not implemented yet'));
+        .on('click', () => downloadPNG(contentContainer, categoryKey, selectedUnit));
 }
 
 /**
@@ -841,6 +841,133 @@ function generateFilename(categoryKey, selectedUnit) {
  */
 function downloadFile(content, filename, mimeType) {
     const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Clean up
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+}
+
+// ============================================================================
+// PNG EXPORT FUNCTIONALITY
+// ============================================================================
+
+/**
+ * Download popup content as PNG (excluding footer)
+ * @param {HTMLElement} contentContainer - The content container
+ * @param {string} categoryKey - The category key
+ * @param {Object} selectedUnit - The selected unit object
+ */
+function downloadPNG(contentContainer, categoryKey, selectedUnit) {
+    // Check if html2canvas is available
+    if (typeof html2canvas === 'undefined') {
+        console.error('html2canvas library not loaded');
+        alert('Error: html2canvas library not available');
+        return;
+    }
+
+    // Find the popup container (parent of contentContainer)
+    const popup = contentContainer.closest('.menu-popup');
+    if (!popup) {
+        console.error('Popup container not found');
+        alert('Error: No se encontró el contenedor del popup');
+        return;
+    }
+
+    // Create a temporary container for capture (excluding footer)
+    const tempContainer = createTempContainerForCapture(popup);
+    
+    // Configure html2canvas options
+    const options = {
+        backgroundColor: '#F9F1E3', // Match the background color
+        scale: 2, // Higher resolution
+        useCORS: true,
+        allowTaint: true,
+        width: tempContainer.scrollWidth,
+        height: tempContainer.scrollHeight,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: tempContainer.scrollWidth,
+        windowHeight: tempContainer.scrollHeight
+    };
+
+    // Capture the content
+    html2canvas(tempContainer, options).then(canvas => {
+        // Convert canvas to blob
+        canvas.toBlob(blob => {
+            // Generate filename
+            const filename = generatePNGFilename(categoryKey, selectedUnit);
+            
+            // Download the image
+            downloadImageFile(blob, filename);
+            
+            // Clean up temporary container
+            document.body.removeChild(tempContainer);
+        }, 'image/png', 0.95);
+    }).catch(error => {
+        console.error('Error capturing image:', error);
+        alert('Error al generar la imagen');
+        document.body.removeChild(tempContainer);
+    });
+}
+
+/**
+ * Create temporary container for image capture (excluding footer)
+ * @param {HTMLElement} popup - The original popup container
+ * @returns {HTMLElement} Temporary container without footer
+ */
+function createTempContainerForCapture(popup) {
+    // Clone the popup container
+    const tempContainer = popup.cloneNode(true);
+    
+    // Remove the footer from the clone
+    const footer = tempContainer.querySelector('.footer');
+    if (footer) {
+        footer.remove();
+    }
+    
+    // Remove the close button from the clone
+    const closeButton = tempContainer.querySelector('.menu-popup-close');
+    if (closeButton) {
+        closeButton.remove();
+    }
+    
+    // Apply the temporary capture class
+    tempContainer.className = 'temp-popup-capture';
+    
+    // Add to body temporarily
+    document.body.appendChild(tempContainer);
+    
+    return tempContainer;
+}
+
+/**
+ * Generate filename for PNG download
+ * @param {string} categoryKey - The category key
+ * @param {Object} selectedUnit - The selected unit object
+ * @returns {string} Filename
+ */
+function generatePNGFilename(categoryKey, selectedUnit) {
+    const basicInfo = selectedUnit.BASIC_INFO;
+    const unitName = basicInfo.NAME || basicInfo.KEY;
+    const categoryTitle = translateKeyToTitle(categoryKey).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+    const date = new Date().toISOString().split('T')[0];
+    
+    return `imagen_${categoryTitle}_${unitName}_${date}.png`;
+}
+
+/**
+ * Download image file
+ * @param {Blob} blob - Image blob
+ * @param {string} filename - Filename
+ */
+function downloadImageFile(blob, filename) {
     const url = URL.createObjectURL(blob);
     
     const link = document.createElement('a');
