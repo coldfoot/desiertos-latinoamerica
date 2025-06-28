@@ -276,7 +276,7 @@ function addSubtitleWithLegend(popup, key, selectedUnitName) {
     const subtitle = translateKeyToSubtitle(key);
     if (!subtitle) return;
 
-    const inlineSubtitle = createInlineSubtitle(subtitle, selectedUnitName || 'en xxx');
+    const inlineSubtitle = createInlineSubtitle(subtitle, selectedUnitName || 'en xxx', selectedUnit);
     
     if (inlineSubtitle.type === 'inline') {
         popup.node().appendChild(inlineSubtitle.element);
@@ -633,9 +633,10 @@ function translateKeyToSubtitle(key) {
  * Create inline legend integrated with subtitle text
  * @param {string} subtitle - The subtitle text
  * @param {string} selectedUnitName - Name of the selected unit
+ * @param {Object} selectedUnit - The selected unit object
  * @returns {Object} Object with text and legend elements
  */
-function createInlineSubtitle(subtitle, selectedUnitName) {
+function createInlineSubtitle(subtitle, selectedUnitName, selectedUnit) {
     if (!subtitle.includes('Porcentaje de medios')) {
         return { type: 'regular', text: subtitle };
     }
@@ -653,7 +654,13 @@ function createInlineSubtitle(subtitle, selectedUnitName) {
     secondDiv.className = 'inline-subtitle-legends';
     
     const selectedLegend = createLegendItem('selected', 'en ' + selectedUnitName, subtitle);
-    const averageLegend = createLegendItem('average', 'en la región');
+    
+    // Apply title case to parent name for larger units (countries)
+    const parentName = selectedUnit.BASIC_INFO.LEVEL === 'large_units' 
+        ? selectedUnit.BASIC_INFO.PARENT.charAt(0).toUpperCase() + selectedUnit.BASIC_INFO.PARENT.slice(1)
+        : selectedUnit.BASIC_INFO.PARENT;
+    
+    const averageLegend = createLegendItem('average', 'en ' + parentName);
     
     secondDiv.appendChild(selectedLegend);
     secondDiv.appendChild(averageLegend);
