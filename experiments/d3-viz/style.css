@@ -367,13 +367,21 @@ label {
 }
 
 /* Stripplot Layout and Styling */
+.stripplot-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+}
+
 .stripplot-item {
     flex: 0 0 auto;
     margin: 6px;
     padding: 0;
     background: transparent;
     border-radius: 6px;
-    min-width: 420px;
+    min-width: 320px;
 }
 
 .stripplot-title {
@@ -455,10 +463,10 @@ label {
     background: var(--color-bg);
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    padding: 32px 32px 24px 32px;
-    min-width: 60vw;
-    max-width: 80vw;
-    max-height: 70vh;
+    padding: 24px 24px 20px 24px;
+    min-width: 50vw;
+    max-width: 70vw;
+    max-height: 60vh;
     overflow-y: auto;
     position: relative;
     z-index: 1001;
@@ -480,9 +488,9 @@ label {
 
 .menu-popup-close {
     position: absolute;
-    top: 18px;
-    right: 24px;
-    font-size: 1.6rem;
+    top: 16px;
+    right: 20px;
+    font-size: 1.4rem;
     color: var(--text-muted);
     background: none;
     border: none;
@@ -496,20 +504,20 @@ label {
 }
 
 .menu-popup h4 {
-    margin: 0 0 8px 0;
-    font-size: 28px;
+    margin: 0 0 6px 0;
+    font-size: 24px;
     font-weight: 700;
     color: var(--color-text);
     text-align: left;
     text-decoration: underline;
     text-decoration-color: var(--color-text);
-    text-underline-offset: 8px;
+    text-underline-offset: 6px;
 }
 
 .popup-subtitle {
-    margin: 0 0 32px 0;
+    margin: 0 0 24px 0;
     color: var(--color-text);
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.5;
     font-weight: 400;
     opacity: 0.8;

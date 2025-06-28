@@ -178,12 +178,7 @@ function createContentContainer() {
  */
 function createStripplotContainer(contentContainer) {
     return d3.select(contentContainer).append('div')
-        .attr('class', 'stripplot-container')
-        .style('display', 'flex')
-        .style('flex-wrap', 'wrap')
-        .style('justify-content', 'flex-start')
-        .style('align-items', 'flex-start')
-        .style('gap', '15px');
+        .attr('class', 'stripplot-container');
 }
 
 /**
@@ -363,7 +358,7 @@ function createPlotContainer(container, variableName) {
 function createStripplotSVG(plotContainer) {
     return plotContainer.append('svg')
         .attr('class', 'stripplot-svg')
-        .attr('width', 400)
+        .attr('width', 300)
         .attr('height', 100);
 }
 
@@ -374,7 +369,7 @@ function createStripplotSVG(plotContainer) {
 function createXScale() {
     return d3.scaleLinear()
         .domain([0, 1])
-        .range([20, 380]);
+        .range([20, 280]);
 }
 
 /**
