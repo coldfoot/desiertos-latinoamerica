@@ -537,6 +537,7 @@ function translateKeyToTitle(key) {
         'HIRING': '¿Qué tipo de vínculo laboral tienen los periodistas?',
         'PLATFORMS': "¿En qué plataformas publican?",
         'THEMES': '¿Cuáles son las temáticas de su agenda informativa?',
+        "FINANCING": "¿De dónde provienen sus ingresos?",
         'THREATS': '¿Experimentaron agresiones o amenazas en 2024?',
         'NARRATIVE': 'Narrativa',
         'BASIC_INFO': 'Información Básica',
@@ -621,6 +622,7 @@ function translateKeyToTitle(key) {
 function translateKeyToSubtitle(key) {
     const subtitleMap = {
         'HIRING': 'Porcentaje de medios que contratan periodistas mediante…',
+        "FINANCING": "Porcentaje de medios que reciben ingresos provenientes de…",
         'PLATFORMS': 'Porcentaje de medios que tienen presencia en…',
         'THEMES': 'Porcentaje de medios que cubren temas de…',
         'THREATS': 'Porcentaje de medios cuyos periodistas sufrieron…'
