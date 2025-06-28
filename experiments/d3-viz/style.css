@@ -369,8 +369,8 @@ label {
 /* Stripplot Layout and Styling */
 .stripplot-item {
     flex: 0 0 auto;
-    margin: 10px;
-    padding: 15px;
+    margin: 6px;
+    padding: 0;
     background: transparent;
     border-radius: 6px;
     min-width: 420px;
@@ -378,10 +378,11 @@ label {
 
 .stripplot-title {
     margin: 0 0 10px 0;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 400;
     color: var(--color-text);
     text-align: left;
+    opacity: 0.7;
 }
 
 .stripplot-svg {
@@ -495,7 +496,7 @@ label {
 }
 
 .menu-popup h4 {
-    margin: 0 0 24px 0;
+    margin: 0 0 8px 0;
     font-size: 28px;
     font-weight: 700;
     color: var(--color-text);
@@ -505,6 +506,83 @@ label {
     text-underline-offset: 8px;
 }
 
+.popup-subtitle {
+    margin: 0 0 32px 0;
+    color: var(--color-text);
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+/* Inline subtitle layout */
+.inline-subtitle-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.inline-subtitle-text {
+    display: flex;
+    align-items: flex-start;
+    flex-shrink: 0;
+    color: var(--color-text);
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 400;
+    opacity: 0.8;
+    min-height: 24px;
+}
+
+.inline-subtitle-legends {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    flex-shrink: 0;
+    min-height: 24px;
+    justify-content: flex-start;
+}
+
+.inline-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.inline-legend-color {
+    width: 3px;
+    height: 12px;
+}
+
+.inline-legend-color.selected {
+    background-color: var(--color-accent);
+}
+
+.inline-legend-color.average {
+    background-color: var(--color-accent-secondary);
+}
+
+.inline-legend-text {
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.inline-legend-text.selected {
+    color: var(--color-accent);
+}
+
+.inline-legend-text.average {
+    color: var(--color-accent-secondary);
+}
+
+.inline-legend-text.remaining {
+    color: var(--color-text);
+    font-weight: 400;
+}
 .stripplot-container h3 {
     margin: 0 0 20px 0;
     font-size: 18px;
@@ -514,3 +592,4 @@ label {
     border-bottom: 2px solid var(--color-accent);
     padding-bottom: 8px;
 }
+

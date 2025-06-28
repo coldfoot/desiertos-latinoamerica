@@ -1,4 +1,5 @@
 // Data visualization functions for D3 experiment
+// Main entry point and core visualization logic
 
 /**
  * Main function to create data visualization
@@ -7,61 +8,43 @@
  * @param {string} unitKey - The specific unit key to focus on
  */
 function createDataVisualization(countryData, level, unitKey) {
-    console.log('Creating data visualization with:');
-    console.log('- Country Data:', countryData);
-    console.log('- Level:', level);
-    console.log('- Unit Key:', unitKey);
+    console.log('Creating data visualization with:', { countryData, level, unitKey });
     
-    // Clear previous content
-    const chartContainer = d3.select('#chart');
-    chartContainer.html('');
+    // Clear previous content and create new container
+    const chartContainer = d3.select('#chart').html('');
+    const vizContainer = chartContainer.append('div').attr('class', 'viz-container');
     
-    // Create visualization container
-    const vizContainer = chartContainer.append('div')
-        .attr('class', 'viz-container');
-    
-    // Draw the actual visualization
+    // Draw the visualization
     drawVisualization(vizContainer, countryData, level, unitKey);
 }
 
 /**
- * Main visualization function
+ * Main visualization orchestrator
  * @param {Object} vizContainer - D3 selection of the visualization container
- * @param {Object} countryData - The entire country data object (already preprocessed)
+ * @param {Object} countryData - The entire country data object
  * @param {string} level - The level key
  * @param {string} unitKey - The specific unit key
  */
 function drawVisualization(vizContainer, countryData, level, unitKey) {
-    // Step A: Access the correct level key in the entire data
-    const levelData = accessLevelData(countryData, level);
+    const levelData = getLevelData(countryData, level);
+    const selectedUnit = findSelectedUnit(levelData, unitKey);
     
-    // Find and log the selected unit object
-    const selectedUnit = levelData.find(unit => unit.BASIC_INFO.KEY === unitKey);
-    console.log('=== SELECTED UNIT OBJECT ===');
-    console.log('Unit Key:', unitKey);
-    console.log('Selected Unit:', selectedUnit);
-    console.log('===========================');
-    
-    // Step B: Dynamically create menu triggers based on keys in the first element
-    const menuContainers = createMenuTriggers(vizContainer, levelData);
-    
-    // Step C: Add data structure preview to the dynamically created divs
-   //  populateMenuData(menuContainers, levelData, unitKey);
-    
-    // Step D: calls the small multiple drawing function at each one of the menu triggers
-    menuContainers.forEach(menu => {
-        addSmallMultiplesToMenu(menu, levelData, unitKey);
-    });
+    logSelectedUnit(selectedUnit, unitKey);
+    createMenuTriggers(vizContainer, levelData, selectedUnit);
 }
 
+// ============================================================================
+// DATA ACCESS AND UTILITY FUNCTIONS
+// ============================================================================
+
 /**
- * Step A: Access the correct level key in the entire data
+ * Get data for the specified level
  * @param {Object} countryData - The entire country data object
  * @param {string} level - The level key
  * @returns {Array} Array of units for the specified level
  */
-function accessLevelData(countryData, level) {
-    if (!countryData || !level || !countryData[level]) {
+function getLevelData(countryData, level) {
+    if (!countryData?.[level]) {
         console.error('Invalid country data or level:', { countryData, level });
         return [];
     }
@@ -69,284 +52,360 @@ function accessLevelData(countryData, level) {
 }
 
 /**
- * Utility to create the popup overlay and content
- * @param {string} title - The title of the popup
- * @param {Node} contentNode - The content node to be displayed in the popup
+ * Find the selected unit by key
+ * @param {Array} levelData - Array of units for the level
+ * @param {string} unitKey - The unit key to find
+ * @returns {Object|null} The selected unit object or null if not found
  */
-function showMenuPopup(title, contentNode) {
-    // Remove any existing popup
-    d3.selectAll('.menu-popup-overlay').remove();
-
-    // Create overlay
-    const overlay = d3.select('body').append('div')
-        .attr('class', 'menu-popup-overlay');
-
-    // Create popup
-    const popup = overlay.append('div')
-        .attr('class', 'menu-popup');
-
-    // Close button
-    popup.append('button')
-        .attr('class', 'menu-popup-close')
-        .attr('aria-label', 'Cerrar')
-        .html('&times;')
-        .on('click', () => overlay.remove());
-
-    // Title
-    popup.append('h4')
-        .attr('style', 'margin-top:0;margin-bottom:24px;')
-        .text(title);
-
-    // Content
-    popup.node().appendChild(contentNode);
+function findSelectedUnit(levelData, unitKey) {
+    return levelData.find(unit => unit.BASIC_INFO.KEY === unitKey) || null;
 }
 
 /**
- * Step B: Dynamically create menu triggers based on keys in the first element
- * @param {Object} vizContainer - D3 selection of the visualization container
- * @param {Array} levelData - Array of units for the level (already preprocessed)
- * @returns {Array} Array of menu container objects with references to their elements
+ * Log selected unit information for debugging
+ * @param {Object} selectedUnit - The selected unit object
+ * @param {string} unitKey - The unit key
  */
-function createMenuTriggers(vizContainer, levelData) {
-    if (!levelData || levelData.length === 0) {
+function logSelectedUnit(selectedUnit, unitKey) {
+    console.log('=== SELECTED UNIT OBJECT ===');
+    console.log('Unit Key:', unitKey);
+    console.log('Selected Unit:', selectedUnit);
+    console.log('===========================');
+}
+
+// ============================================================================
+// MENU TRIGGER CREATION
+// ============================================================================
+
+/**
+ * Create menu triggers for each data category
+ * @param {Object} vizContainer - D3 selection of the visualization container
+ * @param {Array} levelData - Array of units for the level
+ * @param {Object} selectedUnit - The selected unit object
+ * @returns {Array} Array of menu container objects
+ */
+function createMenuTriggers(vizContainer, levelData, selectedUnit) {
+    if (!levelData?.length) {
         console.error('No level data available');
         return [];
     }
 
-    // Get keys from the first element (excluding BASIC_INFO, BBOX, CENTROID)
-    const firstUnit = levelData[0];
-    const menuKeys = Object.keys(firstUnit).filter(key => 
-        key !== 'BASIC_INFO' && key !== 'BBOX' && key !== 'CENTROID'
-    );
-
+    const menuKeys = getMenuKeys(levelData[0]);
     const menuContainers = [];
 
     menuKeys.forEach(key => {
-        const menu = vizContainer.append('div')
-            .attr('class', 'menu-trigger')
-            .attr('data-key', key);
-
-        // Menu header acts as trigger
-        const header = menu.append('h4').text(key);
-        // The viz area is created but not shown in the menu
-        const vizArea = document.createElement('div');
-        vizArea.className = 'viz-area';
-
-        // Add click event listener for popup functionality
-        header.on('click', function() {
-            // Move the vizArea node into the popup
-            showMenuPopup(key, vizArea);
-        });
-
-        menuContainers.push({
-            key: key,
-            menu: menu,
-            vizArea: d3.select(vizArea)
-        });
+        const menu = createMenuTrigger(vizContainer, key, levelData, selectedUnit);
+        menuContainers.push({ key, menu });
     });
 
     return menuContainers;
 }
 
 /**
- * Step C: Add data structure preview to the dynamically created divs
- * @param {Array} menuContainers - Array of menu container objects
- * @param {Array} levelData - Array of units for the level (already preprocessed)
- * @param {string} unitKey - The specific unit key to focus on
+ * Get menu keys from the first unit (excluding metadata keys)
+ * @param {Object} firstUnit - The first unit object
+ * @returns {Array} Array of menu keys
  */
-function populateMenuData(menuContainers, levelData, unitKey) {
-    if (!menuContainers || menuContainers.length === 0) {
-        console.error('No menu containers available');
-        return;
-    }
-    
-    // Find the specific unit data
-    const unitData = levelData.find(unit => unit.BASIC_INFO.KEY === unitKey);
-    if (!unitData) {
-        console.error('Unit data not found for key:', unitKey);
-        return;
-    }
-    
-    // Populate each menu with its relevant data
-    menuContainers.forEach(container => {
-        const keyData = unitData[container.key];
-        
-        if (typeof keyData === 'object' && keyData !== null) {
-            // Display object data as key-value pairs
-            Object.entries(keyData).forEach(([dataKey, value]) => {
-                const row = container.vizArea.append('div')
-                    .attr('class', 'data-row');
-                row.append('span')
-                    .attr('class', 'data-key')
-                    .text(dataKey + ': ');
-                row.append('span')
-                    .attr('class', 'data-value')
-                    .text(typeof value === 'number' ? value.toFixed(2) : value);
-            });
-        } else {
-            // Display simple value
-            container.vizArea.append('div')
-                .attr('class', 'data-value')
-                .text(typeof keyData === 'number' ? keyData.toFixed(2) : keyData);
-        }
-    });
+function getMenuKeys(firstUnit) {
+    const excludedKeys = ['BASIC_INFO', 'BBOX', 'CENTROID', 'NARRATIVE'];
+    return Object.keys(firstUnit).filter(key => !excludedKeys.includes(key));
 }
 
 /**
- * Step D: Add small multiples (stripplots) to each menu trigger
- * @param {Object} menu - Menu container object with key, menu, and placeholder properties
- * @param {Array} levelData - Array of units for the level (already preprocessed)
- * @param {string} unitKey - The specific unit key to highlight
+ * Create a single menu trigger
+ * @param {Object} vizContainer - D3 selection of the visualization container
+ * @param {string} key - The menu key
+ * @param {Array} levelData - Array of units for the level
+ * @param {Object} selectedUnit - The selected unit object
+ * @returns {Object} D3 selection of the created menu
  */
-function addSmallMultiplesToMenu(menu, levelData, unitKey) {
-    // Select the correct unit based on the unit key
-    const selectedUnit = levelData.find(unit => unit.BASIC_INFO.KEY === unitKey);
-    if (!selectedUnit) {
-        console.error('Selected unit not found:', unitKey);
+function createMenuTrigger(vizContainer, key, levelData, selectedUnit) {
+    const menu = vizContainer.append('div')
+        .attr('class', 'menu-trigger')
+        .attr('data-key', key);
+
+    const header = menu.append('h4').text(translateKeyToTitle(key));
+    
+    header.on('click', () => createPopupContent(key, levelData, selectedUnit));
+    
+    return menu;
+}
+
+// ============================================================================
+// POPUP MANAGEMENT
+// ============================================================================
+
+/**
+ * Create popup content fresh each time it's triggered
+ * @param {string} key - The menu key
+ * @param {Array} levelData - Array of units for the level
+ * @param {Object} selectedUnit - The selected unit object
+ */
+function createPopupContent(key, levelData, selectedUnit) {
+    const contentContainer = createContentContainer();
+    const stripplotContainer = createStripplotContainer(contentContainer);
+    
+    const categoryData = selectedUnit[key];
+    if (!isValidCategoryData(categoryData)) {
+        console.error('No category data found for:', key);
         return;
     }
+    
+    const percentageVariables = getPercentageVariables(categoryData);
+    const peerUnits = getPeerUnits(levelData, selectedUnit);
+    
+    percentageVariables.forEach(variable => {
+        createStripplot(stripplotContainer, variable, selectedUnit, peerUnits, key);
+    });
+    
+    showMenuPopup(translateKeyToTitle(key), contentContainer, key, selectedUnit.BASIC_INFO.NAME);
+}
 
-    // Select all units of the same level that have the same parent BUT exclude the selected unit
-    const peerUnits = levelData.filter(unit => 
-        unit.BASIC_INFO.PARENT === selectedUnit.BASIC_INFO.PARENT && 
-        unit.BASIC_INFO.KEY !== unitKey
-    );
+/**
+ * Create content container for popup
+ * @returns {HTMLElement} The content container element
+ */
+function createContentContainer() {
+    const container = document.createElement('div');
+    container.className = 'viz-area';
+    return container;
+}
 
-    // Get the data for the current menu category
-    const categoryData = selectedUnit[menu.key];
-    if (!categoryData || typeof categoryData !== 'object') {
-        console.error('No category data found for:', menu.key);
-        return;
-    }
-
-    // Create a container for all stripplot content
-    const stripplotContainer = menu.vizArea.append('div')
+/**
+ * Create stripplot container with flex layout
+ * @param {HTMLElement} contentContainer - The content container
+ * @returns {Object} D3 selection of the stripplot container
+ */
+function createStripplotContainer(contentContainer) {
+    return d3.select(contentContainer).append('div')
         .attr('class', 'stripplot-container')
         .style('display', 'flex')
         .style('flex-direction', 'column')
-        .style('width', '100%');
-
-    // Create legend above all stripplots
-    const legendContainer = stripplotContainer.append('div')
-        .attr('class', 'stripplot-legend')
-        .style('display', 'flex')
-        .style('gap', '20px')
-        .style('margin-bottom', '15px')
-        .style('align-items', 'center');
-    
-    // Selected unit legend item
-    const selectedLegend = legendContainer.append('div')
-        .style('display', 'flex')
-        .style('align-items', 'center')
-        .style('gap', '8px');
-    
-    selectedLegend.append('div')
-        .style('width', '3px')
-        .style('height', '12px')
-        .style('background-color', 'var(--color-accent)');
-    
-    selectedLegend.append('p')
-        .style('margin', '0')
-        .style('font-size', '16px')
-        .style('font-weight', '500')
-        .style('color', 'var(--color-accent)')
-        .text(selectedUnit.BASIC_INFO.NAME);
-    
-    // Average legend item
-    const averageLegend = legendContainer.append('div')
-        .style('display', 'flex')
-        .style('align-items', 'center')
-        .style('gap', '8px');
-    
-    averageLegend.append('div')
-        .style('width', '3px')
-        .style('height', '12px')
-        .style('background-color', 'var(--color-accent-secondary)');
-    
-    averageLegend.append('p')
-        .style('margin', '0')
-        .style('font-size', '16px')
-        .style('font-weight', '500')
-        .style('color', 'var(--color-accent-secondary)')
-        .text('Promedio en la región');
-
-    // Create a flex container for the stripplots
-    const stripplotsFlexContainer = stripplotContainer.append('div')
+        .style('width', '100%')
+        .append('div')
         .style('display', 'flex')
         .style('flex-wrap', 'wrap')
         .style('justify-content', 'center')
         .style('align-items', 'flex-start')
         .style('gap', '15px');
-
-    // Find all percentage variables in this category
-    const percentageVariables = Object.keys(categoryData).filter(key => key.endsWith('_PCT'));
-
-    // Create stripplot for each percentage variable
-    percentageVariables.forEach(variable => {
-        createStripplot(stripplotsFlexContainer, variable, selectedUnit, peerUnits, menu.key);
-    });
 }
 
 /**
+ * Check if category data is valid
+ * @param {*} categoryData - The category data to validate
+ * @returns {boolean} True if valid, false otherwise
+ */
+function isValidCategoryData(categoryData) {
+    return categoryData && typeof categoryData === 'object';
+}
+
+/**
+ * Get percentage variables from category data
+ * @param {Object} categoryData - The category data object
+ * @returns {Array} Array of percentage variable names
+ */
+function getPercentageVariables(categoryData) {
+    return Object.keys(categoryData).filter(key => key.endsWith('_PCT'));
+}
+
+/**
+ * Get peer units for comparison
+ * @param {Array} levelData - Array of units for the level
+ * @param {Object} selectedUnit - The selected unit object
+ * @returns {Array} Array of peer units
+ */
+function getPeerUnits(levelData, selectedUnit) {
+    const selectedUnitKey = selectedUnit.BASIC_INFO.KEY;
+    return levelData.filter(unit => 
+        unit.BASIC_INFO.PARENT === selectedUnit.BASIC_INFO.PARENT && 
+        unit.BASIC_INFO.KEY !== selectedUnitKey
+    );
+}
+
+/**
+ * Show menu popup with overlay
+ * @param {string} title - The popup title
+ * @param {Node} contentNode - The content node to display
+ * @param {string} key - The key associated with the popup
+ * @param {string} selectedUnitName - Name of the selected unit
+ */
+function showMenuPopup(title, contentNode, key, selectedUnitName) {
+    // Remove any existing popup
+    d3.selectAll('.menu-popup-overlay').remove();
+
+    const overlay = createPopupOverlay();
+    const popup = createPopupStructure(overlay, title, key, selectedUnitName);
+    
+    // Add content
+    popup.node().appendChild(contentNode);
+}
+
+/**
+ * Create popup overlay
+ * @returns {Object} D3 selection of the overlay
+ */
+function createPopupOverlay() {
+    return d3.select('body').append('div').attr('class', 'menu-popup-overlay');
+}
+
+/**
+ * Create popup content structure
+ * @param {Object} overlay - D3 selection of the overlay
+ * @param {string} title - The popup title
+ * @param {string} key - The menu key
+ * @param {string} selectedUnitName - Name of the selected unit
+ * @returns {Object} D3 selection of the popup
+ */
+function createPopupStructure(overlay, title, key, selectedUnitName) {
+    const popup = overlay.append('div').attr('class', 'menu-popup');
+
+    // Add close button
+    popup.append('button')
+        .attr('class', 'menu-popup-close')
+        .attr('aria-label', 'Cerrar')
+        .html('&times;')
+        .on('click', () => overlay.remove());
+
+    // Add title
+    popup.append('h4').text(title);
+
+    // Add subtitle with inline legend
+    addSubtitleWithLegend(popup, key, selectedUnitName);
+
+    return popup;
+}
+
+/**
+ * Add subtitle with inline legend to popup
+ * @param {Object} popup - D3 selection of the popup
+ * @param {string} key - The menu key
+ * @param {string} selectedUnitName - Name of the selected unit
+ */
+function addSubtitleWithLegend(popup, key, selectedUnitName) {
+    const subtitle = translateKeyToSubtitle(key);
+    if (!subtitle) return;
+
+    const inlineSubtitle = createInlineSubtitle(subtitle, selectedUnitName || 'en xxx');
+    
+    if (inlineSubtitle.type === 'inline') {
+        popup.node().appendChild(inlineSubtitle.element);
+    } else {
+        popup.append('p')
+            .attr('class', 'popup-subtitle')
+            .text(inlineSubtitle.text);
+    }
+}
+
+// ============================================================================
+// STRIPPLOT CREATION
+// ============================================================================
+
+/**
  * Create a single stripplot visualization
- * @param {Object} container - D3 selection of the container to add the plot to
- * @param {string} variable - The percentage variable name (e.g., 'TRABAJO_INDEPENDIENTE_PCT')
+ * @param {Object} container - D3 selection of the container
+ * @param {string} variable - The percentage variable name
  * @param {Object} selectedUnit - The selected unit data
  * @param {Array} peerUnits - Array of peer units for comparison
- * @param {string} categoryKey - The category key (e.g., 'HIRING')
+ * @param {string} categoryKey - The category key
  */
 function createStripplot(container, variable, selectedUnit, peerUnits, categoryKey) {
-    // Extract variable name without _PCT suffix for display
     const variableName = variable.replace('_PCT', '');
+    const average = calculatePeerAverage(peerUnits, categoryKey, variable);
+    
+    const plotContainer = createPlotContainer(container, variableName);
+    const svg = createStripplotSVG(plotContainer);
+    const xScale = createXScale();
+    
+    addXAxis(svg, xScale);
+    addPeerStrips(svg, xScale, peerUnits, categoryKey, variable);
+    addSelectedStrip(svg, xScale, selectedUnit, categoryKey, variable);
+    addAverageStrip(svg, xScale, average);
+    handleTextCollisions(svg, xScale, selectedUnit[categoryKey][variable], average);
+}
 
-    // Compute the average of the percentage variables for the peer units
-    let sum = 0;
-    let validCount = 0;
+/**
+ * Calculate average of peer units for a variable
+ * @param {Array} peerUnits - Array of peer units
+ * @param {string} categoryKey - The category key
+ * @param {string} variable - The variable name
+ * @returns {number} The calculated average
+ */
+function calculatePeerAverage(peerUnits, categoryKey, variable) {
+    const validValues = peerUnits
+        .map(unit => unit[categoryKey][variable])
+        .filter(value => value !== undefined && value !== null && !isNaN(value));
     
-    peerUnits.forEach(unit => {
-        const value = unit[categoryKey][variable];
-        if (value !== undefined && value !== null && !isNaN(value)) {
-            sum += value;
-            validCount++;
-        }
-    });
-    
-    const average = validCount > 0 ? sum / validCount : 0;
+    return validValues.length > 0 
+        ? validValues.reduce((sum, value) => sum + value, 0) / validValues.length 
+        : 0;
+}
 
-    // Create individual stripplot container for flexbox layout
-    const plotContainer = container.append('div')
-        .attr('class', 'stripplot-item');
+/**
+ * Create plot container with title
+ * @param {Object} container - D3 selection of the container
+ * @param {string} variableName - The variable name for display
+ * @returns {Object} D3 selection of the plot container
+ */
+function createPlotContainer(container, variableName) {
+    const plotContainer = container.append('div').attr('class', 'stripplot-item');
     
-    // Add title
     plotContainer.append('h5')
         .attr('class', 'stripplot-title')
-        .text(variableName);
+        .text(translateKeyToTitle(variableName));
     
-    // Create SVG for the stripplot
-    const svg = plotContainer.append('svg')
+    return plotContainer;
+}
+
+/**
+ * Create SVG for stripplot
+ * @param {Object} plotContainer - D3 selection of the plot container
+ * @returns {Object} D3 selection of the SVG
+ */
+function createStripplotSVG(plotContainer) {
+    return plotContainer.append('svg')
         .attr('class', 'stripplot-svg')
         .attr('width', 400)
         .attr('height', 140);
-    
-    // Set up scales
-    const xScale = d3.scaleLinear()
-        .domain([0, 1]) // 0 to 100% (as decimal)
-        .range([20, 380]); // Extended range for more chart space
-    
-    // Add x-axis with only 0% and 100% ticks
+}
+
+/**
+ * Create x-scale for stripplot
+ * @returns {Object} D3 scale function
+ */
+function createXScale() {
+    return d3.scaleLinear()
+        .domain([0, 1])
+        .range([20, 380]);
+}
+
+/**
+ * Add x-axis to SVG
+ * @param {Object} svg - D3 selection of the SVG
+ * @param {Object} xScale - The x-scale function
+ */
+function addXAxis(svg, xScale) {
     const xAxis = d3.axisBottom(xScale)
         .tickFormat(d3.format('.0%'))
-        .tickValues([0, 1]) // Only show 0% and 100%
-        .tickSize(0) // Remove tick lines
-        .tickPadding(8); // Add some padding
+        .tickValues([0, 1])
+        .tickSize(0)
+        .tickPadding(8);
     
     svg.append('g')
         .attr('class', 'x-axis')
         .attr('transform', 'translate(0, 105)')
         .call(xAxis)
-        .call(g => g.select('.domain').remove()); // Remove the axis line
-    
-    // Add peer unit strips (vertical lines)
+        .call(g => g.select('.domain').remove());
+}
+
+/**
+ * Add peer unit strips to SVG
+ * @param {Object} svg - D3 selection of the SVG
+ * @param {Object} xScale - The x-scale function
+ * @param {Array} peerUnits - Array of peer units
+ * @param {string} categoryKey - The category key
+ * @param {string} variable - The variable name
+ */
+function addPeerStrips(svg, xScale, peerUnits, categoryKey, variable) {
     peerUnits.forEach(unit => {
         const value = unit[categoryKey][variable];
         if (value !== undefined && !isNaN(value)) {
@@ -360,32 +419,39 @@ function createStripplot(container, variable, selectedUnit, peerUnits, categoryK
                 .attr('stroke-width', 2);
         }
     });
-    
-    // Add selected unit strip (highlighted vertical line)
-    const selectedValue = selectedUnit[categoryKey][variable];
-    if (selectedValue !== undefined && !isNaN(selectedValue)) {
-        svg.append('line')
-            .attr('class', 'selected-strip')
-            .attr('x1', xScale(selectedValue))
-            .attr('y1', 25)
-            .attr('x2', xScale(selectedValue))
-            .attr('y2', 75)
-            .attr('stroke', 'var(--color-accent)')
-            .attr('stroke-width', 2);
-        
-        // Add text annotation for selected value (on top)
-        svg.append('text')
-            .attr('class', 'reference-annotation')
-            .attr('x', xScale(selectedValue))
-            .attr('y', 20)
-            .attr('text-anchor', 'middle')
-            .attr('fill', 'var(--color-accent)')
-            .attr('font-size', '12px')
-            .attr('font-weight', '500')
-            .text(d3.format('.0%')(selectedValue));
-    }
+}
 
-    // Add an average strip
+/**
+ * Add selected unit strip to SVG
+ * @param {Object} svg - D3 selection of the SVG
+ * @param {Object} xScale - The x-scale function
+ * @param {Object} selectedUnit - The selected unit data
+ * @param {string} categoryKey - The category key
+ * @param {string} variable - The variable name
+ */
+function addSelectedStrip(svg, xScale, selectedUnit, categoryKey, variable) {
+    const selectedValue = selectedUnit[categoryKey][variable];
+    if (selectedValue === undefined || isNaN(selectedValue)) return;
+    
+    svg.append('line')
+        .attr('class', 'selected-strip')
+        .attr('x1', xScale(selectedValue))
+        .attr('y1', 25)
+        .attr('x2', xScale(selectedValue))
+        .attr('y2', 75)
+        .attr('stroke', 'var(--color-accent)')
+        .attr('stroke-width', 2);
+    
+    addValueAnnotation(svg, xScale(selectedValue), selectedValue, 'var(--color-accent)');
+}
+
+/**
+ * Add average strip to SVG
+ * @param {Object} svg - D3 selection of the SVG
+ * @param {Object} xScale - The x-scale function
+ * @param {number} average - The average value
+ */
+function addAverageStrip(svg, xScale, average) {
     svg.append('line')
         .attr('class', 'average-strip')
         .attr('x1', xScale(average))
@@ -395,46 +461,233 @@ function createStripplot(container, variable, selectedUnit, peerUnits, categoryK
         .attr('stroke', 'var(--color-accent-secondary)')
         .attr('stroke-width', 2);
     
-    // Add text annotation for average (on top)
+    addValueAnnotation(svg, xScale(average), average, 'var(--color-accent-secondary)');
+}
+
+/**
+ * Add value annotation to SVG
+ * @param {Object} svg - D3 selection of the SVG
+ * @param {number} x - X position
+ * @param {number} value - The value to display
+ * @param {string} color - The text color
+ */
+function addValueAnnotation(svg, x, value, color) {
     svg.append('text')
         .attr('class', 'reference-annotation')
-        .attr('x', xScale(average))
+        .attr('x', x)
         .attr('y', 20)
         .attr('text-anchor', 'middle')
-        .attr('fill', 'var(--color-accent-secondary)')
+        .attr('fill', color)
         .attr('font-size', '12px')
         .attr('font-weight', '500')
-        .text(d3.format('.0%')(average));
-
-    // Prevent text collisions by shifting annotations
-    if (selectedValue !== undefined && !isNaN(selectedValue)) {
-        const selectedX = xScale(selectedValue);
-        const averageX = xScale(average);
-        
-        // Find the text elements
-        const selectedText = svg.selectAll('.reference-annotation').filter((d, i, nodes) => {
-            return d3.select(nodes[i]).attr('fill') === 'var(--color-accent)';
-        });
-        
-        const averageText = svg.selectAll('.reference-annotation').filter((d, i, nodes) => {
-            return d3.select(nodes[i]).attr('fill') === 'var(--color-accent-secondary)';
-        });
-        
-        // Use text anchor points to prevent collisions
-        if (selectedX < averageX) {
-            // Selected is to the left, right-align it
-            selectedText.attr('text-anchor', 'end');
-            // Average is to the right, left-align it
-            averageText.attr('text-anchor', 'start');
-        } else if (selectedX > averageX) {
-            // Selected is to the right, left-align it
-            selectedText.attr('text-anchor', 'start');
-            // Average is to the left, right-align it
-            averageText.attr('text-anchor', 'end');
-        }
-        // If they're exactly the same, keep center alignment
-    }
+        .text(d3.format('.0%')(value));
 }
+
+/**
+ * Handle text collisions by adjusting text anchor points
+ * @param {Object} svg - D3 selection of the SVG
+ * @param {Object} xScale - The x-scale function
+ * @param {number} selectedValue - The selected value
+ * @param {number} average - The average value
+ */
+function handleTextCollisions(svg, xScale, selectedValue, average) {
+    if (selectedValue === undefined || isNaN(selectedValue)) return;
+    
+    const selectedX = xScale(selectedValue);
+    const averageX = xScale(average);
+    
+    const selectedText = svg.selectAll('.reference-annotation')
+        .filter((d, i, nodes) => d3.select(nodes[i]).attr('fill') === 'var(--color-accent)');
+    
+    const averageText = svg.selectAll('.reference-annotation')
+        .filter((d, i, nodes) => d3.select(nodes[i]).attr('fill') === 'var(--color-accent-secondary)');
+    
+    if (selectedX < averageX) {
+        selectedText.attr('text-anchor', 'end');
+        averageText.attr('text-anchor', 'start');
+    } else if (selectedX > averageX) {
+        selectedText.attr('text-anchor', 'start');
+        averageText.attr('text-anchor', 'end');
+    }
+    // If they're exactly the same, keep center alignment
+}
+
+// ============================================================================
+// TRANSLATION AND MAPPING FUNCTIONS
+// ============================================================================
+
+/**
+ * Translate dictionary keys into human-readable titles
+ * @param {string} key - The raw dictionary key
+ * @returns {string} Human-readable title
+ */
+function translateKeyToTitle(key) {
+    const titleMap = {
+        // Main categories (popup titles)
+        'HIRING': '¿Qué tipo de vínculo laboral tienen los periodistas?',
+        'PLATFORMS': "¿En qué plataformas publican?",
+        'THEMES': '¿Cuáles son las temáticas de su agenda informativa?',
+        'THREATS': '¿Experimentaron agresiones o amenazas en 2024?',
+        'NARRATIVE': 'Narrativa',
+        'BASIC_INFO': 'Información Básica',
+        'BBOX': 'Límites Geográficos',
+        'CENTROID': 'Centro Geográfico',
+        
+        // Hiring subcategories
+        'CONTRATO INDEFINIDO': 'Contrato Indefinido',
+        'OTRAS': 'Otras Modalidades',
+        'TRABAJO INDEPENDIENTE': 'Trabajo Independiente',
+        'PRACTICA PROFESIONAL': 'Práctica Profesional',
+        'CONTRATO LIMITADO': 'Contrato Limitado',
+        'CONTRATO POR PIEZAS': 'Contrato por Piezas',
+        'EMPLEO INFORMAL': 'Empleo Informal',
+        'COMISIÓN': 'Comisión',
+        'TRABAJO VOLUNTARIO': 'Trabajo Voluntario',
+        
+        // Platforms subcategories
+        'RADIO': 'Radio',
+        'REVISTA': 'Revista',
+        'X': 'X (Twitter)',
+        'INSTAGRAM': 'Instagram',
+        'TIKTOK': 'TikTok',
+        'PRINT': 'Impreso',
+        'WHATSAPP': 'WhatsApp',
+        'NEWSLETTER': 'Newsletter',
+        'FACEBOOK': 'Facebook',
+        'BLOG': 'Blog',
+        'TWITCH': 'Twitch',
+        'TELEGRAM': 'Telegram',
+        'YOUTUBE': 'YouTube',
+        'PODCAST': 'Podcast',
+        'WEBSITE': 'Sitio Web',
+        'TV': 'Televisión',
+        
+        // Themes subcategories
+        'INVESTIGACIÓN': 'Investigación',
+        'EMERGENCIAS': 'Emergencias',
+        'MEDIO AMBIENTE': 'Medio Ambiente',
+        'SOCIAL': 'Social',
+        'SEGURIDAD': 'Seguridad',
+        'ECONOMÍA': 'Economía',
+        'DERECHOS': 'Derechos',
+        'GOBIERNO': 'Gobierno',
+        'SERVICIOS': 'Servicios',
+        
+        // Threats subcategories
+        'CRIMEN ORGANIZADO': 'Crimen Organizado',
+        'NO RECIBE': 'No Recibe',
+        'JUDICIAL': 'Judicial',
+        'FÍSICAS': 'Físicas',
+        'AMENAZAS DIRECTAS': 'Amenazas Directas',
+        'NO RESPONDE': 'No Responde',
+        'ECONÓMICAS': 'Económicas',
+        'AMENAZAS DIGITALES': 'Amenazas Digitales',
+        
+        // Basic info
+        'KEY': 'Código',
+        'LEVEL': 'Nivel',
+        'COUNTRY': 'País',
+        'NAME': 'Nombre',
+        'PARENT': 'Padre',
+        'POPULATION': 'Población',
+        'AREA': 'Área',
+        'NEWS_ORG_COUNT': 'Organizaciones de Noticias',
+        'JOURNALIST_COUNT': 'Periodistas',
+        'RATIO_POP_NEWS_ORG': 'Ratio Población/Organizaciones',
+        'RATIO_POP_JOURNALISTS': 'Ratio Población/Periodistas',
+        'RATIO_AREA_JOURNALIST': 'Ratio Área/Periodistas',
+        'RATIO_JOURNALISTS_NEWS_ORG': 'Ratio Periodistas/Organizaciones',
+        'CLASSIFICATION': 'Clasificación'
+    };
+    
+    return titleMap[key] || key;
+}
+
+/**
+ * Translate menu keys into descriptive subtitles
+ * @param {string} key - The menu key
+ * @returns {string} Descriptive subtitle
+ */
+function translateKeyToSubtitle(key) {
+    const subtitleMap = {
+        'HIRING': 'Porcentaje de medios que contratan periodistas mediante…',
+        'PLATFORMS': 'Porcentaje de medios que tienen presencia en…',
+        'THEMES': 'Porcentaje de medios que cubren temas de…',
+        'THREATS': 'Porcentaje de medios cuyos periodistas sufrieron…'
+    };
+    
+    return subtitleMap[key] || '';
+}
+
+/**
+ * Create inline legend integrated with subtitle text
+ * @param {string} subtitle - The subtitle text
+ * @param {string} selectedUnitName - Name of the selected unit
+ * @returns {Object} Object with text and legend elements
+ */
+function createInlineSubtitle(subtitle, selectedUnitName) {
+    if (!subtitle.includes('Porcentaje de medios')) {
+        return { type: 'regular', text: subtitle };
+    }
+    
+    const container = document.createElement('div');
+    container.className = 'inline-subtitle-container';
+    
+    // First div: text before "Porcentaje de medios"
+    const firstDiv = document.createElement('div');
+    firstDiv.className = 'inline-subtitle-text';
+    firstDiv.appendChild(document.createElement('span')).textContent = 'Porcentaje de medios ';
+    
+    // Second div: legends with remaining text in first legend
+    const secondDiv = document.createElement('div');
+    secondDiv.className = 'inline-subtitle-legends';
+    
+    const selectedLegend = createLegendItem('selected', 'en ' + selectedUnitName, subtitle);
+    const averageLegend = createLegendItem('average', 'en la región');
+    
+    secondDiv.appendChild(selectedLegend);
+    secondDiv.appendChild(averageLegend);
+    
+    container.appendChild(firstDiv);
+    container.appendChild(secondDiv);
+    
+    return { type: 'inline', element: container };
+}
+
+/**
+ * Create a legend item
+ * @param {string} type - The legend type ('selected' or 'average')
+ * @param {string} text - The legend text
+ * @param {string} remainingText - Optional remaining text for selected legend
+ * @returns {HTMLElement} The legend item element
+ */
+function createLegendItem(type, text, remainingText = '') {
+    const legend = document.createElement('div');
+    legend.className = 'inline-legend-item';
+    
+    const color = document.createElement('div');
+    color.className = `inline-legend-color ${type}`;
+    
+    const textElement = document.createElement('span');
+    textElement.className = `inline-legend-text ${type}`;
+    textElement.textContent = text;
+    
+    legend.appendChild(color);
+    legend.appendChild(textElement);
+    
+    if (remainingText && type === 'selected') {
+        const remainingElement = document.createElement('span');
+        remainingElement.className = 'inline-legend-text remaining';
+        remainingElement.textContent = ' ' + remainingText.replace('Porcentaje de medios ', '');
+        legend.appendChild(remainingElement);
+    }
+    
+    return legend;
+}
+
+// ============================================================================
+// MODULE EXPORTS
+// ============================================================================
 
 // Export the function for use in other files
 if (typeof module !== 'undefined' && module.exports) {
