@@ -42,13 +42,13 @@ function drawVisualization(vizContainer, countryData, level, unitKey) {
     console.log('Selected Unit:', selectedUnit);
     console.log('===========================');
     
-    // Step B: Dynamically create collapsible menus based on first element keys
-    const menuContainers = createCollapsibleMenus(vizContainer, levelData);
+    // Step B: Dynamically create menu triggers based on keys in the first element
+    const menuContainers = createMenuTriggers(vizContainer, levelData);
     
     // Step C: Add data structure preview to the dynamically created divs
    //  populateMenuData(menuContainers, levelData, unitKey);
     
-    // Step D: calls the small multiple drawing function at each one of the collapsible menus
+    // Step D: calls the small multiple drawing function at each one of the menu triggers
     menuContainers.forEach(menu => {
         addSmallMultiplesToMenu(menu, levelData, unitKey);
     });
@@ -69,50 +69,82 @@ function accessLevelData(countryData, level) {
 }
 
 /**
- * Step B: Dynamically create collapsible menus based on keys in the first element
+ * Utility to create the popup overlay and content
+ * @param {string} title - The title of the popup
+ * @param {Node} contentNode - The content node to be displayed in the popup
+ */
+function showMenuPopup(title, contentNode) {
+    // Remove any existing popup
+    d3.selectAll('.menu-popup-overlay').remove();
+
+    // Create overlay
+    const overlay = d3.select('body').append('div')
+        .attr('class', 'menu-popup-overlay');
+
+    // Create popup
+    const popup = overlay.append('div')
+        .attr('class', 'menu-popup');
+
+    // Close button
+    popup.append('button')
+        .attr('class', 'menu-popup-close')
+        .attr('aria-label', 'Cerrar')
+        .html('&times;')
+        .on('click', () => overlay.remove());
+
+    // Title
+    popup.append('h4')
+        .attr('style', 'margin-top:0;margin-bottom:24px;')
+        .text(title);
+
+    // Content
+    popup.node().appendChild(contentNode);
+}
+
+/**
+ * Step B: Dynamically create menu triggers based on keys in the first element
  * @param {Object} vizContainer - D3 selection of the visualization container
  * @param {Array} levelData - Array of units for the level (already preprocessed)
  * @returns {Array} Array of menu container objects with references to their elements
  */
-function createCollapsibleMenus(vizContainer, levelData) {
+function createMenuTriggers(vizContainer, levelData) {
     if (!levelData || levelData.length === 0) {
         console.error('No level data available');
         return [];
     }
-    
+
     // Get keys from the first element (excluding BASIC_INFO, BBOX, CENTROID)
     const firstUnit = levelData[0];
-    const collapsibleKeys = Object.keys(firstUnit).filter(key => 
+    const menuKeys = Object.keys(firstUnit).filter(key => 
         key !== 'BASIC_INFO' && key !== 'BBOX' && key !== 'CENTROID'
     );
-    
+
     const menuContainers = [];
-    
-    collapsibleKeys.forEach(key => {
+
+    menuKeys.forEach(key => {
         const menu = vizContainer.append('div')
-            .attr('class', 'collapsible-menu')
+            .attr('class', 'menu-trigger')
             .attr('data-key', key);
-        
-        menu.append('h4').text(key);
-        const vizArea = menu.append('div').attr('class', 'viz-area');
-        
-        // Add click event listener for collapsible functionality
-        menu.select('h4').on('click', function() {
-            const isExpanded = menu.classed('expanded');
-            if (isExpanded) {
-                menu.classed('expanded', false);
-            } else {
-                menu.classed('expanded', true);
-            }
+
+        // Menu header acts as trigger
+        const header = menu.append('h4').text(key);
+        // The viz area is created but not shown in the menu
+        const vizArea = document.createElement('div');
+        vizArea.className = 'viz-area';
+
+        // Add click event listener for popup functionality
+        header.on('click', function() {
+            // Move the vizArea node into the popup
+            showMenuPopup(key, vizArea);
         });
-        
+
         menuContainers.push({
             key: key,
             menu: menu,
-            vizArea: vizArea
+            vizArea: d3.select(vizArea)
         });
     });
-    
+
     return menuContainers;
 }
 
@@ -161,7 +193,7 @@ function populateMenuData(menuContainers, levelData, unitKey) {
 }
 
 /**
- * Step D: Add small multiples (stripplots) to each collapsible menu
+ * Step D: Add small multiples (stripplots) to each menu trigger
  * @param {Object} menu - Menu container object with key, menu, and placeholder properties
  * @param {Array} levelData - Array of units for the level (already preprocessed)
  * @param {string} unitKey - The specific unit key to highlight
@@ -243,10 +275,6 @@ function createStripplot(container, variable, selectedUnit, peerUnits, categoryK
         .domain([0, 1]) // 0 to 100% (as decimal)
         .range([40, 360]); // Leave margin for axis
     
-    const yScale = d3.scaleLinear()
-        .domain([0, 1])
-        .range([10, 50]); // Small height for stripplot
-    
     // Add x-axis
     const xAxis = d3.axisBottom(xScale)
         .tickFormat(d3.format('.0%'))
@@ -265,58 +293,32 @@ function createStripplot(container, variable, selectedUnit, peerUnits, categoryK
         .attr('text-anchor', 'middle')
         .text('Percentage');
     
-    // Add peer unit markers
+    // Add peer unit strips (vertical lines)
     peerUnits.forEach(unit => {
         const value = unit[categoryKey][variable];
         if (value !== undefined && !isNaN(value)) {
-            svg.append('circle')
-                .attr('class', 'peer-marker')
-                .attr('cx', xScale(value))
-                .attr('cy', yScale(0.5))
-                .attr('r', 3)
-                .attr('fill', 'var(--peer-marker-fill)')
-                .attr('stroke', 'var(--peer-marker-stroke)')
-                .attr('stroke-width', 1);
+            svg.append('line')
+                .attr('class', 'peer-strip')
+                .attr('x1', xScale(value))
+                .attr('y1', 5)
+                .attr('x2', xScale(value))
+                .attr('y2', 55)
+                .attr('stroke', 'var(--peer-strip-color)')
+                .attr('stroke-width', 2);
         }
     });
     
-    // Add selected unit marker (highlighted)
+    // Add selected unit strip (highlighted vertical line)
     const selectedValue = selectedUnit[categoryKey][variable];
     if (selectedValue !== undefined && !isNaN(selectedValue)) {
-        svg.append('circle')
-            .attr('class', 'selected-marker')
-            .attr('cx', xScale(selectedValue))
-            .attr('cy', yScale(0.5))
-            .attr('r', 4)
-            .attr('fill', 'var(--selected-marker-fill)')
-            .attr('stroke', 'var(--selected-marker-stroke)')
-            .attr('stroke-width', 2);
-    }
-
-    // Add reference line at selected unit's position
-    if (selectedValue !== undefined && !isNaN(selectedValue)) {
         svg.append('line')
-            .attr('class', 'selected-reference-line')
+            .attr('class', 'selected-strip')
             .attr('x1', xScale(selectedValue))
             .attr('y1', 5)
             .attr('x2', xScale(selectedValue))
             .attr('y2', 55)
-            .attr('stroke', 'var(--selected-line-color)')
-            .attr('stroke-width', 2)
-            .attr('stroke-dasharray', '3,3');
-    }
-
-    // Add a reference line at the average of the peer units
-    if (average > 0) {
-        svg.append('line')
-            .attr('class', 'peers-reference-line')
-            .attr('x1', xScale(average))
-            .attr('y1', 5)
-            .attr('x2', xScale(average))
-            .attr('y2', 55)
-            .attr('stroke', 'var(--average-line-color)')
-            .attr('stroke-width', 1)
-            .attr('stroke-dasharray', '5,5');
+            .attr('stroke', 'var(--selected-strip-color)')
+            .attr('stroke-width', 3);
     }
 }
 

@@ -1,5 +1,10 @@
 /* CSS Custom Properties for Colors */
 :root {
+    /* Background Colors */
+    --bg-primary: #F9F1E3;
+    --bg-white: #fff;
+    --bg-light: #f9f9f9;
+    
     /* Semantic Color Variables */
     --selected-marker-fill: #3b6ea5;
     --selected-marker-stroke: #2d5a8a;
@@ -8,18 +13,48 @@
     --selected-line-color: #3b6ea5;
     --average-line-color: #eea811;
     
-    /* Text Colors */
-    --text-muted: #6c757d;
+    /* Strip Colors */
+    --selected-strip-color: #3b6ea5;
+    --peer-strip-color: #adb5bd;
+    --selected-reference-color: #3b6ea5;
+    --average-reference-color: #eea811;
     
-    /* Background Colors */
-    --bg-light: #f9f9f9;
-    --bg-white: #fff;
+    /* Highlight Color */
+    --highlight-color: #EA4A26;
+    
+    /* Text Colors */
+    --text-primary: #222;
+    --text-muted: #6c757d;
+    --text-dark: #495057;
+    
+    /* Border Colors */
+    --border-light: rgba(0, 0, 0, 0.1);
+    --border-medium: rgba(0, 0, 0, 0.2);
+    
+    /* Transparent Backgrounds */
+    --bg-transparent-light: rgba(255, 255, 255, 0.5);
+    --bg-transparent-medium: rgba(255, 255, 255, 0.7);
+    --bg-transparent-heavy: rgba(255, 255, 255, 0.8);
+    --bg-transparent-heavy-2: rgba(255, 255, 255, 0.9);
+    
+    /* Focus States */
+    --focus-bg: rgba(234, 243, 255, 0.9);
+    --focus-border: #3b6ea5;
+    
+    /* Button Colors */
+    --btn-primary: #3b6ea5;
+    --btn-primary-hover: #2d5a8a;
+    --btn-disabled: #ccc;
+    
+    /* Disabled States */
+    --disabled-bg: rgba(245, 245, 245, 0.9);
+    --disabled-text: #999;
 }
 
 body {
     font-family: 'Roboto', Arial, sans-serif;
-    background: #f7f7f7;
-    color: #222;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     margin: auto;
     margin-left: 5%;
     margin-right: 5%;
@@ -27,17 +62,17 @@ body {
 
 .main {
     margin: 40px auto;
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     padding: 32px 24px;
 }
 
 .controls {
     margin-bottom: 32px;
-    background: #f0f4fa;
+    background: var(--bg-transparent-medium);
     padding: 20px;
     border-radius: 6px;
+    backdrop-filter: blur(10px);
 }
 
 .primary-controls {
@@ -53,7 +88,7 @@ body {
     align-items: center;
     gap: 16px;
     padding-top: 16px;
-    border-top: 1px solid #d1d9e0;
+    border-top: 1px solid var(--border-light);
 }
 
 .secondary-controls fieldset {
@@ -79,14 +114,14 @@ body {
 
 #unit-search {
     flex: 1;
-    border: 1px solid #bfc9d1;
+    border: 1px solid var(--border-medium);
     border-radius: 4px;
     outline: none;
     font-size: 15px;
-    background: #fff;
+    background: var(--bg-transparent-heavy-2);
     font-family: inherit;
     line-height: 100%;
-    color: #222;
+    color: var(--text-primary);
     padding: 8px 12px;
     min-width: 200px;
     transition: border 0.2s;
@@ -95,26 +130,26 @@ body {
 }
 
 #unit-search:focus {
-    border: 1.5px solid #3b6ea5;
-    background: #eaf3ff;
+    border: 1.5px solid var(--focus-border);
+    background: var(--focus-bg);
 }
 
 #unit-search:disabled {
-    background: #f5f5f5;
-    color: #999;
-    border: 1px solid #ddd;
+    background: var(--disabled-bg);
+    color: var(--disabled-text);
+    border: 1px solid var(--border-light);
     cursor: not-allowed;
     opacity: 0.6;
 }
 
 #unit-search:disabled:focus {
-    border: 1px solid #ddd;
-    background: #f5f5f5;
+    border: 1px solid var(--border-light);
+    background: var(--disabled-bg);
 }
 
 #unit-search::placeholder {
     font-weight: normal;
-    color: #999;
+    color: var(--disabled-text);
 }
 
 .draw-section {
@@ -123,7 +158,7 @@ body {
 }
 
 .draw-button {
-    background: #3b6ea5;
+    background: var(--btn-primary);
     color: white;
     border: none;
     border-radius: 6px;
@@ -135,11 +170,11 @@ body {
 }
 
 .draw-button:hover {
-    background: #2d5a8a;
+    background: var(--btn-primary-hover);
 }
 
 .draw-button:disabled {
-    background: #ccc;
+    background: var(--btn-disabled);
     cursor: not-allowed;
 }
 
@@ -150,9 +185,9 @@ label {
 
 .selector {
     padding: 8px 12px;
-    border: 1px solid #bfc9d1;
+    border: 1px solid var(--border-medium);
     border-radius: 4px;
-    background: #fff;
+    background: var(--bg-transparent-heavy-2);
     font-size: 15px;
     margin-right: 12px;
     min-width: 120px;
@@ -160,22 +195,22 @@ label {
 }
 
 .selector:focus {
-    border: 1.5px solid #3b6ea5;
+    border: 1.5px solid var(--focus-border);
     outline: none;
-    background: #eaf3ff;
+    background: var(--focus-bg);
 }
 
 .selector:disabled {
-    background: #f5f5f5;
-    color: #999;
-    border: 1px solid #ddd;
+    background: var(--disabled-bg);
+    color: var(--disabled-text);
+    border: 1px solid var(--border-light);
     cursor: not-allowed;
     opacity: 0.6;
 }
 
 .selector:disabled:focus {
-    border: 1px solid #ddd;
-    background: #f5f5f5;
+    border: 1px solid var(--border-light);
+    background: var(--disabled-bg);
 }
 
 /* Mockup Display Styles */
@@ -258,73 +293,70 @@ label {
 .viz-container {
     margin-top: 30px;
     padding: 20px;
-    background: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    background: transparent;
 }
 
 .viz-container h3 {
     margin: 0 0 20px 0;
-    color: #495057;
+    color: var(--text-dark);
     font-size: 18px;
     font-weight: 600;
 }
 
-.collapsible-menu {
+.menu-trigger {
     margin-bottom: 10px;
-    border: 1px solid #dee2e6;
+    border: none;
     border-radius: 4px;
     overflow: hidden;
+    background: transparent;
 }
 
-.collapsible-menu h4 {
-    margin: 0;
-    padding: 12px 15px;
-    background: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
+/* Make menu headers look like triggers */
+.menu-trigger h4 {
+    background: transparent;
+    border: none;
     cursor: pointer;
     user-select: none;
     position: relative;
-    transition: background-color 0.2s;
+    transition: color 0.2s;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-dark);
+    padding: 8px 0;
+    margin: 8px 0;
+    text-decoration: underline;
+    text-decoration-color: var(--text-muted);
+    text-underline-offset: 4px;
+    padding-left: 40px;
 }
 
-.collapsible-menu h4:hover {
-    background: #e9ecef;
-}
-
-.collapsible-menu h4::before {
-    content: '▶';
+.menu-trigger h4::before {
+    content: '+';
     position: absolute;
-    right: 15px;
+    left: 0;
     top: 50%;
     transform: translateY(-50%);
-    transition: transform 0.2s;
-    color: #6c757d;
-    font-size: 12px;
-}
-
-.collapsible-menu.expanded h4::before {
-    transform: translateY(-50%) rotate(90deg);
-}
-
-.collapsible-menu .viz-area {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    background: #fff;
-}
-
-.collapsible-menu.expanded .viz-area {
-    max-height: 800px;
-    padding: 15px;
-    border-top: 1px solid #dee2e6;
-    overflow-y: auto;
+    width: 24px;
+    height: 24px;
+    background: var(--highlight-color);
+    border-radius: 50%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-primary);
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.menu-trigger h4:hover {
+    background: transparent;
+    color: var(--btn-primary);
+    text-decoration-color: var(--btn-primary);
+}
+
+.menu-trigger .viz-area {
+    display: none;
 }
 
 .data-row {
@@ -332,7 +364,7 @@ label {
     justify-content: space-between;
     align-items: center;
     padding: 4px 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-light);
 }
 
 .data-row:last-child {
@@ -341,13 +373,13 @@ label {
 
 .data-key {
     font-weight: 600;
-    color: #495057;
+    color: var(--text-dark);
     font-family: monospace;
     font-size: 12px;
 }
 
 .data-value {
-    color: #6c757d;
+    color: var(--text-muted);
     font-family: monospace;
     font-size: 12px;
     text-align: right;
@@ -359,10 +391,8 @@ label {
     flex: 0 0 auto;
     margin: 10px;
     padding: 15px;
-    background: #fff;
-    border: 1px solid #e9ecef;
+    background: transparent;
     border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     min-width: 420px;
 }
 
@@ -370,27 +400,27 @@ label {
     margin: 0 0 10px 0;
     font-size: 14px;
     font-weight: 600;
-    color: #495057;
+    color: var(--text-dark);
     text-align: center;
 }
 
 .stripplot-svg {
-    border: 1px solid #e9ecef;
+    border: none;
     border-radius: 4px;
-    background: #f9f9f9;
+    background: transparent;
 }
 
 /* Stripplot SVG Elements Styling */
-.peer-marker {
+.peer-strip {
     opacity: 0.6;
     transition: opacity 0.2s;
 }
 
-.peer-marker:hover {
+.peer-strip:hover {
     opacity: 0.8;
 }
 
-.selected-marker {
+.selected-strip {
     opacity: 1;
     filter: drop-shadow(0 2px 4px rgba(59, 110, 165, 0.3));
 }
@@ -402,19 +432,75 @@ label {
 
 .peers-reference-line {
     opacity: 1;
-    filter: drop-shadow(0 1px 2px rgba(40, 167, 69, 0.2));
+    filter: drop-shadow(0 1px 2px rgba(238, 168, 17, 0.2));
 }
 
 .x-axis text {
     font-size: 10px;
-    fill: #6c757d;
+    fill: var(--text-muted);
 }
 
 .axis-label {
     font-size: 11px;
-    fill: #6c757d;
+    fill: var(--text-muted);
 }
 
 #chart {
     min-height: 400px;
+}
+
+/* Modal Popup Overlay */
+.menu-popup-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(34, 34, 34, 0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-popup {
+    background: var(--bg-primary);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 32px 32px 24px 32px;
+    min-width: 60vw;
+    max-width: 80vw;
+    max-height: 70vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-popup .viz-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 0;
+    border: none;
+    max-height: none;
+    overflow: visible;
+}
+
+.menu-popup-close {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    font-size: 1.6rem;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1002;
+    transition: color 0.2s;
+}
+.menu-popup-close:hover {
+    color: var(--text-primary);
 }
