@@ -1,0 +1,163 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background: #f7f7f7;
+    color: #222;
+}
+
+.main {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 32px 24px;
+}
+
+.controls {
+    margin-bottom: 32px;
+    background: #f0f4fa;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.primary-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.secondary-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #d1d9e0;
+}
+
+.secondary-controls fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.secondary-controls label {
+    font-weight: 500;
+    margin-right: 6px;
+}
+
+.container-search {
+    display: flex;
+    height: 2rem;
+    background: transparent;
+    font-family: inherit;
+}
+
+#unit-search {
+    flex: 1;
+    border: 1px solid #bfc9d1;
+    border-radius: 4px;
+    outline: none;
+    font-size: 15px;
+    background: #fff;
+    font-family: inherit;
+    line-height: 100%;
+    color: #222;
+    padding: 8px 12px;
+    min-width: 200px;
+    transition: border 0.2s;
+    -webkit-appearance: none;
+    -webkit-border-radius: 4px;
+}
+
+#unit-search:focus {
+    border: 1.5px solid #3b6ea5;
+    background: #eaf3ff;
+}
+
+#unit-search:disabled {
+    background: #f5f5f5;
+    color: #999;
+    border: 1px solid #ddd;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#unit-search:disabled:focus {
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+}
+
+#unit-search::placeholder {
+    font-weight: normal;
+    color: #999;
+}
+
+.draw-section {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.draw-button {
+    background: #3b6ea5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.draw-button:hover {
+    background: #2d5a8a;
+}
+
+.draw-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+label {
+    font-weight: 500;
+    margin-right: 6px;
+}
+
+.selector {
+    padding: 8px 12px;
+    border: 1px solid #bfc9d1;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 15px;
+    margin-right: 12px;
+    min-width: 120px;
+    transition: border 0.2s;
+}
+
+.selector:focus {
+    border: 1.5px solid #3b6ea5;
+    outline: none;
+    background: #eaf3ff;
+}
+
+.selector:disabled {
+    background: #f5f5f5;
+    color: #999;
+    border: 1px solid #ddd;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.selector:disabled:focus {
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+}
+
+#chart {
+    min-height: 400px;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DESIERTOS - D3 Experiment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main">
+        <div class="controls">
+            <div class="primary-controls">
+                <label for="country-select">País:</label>
+                <select id="country-select" class="selector"></select>
+                <label for="level-select">Nivel:</label>
+                <select id="level-select" class="selector"></select>
+            </div>
+            <div class="secondary-controls">
+                <form id="unit-form" autocomplete="off" spellcheck="false">
+                    <fieldset>
+                        <label for="unit-search">Unidad:</label>
+                        <div class="container-search">
+                            <input type="search" id="unit-search" name="q" list="unit-options" placeholder="Buscar unidad...">
+                        </div>
+                        <datalist id="unit-options"></datalist>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        
+        <div class="draw-section">
+            <button id="draw-button" class="draw-button">¡Dibujar!</button>
+        </div>
+        
+        <div id="chart"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="script.js"></script>
+    
+</body>
+</html> 
