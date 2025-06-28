@@ -219,13 +219,71 @@ function addSmallMultiplesToMenu(menu, levelData, unitKey) {
         return;
     }
 
+    // Create a container for all stripplot content
+    const stripplotContainer = menu.vizArea.append('div')
+        .attr('class', 'stripplot-container')
+        .style('display', 'flex')
+        .style('flex-direction', 'column')
+        .style('width', '100%');
+
+    // Create legend above all stripplots
+    const legendContainer = stripplotContainer.append('div')
+        .attr('class', 'stripplot-legend')
+        .style('display', 'flex')
+        .style('gap', '20px')
+        .style('margin-bottom', '15px')
+        .style('align-items', 'center');
+    
+    // Selected unit legend item
+    const selectedLegend = legendContainer.append('div')
+        .style('display', 'flex')
+        .style('align-items', 'center')
+        .style('gap', '8px');
+    
+    selectedLegend.append('div')
+        .style('width', '3px')
+        .style('height', '12px')
+        .style('background-color', 'var(--color-accent)');
+    
+    selectedLegend.append('p')
+        .style('margin', '0')
+        .style('font-size', '16px')
+        .style('font-weight', '500')
+        .style('color', 'var(--color-accent)')
+        .text(selectedUnit.BASIC_INFO.NAME);
+    
+    // Average legend item
+    const averageLegend = legendContainer.append('div')
+        .style('display', 'flex')
+        .style('align-items', 'center')
+        .style('gap', '8px');
+    
+    averageLegend.append('div')
+        .style('width', '3px')
+        .style('height', '12px')
+        .style('background-color', 'var(--color-accent-secondary)');
+    
+    averageLegend.append('p')
+        .style('margin', '0')
+        .style('font-size', '16px')
+        .style('font-weight', '500')
+        .style('color', 'var(--color-accent-secondary)')
+        .text('Promedio en la región');
+
+    // Create a flex container for the stripplots
+    const stripplotsFlexContainer = stripplotContainer.append('div')
+        .style('display', 'flex')
+        .style('flex-wrap', 'wrap')
+        .style('justify-content', 'center')
+        .style('align-items', 'flex-start')
+        .style('gap', '15px');
 
     // Find all percentage variables in this category
     const percentageVariables = Object.keys(categoryData).filter(key => key.endsWith('_PCT'));
 
     // Create stripplot for each percentage variable
     percentageVariables.forEach(variable => {
-        createStripplot(menu.vizArea, variable, selectedUnit, peerUnits, menu.key);
+        createStripplot(stripplotsFlexContainer, variable, selectedUnit, peerUnits, menu.key);
     });
 }
 
@@ -268,30 +326,25 @@ function createStripplot(container, variable, selectedUnit, peerUnits, categoryK
     const svg = plotContainer.append('svg')
         .attr('class', 'stripplot-svg')
         .attr('width', 400)
-        .attr('height', 60);
+        .attr('height', 140);
     
     // Set up scales
     const xScale = d3.scaleLinear()
         .domain([0, 1]) // 0 to 100% (as decimal)
-        .range([40, 360]); // Leave margin for axis
+        .range([20, 380]); // Extended range for more chart space
     
-    // Add x-axis
+    // Add x-axis with only 0% and 100% ticks
     const xAxis = d3.axisBottom(xScale)
         .tickFormat(d3.format('.0%'))
-        .ticks(5);
+        .tickValues([0, 1]) // Only show 0% and 100%
+        .tickSize(0) // Remove tick lines
+        .tickPadding(8); // Add some padding
     
     svg.append('g')
         .attr('class', 'x-axis')
-        .attr('transform', 'translate(0, 55)')
-        .call(xAxis);
-    
-    // Add axis label
-    svg.append('text')
-        .attr('class', 'axis-label')
-        .attr('x', 200)
-        .attr('y', 75)
-        .attr('text-anchor', 'middle')
-        .text('Percentage');
+        .attr('transform', 'translate(0, 105)')
+        .call(xAxis)
+        .call(g => g.select('.domain').remove()); // Remove the axis line
     
     // Add peer unit strips (vertical lines)
     peerUnits.forEach(unit => {
@@ -300,10 +353,10 @@ function createStripplot(container, variable, selectedUnit, peerUnits, categoryK
             svg.append('line')
                 .attr('class', 'peer-strip')
                 .attr('x1', xScale(value))
-                .attr('y1', 5)
+                .attr('y1', 25)
                 .attr('x2', xScale(value))
-                .attr('y2', 55)
-                .attr('stroke', 'var(--peer-strip-color)')
+                .attr('y2', 75)
+                .attr('stroke', 'var(--color-peer-lines)')
                 .attr('stroke-width', 2);
         }
     });
@@ -314,11 +367,72 @@ function createStripplot(container, variable, selectedUnit, peerUnits, categoryK
         svg.append('line')
             .attr('class', 'selected-strip')
             .attr('x1', xScale(selectedValue))
-            .attr('y1', 5)
+            .attr('y1', 25)
             .attr('x2', xScale(selectedValue))
-            .attr('y2', 55)
-            .attr('stroke', 'var(--selected-strip-color)')
-            .attr('stroke-width', 3);
+            .attr('y2', 75)
+            .attr('stroke', 'var(--color-accent)')
+            .attr('stroke-width', 2);
+        
+        // Add text annotation for selected value (on top)
+        svg.append('text')
+            .attr('class', 'reference-annotation')
+            .attr('x', xScale(selectedValue))
+            .attr('y', 20)
+            .attr('text-anchor', 'middle')
+            .attr('fill', 'var(--color-accent)')
+            .attr('font-size', '12px')
+            .attr('font-weight', '500')
+            .text(d3.format('.0%')(selectedValue));
+    }
+
+    // Add an average strip
+    svg.append('line')
+        .attr('class', 'average-strip')
+        .attr('x1', xScale(average))
+        .attr('y1', 25)
+        .attr('x2', xScale(average))
+        .attr('y2', 75)
+        .attr('stroke', 'var(--color-accent-secondary)')
+        .attr('stroke-width', 2);
+    
+    // Add text annotation for average (on top)
+    svg.append('text')
+        .attr('class', 'reference-annotation')
+        .attr('x', xScale(average))
+        .attr('y', 20)
+        .attr('text-anchor', 'middle')
+        .attr('fill', 'var(--color-accent-secondary)')
+        .attr('font-size', '12px')
+        .attr('font-weight', '500')
+        .text(d3.format('.0%')(average));
+
+    // Prevent text collisions by shifting annotations
+    if (selectedValue !== undefined && !isNaN(selectedValue)) {
+        const selectedX = xScale(selectedValue);
+        const averageX = xScale(average);
+        
+        // Find the text elements
+        const selectedText = svg.selectAll('.reference-annotation').filter((d, i, nodes) => {
+            return d3.select(nodes[i]).attr('fill') === 'var(--color-accent)';
+        });
+        
+        const averageText = svg.selectAll('.reference-annotation').filter((d, i, nodes) => {
+            return d3.select(nodes[i]).attr('fill') === 'var(--color-accent-secondary)';
+        });
+        
+        // Use text anchor points to prevent collisions
+        if (selectedX < averageX) {
+            // Selected is to the left, right-align it
+            selectedText.attr('text-anchor', 'end');
+            // Average is to the right, left-align it
+            averageText.attr('text-anchor', 'start');
+        } else if (selectedX > averageX) {
+            // Selected is to the right, left-align it
+            selectedText.attr('text-anchor', 'start');
+            // Average is to the left, right-align it
+            averageText.attr('text-anchor', 'end');
+        }
+        // If they're exactly the same, keep center alignment
     }
 }
 
