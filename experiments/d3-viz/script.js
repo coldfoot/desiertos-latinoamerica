@@ -13,6 +13,9 @@ function loadData() {
             console.log("Data loaded successfully with D3!");
             console.log("Available countries:", Object.keys(data));
             
+            // Preprocess all data once for all country/level combinations
+            preprocessAllData(data);
+            
             populateCountrySelector(Object.keys(data));
             populateLevelSelector();
             setupEventListeners();
@@ -24,6 +27,46 @@ function loadData() {
         .catch(function(error) {
             console.error("Error loading data with D3:", error);
         });
+}
+
+/**
+ * Preprocess all data for all country/level combinations once
+ * @param {Object} data - The entire data object
+ */
+function preprocessAllData(data) {
+    console.log("Preprocessing all data...");
+    
+    Object.keys(data).forEach(country => {
+        Object.keys(data[country]).forEach(level => {
+            if (level === 'small_units' || level === 'large_units') {
+                const levelData = data[country][level];
+                if (Array.isArray(levelData)) {
+                    levelData.forEach(unitData => {
+                        for (const category in unitData) {
+                            if (category !== 'BASIC_INFO' && category !== 'BBOX' && category !== 'CENTROID') {
+                                for (const key in unitData[category]) {
+                                    // Skip if this is already a percentage variable, not numeric, or null/undefined
+                                    if (!key.endsWith('_PCT') && 
+                                        unitData[category][key] !== null && 
+                                        unitData[category][key] !== undefined && 
+                                        !isNaN(unitData[category][key])) {
+                                        const pctKey = `${key}_PCT`;
+                                        // Only create if it doesn't already exist
+                                        if (!(pctKey in unitData[category])) {
+                                            unitData[category][pctKey] = unitData[category][key] / unitData['BASIC_INFO']['NEWS_ORG_COUNT'];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    });
+    
+    console.log("Data preprocessing completed!");
+    console.log(data);
 }
 
 function populateCountrySelector(countries) {

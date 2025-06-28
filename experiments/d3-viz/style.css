@@ -1,11 +1,31 @@
+/* CSS Custom Properties for Colors */
+:root {
+    /* Semantic Color Variables */
+    --selected-marker-fill: #3b6ea5;
+    --selected-marker-stroke: #2d5a8a;
+    --peer-marker-fill: #dee2e6;
+    --peer-marker-stroke: #adb5bd;
+    --selected-line-color: #3b6ea5;
+    --average-line-color: #eea811;
+    
+    /* Text Colors */
+    --text-muted: #6c757d;
+    
+    /* Background Colors */
+    --bg-light: #f9f9f9;
+    --bg-white: #fff;
+}
+
 body {
     font-family: 'Roboto', Arial, sans-serif;
     background: #f7f7f7;
     color: #222;
+    margin: auto;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .main {
-    max-width: 900px;
     margin: 40px auto;
     background: #fff;
     border-radius: 8px;
@@ -288,18 +308,23 @@ label {
     transform: translateY(-50%) rotate(90deg);
 }
 
-.collapsible-menu .placeholder {
+.collapsible-menu .viz-area {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-out;
     background: #fff;
 }
 
-.collapsible-menu.expanded .placeholder {
-    max-height: 500px;
+.collapsible-menu.expanded .viz-area {
+    max-height: 800px;
     padding: 15px;
     border-top: 1px solid #dee2e6;
     overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 .data-row {
@@ -327,6 +352,67 @@ label {
     font-size: 12px;
     text-align: right;
     min-width: 80px;
+}
+
+/* Stripplot Layout and Styling */
+.stripplot-item {
+    flex: 0 0 auto;
+    margin: 10px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    min-width: 420px;
+}
+
+.stripplot-title {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+    text-align: center;
+}
+
+.stripplot-svg {
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+/* Stripplot SVG Elements Styling */
+.peer-marker {
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.peer-marker:hover {
+    opacity: 0.8;
+}
+
+.selected-marker {
+    opacity: 1;
+    filter: drop-shadow(0 2px 4px rgba(59, 110, 165, 0.3));
+}
+
+.selected-reference-line {
+    opacity: 0.7;
+    filter: drop-shadow(0 1px 2px rgba(59, 110, 165, 0.2));
+}
+
+.peers-reference-line {
+    opacity: 1;
+    filter: drop-shadow(0 1px 2px rgba(40, 167, 69, 0.2));
+}
+
+.x-axis text {
+    font-size: 10px;
+    fill: #6c757d;
+}
+
+.axis-label {
+    font-size: 11px;
+    fill: #6c757d;
 }
 
 #chart {
