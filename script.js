@@ -16,25 +16,30 @@ class MenuPaises {
             if (e.target.tagName == "A") pais = e.target.parentElement.dataset.pais;
             if (e.target.tagName == "LI") pais = e.target.dataset.pais;
 
+            current_country = pais;
+
             console.log(pais);
 
-            const screen_width = window.innerWidth;
-
-            const padding = {
-                right: screen_width / 2,
-                left: 30,
-                top: 30,
-                bottom: 30
-            }
-
-            if (pais, plot_country(pais, padding));
         });
 
     }
 
-    showCountry(country) {
+}
 
+function showCountryStory(pais) {
+
+    const screen_width = window.innerWidth;
+
+    const pad_right = screen_width < 900 ? 30 : screen_width / 2;
+
+    const padding = {
+        right: pad_right,
+        left: 30,
+        top: 30,
+        bottom: 30
     }
+
+    plot_country(pais, padding);
 
 }
 
@@ -261,11 +266,9 @@ class Story {
 
             }
 
-            const w = window.innerWidth;
-
-            if (w )
-
             clear_latam();
+
+            showCountryStory(current_country);
 
             countries[current_country].ut_maior.toggle_hover_border();
 
