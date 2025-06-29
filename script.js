@@ -38,64 +38,7 @@ class MenuPaises {
 
 }
 
-let current_country;
-// object that will hold the Country objects instances
-let countries = {};
-
-function plot_country(country, padding) {
-
-    console.log(country);
-
-    current_country = country;
-
-    const bbox_highlighted = bboxes[country];
-
-    map.fitBounds(
-        bbox_highlighted, 
-        {
-            linear : false, // false means the map transitions using map.flyTo()
-            speed: 1, 
-            padding:  padding
-        }
-    );
-
-    console.log(colors["accent"], colors["map"]);
-
-    map.setPaintProperty(
-        'countries-fills', 
-        'fill-opacity',
-        ['case',
-            [
-                '==',
-                ['get', 'country_name'],
-                country
-            ],
-
-            1,
-            
-            0
-        ]
-
-    );
-
-    map.setPaintProperty(
-        'countries-borders', 
-        'line-opacity',
-        ['case',
-            [
-                '==',
-                ['get', 'country_name'],
-                country
-            ],
-
-            1,
-            
-            0
-        ]
-
-    );
-
-}
+const w_cutoff = 900;
 
 function get_bbox(country) {
 
@@ -298,6 +241,8 @@ class Story {
             } else {
 
                 plot_latam();
+                countries[current_country].ut_maior.toggle_hover_border("disable");
+
                 console.log("Country.Going up...");
 
             }
@@ -315,6 +260,10 @@ class Story {
                 console.log("First paragraph. Going up...");
 
             }
+
+            const w = window.innerWidth;
+
+            if (w )
 
             clear_latam();
 

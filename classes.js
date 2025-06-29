@@ -1,3 +1,62 @@
+let current_country;
+// object that will hold the Country objects instances
+let countries = {};
+
+function plot_country(country, padding) {
+
+    console.log(country);
+
+    current_country = country;
+
+    const bbox_highlighted = bboxes[country];
+
+    map.fitBounds(
+        bbox_highlighted, 
+        {
+            linear : false, // false means the map transitions using map.flyTo()
+            speed: 1, 
+            padding:  padding
+        }
+    );
+
+    console.log(colors["accent"], colors["map"]);
+
+    map.setPaintProperty(
+        'countries-fills', 
+        'fill-opacity',
+        ['case',
+            [
+                '==',
+                ['get', 'country_name'],
+                country
+            ],
+
+            1,
+            
+            0
+        ]
+
+    );
+
+    map.setPaintProperty(
+        'countries-borders', 
+        'line-opacity',
+        ['case',
+            [
+                '==',
+                ['get', 'country_name'],
+                country
+            ],
+
+            1,
+            
+            0
+        ]
+
+    );
+
+}
+
 class Country {
 
     constructor(country_name, bbox_country, url_ut_maior, source_layer_ut_maior, url_ut_menor, source_layer_ut_menor) {
@@ -361,12 +420,16 @@ class UTmaior {
 
     }
 
-    toggle_hover_border() {
+    toggle_hover_border(disable) {
+
+        let color = "#666";
+
+        if (disable) color = "transparent";
 
         map.setPaintProperty(
             this.country + '-provincia-border-hover',
             'line-color',
-            '#666'
+            color
         );
 
     }
