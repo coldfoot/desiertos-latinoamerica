@@ -2,6 +2,10 @@ let current_country;
 // object that will hold the Country objects instances
 let countries = {};
 
+let last_country;
+let last_provincia_location_data;
+let last_localidad_location_data;
+
 function plot_country(country, padding) {
 
     console.log(country);

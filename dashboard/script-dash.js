@@ -52,10 +52,6 @@ function converte_cores_argentina() {
         ])
 }
 
-let last_country;
-let last_provincia_location_data;
-let last_localidad_location_data;
-
 const current_place = {
     country : '',
     provincia : '',
