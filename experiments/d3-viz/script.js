@@ -39,6 +39,7 @@ function handleDataLoadSuccess(jsonData) {
     
     preprocessAllData(data);
     initializeUI();
+    handleHashRoute();
 }
 
 /**
@@ -507,7 +508,15 @@ function handleDrawButton() {
     logSelectedUnitDetails();
     
     if (selectedUnit) {
-        executeDataVisualization(selectedCountry, selectedLevel);
+        // Build hash based on selection
+        let hash = `/${selectedCountry}`;
+        if (selectedLevel === 'large_units') {
+            hash += `/${normalize(selectedUnit.BASIC_INFO.NAME)}`;
+        } else if (selectedLevel === 'small_units') {
+            hash += `/${normalize(selectedUnit.BASIC_INFO.PARENT)}/${normalize(selectedUnit.BASIC_INFO.NAME)}`;
+        }
+        window.location.hash = hash;
+        // The router will handle visualization
     }
 }
 
@@ -602,4 +611,61 @@ function clearUnitSelector() {
     window.currentUnits = null;
     selectedUnit = null;
     disableDrawButton();
+}
+
+// === HASH ROUTER FOR URL-DRIVEN VISUALIZATION ===
+window.addEventListener('hashchange', handleHashRoute);
+
+function handleHashRoute() {
+    if (!data) return; // Data not loaded yet
+    const hash = window.location.hash.slice(1); // Remove '#'
+    const parts = hash.split('/').filter(Boolean);
+    if (parts.length === 0) return; // No hash, do nothing
+
+    const country = parts[0]?.toLowerCase();
+    if (!data[country]) return;
+
+    // Set dropdowns to match route
+    d3.select('#country-select').property('value', country);
+    updateLevelSelector();
+
+    if (parts.length === 1) {
+        // Country-level viz
+        d3.select('#level-select').property('value', 'country');
+        updateUnitSelector();
+        const units = data[country]['country'];
+        if (units && units.length === 1) {
+            updateSelectedUnit(units[0]);
+            // Set unit search input to display name
+            d3.select('#unit-search').property('value', getUnitDisplayName(units[0], 'country'));
+            createDataVisualization(data[country], 'country', units[0].BASIC_INFO.KEY);
+        }
+    } else if (parts.length === 2) {
+        // Unidad mayor (large_units)
+        d3.select('#level-select').property('value', 'large_units');
+        updateUnitSelector();
+        const units = data[country]['large_units'];
+        const match = units.find(u => normalize(u.BASIC_INFO.NAME) === normalize(parts[1]));
+        if (match) {
+            updateSelectedUnit(match);
+            d3.select('#unit-search').property('value', getUnitDisplayName(match, 'large_units'));
+            createDataVisualization(data[country], 'large_units', match.BASIC_INFO.KEY);
+        }
+    } else if (parts.length === 3) {
+        // Unidad menor (small_units)
+        d3.select('#level-select').property('value', 'small_units');
+        updateUnitSelector();
+        const units = data[country]['small_units'];
+        const match = units.find(u => normalize(u.BASIC_INFO.NAME) === normalize(parts[2]) && normalize(u.BASIC_INFO.PARENT) === normalize(parts[1]));
+        if (match) {
+            updateSelectedUnit(match);
+            d3.select('#unit-search').property('value', getUnitDisplayName(match, 'small_units'));
+            createDataVisualization(data[country], 'small_units', match.BASIC_INFO.KEY);
+        }
+    }
+}
+
+// Helper to normalize names for matching (lowercase, remove accents, spaces, etc.)
+function normalize(str) {
+    return (str || '').toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/\s+/g, '');
 } 
