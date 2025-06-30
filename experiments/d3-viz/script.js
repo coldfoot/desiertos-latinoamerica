@@ -717,20 +717,60 @@ function getFrozenUrlFromHash() {
     const hash = window.location.hash.slice(1); // Remove '#'
     const parts = hash.split('/').filter(Boolean);
     const basePath = '/desiertos-latinoamerica/experiments/d3-viz/static-pages/';
-    
-    if (parts.length === 0) {
-        return window.location.origin + basePath + 'index.html';
-    }
-    
-    // Normalize for filename: lowercase, hyphens for spaces, no accents/special chars
-    const filename = parts.map(part => 
-        part.toLowerCase()
+
+    // Helper for normalization (same as Python)
+    function normalizeForFilename(text) {
+        return (text || '')
+            .toLowerCase()
             .normalize('NFD')
             .replace(/\p{Diacritic}/gu, '')
             .replace(/\s+/g, '-')
-            .replace(/[^a-z0-9-]/g, '')
-    ).join('-') + '.html';
-    
+            .replace(/[^a-z0-9-]/g, '');
+    }
+
+    if (parts.length === 0) {
+        return window.location.origin + basePath + 'index.html';
+    }
+
+    // Data-driven mapping
+    let filename = '';
+    if (parts.length === 1) {
+        // Country level
+        const country = parts[0];
+        filename = normalizeForFilename(country) + '.html';
+    } else if (parts.length === 2) {
+        // Region level
+        const country = parts[0];
+        const region = parts[1];
+        // Find the region in data
+        let regionName = region;
+        if (data && data[country] && data[country].large_units) {
+            const match = data[country].large_units.find(r => normalize(r.BASIC_INFO.NAME) === normalize(region));
+            if (match) regionName = match.BASIC_INFO.NAME;
+        }
+        filename = normalizeForFilename(country) + '-' + normalizeForFilename(regionName) + '.html';
+    } else if (parts.length === 3) {
+        // City level
+        const country = parts[0];
+        const region = parts[1];
+        const city = parts[2];
+        // Find the region and city in data
+        let regionName = region;
+        let cityName = city;
+        if (data && data[country] && data[country].large_units && data[country].small_units) {
+            const regionMatch = data[country].large_units.find(r => normalize(r.BASIC_INFO.NAME) === normalize(region));
+            if (regionMatch) regionName = regionMatch.BASIC_INFO.NAME;
+            const cityMatch = data[country].small_units.find(
+                c => normalize(c.BASIC_INFO.NAME) === normalize(city) && normalize(c.BASIC_INFO.PARENT) === normalize(regionName)
+            );
+            if (cityMatch) cityName = cityMatch.BASIC_INFO.NAME;
+        }
+        filename = normalizeForFilename(country) + '-' + normalizeForFilename(regionName) + '-' + normalizeForFilename(cityName) + '.html';
+    } else {
+        // Fallback: normalize all parts
+        filename = parts.map(normalizeForFilename).join('-') + '.html';
+    }
+
     return window.location.origin + basePath + filename;
 }
 
