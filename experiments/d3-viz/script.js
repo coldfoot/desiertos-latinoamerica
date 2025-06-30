@@ -718,7 +718,7 @@ function getFrozenUrlFromHash() {
     const parts = hash.split('/').filter(Boolean);
     
     if (parts.length === 0) {
-        return window.location.origin + window.location.pathname.replace('/index.html', '') + '/index.html';
+        return window.location.origin + window.location.pathname.replace(/\/index\.html$/, '') + '/static-pages/index.html';
     }
     
     // Convert hash parts to filename format
@@ -730,7 +730,7 @@ function getFrozenUrlFromHash() {
             .replace(/[^a-z0-9-]/g, '')
     ).join('-') + '.html';
     
-    return window.location.origin + window.location.pathname.replace('/index.html', '') + '/' + filename;
+    return window.location.origin + window.location.pathname.replace(/\/index\.html$/, '') + '/static-pages/' + filename;
 }
 
 /**

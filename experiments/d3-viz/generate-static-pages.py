@@ -35,32 +35,32 @@ def capitalize_first_letter(text):
         return ""
     return text[0].upper() + text[1:]
 
-def generate_html(title, description, redirect_hash):
+def generate_html(title, description, og_url, redirect_url):
     """Generate HTML template with OG tags and redirect"""
     return f"""<!DOCTYPE html>
-<html lang="es">
+<html lang=\"es\">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     <title>{title}</title>
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="{title}">
-    <meta property="og:description" content="{description}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://desiertos.com/dashboard{redirect_hash}">
+    <meta property=\"og:title\" content=\"{title}\">
+    <meta property=\"og:description\" content=\"{description}\">
+    <meta property=\"og:type\" content=\"website\">
+    <meta property=\"og:url\" content=\"{og_url}\">
     
     <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="{title}">
-    <meta name="twitter:description" content="{description}">
+    <meta name=\"twitter:card\" content=\"summary\">
+    <meta name=\"twitter:title\" content=\"{title}\">
+    <meta name=\"twitter:description\" content=\"{description}\">
     
     <!-- Redirect to SPA -->
-    <meta http-equiv="refresh" content="0; url=./index.html{redirect_hash}">
+    <meta http-equiv=\"refresh\" content=\"0; url={redirect_url}\">
     
     <!-- Fallback redirect with JavaScript -->
     <script>
-        window.location.replace('./index.html{redirect_hash}');
+        window.location.replace('{redirect_url}');
     </script>
     
     <style>
@@ -82,9 +82,9 @@ def generate_html(title, description, redirect_hash):
     </style>
 </head>
 <body>
-    <div class="loading">Cargando visualización...</div>
-    <div class="redirecting">Redirigiendo a la aplicación interactiva...</div>
-    <p>Si no eres redirigido automáticamente, <a href="./index.html{redirect_hash}">haz clic aquí</a>.</p>
+    <div class=\"loading\">Cargando visualización...</div>
+    <div class=\"redirecting\">Redirigiendo a la aplicación interactiva...</div>
+    <p>Si no eres redirigido automáticamente, <a href=\"{redirect_url}\">haz clic aquí</a>.</p>
 </body>
 </html>"""
 
@@ -102,6 +102,10 @@ def main():
         print("❌ Error: Invalid JSON in data.json")
         return
     
+    # Set the correct base path for redirects and OG URLs
+    base_path = '/experiments/d3-viz'
+    base_url = 'https://desiertos.com' + base_path
+    
     # Create output directory
     output_dir = 'static-pages'
     if not os.path.exists(output_dir):
@@ -117,11 +121,13 @@ def main():
         # Country-level page
         country_title = f"Desiertos: {country_name}"
         country_description = f"Visualización de datos para {country_name}"
-        country_hash = f"#/{country}"
         country_filename = f"{normalize_for_filename(country)}.html"
+        country_hash = f"/{country}"
+        og_url = f"{base_url}/#/{country}"
+        redirect_url = f"{base_path}/#/{country}"
         
         with open(os.path.join(output_dir, country_filename), 'w', encoding='utf-8') as f:
-            f.write(generate_html(country_title, country_description, country_hash))
+            f.write(generate_html(country_title, country_description, og_url, redirect_url))
         
         print(f"✅ Generated: {country_filename}")
         generated_count += 1
@@ -131,11 +137,13 @@ def main():
             for region in data[country]['large_units']:
                 region_title = f"Desiertos: {region['BASIC_INFO']['NAME']}, {country_name}"
                 region_description = f"Visualización de datos para {region['BASIC_INFO']['NAME']}, {country_name}"
-                region_hash = f"#/{country}/{normalize_for_filename(region['BASIC_INFO']['NAME'])}"
                 region_filename = f"{normalize_for_filename(country)}-{normalize_for_filename(region['BASIC_INFO']['NAME'])}.html"
+                region_hash = f"/{country}/{region['BASIC_INFO']['NAME']}"
+                og_url = f"{base_url}/#/{country}/{region['BASIC_INFO']['NAME']}"
+                redirect_url = f"{base_path}/#/{country}/{region['BASIC_INFO']['NAME']}"
                 
                 with open(os.path.join(output_dir, region_filename), 'w', encoding='utf-8') as f:
-                    f.write(generate_html(region_title, region_description, region_hash))
+                    f.write(generate_html(region_title, region_description, og_url, redirect_url))
                 
                 print(f"✅ Generated: {region_filename}")
                 generated_count += 1
@@ -150,11 +158,13 @@ def main():
                     for city in cities_in_region:
                         city_title = f"Desiertos: {city['BASIC_INFO']['NAME']}, {city['BASIC_INFO']['PARENT']}, {country_name}"
                         city_description = f"Visualización de datos para {city['BASIC_INFO']['NAME']}, {city['BASIC_INFO']['PARENT']}, {country_name}"
-                        city_hash = f"#/{country}/{normalize_for_filename(region['BASIC_INFO']['NAME'])}/{normalize_for_filename(city['BASIC_INFO']['NAME'])}"
                         city_filename = f"{normalize_for_filename(country)}-{normalize_for_filename(region['BASIC_INFO']['NAME'])}-{normalize_for_filename(city['BASIC_INFO']['NAME'])}.html"
+                        city_hash = f"/{country}/{region['BASIC_INFO']['NAME']}/{city['BASIC_INFO']['NAME']}"
+                        og_url = f"{base_url}/#/{country}/{region['BASIC_INFO']['NAME']}/{city['BASIC_INFO']['NAME']}"
+                        redirect_url = f"{base_path}/#/{country}/{region['BASIC_INFO']['NAME']}/{city['BASIC_INFO']['NAME']}"
                         
                         with open(os.path.join(output_dir, city_filename), 'w', encoding='utf-8') as f:
-                            f.write(generate_html(city_title, city_description, city_hash))
+                            f.write(generate_html(city_title, city_description, og_url, redirect_url))
                         
                         print(f"✅ Generated: {city_filename}")
                         generated_count += 1
