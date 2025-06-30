@@ -117,12 +117,13 @@ def main():
     # Generate pages for each country
     for country in data.keys():
         country_name = capitalize_first_letter(country)
+        norm_country = normalize_for_filename(country).replace('-', '')
         
         # Country-level page
         country_title = f"Desiertos: {country_name}"
         country_description = f"Visualización de datos para {country_name}"
         country_filename = f"{normalize_for_filename(country)}.html"
-        hash_path = f"#/{country}"
+        hash_path = f"#/{norm_country}"
         og_url = f"{base_url}/{hash_path}"
         redirect_url = f"{base_path}/{hash_path}"
         
@@ -138,7 +139,8 @@ def main():
                 region_title = f"Desiertos: {region['BASIC_INFO']['NAME']}, {country_name}"
                 region_description = f"Visualización de datos para {region['BASIC_INFO']['NAME']}, {country_name}"
                 region_filename = f"{normalize_for_filename(country)}-{normalize_for_filename(region['BASIC_INFO']['NAME'])}.html"
-                hash_path = f"#/{country}/{region['BASIC_INFO']['NAME']}"
+                norm_region = normalize_for_filename(region['BASIC_INFO']['NAME']).replace('-', '')
+                hash_path = f"#/{norm_country}/{norm_region}"
                 og_url = f"{base_url}/{hash_path}"
                 redirect_url = f"{base_path}/{hash_path}"
                 
@@ -159,7 +161,8 @@ def main():
                         city_title = f"Desiertos: {city['BASIC_INFO']['NAME']}, {city['BASIC_INFO']['PARENT']}, {country_name}"
                         city_description = f"Visualización de datos para {city['BASIC_INFO']['NAME']}, {city['BASIC_INFO']['PARENT']}, {country_name}"
                         city_filename = f"{normalize_for_filename(country)}-{normalize_for_filename(region['BASIC_INFO']['NAME'])}-{normalize_for_filename(city['BASIC_INFO']['NAME'])}.html"
-                        hash_path = f"#/{country}/{region['BASIC_INFO']['NAME']}/{city['BASIC_INFO']['NAME']}"
+                        norm_city = normalize_for_filename(city['BASIC_INFO']['NAME']).replace('-', '')
+                        hash_path = f"#/{norm_country}/{norm_region}/{norm_city}"
                         og_url = f"{base_url}/{hash_path}"
                         redirect_url = f"{base_path}/{hash_path}"
                         
