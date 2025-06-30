@@ -1,22 +1,107 @@
 {
   "argentina": {
-    "BASIC_INFO": {
-      "CLASSIFICATION_COUNTS": {
-        "BOSQUE": 48,
-        "DESIERTO": 241,
-        "SEMIBOSQUE": 110,
-        "SEMIDESIERTO": 161,
-        "SIN DATOS": 1
-      },
-      "CLASSIFICATION_PCT": {
-        "BOSQUE": 0.086,
-        "DESIERTO": 0.43,
-        "SEMIBOSQUE": 0.196,
-        "SEMIDESIERTO": 0.287,
-        "SIN DATOS": 0.002
-      },
-      "NAME": "argentina"
-    },
+    "country": [
+      {
+        "BASIC_INFO": {
+          "AREA": 2347393.6,
+          "CLASSIFICATION_COUNTS": {
+            "BOSQUE": 48,
+            "DESIERTO": 241,
+            "SEMIBOSQUE": 110,
+            "SEMIDESIERTO": 161,
+            "SIN DATOS": 1
+          },
+          "CLASSIFICATION_PCT": {
+            "BOSQUE": 0.086,
+            "DESIERTO": 0.43,
+            "SEMIBOSQUE": 0.196,
+            "SEMIDESIERTO": 0.287,
+            "SIN DATOS": 0.002
+          },
+          "JOURNALIST_COUNT": 17337.0,
+          "LEVEL": "country",
+          "NAME": "Argentina",
+          "NEWS_ORG_COUNT": 3048.0,
+          "POPULATION": 45704201.9,
+          "RATIO_AREA_JOURNALIST": 135.4,
+          "RATIO_JOURNALISTS_NEWS_ORG": 5.7,
+          "RATIO_POP_JOURNALISTS": 2636.2,
+          "RATIO_POP_NEWS_ORG": 14994.8
+        },
+        "FINANCING": {
+          "CONSULTOR\u00cdA": 55,
+          "CONTENIDO PARA CLIENTES": 447,
+          "CROWDFUNDING": 54,
+          "CUSTOM_ANSWERS": 221,
+          "DONACIONES PARTICULARES": 156,
+          "FINANCIACI\u00d3N P\u00daBLICA": 1564,
+          "MEMBRES\u00cdAS": 47,
+          "ORGANIZACI\u00d3N DE EVENTOS": 103,
+          "PAUTA DE VENTA DIRECTA": 2161,
+          "PAUTA PROGRAM\u00c1TICA": 362,
+          "PUBLIREPORTAJES": 720,
+          "SERVICIOS DE FORMACI\u00d3N": 36,
+          "SUBSCRIPCIONES": 161,
+          "SUBSIDIOS O GRANTS": 56,
+          "VENTA DE PRODUCTOS": 189
+        },
+        "HIRING": {
+          "COMISI\u00d3N": 783,
+          "CONTRATO INDEFINIDO": 652,
+          "CONTRATO LIMITADO": 242,
+          "CONTRATO POR PIEZAS": 341,
+          "CUSTOM_ANSWERS": 369,
+          "EMPLEO INFORMAL": 216,
+          "OTRAS": 673,
+          "PRACTICA PROFESIONAL": 85,
+          "TRABAJO INDEPENDIENTE": 1024,
+          "TRABAJO VOLUNTARIO": 305
+        },
+        "PLATFORMS": {
+          "BLOG": 108,
+          "CUSTOM_ANSWERS": 84,
+          "FACEBOOK": 2323,
+          "INSTAGRAM": 1787,
+          "NEWSLETTER": 128,
+          "PODCAST": 110,
+          "PRINT": 239,
+          "RADIO": 1500,
+          "REVISTA": 44,
+          "TELEGRAM": 71,
+          "TIKTOK": 293,
+          "TV": 346,
+          "TWITCH": 84,
+          "WEBSITE": 2077,
+          "WHATSAPP": 416,
+          "X": 871,
+          "YOUTUBE": 1020
+        },
+        "THEMES": {
+          "CUSTOM_ANSWERS": 0,
+          "DERECHOS": 1071,
+          "ECONOM\u00cdA": 2020,
+          "EMERGENCIAS": 1266,
+          "GOBIERNO": 2550,
+          "INVESTIGACI\u00d3N": 669,
+          "MEDIO AMBIENTE": 1182,
+          "SEGURIDAD": 1994,
+          "SERVICIOS": 2260,
+          "SOCIAL": 2722
+        },
+        "THREATS": {
+          "AMENAZAS DIGITALES": 241,
+          "AMENAZAS DIRECTAS": 136,
+          "CRIMEN ORGANIZADO": 10,
+          "CUSTOM_ANSWERS": 15,
+          "ECON\u00d3MICAS": 140,
+          "F\u00cdSICAS": 24,
+          "GOBIERNO": 191,
+          "JUDICIAL": 50,
+          "NO RECIBE": 1736,
+          "NO RESPONDE": 844
+        }
+      }
+    ],
     "large_units": [
       {
         "BASIC_INFO": {
@@ -29,10 +114,10 @@
             "SIN DATOS": 1
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 12.0,
-            "DESIERTO": 60.25,
-            "SEMIBOSQUE": 27.5,
-            "SEMIDESIERTO": 40.25,
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.25,
+            "SEMIBOSQUE": 0.25,
+            "SEMIDESIERTO": 0.25,
             "SIN DATOS": 0.25
           },
           "COUNTRY": "argentina",
@@ -150,11 +235,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.0,
-            "DESIERTO": 5.021,
-            "SEMIBOSQUE": 2.292,
-            "SEMIDESIERTO": 3.354,
-            "SIN DATOS": 0.021
+            "BOSQUE": 0.125,
+            "DESIERTO": 0.458,
+            "SEMIBOSQUE": 0.188,
+            "SEMIDESIERTO": 0.229,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 1636.0,
@@ -271,11 +356,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.824,
-            "DESIERTO": 14.176,
-            "SEMIBOSQUE": 6.471,
-            "SEMIDESIERTO": 9.471,
-            "SIN DATOS": 0.059
+            "BOSQUE": 0.059,
+            "DESIERTO": 0.235,
+            "SEMIBOSQUE": 0.176,
+            "SEMIDESIERTO": 0.529,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 441.0,
@@ -392,11 +477,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.92,
-            "DESIERTO": 9.64,
-            "SEMIBOSQUE": 4.4,
-            "SEMIDESIERTO": 6.44,
-            "SIN DATOS": 0.04
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.4,
+            "SEMIBOSQUE": 0.12,
+            "SEMIDESIERTO": 0.48,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 661.0,
@@ -513,11 +598,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.778,
-            "DESIERTO": 8.926,
-            "SEMIBOSQUE": 4.074,
-            "SEMIDESIERTO": 5.963,
-            "SIN DATOS": 0.037
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.704,
+            "SEMIBOSQUE": 0.037,
+            "SEMIDESIERTO": 0.259,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 327.0,
@@ -634,11 +719,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.824,
-            "DESIERTO": 14.176,
-            "SEMIBOSQUE": 6.471,
-            "SEMIDESIERTO": 9.471,
-            "SIN DATOS": 0.059
+            "BOSQUE": 0.059,
+            "DESIERTO": 0.765,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.176,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 513.0,
@@ -755,11 +840,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.824,
-            "DESIERTO": 14.176,
-            "SEMIBOSQUE": 6.471,
-            "SEMIDESIERTO": 9.471,
-            "SIN DATOS": 0.059
+            "BOSQUE": 0.059,
+            "DESIERTO": 0.647,
+            "SEMIBOSQUE": 0.059,
+            "SEMIDESIERTO": 0.235,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 361.0,
@@ -876,11 +961,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 6.857,
-            "DESIERTO": 34.429,
-            "SEMIBOSQUE": 15.714,
-            "SEMIDESIERTO": 23.0,
-            "SIN DATOS": 0.143
+            "BOSQUE": 0.143,
+            "DESIERTO": 0.143,
+            "SEMIBOSQUE": 0.286,
+            "SEMIDESIERTO": 0.429,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 338.0,
@@ -997,11 +1082,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.2,
-            "DESIERTO": 16.067,
-            "SEMIBOSQUE": 7.333,
-            "SEMIDESIERTO": 10.733,
-            "SIN DATOS": 0.067
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.667,
+            "SEMIBOSQUE": 0.267,
+            "SEMIDESIERTO": 0.067,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 435.0,
@@ -1118,11 +1203,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.692,
-            "DESIERTO": 18.538,
-            "SEMIBOSQUE": 8.462,
-            "SEMIDESIERTO": 12.385,
-            "SIN DATOS": 0.077
+            "BOSQUE": 0.154,
+            "DESIERTO": 0.385,
+            "SEMIBOSQUE": 0.231,
+            "SEMIDESIERTO": 0.231,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 575.0,
@@ -1239,11 +1324,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.0,
-            "DESIERTO": 15.062,
-            "SEMIBOSQUE": 6.875,
-            "SEMIDESIERTO": 10.062,
-            "SIN DATOS": 0.062
+            "BOSQUE": 0.062,
+            "DESIERTO": 0.625,
+            "SEMIBOSQUE": 0.25,
+            "SEMIDESIERTO": 0.062,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 349.0,
@@ -1360,11 +1445,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.182,
-            "DESIERTO": 10.955,
-            "SEMIBOSQUE": 5.0,
-            "SEMIDESIERTO": 7.318,
-            "SIN DATOS": 0.045
+            "BOSQUE": 0.045,
+            "DESIERTO": 0.5,
+            "SEMIBOSQUE": 0.091,
+            "SEMIDESIERTO": 0.364,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 269.0,
@@ -1481,11 +1566,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.667,
-            "DESIERTO": 13.389,
-            "SEMIBOSQUE": 6.111,
-            "SEMIDESIERTO": 8.944,
-            "SIN DATOS": 0.056
+            "BOSQUE": 0.056,
+            "DESIERTO": 0.167,
+            "SEMIBOSQUE": 0.389,
+            "SEMIDESIERTO": 0.389,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 829.0,
@@ -1602,11 +1687,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 5.333,
-            "DESIERTO": 26.778,
-            "SEMIBOSQUE": 12.222,
-            "SEMIDESIERTO": 17.889,
-            "SIN DATOS": 0.111
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.556,
+            "SEMIBOSQUE": 0.222,
+            "SEMIDESIERTO": 0.222,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 210.0,
@@ -1723,11 +1808,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.526,
-            "DESIERTO": 12.684,
-            "SEMIBOSQUE": 5.789,
-            "SEMIDESIERTO": 8.474,
-            "SIN DATOS": 0.053
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.579,
+            "SEMIBOSQUE": 0.053,
+            "SEMIDESIERTO": 0.368,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 266.0,
@@ -1844,11 +1929,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.667,
-            "DESIERTO": 13.389,
-            "SEMIBOSQUE": 6.111,
-            "SEMIDESIERTO": 8.944,
-            "SIN DATOS": 0.056
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.778,
+            "SEMIBOSQUE": 0.111,
+            "SEMIDESIERTO": 0.111,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 381.0,
@@ -1965,11 +2050,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.0,
-            "DESIERTO": 15.062,
-            "SEMIBOSQUE": 6.875,
-            "SEMIDESIERTO": 10.062,
-            "SIN DATOS": 0.062
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.5,
+            "SEMIBOSQUE": 0.188,
+            "SEMIDESIERTO": 0.312,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 226.0,
@@ -2086,11 +2171,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.92,
-            "DESIERTO": 9.64,
-            "SEMIBOSQUE": 4.4,
-            "SEMIDESIERTO": 6.44,
-            "SIN DATOS": 0.04
+            "BOSQUE": 0.04,
+            "DESIERTO": 0.56,
+            "SEMIBOSQUE": 0.16,
+            "SEMIDESIERTO": 0.24,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 615.0,
@@ -2207,11 +2292,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 5.333,
-            "DESIERTO": 26.778,
-            "SEMIBOSQUE": 12.222,
-            "SEMIDESIERTO": 17.889,
-            "SIN DATOS": 0.111
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.778,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.222,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 191.0,
@@ -2328,11 +2413,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.087,
-            "DESIERTO": 10.478,
-            "SEMIBOSQUE": 4.783,
-            "SEMIDESIERTO": 7.0,
-            "SIN DATOS": 0.043
+            "BOSQUE": 0.13,
+            "DESIERTO": 0.391,
+            "SEMIBOSQUE": 0.174,
+            "SEMIDESIERTO": 0.304,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 510.0,
@@ -2449,11 +2534,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.0,
-            "DESIERTO": 15.062,
-            "SEMIBOSQUE": 6.875,
-            "SEMIDESIERTO": 10.062,
-            "SIN DATOS": 0.062
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.688,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.312,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 337.0,
@@ -2570,11 +2655,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 4.8,
-            "DESIERTO": 24.1,
-            "SEMIBOSQUE": 11.0,
-            "SEMIDESIERTO": 16.1,
-            "SIN DATOS": 0.1
+            "BOSQUE": 0.3,
+            "DESIERTO": 0.6,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.1,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 768.0,
@@ -2691,11 +2776,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.0,
-            "DESIERTO": 15.062,
-            "SEMIBOSQUE": 6.875,
-            "SEMIDESIERTO": 10.062,
-            "SIN DATOS": 0.062
+            "BOSQUE": 0.25,
+            "DESIERTO": 0.125,
+            "SEMIBOSQUE": 0.312,
+            "SEMIDESIERTO": 0.312,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 565.0,
@@ -2812,11 +2897,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 5.333,
-            "DESIERTO": 26.778,
-            "SEMIBOSQUE": 12.222,
-            "SEMIDESIERTO": 17.889,
-            "SIN DATOS": 0.111
+            "BOSQUE": 0.111,
+            "DESIERTO": 0.333,
+            "SEMIBOSQUE": 0.222,
+            "SEMIDESIERTO": 0.333,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 642.0,
@@ -2933,11 +3018,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 4.8,
-            "DESIERTO": 24.1,
-            "SEMIBOSQUE": 11.0,
-            "SEMIDESIERTO": 16.1,
-            "SIN DATOS": 0.1
+            "BOSQUE": 0.1,
+            "DESIERTO": 0.3,
+            "SEMIBOSQUE": 0.2,
+            "SEMIDESIERTO": 0.4,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 944.0,
@@ -3054,11 +3139,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.5,
-            "DESIERTO": 7.531,
-            "SEMIBOSQUE": 3.438,
-            "SEMIDESIERTO": 5.031,
-            "SIN DATOS": 0.031
+            "BOSQUE": 0.281,
+            "DESIERTO": 0.188,
+            "SEMIBOSQUE": 0.375,
+            "SEMIDESIERTO": 0.156,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 2457.0,
@@ -3175,11 +3260,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.021,
-            "DESIERTO": 5.128,
-            "SEMIBOSQUE": 2.34,
-            "SEMIDESIERTO": 3.426,
-            "SIN DATOS": 0.021
+            "BOSQUE": 0.085,
+            "DESIERTO": 0.149,
+            "SEMIBOSQUE": 0.34,
+            "SEMIDESIERTO": 0.426,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 917.0,
@@ -3296,11 +3381,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 0.857,
-            "DESIERTO": 4.304,
-            "SEMIBOSQUE": 1.964,
-            "SEMIDESIERTO": 2.875,
-            "SIN DATOS": 0.018
+            "BOSQUE": 0.125,
+            "DESIERTO": 0.268,
+            "SEMIBOSQUE": 0.304,
+            "SEMIDESIERTO": 0.304,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "argentina",
           "JOURNALIST_COUNT": 1419.0,
@@ -60216,23 +60301,108 @@
     ]
   },
   "chile": {
-    "BASIC_INFO": {
-      "CLASSIFICATION_COUNTS": {
-        "BOSQUE": 34,
-        "DESIERTO": 149,
-        "SEMIBOSQUE": 49,
-        "SEMIDESIERTO": 82,
-        "SIN DATOS": 31
-      },
-      "CLASSIFICATION_PCT": {
-        "BOSQUE": 0.099,
-        "DESIERTO": 0.432,
-        "SEMIBOSQUE": 0.142,
-        "SEMIDESIERTO": 0.238,
-        "SIN DATOS": 0.09
-      },
-      "NAME": "chile"
-    },
+    "country": [
+      {
+        "BASIC_INFO": {
+          "AREA": 770327.5,
+          "CLASSIFICATION_COUNTS": {
+            "BOSQUE": 34,
+            "DESIERTO": 149,
+            "SEMIBOSQUE": 49,
+            "SEMIDESIERTO": 82,
+            "SIN DATOS": 31
+          },
+          "CLASSIFICATION_PCT": {
+            "BOSQUE": 0.099,
+            "DESIERTO": 0.432,
+            "SEMIBOSQUE": 0.142,
+            "SEMIDESIERTO": 0.238,
+            "SIN DATOS": 0.09
+          },
+          "JOURNALIST_COUNT": 2237.0,
+          "LEVEL": "country",
+          "NAME": "Chile",
+          "NEWS_ORG_COUNT": 803.0,
+          "POPULATION": 13572801.0,
+          "RATIO_AREA_JOURNALIST": 344.4,
+          "RATIO_JOURNALISTS_NEWS_ORG": 2.8,
+          "RATIO_POP_JOURNALISTS": 6067.4,
+          "RATIO_POP_NEWS_ORG": 16902.6
+        },
+        "FINANCING": {
+          "CONSULTOR\u00cdA": 17,
+          "CONTENIDO PARA CLIENTES": 183,
+          "CROWDFUNDING": 12,
+          "CUSTOM_ANSWERS": 80,
+          "DONACIONES PARTICULARES": 64,
+          "FINANCIACI\u00d3N P\u00daBLICA": 215,
+          "MEMBRES\u00cdAS": 12,
+          "ORGANIZACI\u00d3N DE EVENTOS": 25,
+          "PAUTA DE VENTA DIRECTA": 251,
+          "PAUTA PROGRAM\u00c1TICA": 48,
+          "PUBLIREPORTAJES": 284,
+          "SERVICIOS DE FORMACI\u00d3N": 8,
+          "SUBSCRIPCIONES": 28,
+          "SUBSIDIOS O GRANTS": 9,
+          "VENTA DE PRODUCTOS": 61
+        },
+        "HIRING": {
+          "COMISI\u00d3N": 128,
+          "CONTRATO INDEFINIDO": 210,
+          "CONTRATO LIMITADO": 72,
+          "CONTRATO POR PIEZAS": 48,
+          "CUSTOM_ANSWERS": 45,
+          "EMPLEO INFORMAL": 56,
+          "OTRAS": 59,
+          "PRACTICA PROFESIONAL": 34,
+          "TRABAJO INDEPENDIENTE": 138,
+          "TRABAJO VOLUNTARIO": 113
+        },
+        "PLATFORMS": {
+          "BLOG": 31,
+          "CUSTOM_ANSWERS": 77,
+          "FACEBOOK": 533,
+          "INSTAGRAM": 420,
+          "NEWSLETTER": 62,
+          "PODCAST": 54,
+          "PRINT": 55,
+          "RADIO": 337,
+          "REVISTA": 5,
+          "TELEGRAM": 13,
+          "TIKTOK": 118,
+          "TV": 122,
+          "TWITCH": 17,
+          "WEBSITE": 497,
+          "WHATSAPP": 115,
+          "X": 301,
+          "YOUTUBE": 263
+        },
+        "THEMES": {
+          "CUSTOM_ANSWERS": 10,
+          "DERECHOS": 293,
+          "ECONOM\u00cdA": 442,
+          "EMERGENCIAS": 441,
+          "GOBIERNO": 489,
+          "INVESTIGACI\u00d3N": 240,
+          "MEDIO AMBIENTE": 395,
+          "SEGURIDAD": 403,
+          "SERVICIOS": 412,
+          "SOCIAL": 546
+        },
+        "THREATS": {
+          "AMENAZAS DIGITALES": 83,
+          "AMENAZAS DIRECTAS": 63,
+          "CRIMEN ORGANIZADO": 6,
+          "CUSTOM_ANSWERS": 0,
+          "ECON\u00d3MICAS": 34,
+          "F\u00cdSICAS": 12,
+          "GOBIERNO": 36,
+          "JUDICIAL": 23,
+          "NO RECIBE": 381,
+          "NO RESPONDE": 58
+        }
+      }
+    ],
     "large_units": [
       {
         "BASIC_INFO": {
@@ -60245,11 +60415,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 8.5,
-            "DESIERTO": 37.25,
-            "SEMIBOSQUE": 12.25,
-            "SEMIDESIERTO": 20.5,
-            "SIN DATOS": 7.75
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.5,
+            "SEMIBOSQUE": 0.25,
+            "SEMIDESIERTO": 0.25,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 31.0,
@@ -60366,11 +60536,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 4.857,
-            "DESIERTO": 21.286,
-            "SEMIBOSQUE": 7.0,
-            "SEMIDESIERTO": 11.714,
-            "SIN DATOS": 4.429
+            "BOSQUE": 0.143,
+            "DESIERTO": 0.286,
+            "SEMIBOSQUE": 0.143,
+            "SEMIDESIERTO": 0.429,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 183.0,
@@ -60487,11 +60657,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.778,
-            "DESIERTO": 16.556,
-            "SEMIBOSQUE": 5.444,
-            "SEMIDESIERTO": 9.111,
-            "SIN DATOS": 3.444
+            "BOSQUE": 0.111,
+            "DESIERTO": 0.556,
+            "SEMIBOSQUE": 0.222,
+            "SEMIDESIERTO": 0.111,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 115.0,
@@ -60608,11 +60778,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.4,
-            "DESIERTO": 14.9,
-            "SEMIBOSQUE": 4.9,
-            "SEMIDESIERTO": 8.2,
-            "SIN DATOS": 3.1
+            "BOSQUE": 0.1,
+            "DESIERTO": 0.5,
+            "SEMIBOSQUE": 0.1,
+            "SEMIDESIERTO": 0.3,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 78.0,
@@ -60729,11 +60899,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.4,
-            "DESIERTO": 14.9,
-            "SEMIBOSQUE": 4.9,
-            "SEMIDESIERTO": 8.2,
-            "SIN DATOS": 3.1
+            "BOSQUE": 0.1,
+            "DESIERTO": 0.5,
+            "SEMIBOSQUE": 0.1,
+            "SEMIDESIERTO": 0.3,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 40.0,
@@ -60850,11 +61020,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.778,
-            "DESIERTO": 16.556,
-            "SEMIBOSQUE": 5.444,
-            "SEMIDESIERTO": 9.111,
-            "SIN DATOS": 3.444
+            "BOSQUE": 0.111,
+            "DESIERTO": 0.111,
+            "SEMIBOSQUE": 0.222,
+            "SEMIDESIERTO": 0.556,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 83.0,
@@ -60971,11 +61141,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.267,
-            "DESIERTO": 9.933,
-            "SEMIBOSQUE": 3.267,
-            "SEMIDESIERTO": 5.467,
-            "SIN DATOS": 2.067
+            "BOSQUE": 0.2,
+            "DESIERTO": 0.333,
+            "SEMIBOSQUE": 0.133,
+            "SEMIDESIERTO": 0.333,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 166.0,
@@ -61092,11 +61262,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 0.895,
-            "DESIERTO": 3.921,
-            "SEMIBOSQUE": 1.289,
-            "SEMIDESIERTO": 2.158,
-            "SIN DATOS": 0.816
+            "BOSQUE": 0.105,
+            "DESIERTO": 0.342,
+            "SEMIBOSQUE": 0.211,
+            "SEMIDESIERTO": 0.342,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 343.0,
@@ -61213,10 +61383,10 @@
             "SIN DATOS": 31
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 0.654,
-            "DESIERTO": 2.865,
-            "SEMIBOSQUE": 0.942,
-            "SEMIDESIERTO": 1.577,
+            "BOSQUE": 0.038,
+            "DESIERTO": 0.154,
+            "SEMIBOSQUE": 0.096,
+            "SEMIDESIERTO": 0.115,
             "SIN DATOS": 0.596
           },
           "COUNTRY": "chile",
@@ -61334,11 +61504,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.133,
-            "DESIERTO": 4.967,
-            "SEMIBOSQUE": 1.633,
-            "SEMIDESIERTO": 2.733,
-            "SIN DATOS": 1.033
+            "BOSQUE": 0.1,
+            "DESIERTO": 0.5,
+            "SEMIBOSQUE": 0.167,
+            "SEMIDESIERTO": 0.233,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 144.0,
@@ -61455,11 +61625,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.833,
-            "DESIERTO": 12.417,
-            "SEMIBOSQUE": 4.083,
-            "SEMIDESIERTO": 6.833,
-            "SIN DATOS": 2.583
+            "BOSQUE": 0.25,
+            "DESIERTO": 0.25,
+            "SEMIBOSQUE": 0.417,
+            "SEMIDESIERTO": 0.083,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 121.0,
@@ -61576,11 +61746,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.062,
-            "DESIERTO": 4.656,
-            "SEMIBOSQUE": 1.531,
-            "SEMIDESIERTO": 2.562,
-            "SIN DATOS": 0.969
+            "BOSQUE": 0.062,
+            "DESIERTO": 0.531,
+            "SEMIBOSQUE": 0.125,
+            "SEMIDESIERTO": 0.281,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 140.0,
@@ -61697,11 +61867,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.03,
-            "DESIERTO": 4.515,
-            "SEMIBOSQUE": 1.485,
-            "SEMIDESIERTO": 2.485,
-            "SIN DATOS": 0.939
+            "BOSQUE": 0.061,
+            "DESIERTO": 0.485,
+            "SEMIBOSQUE": 0.152,
+            "SEMIDESIERTO": 0.303,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 264.0,
@@ -61818,11 +61988,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.619,
-            "DESIERTO": 7.095,
-            "SEMIBOSQUE": 2.333,
-            "SEMIDESIERTO": 3.905,
-            "SIN DATOS": 1.476
+            "BOSQUE": 0.048,
+            "DESIERTO": 0.857,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.095,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 49.0,
@@ -61939,11 +62109,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.133,
-            "DESIERTO": 4.967,
-            "SEMIBOSQUE": 1.633,
-            "SEMIDESIERTO": 2.733,
-            "SIN DATOS": 1.033
+            "BOSQUE": 0.067,
+            "DESIERTO": 0.7,
+            "SEMIBOSQUE": 0.133,
+            "SEMIDESIERTO": 0.1,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 144.0,
@@ -62060,11 +62230,11 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.03,
-            "DESIERTO": 4.515,
-            "SEMIBOSQUE": 1.485,
-            "SEMIDESIERTO": 2.485,
-            "SIN DATOS": 0.939
+            "BOSQUE": 0.212,
+            "DESIERTO": 0.394,
+            "SEMIBOSQUE": 0.091,
+            "SEMIDESIERTO": 0.303,
+            "SIN DATOS": 0.0
           },
           "COUNTRY": "chile",
           "JOURNALIST_COUNT": 212.0,
@@ -98880,23 +99050,108 @@
     ]
   },
   "peru": {
-    "BASIC_INFO": {
-      "CLASSIFICATION_COUNTS": {
-        "BOSQUE": 30,
-        "DESIERTO": 86,
-        "SEMIBOSQUE": 53,
-        "SEMIDESIERTO": 75,
-        "SIN DATOS": 0
-      },
-      "CLASSIFICATION_PCT": {
-        "BOSQUE": 0.123,
-        "DESIERTO": 0.352,
-        "SEMIBOSQUE": 0.217,
-        "SEMIDESIERTO": 0.307,
-        "SIN DATOS": 0.0
-      },
-      "NAME": "peru"
-    },
+    "country": [
+      {
+        "BASIC_INFO": {
+          "AREA": 1280147.5999999996,
+          "CLASSIFICATION_COUNTS": {
+            "BOSQUE": 30,
+            "DESIERTO": 86,
+            "SEMIBOSQUE": 53,
+            "SEMIDESIERTO": 75,
+            "SIN DATOS": 0
+          },
+          "CLASSIFICATION_PCT": {
+            "BOSQUE": 0.123,
+            "DESIERTO": 0.352,
+            "SEMIBOSQUE": 0.217,
+            "SEMIDESIERTO": 0.307,
+            "SIN DATOS": 0.0
+          },
+          "JOURNALIST_COUNT": 5911.0,
+          "LEVEL": "country",
+          "NAME": "Peru",
+          "NEWS_ORG_COUNT": 1271.0,
+          "POPULATION": 33396698.0,
+          "RATIO_AREA_JOURNALIST": 216.6,
+          "RATIO_JOURNALISTS_NEWS_ORG": 4.7,
+          "RATIO_POP_JOURNALISTS": 5649.9,
+          "RATIO_POP_NEWS_ORG": 26275.9
+        },
+        "FINANCING": {
+          "CONSULTOR\u00cdA": 87,
+          "CONTENIDO PARA CLIENTES": 417,
+          "CROWDFUNDING": 24,
+          "CUSTOM_ANSWERS": 213,
+          "DONACIONES PARTICULARES": 94,
+          "FINANCIACI\u00d3N P\u00daBLICA": 206,
+          "MEMBRES\u00cdAS": 11,
+          "ORGANIZACI\u00d3N DE EVENTOS": 95,
+          "PAUTA DE VENTA DIRECTA": 330,
+          "PAUTA PROGRAM\u00c1TICA": 53,
+          "PUBLIREPORTAJES": 657,
+          "SERVICIOS DE FORMACI\u00d3N": 25,
+          "SUBSCRIPCIONES": 0,
+          "SUBSIDIOS O GRANTS": 43,
+          "VENTA DE PRODUCTOS": 76
+        },
+        "HIRING": {
+          "COMISI\u00d3N": 310,
+          "CONTRATO INDEFINIDO": 113,
+          "CONTRATO LIMITADO": 183,
+          "CONTRATO POR PIEZAS": 150,
+          "CUSTOM_ANSWERS": 43,
+          "EMPLEO INFORMAL": 44,
+          "OTRAS": 148,
+          "PRACTICA PROFESIONAL": 77,
+          "TRABAJO INDEPENDIENTE": 535,
+          "TRABAJO VOLUNTARIO": 179
+        },
+        "PLATFORMS": {
+          "BLOG": 67,
+          "CUSTOM_ANSWERS": 129,
+          "FACEBOOK": 1097,
+          "INSTAGRAM": 256,
+          "NEWSLETTER": 30,
+          "PODCAST": 54,
+          "PRINT": 76,
+          "RADIO": 425,
+          "REVISTA": 43,
+          "TELEGRAM": 22,
+          "TIKTOK": 342,
+          "TV": 219,
+          "TWITCH": 8,
+          "WEBSITE": 337,
+          "WHATSAPP": 156,
+          "X": 133,
+          "YOUTUBE": 290
+        },
+        "THEMES": {
+          "CUSTOM_ANSWERS": 0,
+          "DERECHOS": 685,
+          "ECONOM\u00cdA": 745,
+          "EMERGENCIAS": 780,
+          "GOBIERNO": 918,
+          "INVESTIGACI\u00d3N": 589,
+          "MEDIO AMBIENTE": 696,
+          "SEGURIDAD": 780,
+          "SERVICIOS": 681,
+          "SOCIAL": 968
+        },
+        "THREATS": {
+          "AMENAZAS DIGITALES": 333,
+          "AMENAZAS DIRECTAS": 206,
+          "CRIMEN ORGANIZADO": 41,
+          "CUSTOM_ANSWERS": 0,
+          "ECON\u00d3MICAS": 104,
+          "F\u00cdSICAS": 55,
+          "GOBIERNO": 103,
+          "JUDICIAL": 90,
+          "NO RECIBE": 475,
+          "NO RESPONDE": 306
+        }
+      }
+    ],
     "large_units": [
       {
         "BASIC_INFO": {
@@ -98909,10 +99164,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 4.286,
-            "DESIERTO": 12.286,
-            "SEMIBOSQUE": 7.571,
-            "SEMIDESIERTO": 10.714,
+            "BOSQUE": 0.143,
+            "DESIERTO": 0.714,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.143,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -99030,10 +99285,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 1.5,
-            "DESIERTO": 4.3,
-            "SEMIBOSQUE": 2.65,
-            "SEMIDESIERTO": 3.75,
+            "BOSQUE": 0.05,
+            "DESIERTO": 0.6,
+            "SEMIBOSQUE": 0.1,
+            "SEMIDESIERTO": 0.25,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -99151,10 +99406,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 4.286,
-            "DESIERTO": 12.286,
-            "SEMIBOSQUE": 7.571,
-            "SEMIDESIERTO": 10.714,
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.143,
+            "SEMIBOSQUE": 0.286,
+            "SEMIDESIERTO": 0.571,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -99272,10 +99527,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.75,
-            "DESIERTO": 10.75,
-            "SEMIBOSQUE": 6.625,
-            "SEMIDESIERTO": 9.375,
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.0,
+            "SEMIBOSQUE": 1.0,
+            "SEMIDESIERTO": 0.0,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -99393,10 +99648,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.727,
-            "DESIERTO": 7.818,
-            "SEMIBOSQUE": 4.818,
-            "SEMIDESIERTO": 6.818,
+            "BOSQUE": 0.182,
+            "DESIERTO": 0.0,
+            "SEMIBOSQUE": 0.364,
+            "SEMIDESIERTO": 0.455,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -99514,10 +99769,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.308,
-            "DESIERTO": 6.615,
-            "SEMIBOSQUE": 4.077,
-            "SEMIDESIERTO": 5.769,
+            "BOSQUE": 0.077,
+            "DESIERTO": 0.615,
+            "SEMIBOSQUE": 0.231,
+            "SEMIDESIERTO": 0.077,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -99635,10 +99890,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 4.286,
-            "DESIERTO": 12.286,
-            "SEMIBOSQUE": 7.571,
-            "SEMIDESIERTO": 10.714,
+            "BOSQUE": 0.143,
+            "DESIERTO": 0.571,
+            "SEMIBOSQUE": 0.143,
+            "SEMIDESIERTO": 0.143,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -99756,10 +100011,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.308,
-            "DESIERTO": 6.615,
-            "SEMIBOSQUE": 4.077,
-            "SEMIDESIERTO": 5.769,
+            "BOSQUE": 0.077,
+            "DESIERTO": 0.0,
+            "SEMIBOSQUE": 0.615,
+            "SEMIDESIERTO": 0.308,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -99877,10 +100132,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 4.286,
-            "DESIERTO": 12.286,
-            "SEMIBOSQUE": 7.571,
-            "SEMIDESIERTO": 10.714,
+            "BOSQUE": 0.143,
+            "DESIERTO": 0.429,
+            "SEMIBOSQUE": 0.286,
+            "SEMIDESIERTO": 0.143,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -99998,10 +100253,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.727,
-            "DESIERTO": 7.818,
-            "SEMIBOSQUE": 4.818,
-            "SEMIDESIERTO": 6.818,
+            "BOSQUE": 0.273,
+            "DESIERTO": 0.091,
+            "SEMIBOSQUE": 0.182,
+            "SEMIDESIERTO": 0.455,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -100119,10 +100374,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 6.0,
-            "DESIERTO": 17.2,
-            "SEMIBOSQUE": 10.6,
-            "SEMIDESIERTO": 15.0,
+            "BOSQUE": 0.2,
+            "DESIERTO": 0.2,
+            "SEMIBOSQUE": 0.2,
+            "SEMIDESIERTO": 0.4,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -100240,10 +100495,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.333,
-            "DESIERTO": 9.556,
-            "SEMIBOSQUE": 5.889,
-            "SEMIDESIERTO": 8.333,
+            "BOSQUE": 0.111,
+            "DESIERTO": 0.333,
+            "SEMIBOSQUE": 0.222,
+            "SEMIDESIERTO": 0.333,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -100361,10 +100616,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.5,
-            "DESIERTO": 7.167,
-            "SEMIBOSQUE": 4.417,
-            "SEMIDESIERTO": 6.25,
+            "BOSQUE": 0.167,
+            "DESIERTO": 0.083,
+            "SEMIBOSQUE": 0.167,
+            "SEMIDESIERTO": 0.583,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -100482,10 +100737,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 10.0,
-            "DESIERTO": 28.667,
-            "SEMIBOSQUE": 17.667,
-            "SEMIDESIERTO": 25.0,
+            "BOSQUE": 0.333,
+            "DESIERTO": 0.333,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.333,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -100603,10 +100858,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.75,
-            "DESIERTO": 10.75,
-            "SEMIBOSQUE": 6.625,
-            "SEMIDESIERTO": 9.375,
+            "BOSQUE": 0.125,
+            "DESIERTO": 0.375,
+            "SEMIBOSQUE": 0.125,
+            "SEMIDESIERTO": 0.375,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -100724,10 +100979,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 10.0,
-            "DESIERTO": 28.667,
-            "SEMIBOSQUE": 17.667,
-            "SEMIDESIERTO": 25.0,
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.333,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.667,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -100845,10 +101100,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 10.0,
-            "DESIERTO": 28.667,
-            "SEMIBOSQUE": 17.667,
-            "SEMIDESIERTO": 25.0,
+            "BOSQUE": 0.667,
+            "DESIERTO": 0.0,
+            "SEMIBOSQUE": 0.333,
+            "SEMIDESIERTO": 0.0,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -100966,10 +101221,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 10.0,
-            "DESIERTO": 28.667,
-            "SEMIBOSQUE": 17.667,
-            "SEMIDESIERTO": 25.0,
+            "BOSQUE": 0.333,
+            "DESIERTO": 0.333,
+            "SEMIBOSQUE": 0.333,
+            "SEMIDESIERTO": 0.0,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -101087,10 +101342,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.75,
-            "DESIERTO": 10.75,
-            "SEMIBOSQUE": 6.625,
-            "SEMIDESIERTO": 9.375,
+            "BOSQUE": 0.125,
+            "DESIERTO": 0.75,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.125,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -101208,10 +101463,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 2.308,
-            "DESIERTO": 6.615,
-            "SEMIBOSQUE": 4.077,
-            "SEMIDESIERTO": 5.769,
+            "BOSQUE": 0.077,
+            "DESIERTO": 0.538,
+            "SEMIBOSQUE": 0.0,
+            "SEMIDESIERTO": 0.385,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -101329,10 +101584,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.0,
-            "DESIERTO": 8.6,
-            "SEMIBOSQUE": 5.3,
-            "SEMIDESIERTO": 7.5,
+            "BOSQUE": 0.1,
+            "DESIERTO": 0.4,
+            "SEMIBOSQUE": 0.2,
+            "SEMIDESIERTO": 0.3,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -101450,10 +101705,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 7.5,
-            "DESIERTO": 21.5,
-            "SEMIBOSQUE": 13.25,
-            "SEMIDESIERTO": 18.75,
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.25,
+            "SEMIBOSQUE": 0.5,
+            "SEMIDESIERTO": 0.25,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -101571,10 +101826,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 10.0,
-            "DESIERTO": 28.667,
-            "SEMIBOSQUE": 17.667,
-            "SEMIDESIERTO": 25.0,
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.0,
+            "SEMIBOSQUE": 0.333,
+            "SEMIDESIERTO": 0.667,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -101692,10 +101947,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 7.5,
-            "DESIERTO": 21.5,
-            "SEMIBOSQUE": 13.25,
-            "SEMIDESIERTO": 18.75,
+            "BOSQUE": 0.25,
+            "DESIERTO": 0.25,
+            "SEMIBOSQUE": 0.25,
+            "SEMIDESIERTO": 0.25,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -101813,10 +102068,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 3.333,
-            "DESIERTO": 9.556,
-            "SEMIBOSQUE": 5.889,
-            "SEMIDESIERTO": 8.333,
+            "BOSQUE": 0.0,
+            "DESIERTO": 0.111,
+            "SEMIBOSQUE": 0.444,
+            "SEMIDESIERTO": 0.444,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",
@@ -101934,10 +102189,10 @@
             "SIN DATOS": 0
           },
           "CLASSIFICATION_PCT": {
-            "BOSQUE": 0.698,
-            "DESIERTO": 2.0,
-            "SEMIBOSQUE": 1.233,
-            "SEMIDESIERTO": 1.744,
+            "BOSQUE": 0.14,
+            "DESIERTO": 0.488,
+            "SEMIBOSQUE": 0.07,
+            "SEMIDESIERTO": 0.302,
             "SIN DATOS": 0.0
           },
           "COUNTRY": "peru",

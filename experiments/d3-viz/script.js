@@ -98,7 +98,7 @@ function preprocessAllData(data) {
  * @returns {boolean} True if valid, false otherwise
  */
 function isValidLevel(level) {
-    return level === 'small_units' || level === 'large_units';
+    return level === 'small_units' || level === 'large_units' || level === 'country';
 }
 
 /**
@@ -183,7 +183,8 @@ function populateCountrySelector(countries) {
 function populateLevelSelector() {
     const levels = [
         { value: 'small_units', label: 'Unidades pequeñas' },
-        { value: 'large_units', label: 'Unidades grandes' }
+        { value: 'large_units', label: 'Unidades grandes' },
+        { value: 'country', label: 'País' }
     ];
     
     const levelSelect = d3.select('#level-select');
@@ -333,7 +334,21 @@ function updateUnitSelector() {
         return;
     }
     
+    // Auto-select for country level
+    if (selectedLevel === 'country') {
+        const units = countryData[selectedLevel];
+        if (units && units.length === 1) {
+            updateSelectedUnit(units[0]);
+            populateUnitDatalist(units, selectedLevel);
+            // Lock the unit selector
+            d3.select('#unit-search').property('disabled', true);
+            return;
+        }
+    }
+    
     enableUnitSelector(countryData[selectedLevel], selectedLevel);
+    // Make sure the unit selector is enabled for other levels
+    d3.select('#unit-search').property('disabled', false);
 }
 
 /**

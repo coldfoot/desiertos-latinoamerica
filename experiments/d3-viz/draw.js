@@ -30,7 +30,7 @@ function drawVisualization(vizContainer, countryData, level, unitKey) {
     const selectedUnit = findSelectedUnit(levelData, unitKey);
     
     logSelectedUnit(selectedUnit, unitKey);
-    createMenuTriggers(vizContainer, levelData, selectedUnit);
+    createMenuTriggers(vizContainer, levelData, selectedUnit, level);
 }
 
 // ============================================================================
@@ -82,9 +82,10 @@ function logSelectedUnit(selectedUnit, unitKey) {
  * @param {Object} vizContainer - D3 selection of the visualization container
  * @param {Array} levelData - Array of units for the level
  * @param {Object} selectedUnit - The selected unit object
+ * @param {string} level - The level key
  * @returns {Array} Array of menu container objects
  */
-function createMenuTriggers(vizContainer, levelData, selectedUnit) {
+function createMenuTriggers(vizContainer, levelData, selectedUnit, level) {
     if (!levelData?.length) {
         console.error('No level data available');
         return [];
@@ -94,7 +95,7 @@ function createMenuTriggers(vizContainer, levelData, selectedUnit) {
     const menuContainers = [];
 
     menuKeys.forEach(key => {
-        const menu = createMenuTrigger(vizContainer, key, levelData, selectedUnit);
+        const menu = createMenuTrigger(vizContainer, key, levelData, selectedUnit, level);
         menuContainers.push({ key, menu });
     });
 
@@ -117,16 +118,17 @@ function getMenuKeys(firstUnit) {
  * @param {string} key - The menu key
  * @param {Array} levelData - Array of units for the level
  * @param {Object} selectedUnit - The selected unit object
+ * @param {string} level - The level key
  * @returns {Object} D3 selection of the created menu
  */
-function createMenuTrigger(vizContainer, key, levelData, selectedUnit) {
+function createMenuTrigger(vizContainer, key, levelData, selectedUnit, level) {
     const menu = vizContainer.append('div')
         .attr('class', 'menu-trigger')
         .attr('data-key', key);
 
     const header = menu.append('h4').text(translateKeyToTitle(key));
     
-    header.on('click', () => createPopupContent(key, levelData, selectedUnit));
+    header.on('click', () => createPopupContent(key, levelData, selectedUnit, level));
     
     return menu;
 }
@@ -140,8 +142,9 @@ function createMenuTrigger(vizContainer, key, levelData, selectedUnit) {
  * @param {string} key - The menu key
  * @param {Array} levelData - Array of units for the level
  * @param {Object} selectedUnit - The selected unit object
+ * @param {string} level - The level key
  */
-function createPopupContent(key, levelData, selectedUnit) {
+function createPopupContent(key, levelData, selectedUnit, level) {
     const contentContainer = createContentContainer();
     const stripplotContainer = createStripplotContainer(contentContainer);
     
@@ -151,17 +154,22 @@ function createPopupContent(key, levelData, selectedUnit) {
         return;
     }
     
-    const percentageVariables = getPercentageVariables(categoryData);
-    const peerUnits = getPeerUnits(levelData, selectedUnit);
+    let percentageVariables = getPercentageVariables(categoryData);
+    // Sort by selected unit's value, descending
+    percentageVariables = percentageVariables.sort((a, b) => {
+        return (selectedUnit[key][b] || 0) - (selectedUnit[key][a] || 0);
+    });
+    // If level is 'country', do not show peer markers
+    const peerUnits = (level === 'country') ? [] : getPeerUnits(levelData, selectedUnit);
     
     percentageVariables.forEach(variable => {
-        createStripplot(stripplotContainer, variable, selectedUnit, peerUnits, key);
+        createStripplot(stripplotContainer, variable, selectedUnit, peerUnits, key, level);
     });
     
     // Add download button
     addDownloadButton(contentContainer, key, selectedUnit, peerUnits);
     
-    showMenuPopup(translateKeyToTitle(key), contentContainer, key, selectedUnit.BASIC_INFO.NAME);
+    showMenuPopup(translateKeyToTitle(key), contentContainer, key, selectedUnit.BASIC_INFO.NAME, selectedUnit, level);
 }
 
 /**
@@ -222,13 +230,15 @@ function getPeerUnits(levelData, selectedUnit) {
  * @param {Node} contentNode - The content node to display
  * @param {string} key - The key associated with the popup
  * @param {string} selectedUnitName - Name of the selected unit
+ * @param {Object} selectedUnit - The selected unit object
+ * @param {string} level - The level key
  */
-function showMenuPopup(title, contentNode, key, selectedUnitName) {
+function showMenuPopup(title, contentNode, key, selectedUnitName, selectedUnit, level) {
     // Remove any existing popup
     d3.selectAll('.menu-popup-overlay').remove();
 
     const overlay = createPopupOverlay();
-    const popup = createPopupStructure(overlay, title, key, selectedUnitName);
+    const popup = createPopupStructure(overlay, title, key, selectedUnitName, selectedUnit, level);
     
     // Add content
     popup.node().appendChild(contentNode);
@@ -248,9 +258,11 @@ function createPopupOverlay() {
  * @param {string} title - The popup title
  * @param {string} key - The menu key
  * @param {string} selectedUnitName - Name of the selected unit
+ * @param {Object} selectedUnit - The selected unit object
+ * @param {string} level - The level key
  * @returns {Object} D3 selection of the popup
  */
-function createPopupStructure(overlay, title, key, selectedUnitName) {
+function createPopupStructure(overlay, title, key, selectedUnitName, selectedUnit, level) {
     const popup = overlay.append('div').attr('class', 'menu-popup');
 
     // Add close button
@@ -264,7 +276,7 @@ function createPopupStructure(overlay, title, key, selectedUnitName) {
     popup.append('h4').text(title);
 
     // Add subtitle with inline legend
-    addSubtitleWithLegend(popup, key, selectedUnitName);
+    addSubtitleWithLegend(popup, key, selectedUnitName, selectedUnit, level);
 
     return popup;
 }
@@ -274,13 +286,13 @@ function createPopupStructure(overlay, title, key, selectedUnitName) {
  * @param {Object} popup - D3 selection of the popup
  * @param {string} key - The menu key
  * @param {string} selectedUnitName - Name of the selected unit
+ * @param {Object} selectedUnit - The selected unit object
+ * @param {string} level - The level key
  */
-function addSubtitleWithLegend(popup, key, selectedUnitName) {
+function addSubtitleWithLegend(popup, key, selectedUnitName, selectedUnit, level) {
     const subtitle = translateKeyToSubtitle(key);
     if (!subtitle) return;
-
-    const inlineSubtitle = createInlineSubtitle(subtitle, selectedUnitName || 'en xxx', selectedUnit);
-    
+    const inlineSubtitle = createInlineSubtitle(subtitle, selectedUnitName || 'en xxx', selectedUnit, level);
     if (inlineSubtitle.type === 'inline') {
         popup.node().appendChild(inlineSubtitle.element);
     } else {
@@ -301,10 +313,11 @@ function addSubtitleWithLegend(popup, key, selectedUnitName) {
  * @param {Object} selectedUnit - The selected unit data
  * @param {Array} peerUnits - Array of peer units for comparison
  * @param {string} categoryKey - The category key
+ * @param {string} level - The level key
  */
-function createStripplot(container, variable, selectedUnit, peerUnits, categoryKey) {
+function createStripplot(container, variable, selectedUnit, peerUnits, categoryKey, level) {
     const variableName = variable.replace('_PCT', '');
-    const average = calculatePeerAverage(peerUnits, categoryKey, variable);
+    const totalPct = calculatePeerTotalPct(peerUnits, categoryKey, variable);
     
     const plotContainer = createPlotContainer(container, variableName);
     const svg = createStripplotSVG(plotContainer);
@@ -314,10 +327,12 @@ function createStripplot(container, variable, selectedUnit, peerUnits, categoryK
     addBackgroundRectangle(svg, xScale);
     
     addXAxis(svg, xScale);
-    addPeerStrips(svg, xScale, peerUnits, categoryKey, variable);
+    addPeerStrips(svg, xScale, peerUnits, categoryKey, variable, totalPct);
     addSelectedStrip(svg, xScale, selectedUnit, categoryKey, variable);
-    addAverageStrip(svg, xScale, average);
-    handleTextCollisions(svg, xScale, selectedUnit[categoryKey][variable], average);
+    if (level !== 'country') {
+        addTotalStrip(svg, xScale, totalPct);
+    }
+    handleTextCollisions(svg, xScale, selectedUnit[categoryKey][variable], totalPct);
 }
 
 /**
@@ -394,6 +409,35 @@ function addXAxis(svg, xScale) {
         .call(g => g.select('.domain').remove());
 }
 
+// Add this at the top-level (outside any function) to ensure a single tooltip div exists
+if (!document.getElementById('stripplot-tooltip')) {
+    const tooltip = document.createElement('div');
+    tooltip.id = 'stripplot-tooltip';
+    tooltip.style.position = 'absolute';
+    tooltip.style.pointerEvents = 'none';
+    tooltip.style.background = 'rgba(0,0,0,0.85)';
+    tooltip.style.color = '#fff';
+    tooltip.style.padding = '6px 10px';
+    tooltip.style.borderRadius = '4px';
+    tooltip.style.fontSize = '13px';
+    tooltip.style.zIndex = '9999';
+    tooltip.style.display = 'none';
+    document.body.appendChild(tooltip);
+}
+
+function showTooltip(html, event) {
+    const tooltip = document.getElementById('stripplot-tooltip');
+    tooltip.innerHTML = html;
+    tooltip.style.display = 'block';
+    tooltip.style.left = (event.pageX + 12) + 'px';
+    tooltip.style.top = (event.pageY - 24) + 'px';
+}
+
+function hideTooltip() {
+    const tooltip = document.getElementById('stripplot-tooltip');
+    tooltip.style.display = 'none';
+}
+
 /**
  * Add peer unit strips to SVG
  * @param {Object} svg - D3 selection of the SVG
@@ -402,7 +446,7 @@ function addXAxis(svg, xScale) {
  * @param {string} categoryKey - The category key
  * @param {string} variable - The variable name
  */
-function addPeerStrips(svg, xScale, peerUnits, categoryKey, variable) {
+function addPeerStrips(svg, xScale, peerUnits, categoryKey, variable, totalPct) {
     peerUnits.forEach(unit => {
         const value = unit[categoryKey][variable];
         if (value !== undefined && !isNaN(value)) {
@@ -413,7 +457,14 @@ function addPeerStrips(svg, xScale, peerUnits, categoryKey, variable) {
                 .attr('x2', xScale(value))
                 .attr('y2', 55)
                 .attr('stroke', 'var(--color-peer-lines)')
-                .attr('stroke-width', 2);
+                .attr('stroke-width', 2)
+                .on('mouseover', function(event) {
+                    showTooltip(`<b>${unit.BASIC_INFO.NAME}</b><br>Valor: ${d3.format('.1%')(value)}<br>Total en pares: ${d3.format('.1%')(totalPct)}` , event);
+                })
+                .on('mousemove', function(event) {
+                    showTooltip(`<b>${unit.BASIC_INFO.NAME}</b><br>Valor: ${d3.format('.1%')(value)}<br>Total en pares: ${d3.format('.1%')(totalPct)}` , event);
+                })
+                .on('mouseout', hideTooltip);
         }
     });
 }
@@ -437,28 +488,34 @@ function addSelectedStrip(svg, xScale, selectedUnit, categoryKey, variable) {
         .attr('x2', xScale(selectedValue))
         .attr('y2', 55)
         .attr('stroke', 'var(--color-accent)')
-        .attr('stroke-width', 2);
+        .attr('stroke-width', 2)
+        .on('mouseover', function(event) {
+            showTooltip(`<b>${selectedUnit.BASIC_INFO.NAME}</b><br>${d3.format('.1%')(selectedValue)}` , event);
+        })
+        .on('mousemove', function(event) {
+            showTooltip(`<b>${selectedUnit.BASIC_INFO.NAME}</b><br>${d3.format('.1%')(selectedValue)}` , event);
+        })
+        .on('mouseout', hideTooltip);
     
     addValueAnnotation(svg, xScale(selectedValue), selectedValue, 'var(--color-accent)');
 }
 
 /**
- * Add average strip to SVG
+ * Add total strip to SVG
  * @param {Object} svg - D3 selection of the SVG
  * @param {Object} xScale - The x-scale function
- * @param {number} average - The average value
+ * @param {number} total - The total value
  */
-function addAverageStrip(svg, xScale, average) {
+function addTotalStrip(svg, xScale, totalPct) {
     svg.append('line')
-        .attr('class', 'average-strip')
-        .attr('x1', xScale(average))
+        .attr('class', 'total-strip')
+        .attr('x1', xScale(totalPct))
         .attr('y1', 15)
-        .attr('x2', xScale(average))
+        .attr('x2', xScale(totalPct))
         .attr('y2', 55)
         .attr('stroke', 'var(--color-accent-secondary)')
         .attr('stroke-width', 2);
-    
-    addValueAnnotation(svg, xScale(average), average, 'var(--color-accent-secondary)');
+    addValueAnnotation(svg, xScale(totalPct), totalPct, 'var(--color-accent-secondary)');
 }
 
 /**
@@ -485,26 +542,26 @@ function addValueAnnotation(svg, x, value, color) {
  * @param {Object} svg - D3 selection of the SVG
  * @param {Object} xScale - The x-scale function
  * @param {number} selectedValue - The selected value
- * @param {number} average - The average value
+ * @param {number} total - The total value
  */
-function handleTextCollisions(svg, xScale, selectedValue, average) {
+function handleTextCollisions(svg, xScale, selectedValue, totalPct) {
     if (selectedValue === undefined || isNaN(selectedValue)) return;
     
     const selectedX = xScale(selectedValue);
-    const averageX = xScale(average);
+    const totalX = xScale(totalPct);
     
     const selectedText = svg.selectAll('.reference-annotation')
         .filter((d, i, nodes) => d3.select(nodes[i]).attr('fill') === 'var(--color-accent)');
     
-    const averageText = svg.selectAll('.reference-annotation')
+    const totalText = svg.selectAll('.reference-annotation')
         .filter((d, i, nodes) => d3.select(nodes[i]).attr('fill') === 'var(--color-accent-secondary)');
     
-    if (selectedX < averageX) {
+    if (selectedX < totalX) {
         selectedText.attr('text-anchor', 'end');
-        averageText.attr('text-anchor', 'start');
-    } else if (selectedX > averageX) {
+        totalText.attr('text-anchor', 'start');
+    } else if (selectedX > totalX) {
         selectedText.attr('text-anchor', 'start');
-        averageText.attr('text-anchor', 'end');
+        totalText.attr('text-anchor', 'end');
     }
     // If they're exactly the same, keep center alignment
 }
@@ -639,9 +696,10 @@ function translateKeyToSubtitle(key) {
  * @param {string} subtitle - The subtitle text
  * @param {string} selectedUnitName - Name of the selected unit
  * @param {Object} selectedUnit - The selected unit object
+ * @param {string} level - The level key
  * @returns {Object} Object with text and legend elements
  */
-function createInlineSubtitle(subtitle, selectedUnitName, selectedUnit) {
+function createInlineSubtitle(subtitle, selectedUnitName, selectedUnit, level) {
     if (!subtitle.includes('Porcentaje de medios')) {
         return { type: 'regular', text: subtitle };
     }
@@ -659,16 +717,16 @@ function createInlineSubtitle(subtitle, selectedUnitName, selectedUnit) {
     secondDiv.className = 'inline-subtitle-legends';
     
     const selectedLegend = createLegendItem('selected', 'en ' + selectedUnitName, subtitle);
-    
-    // Apply title case to parent name for larger units (countries)
-    const parentName = selectedUnit.BASIC_INFO.LEVEL === 'large_units' 
-        ? selectedUnit.BASIC_INFO.PARENT.charAt(0).toUpperCase() + selectedUnit.BASIC_INFO.PARENT.slice(1)
-        : selectedUnit.BASIC_INFO.PARENT;
-    
-    const averageLegend = createLegendItem('average', 'en ' + parentName);
-    
     secondDiv.appendChild(selectedLegend);
-    secondDiv.appendChild(averageLegend);
+    
+    // Only add the average/peer legend if not country level
+    if (level !== 'country') {
+        const parentName = selectedUnit.BASIC_INFO.LEVEL === 'large_units' 
+            ? selectedUnit.BASIC_INFO.PARENT.charAt(0).toUpperCase() + selectedUnit.BASIC_INFO.PARENT.slice(1)
+            : selectedUnit.BASIC_INFO.PARENT;
+        const averageLegend = createLegendItem('average', 'en ' + parentName);
+        secondDiv.appendChild(averageLegend);
+    }
     
     container.appendChild(firstDiv);
     container.appendChild(secondDiv);
@@ -988,4 +1046,19 @@ function downloadImageFile(blob, filename) {
 // Export the function for use in other files
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { createDataVisualization };
+}
+
+// Update calculatePeerTotal to use observed values and denominators
+function calculatePeerTotalPct(peerUnits, categoryKey, variable) {
+    let totalValue = 0;
+    let totalDenominator = 0;
+    peerUnits.forEach(unit => {
+        const value = unit[categoryKey][variable.replace('_PCT', '')];
+        const denominator = unit.BASIC_INFO.NEWS_ORG_COUNT;
+        if (typeof value === 'number' && !isNaN(value) && typeof denominator === 'number' && denominator > 0) {
+            totalValue += value;
+            totalDenominator += denominator;
+        }
+    });
+    return totalDenominator > 0 ? totalValue / totalDenominator : 0;
 }
