@@ -369,7 +369,7 @@ header.show-menu .btn-menu-content {
 
 /***** Page 3 *****/
 
-[data-slide="first paragraph"] .text-slide-inner-wrapper {
+.narrative .text-slide-inner-wrapper {
 
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -378,14 +378,14 @@ header.show-menu .btn-menu-content {
 
 }
 
-[data-slide="first paragraph"] .text-slide-inner-wrapper .placeholder-map {
+.narrative .text-slide-inner-wrapper .placeholder-map {
 
     grid-row: 2/3;
     grid-column: 1/2;
 
 }
 
-[data-slide="first paragraph"] .text-slide-inner-wrapper .slide-main-text {
+.narrative .text-slide-inner-wrapper .slide-main-text {
 
     grid-row: 2/3;
     grid-column: 2/3;
@@ -393,7 +393,7 @@ header.show-menu .btn-menu-content {
 
 }
 
-[data-slide="first paragraph"] .text-slide-inner-wrapper .slide-main-text p {
+.narrative .text-slide-inner-wrapper .slide-main-text p {
     
     font-size: 2rem;
     max-width: 800px;
@@ -401,7 +401,7 @@ header.show-menu .btn-menu-content {
 
 }
 
-[data-slide="first paragraph"] .text-slide-inner-wrapper .wrapper-arrow {
+.narrative .text-slide-inner-wrapper .wrapper-arrow {
     
     grid-row: 3/4;
     grid-column: 2/3;

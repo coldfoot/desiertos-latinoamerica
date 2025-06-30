@@ -43,6 +43,29 @@ function showCountryStory(pais) {
 
 }
 
+const colors_css = {
+    'desierto' : '',
+    'semidesierto' : '',
+    'semibosque' : '',
+    'bosque' : ''
+}
+
+const colours = Object.keys(colors_css);
+
+function populate_colors() {
+
+    const root = document.documentElement;
+
+    colours.forEach(colour => {
+
+        colors_css[colour] = getComputedStyle(root).getPropertyValue(`--color-${colour}`).trim();
+
+    })
+
+}
+
+populate_colors();
+
 const w_cutoff = 900;
 
 function get_bbox(country) {
@@ -259,22 +282,35 @@ class Story {
             if (direction == "forward") {
 
                 console.log("First paragraph. Going down...");
+                
+                clear_latam();
+                showCountryStory(current_country);
+                countries[current_country].ut_maior.toggle_hover_border();
+
 
             } else {
 
                 console.log("First paragraph. Going up...");
 
+                map.setPaintProperty(current_country + '-localidad', "fill-color", "transparent");
+
             }
 
-            clear_latam();
+        },
 
-            showCountryStory(current_country);
+         "second-desiertos" : (direction) => {
 
-            countries[current_country].ut_maior.toggle_hover_border();
+            if (direction == "forward") {
 
+                console.log("Second paragraph. Going down...");
 
-            
+            } else {
 
+                console.log("Second paragraph. Going up...");
+
+            }
+
+            display_paisage("desierto", current_country);
         }
 
     };
