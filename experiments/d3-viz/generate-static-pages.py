@@ -103,8 +103,8 @@ def main():
         return
     
     # Set the correct base path for redirects and OG URLs
-    base_path = '/experiments/d3-viz'
-    base_url = 'https://desiertos.com' + base_path
+    base_path = '/desiertos-latinoamerica/experiments/d3-viz'
+    base_url = 'https://coldfoot.studio' + base_path
     
     # Create output directory
     output_dir = 'static-pages'
@@ -122,9 +122,9 @@ def main():
         country_title = f"Desiertos: {country_name}"
         country_description = f"Visualización de datos para {country_name}"
         country_filename = f"{normalize_for_filename(country)}.html"
-        country_hash = f"/{country}"
-        og_url = f"{base_url}/#/{country}"
-        redirect_url = f"{base_path}/#/{country}"
+        hash_path = f"#/{country}"
+        og_url = f"{base_url}/{hash_path}"
+        redirect_url = f"{base_path}/{hash_path}"
         
         with open(os.path.join(output_dir, country_filename), 'w', encoding='utf-8') as f:
             f.write(generate_html(country_title, country_description, og_url, redirect_url))
@@ -138,9 +138,9 @@ def main():
                 region_title = f"Desiertos: {region['BASIC_INFO']['NAME']}, {country_name}"
                 region_description = f"Visualización de datos para {region['BASIC_INFO']['NAME']}, {country_name}"
                 region_filename = f"{normalize_for_filename(country)}-{normalize_for_filename(region['BASIC_INFO']['NAME'])}.html"
-                region_hash = f"/{country}/{region['BASIC_INFO']['NAME']}"
-                og_url = f"{base_url}/#/{country}/{region['BASIC_INFO']['NAME']}"
-                redirect_url = f"{base_path}/#/{country}/{region['BASIC_INFO']['NAME']}"
+                hash_path = f"#/{country}/{region['BASIC_INFO']['NAME']}"
+                og_url = f"{base_url}/{hash_path}"
+                redirect_url = f"{base_path}/{hash_path}"
                 
                 with open(os.path.join(output_dir, region_filename), 'w', encoding='utf-8') as f:
                     f.write(generate_html(region_title, region_description, og_url, redirect_url))
@@ -159,9 +159,9 @@ def main():
                         city_title = f"Desiertos: {city['BASIC_INFO']['NAME']}, {city['BASIC_INFO']['PARENT']}, {country_name}"
                         city_description = f"Visualización de datos para {city['BASIC_INFO']['NAME']}, {city['BASIC_INFO']['PARENT']}, {country_name}"
                         city_filename = f"{normalize_for_filename(country)}-{normalize_for_filename(region['BASIC_INFO']['NAME'])}-{normalize_for_filename(city['BASIC_INFO']['NAME'])}.html"
-                        city_hash = f"/{country}/{region['BASIC_INFO']['NAME']}/{city['BASIC_INFO']['NAME']}"
-                        og_url = f"{base_url}/#/{country}/{region['BASIC_INFO']['NAME']}/{city['BASIC_INFO']['NAME']}"
-                        redirect_url = f"{base_path}/#/{country}/{region['BASIC_INFO']['NAME']}/{city['BASIC_INFO']['NAME']}"
+                        hash_path = f"#/{country}/{region['BASIC_INFO']['NAME']}/{city['BASIC_INFO']['NAME']}"
+                        og_url = f"{base_url}/{hash_path}"
+                        redirect_url = f"{base_path}/{hash_path}"
                         
                         with open(os.path.join(output_dir, city_filename), 'w', encoding='utf-8') as f:
                             f.write(generate_html(city_title, city_description, og_url, redirect_url))

@@ -716,12 +716,13 @@ function handleShareButton() {
 function getFrozenUrlFromHash() {
     const hash = window.location.hash.slice(1); // Remove '#'
     const parts = hash.split('/').filter(Boolean);
+    const basePath = '/desiertos-latinoamerica/experiments/d3-viz/static-pages/';
     
     if (parts.length === 0) {
-        return window.location.origin + window.location.pathname.replace(/\/index\.html$/, '') + '/static-pages/index.html';
+        return window.location.origin + basePath + 'index.html';
     }
     
-    // Convert hash parts to filename format
+    // Normalize for filename: lowercase, hyphens for spaces, no accents/special chars
     const filename = parts.map(part => 
         part.toLowerCase()
             .normalize('NFD')
@@ -730,7 +731,7 @@ function getFrozenUrlFromHash() {
             .replace(/[^a-z0-9-]/g, '')
     ).join('-') + '.html';
     
-    return window.location.origin + window.location.pathname.replace(/\/index\.html$/, '') + '/static-pages/' + filename;
+    return window.location.origin + basePath + filename;
 }
 
 /**
