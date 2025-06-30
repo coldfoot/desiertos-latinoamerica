@@ -57,6 +57,44 @@ function plot_country(country, padding) {
 
 }
 
+function display_paisage(tipo_paisage, country) {
+
+    console.log(tipo_paisage);
+
+    if (tipo_paisage != '') {
+
+        map.setPaintProperty(
+            country + '-localidad',
+            'fill-color',
+            [
+                'case',
+                [
+                    '==',
+                    ['get', 'classification'],
+                    tipo_paisage.toUpperCase()
+                ],
+                colors_css[tipo_paisage],
+                'transparent'
+            ]
+        )
+
+    } else {
+
+        map.setPaintProperty(
+            country + '-localidad',
+            'fill-color',
+            [
+                'match',
+                ['get', 'classification'],
+                ...Object.keys(colors_css).flatMap(key => [key, colors_css[key]]),
+                'gray'
+            ]
+        );
+
+    }
+
+}
+
 class Country {
 
     constructor(country_name, bbox_country, url_ut_maior, source_layer_ut_maior, url_ut_menor, source_layer_ut_menor) {

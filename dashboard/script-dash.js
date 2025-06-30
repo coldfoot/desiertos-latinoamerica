@@ -30,15 +30,6 @@ btn_menu.addEventListener("click", e => {
 
 const breadcrumbs = document.querySelector(".breadcrumbs");
 
-const colors_css = {
-    'desierto' : '',
-    'semidesierto' : '',
-    'semibosque' : '',
-    'bosque' : ''
-}
-
-const colours = Object.keys(colors_css);
-
 const cores_argentina = {
     "#D27B51" : "desierto",
     "#DAB28D" : "semidesierto",
@@ -61,23 +52,9 @@ function converte_cores_argentina() {
         ])
 }
 
-function populate_colors() {
-
-    const root = document.documentElement;
-
-    colours.forEach(colour => {
-
-        colors_css[colour] = getComputedStyle(root).getPropertyValue(`--color-${colour}`).trim();
-
-    })
-
-}
-
 let last_country;
 let last_provincia_location_data;
 let last_localidad_location_data;
-
-populate_colors();
 
 const current_place = {
     country : '',
@@ -259,44 +236,6 @@ expand_button_mobile.addEventListener("click", (e) => {
     text_panel.classList.toggle("expanded-mobile");
 
 })
-
-function display_paisage(tipo_paisage, country) {
-
-    console.log(tipo_paisage);
-
-    if (tipo_paisage != '') {
-
-        map.setPaintProperty(
-            country + '-localidad',
-            'fill-color',
-            [
-                'case',
-                [
-                    '==',
-                    ['get', 'classification'],
-                    tipo_paisage.toUpperCase()
-                ],
-                colors_css[tipo_paisage],
-                'transparent'
-            ]
-        )
-
-    } else {
-
-        map.setPaintProperty(
-            country + '-localidad',
-            'fill-color',
-            [
-                'match',
-                ['get', 'classification'],
-                ...Object.keys(colors_css).flatMap(key => [key, colors_css[key]]),
-                'gray'
-            ]
-        );
-
-    }
-
-}
 
 function update_breadcrumbs(nivel, local) {
 
