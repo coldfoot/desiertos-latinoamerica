@@ -397,7 +397,8 @@ header.show-menu .btn-menu-content {
     
     font-size: 2rem;
     max-width: 800px;
-    margin: 0 3rem
+    margin: 0 3rem;
+    line-height: 1.2;
 
 }
 
@@ -417,6 +418,10 @@ span.highlight {
 
 span.highlight[data-tipo-paisage="bosque"] {
     color: var(--color-bg);
+}
+
+[data-story-text] {
+    font-weight: bold;
 }
 
 
