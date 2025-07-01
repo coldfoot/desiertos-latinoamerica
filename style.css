@@ -915,5 +915,37 @@ span[data-barchart] .barchart-label.displaced {
         transform: translate(0, 0);
     }
 
+    .narrative .text-slide-inner-wrapper {
+
+        grid-template-columns: 1fr;
+
+
+    }
+
+    .narrative .text-slide-inner-wrapper .placeholder-map {
+
+        display: none;
+
+    }
+
+    .narrative .text-slide-inner-wrapper .slide-main-text {
+
+        grid-row: 2/3;
+        grid-column: 1;
+        place-content: center;
+
+    }
+
+    .narrative .text-slide-inner-wrapper .wrapper-arrow {
+        
+        grid-row: 3/4;
+        grid-column: 1;
+        stroke: var(--color-accent)
+    }
+
+    .narrative .text-slide-inner-wrapper .slide-main-text p {
+        font-size: 1rem;
+    }
+
 
 }
