@@ -63,7 +63,7 @@ function plot_country(country, padding) {
 
 function display_paisage(tipo_paisage, country) {
 
-    console.log(tipo_paisage);
+    console.log(tipo_paisage, country);
 
     if (tipo_paisage != '') {
 
@@ -84,13 +84,15 @@ function display_paisage(tipo_paisage, country) {
 
     } else {
 
+        console.log(colors_css);
+
         map.setPaintProperty(
             country + '-localidad',
             'fill-color',
             [
                 'match',
                 ['get', 'classification'],
-                ...Object.keys(colors_css).flatMap(key => [key, colors_css[key]]),
+                ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
                 'gray'
             ]
         );
