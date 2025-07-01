@@ -915,6 +915,8 @@ span[data-barchart] .barchart-label.displaced {
         transform: translate(0, 0);
     }
 
+    /* story */
+
     .narrative .text-slide-inner-wrapper {
 
         grid-template-columns: 1fr;
@@ -945,6 +947,67 @@ span[data-barchart] .barchart-label.displaced {
 
     .narrative .text-slide-inner-wrapper .slide-main-text p {
         font-size: 1rem;
+    }
+
+    /* country selection */
+
+    [data-slide="country selection"] .text-slide-inner-wrapper {
+
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 4fr 1fr;
+        height: 100%;
+
+    }
+
+    [data-slide="country selection"] .text-slide-inner-wrapper .slide-main-text {
+        grid-row: 2/3;
+    }
+    
+    [data-slide="country selection"] .text-slide-inner-wrapper .menu-paises-wrapper {
+
+        grid-row: 3/4;
+
+    }
+
+    [data-slide="country selection"] .slide-main-text {
+
+        font-size: 1.5rem;
+    }
+
+    [data-slide="country selection"] .text-slide-inner-wrapper .slide-main-text p {
+        transform: none;
+    }
+
+    [data-slide="country selection"] .quiere-explorar-star {
+        display: none;
+    }
+
+    [data-slide="country selection"] ul.menu-paises li {
+        height: 1.5rem;
+        font-size: 1.5rem;
+    }
+
+    [data-slide="country selection"] ul.menu-paises img {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+
+    [data-slide="opening"] p {
+        font-size: 1rem;
+    }
+
+    [data-slide="opening"] {
+        padding: 1rem;
+    }
+
+    [data-slide="opening"] h1.goo {
+        font-size: 1.5rem;
+    }
+
+    .btn-menu-img {
+        transform: scale(0.5);
     }
 
 
