@@ -156,6 +156,29 @@ body {
     cursor: not-allowed;
 }
 
+.share-button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: inherit;
+    margin-left: 12px;
+}
+
+.share-button:hover {
+    background: #45a049;
+}
+
+.share-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
 label {
     font-weight: 500;
     margin-right: 6px;

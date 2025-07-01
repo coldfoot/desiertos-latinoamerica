@@ -39,6 +39,7 @@ function handleDataLoadSuccess(jsonData) {
     
     preprocessAllData(data);
     initializeUI();
+    handleHashRoute();
 }
 
 /**
@@ -98,7 +99,7 @@ function preprocessAllData(data) {
  * @returns {boolean} True if valid, false otherwise
  */
 function isValidLevel(level) {
-    return level === 'small_units' || level === 'large_units';
+    return level === 'small_units' || level === 'large_units' || level === 'country';
 }
 
 /**
@@ -183,7 +184,8 @@ function populateCountrySelector(countries) {
 function populateLevelSelector() {
     const levels = [
         { value: 'small_units', label: 'Unidades pequeñas' },
-        { value: 'large_units', label: 'Unidades grandes' }
+        { value: 'large_units', label: 'Unidades grandes' },
+        { value: 'country', label: 'País' }
     ];
     
     const levelSelect = d3.select('#level-select');
@@ -296,6 +298,7 @@ function setupInputListeners() {
  */
 function setupButtonListeners() {
     d3.select('#draw-button').on('click', handleDrawButton);
+    d3.select('#share-button').on('click', handleShareButton);
 }
 
 // ============================================================================
@@ -333,7 +336,21 @@ function updateUnitSelector() {
         return;
     }
     
+    // Auto-select for country level
+    if (selectedLevel === 'country') {
+        const units = countryData[selectedLevel];
+        if (units && units.length === 1) {
+            updateSelectedUnit(units[0]);
+            populateUnitDatalist(units, selectedLevel);
+            // Lock the unit selector
+            d3.select('#unit-search').property('disabled', true);
+            return;
+        }
+    }
+    
     enableUnitSelector(countryData[selectedLevel], selectedLevel);
+    // Make sure the unit selector is enabled for other levels
+    d3.select('#unit-search').property('disabled', false);
 }
 
 /**
@@ -492,7 +509,15 @@ function handleDrawButton() {
     logSelectedUnitDetails();
     
     if (selectedUnit) {
-        executeDataVisualization(selectedCountry, selectedLevel);
+        // Build hash based on selection
+        let hash = `/${selectedCountry}`;
+        if (selectedLevel === 'large_units') {
+            hash += `/${normalize(selectedUnit.BASIC_INFO.NAME)}`;
+        } else if (selectedLevel === 'small_units') {
+            hash += `/${normalize(selectedUnit.BASIC_INFO.PARENT)}/${normalize(selectedUnit.BASIC_INFO.NAME)}`;
+        }
+        window.location.hash = hash;
+        // The router will handle visualization
     }
 }
 
@@ -587,4 +612,229 @@ function clearUnitSelector() {
     window.currentUnits = null;
     selectedUnit = null;
     disableDrawButton();
+}
+
+// === HASH ROUTER FOR URL-DRIVEN VISUALIZATION ===
+window.addEventListener('hashchange', handleHashRoute);
+
+function handleHashRoute() {
+    if (!data) return; // Data not loaded yet
+    const hash = window.location.hash.slice(1); // Remove '#'
+    const parts = hash.split('/').filter(Boolean);
+    if (parts.length === 0) return; // No hash, do nothing
+
+    const country = parts[0]?.toLowerCase();
+    if (!data[country]) return;
+
+    // Set dropdowns to match route
+    d3.select('#country-select').property('value', country);
+    updateLevelSelector();
+
+    // --- DYNAMIC OG DESCRIPTION ---
+    let ogDesc = 'Explora visualizaciones interactivas de datos sobre desiertos y periodismo local en Latinoamérica.';
+    if (parts.length === 1) {
+        // Country-level viz
+        d3.select('#level-select').property('value', 'country');
+        updateUnitSelector();
+        const units = data[country]['country'];
+        if (units && units.length === 1) {
+            updateSelectedUnit(units[0]);
+            d3.select('#unit-search').property('value', getUnitDisplayName(units[0], 'country'));
+            createDataVisualization(data[country], 'country', units[0].BASIC_INFO.KEY);
+            ogDesc = `Visualización de datos para ${capitalizeFirstLetter(country)}`;
+        }
+    } else if (parts.length === 2) {
+        // Unidad mayor (large_units)
+        d3.select('#level-select').property('value', 'large_units');
+        updateUnitSelector();
+        const units = data[country]['large_units'];
+        const match = units.find(u => normalize(u.BASIC_INFO.NAME) === normalize(parts[1]));
+        if (match) {
+            updateSelectedUnit(match);
+            d3.select('#unit-search').property('value', getUnitDisplayName(match, 'large_units'));
+            createDataVisualization(data[country], 'large_units', match.BASIC_INFO.KEY);
+            ogDesc = `Visualización de datos para ${match.BASIC_INFO.NAME}, ${capitalizeFirstLetter(country)}`;
+        }
+    } else if (parts.length === 3) {
+        // Unidad menor (small_units)
+        d3.select('#level-select').property('value', 'small_units');
+        updateUnitSelector();
+        const units = data[country]['small_units'];
+        const match = units.find(u => normalize(u.BASIC_INFO.NAME) === normalize(parts[2]) && normalize(u.BASIC_INFO.PARENT) === normalize(parts[1]));
+        if (match) {
+            updateSelectedUnit(match);
+            d3.select('#unit-search').property('value', getUnitDisplayName(match, 'small_units'));
+            createDataVisualization(data[country], 'small_units', match.BASIC_INFO.KEY);
+            ogDesc = `Visualización de datos para ${match.BASIC_INFO.NAME}, ${match.BASIC_INFO.PARENT}, ${capitalizeFirstLetter(country)}`;
+        }
+    }
+    // Update og:description meta tag
+    const ogMeta = document.getElementById('og-description');
+    if (ogMeta) ogMeta.setAttribute('content', ogDesc);
+    // --- DYNAMIC OG TITLE ---
+    let ogTitle = 'DESIERTOS - D3 Experiment';
+    if (parts.length === 1) {
+        // ...
+        if (units && units.length === 1) {
+            // ...
+            ogTitle = `Desiertos: ${capitalizeFirstLetter(country)}`;
+        }
+    } else if (parts.length === 2) {
+        // ...
+        if (match) {
+            // ...
+            ogTitle = `Desiertos: ${match.BASIC_INFO.NAME}, ${capitalizeFirstLetter(country)}`;
+        }
+    } else if (parts.length === 3) {
+        // ...
+        if (match) {
+            // ...
+            ogTitle = `Desiertos: ${match.BASIC_INFO.NAME}, ${match.BASIC_INFO.PARENT}, ${capitalizeFirstLetter(country)}`;
+        }
+    }
+    // Update og:title meta tag
+    const ogTitleMeta = document.getElementById('og-title');
+    if (ogTitleMeta) ogTitleMeta.setAttribute('content', ogTitle);
+}
+
+// Helper to normalize names for matching (lowercase, remove accents, spaces, etc.)
+function normalize(str) {
+    return (str || '').toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/\s+/g, '');
+}
+
+/**
+ * Handle share button click
+ */
+function handleShareButton() {
+    const frozenUrl = getFrozenUrlFromHash();
+    copyToClipboard(frozenUrl);
+}
+
+/**
+ * Generate frozen URL from current hash
+ */
+function getFrozenUrlFromHash() {
+    const hash = window.location.hash.slice(1); // Remove '#'
+    const parts = hash.split('/').filter(Boolean);
+    const basePath = '/desiertos-latinoamerica/experiments/d3-viz/static-pages/';
+
+    // Helper for normalization (same as Python)
+    function normalizeForFilename(text) {
+        return (text || '')
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/\p{Diacritic}/gu, '')
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9-]/g, '');
+    }
+
+    if (parts.length === 0) {
+        return window.location.origin + basePath + 'index.html';
+    }
+
+    // Data-driven mapping
+    let filename = '';
+    if (parts.length === 1) {
+        // Country level
+        const country = parts[0];
+        filename = normalizeForFilename(country) + '.html';
+    } else if (parts.length === 2) {
+        // Region level
+        const country = parts[0];
+        const region = parts[1];
+        // Find the region in data
+        let regionName = region;
+        if (data && data[country] && data[country].large_units) {
+            const match = data[country].large_units.find(r => normalize(r.BASIC_INFO.NAME) === normalize(region));
+            if (match) regionName = match.BASIC_INFO.NAME;
+        }
+        filename = normalizeForFilename(country) + '-' + normalizeForFilename(regionName) + '.html';
+    } else if (parts.length === 3) {
+        // City level
+        const country = parts[0];
+        const region = parts[1];
+        const city = parts[2];
+        // Find the region and city in data
+        let regionName = region;
+        let cityName = city;
+        if (data && data[country] && data[country].large_units && data[country].small_units) {
+            const regionMatch = data[country].large_units.find(r => normalize(r.BASIC_INFO.NAME) === normalize(region));
+            if (regionMatch) regionName = regionMatch.BASIC_INFO.NAME;
+            const cityMatch = data[country].small_units.find(
+                c => normalize(c.BASIC_INFO.NAME) === normalize(city) && normalize(c.BASIC_INFO.PARENT) === normalize(regionName)
+            );
+            if (cityMatch) cityName = cityMatch.BASIC_INFO.NAME;
+        }
+        filename = normalizeForFilename(country) + '-' + normalizeForFilename(regionName) + '-' + normalizeForFilename(cityName) + '.html';
+    } else {
+        // Fallback: normalize all parts
+        filename = parts.map(normalizeForFilename).join('-') + '.html';
+    }
+
+    return window.location.origin + basePath + filename;
+}
+
+/**
+ * Copy text to clipboard
+ */
+function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        // Use modern clipboard API
+        navigator.clipboard.writeText(text).then(() => {
+            showShareSuccess();
+        }).catch(() => {
+            fallbackCopyToClipboard(text);
+        });
+    } else {
+        // Fallback for older browsers
+        fallbackCopyToClipboard(text);
+    }
+}
+
+/**
+ * Fallback copy method for older browsers
+ */
+function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showShareSuccess();
+    } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+        showShareError(text);
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+/**
+ * Show success message for share
+ */
+function showShareSuccess() {
+    const shareButton = d3.select('#share-button');
+    const originalText = shareButton.text();
+    
+    shareButton.text('¡Copiado!').style('background', '#45a049');
+    
+    setTimeout(() => {
+        shareButton.text(originalText).style('background', '#4CAF50');
+    }, 2000);
+}
+
+/**
+ * Show error message for share (with manual copy option)
+ */
+function showShareError(text) {
+    const url = prompt('Copia este enlace manualmente:', text);
+    if (url) {
+        showShareSuccess();
+    }
 } 
