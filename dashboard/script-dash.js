@@ -157,7 +157,7 @@ function control_nav_buttons(modo) {
 
         container_btns.dataset.modo = "pais";
 
-        btns_to_show = ["apresentacao", "relato"];
+        btns_to_show = ["apresentacao", "datos"];
         show_conteudo("apresentacao");
         activate_button("apresentacao");
 
