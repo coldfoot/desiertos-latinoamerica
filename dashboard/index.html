@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../style.css">
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
@@ -174,12 +176,15 @@
 
                 <div data-tipo-conteudo="relato" class="recolhido">
                     <h3 data-relato-campo="TITLE">Relato de investigación</h3>
-                    <p data-relato-campo="DATE">Data</p>
+                    <p data-relato-campo="AUTHOR">Author</p>
 
-                    <div>
-                        <div data-relato-campo="AUTHOR"></div>
+                    <div class="container-teaser-relato">
+                        <div><span data-relato-campo="TEASER"></span><span class="leer-mas">LEER MÁS</span></div>
                         <div data-relato-campo="RELATO"></div>
-                        <span class="leer-mas">LEER MÁS</span>
+                    </div>
+
+                    <div data-relato-campo="MEDIO" class="">
+                        El medio estándar en la provincia de Buenos Aires es un portal digital de noticias que emplea a alrededor de cinco periodistas, pero cuyas condiciones de contratación son inciertas. Este medio prototípico recibe publicidad oficial, aunque sus responsables no saben o prefieren no contestar qué porcentaje representa el aporte del Estado en el ingreso total. Su agenda informativa está centrada en la atención sanitaria, preocupación que coincide con la pandemia del coronavirus vigente al momento de la investigación.
                     </div>
                 </div>
 
@@ -212,15 +217,10 @@
 
                 </div>
 
-                <div data-tipo-conteudo="medio" data-relato-campo="MEDIO" class="">
-                    El medio estándar en la provincia de Buenos Aires es un portal digital de noticias que emplea a alrededor de cinco periodistas, pero cuyas condiciones de contratación son inciertas. Este medio prototípico recibe publicidad oficial, aunque sus responsables no saben o prefieren no contestar qué porcentaje representa el aporte del Estado en el ingreso total. Su agenda informativa está centrada en la atención sanitaria, preocupación que coincide con la pandemia del coronavirus vigente al momento de la investigación.
-                </div>
-
             </div>
 
             <div class="wrapper-btns-nav" data-modo="latam">
                 <button data-btn-nav="apresentacao" class="btn-nav-active">Hallazgos</button>
-                <button data-btn-nav="medio" class="btn-hidden">Medio prototípico</button>
                 <button data-btn-nav="resumen" class="btn-hidden">Resumén</button>
                 <button data-btn-nav="relato" class="btn-hidden">Hallazgos</button>
                 <button data-btn-nav="datos" class="btn-hidden">Más datos</button>

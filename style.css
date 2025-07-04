@@ -831,22 +831,52 @@ span[data-barchart] .barchart-label.displaced {
 /* CONTEUDO */
 
 .text-panel-container .conteudo {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-family: "Inconsolata";
     flex-basis: 100%;
     position: relative;
     /*border: 1px dashed green;*/
 }
 
 .text-panel-container .conteudo [data-tipo-conteudo="apresentacao"] {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+}
+
+p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
+    display: inline; 
+    margin: 0;
 }
 
 .text-panel-container .conteudo .leer-mas {
     font-weight: bold;
+    background-color: var(--preto);
+    padding: 2px 4px;
+    font-size: .8em;
+    color: var(--color-bg);
 }
 
 [data-tipo-conteudo="relato"].expandido .leer-mas {
     display: none;
+}
+
+div.container-teaser-relato {
+    padding-bottom: .5rem;
+}
+
+[data-relato-campo="MEDIO"] {
+
+    padding-top: .5rem;
+    border-top: 1px solid currentColor;
+
+}
+
+[data-relato-campo="TITLE"] {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+[data-relato-campo="AUTHOR"] {
+    font-size: 1rem;
 }
 
 [data-tipo-conteudo="relato"].expandido [data-relato-campo="AUTHOR"] { display: none; }

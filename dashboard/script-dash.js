@@ -146,10 +146,10 @@ function control_nav_buttons(modo) {
 
         container_btns.dataset.modo = "provincia";
 
-        btns_to_show = ["relato", "medio", "datos"];
+        btns_to_show = ["relato", "datos"];
 
-        show_conteudo("medio");
-        activate_button("medio");
+        show_conteudo("relato");
+        activate_button("relato");
 
     }
 
@@ -277,7 +277,7 @@ function update_infocard(name, key, country, tipo) {
 
     if (tipo == "provincia") {
 
-        const fields = ["TITLE", "DATE", "AUTHOR", "RELATO", "MEDIO"];
+        const fields = ["TITLE", "TEASER", "AUTHOR", "RELATO", "MEDIO"];
 
         const mini_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == name)[0]
         const narrative_data = mini_data.NARRATIVE;
@@ -349,7 +349,7 @@ function update_infocard(name, key, country, tipo) {
 
         document.querySelector("[data-tipo-conteudo='apresentacao']").innerHTML = `<p>${textos[country]}</p>`;
 
-        const fields = ["TITLE", "DATE", "AUTHOR", "RELATO", "MEDIO"];
+        const fields = ["TITLE", "TEASER", "AUTHOR", "RELATO", "MEDIO"];
 
         fields.forEach(field => {
 
