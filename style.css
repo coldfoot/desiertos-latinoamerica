@@ -726,8 +726,8 @@ span[data-resumen-tipo-classificacao] {
     display: none;
 }
 
-[data-summary-field="population"],
-[data-summary-field="area"] {
+[data-summary-field="POPULATION"],
+[data-summary-field="AREA"] {
     display: inline;
 }
 

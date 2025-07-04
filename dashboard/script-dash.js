@@ -362,7 +362,11 @@ function update_infocard(name, key, country, tipo) {
 
         })
 
-        update_place_summary(null);
+        const basic_info_data = main_data[country].country[0].BASIC_INFO;
+
+        console.log(basic_info_data);
+
+        update_place_summary(basic_info_data);
 
         const counts = compute_classification(country);
         update_classification_barcharts(counts);
