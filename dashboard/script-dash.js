@@ -9,6 +9,7 @@ const header = document.querySelector("header");
 const btn_menu = document.querySelector(".btn-menu");
 const place_summary = document.querySelector(".place-summary");
 const search_container = document.querySelector(".seleccione-ubicacion-container");
+const btn_leer_provincia_from_localidad = document.querySelector(".localidad-informe-provincia");
 
 btn_menu.addEventListener("click", e => {
 
@@ -25,6 +26,12 @@ btn_menu.addEventListener("click", e => {
         header.classList.remove("show-menu");
 
     }
+
+})
+
+btn_leer_provincia_from_localidad.addEventListener("click", e => {
+
+    countries[last_country].render_provincia();
 
 })
 
@@ -319,6 +326,8 @@ function update_infocard(name, key, country, tipo) {
             document.querySelector("[data-resumen-campo]").innerHTML = classification;
             
             document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = classification.toLowerCase();
+
+            document.querySelector(`[data-relato-campo="PARENT"]`).innerHTML = basic_info_data.PARENT;
 
 
         } else {

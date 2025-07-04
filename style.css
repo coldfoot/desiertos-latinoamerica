@@ -855,6 +855,11 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     color: var(--color-bg);
 }
 
+.localidad-informe-provincia {
+    border-top: 1px solid currentColor;
+    padding-top: 1rem;
+}
+
 [data-tipo-conteudo="relato"].expandido .leer-mas {
     display: none;
 }
