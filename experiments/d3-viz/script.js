@@ -37,7 +37,7 @@ function handleDataLoadSuccess(jsonData) {
     console.log("Data loaded successfully with D3!");
     console.log("Available countries:", Object.keys(data));
     
-    preprocessAllData(data);
+    // Data preprocessing is no longer needed since _PCT values are already in data.json
     initializeUI();
     handleHashRoute();
 }
@@ -68,93 +68,6 @@ function disableInitialControls() {
     controls.forEach(selector => {
         d3.select(selector).property('disabled', true);
     });
-}
-
-// ============================================================================
-// DATA PREPROCESSING
-// ============================================================================
-
-/**
- * Preprocess all data for all country/level combinations once
- * @param {Object} data - The entire data object
- */
-function preprocessAllData(data) {
-    console.log("Preprocessing all data...");
-    
-    Object.keys(data).forEach(country => {
-        Object.keys(data[country]).forEach(level => {
-            if (isValidLevel(level)) {
-                preprocessLevelData(data[country][level]);
-            }
-        });
-    });
-    
-    console.log("Data preprocessing completed!");
-    console.log(data);
-}
-
-/**
- * Check if a level is valid for preprocessing
- * @param {string} level - The level to check
- * @returns {boolean} True if valid, false otherwise
- */
-function isValidLevel(level) {
-    return level === 'small_units' || level === 'large_units' || level === 'country';
-}
-
-/**
- * Preprocess data for a specific level
- * @param {Array} levelData - The level data to preprocess
- */
-function preprocessLevelData(levelData) {
-    if (!Array.isArray(levelData)) return;
-    
-    levelData.forEach(unitData => {
-        preprocessUnitData(unitData);
-    });
-}
-
-/**
- * Preprocess data for a specific unit
- * @param {Object} unitData - The unit data to preprocess
- */
-function preprocessUnitData(unitData) {
-    const excludedCategories = ['BASIC_INFO', 'BBOX', 'CENTROID'];
-    
-    Object.keys(unitData).forEach(category => {
-        if (!excludedCategories.includes(category)) {
-            preprocessCategoryData(unitData[category], unitData.BASIC_INFO.NEWS_ORG_COUNT);
-        }
-    });
-}
-
-/**
- * Preprocess data for a specific category
- * @param {Object} categoryData - The category data to preprocess
- * @param {number} newsOrgCount - The news organization count for percentage calculation
- */
-function preprocessCategoryData(categoryData, newsOrgCount) {
-    Object.keys(categoryData).forEach(key => {
-        if (shouldCreatePercentage(key, categoryData[key])) {
-            const pctKey = `${key}_PCT`;
-            if (!(pctKey in categoryData)) {
-                categoryData[pctKey] = categoryData[key] / newsOrgCount;
-            }
-        }
-    });
-}
-
-/**
- * Check if a percentage variable should be created for a key-value pair
- * @param {string} key - The data key
- * @param {*} value - The data value
- * @returns {boolean} True if percentage should be created, false otherwise
- */
-function shouldCreatePercentage(key, value) {
-    return !key.endsWith('_PCT') && 
-           value !== null && 
-           value !== undefined && 
-           !isNaN(value);
 }
 
 // ============================================================================
@@ -632,66 +545,54 @@ function handleHashRoute() {
 
     // --- DYNAMIC OG DESCRIPTION ---
     let ogDesc = 'Explora visualizaciones interactivas de datos sobre desiertos y periodismo local en Latinoamérica.';
+    let ogTitle = 'DESIERTOS - D3 Experiment';
+    let match = null; // Declare match in outer scope
+
     if (parts.length === 1) {
         // Country-level viz
         d3.select('#level-select').property('value', 'country');
         updateUnitSelector();
         const units = data[country]['country'];
         if (units && units.length === 1) {
-            updateSelectedUnit(units[0]);
-            d3.select('#unit-search').property('value', getUnitDisplayName(units[0], 'country'));
-            createDataVisualization(data[country], 'country', units[0].BASIC_INFO.KEY);
+            match = units[0];
+            updateSelectedUnit(match);
+            d3.select('#unit-search').property('value', getUnitDisplayName(match, 'country'));
+            createDataVisualization(data[country], 'country', match.BASIC_INFO.KEY);
             ogDesc = `Visualización de datos para ${capitalizeFirstLetter(country)}`;
+            ogTitle = `Desiertos: ${capitalizeFirstLetter(country)}`;
         }
     } else if (parts.length === 2) {
         // Unidad mayor (large_units)
         d3.select('#level-select').property('value', 'large_units');
         updateUnitSelector();
         const units = data[country]['large_units'];
-        const match = units.find(u => normalize(u.BASIC_INFO.NAME) === normalize(parts[1]));
+        match = units.find(u => normalize(u.BASIC_INFO.NAME) === normalize(parts[1]));
         if (match) {
             updateSelectedUnit(match);
             d3.select('#unit-search').property('value', getUnitDisplayName(match, 'large_units'));
             createDataVisualization(data[country], 'large_units', match.BASIC_INFO.KEY);
             ogDesc = `Visualización de datos para ${match.BASIC_INFO.NAME}, ${capitalizeFirstLetter(country)}`;
+            ogTitle = `Desiertos: ${match.BASIC_INFO.NAME}, ${capitalizeFirstLetter(country)}`;
         }
     } else if (parts.length === 3) {
         // Unidad menor (small_units)
         d3.select('#level-select').property('value', 'small_units');
         updateUnitSelector();
         const units = data[country]['small_units'];
-        const match = units.find(u => normalize(u.BASIC_INFO.NAME) === normalize(parts[2]) && normalize(u.BASIC_INFO.PARENT) === normalize(parts[1]));
+        match = units.find(u => normalize(u.BASIC_INFO.NAME) === normalize(parts[2]) && normalize(u.BASIC_INFO.PARENT) === normalize(parts[1]));
         if (match) {
             updateSelectedUnit(match);
             d3.select('#unit-search').property('value', getUnitDisplayName(match, 'small_units'));
             createDataVisualization(data[country], 'small_units', match.BASIC_INFO.KEY);
             ogDesc = `Visualización de datos para ${match.BASIC_INFO.NAME}, ${match.BASIC_INFO.PARENT}, ${capitalizeFirstLetter(country)}`;
-        }
-    }
-    // Update og:description meta tag
-    const ogMeta = document.getElementById('og-description');
-    if (ogMeta) ogMeta.setAttribute('content', ogDesc);
-    // --- DYNAMIC OG TITLE ---
-    let ogTitle = 'DESIERTOS - D3 Experiment';
-    if (parts.length === 1) {
-        // ...
-        if (units && units.length === 1) {
-            // ...
-            ogTitle = `Desiertos: ${capitalizeFirstLetter(country)}`;
-        }
-    } else if (parts.length === 2) {
-        // ...
-        if (match) {
-            // ...
-            ogTitle = `Desiertos: ${match.BASIC_INFO.NAME}, ${capitalizeFirstLetter(country)}`;
-        }
-    } else if (parts.length === 3) {
-        // ...
-        if (match) {
-            // ...
             ogTitle = `Desiertos: ${match.BASIC_INFO.NAME}, ${match.BASIC_INFO.PARENT}, ${capitalizeFirstLetter(country)}`;
         }
     }
+
+    // Update og:description meta tag
+    const ogMeta = document.getElementById('og-description');
+    if (ogMeta) ogMeta.setAttribute('content', ogDesc);
+    
     // Update og:title meta tag
     const ogTitleMeta = document.getElementById('og-title');
     if (ogTitleMeta) ogTitleMeta.setAttribute('content', ogTitle);

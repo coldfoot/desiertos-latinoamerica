@@ -597,12 +597,10 @@ function translateKeyToTitle(key) {
         'HIRING': '¿Qué tipo de vínculo laboral tienen los periodistas?',
         'PLATFORMS': "¿En qué plataformas publican?",
         'THEMES': '¿Cuáles son las temáticas de su agenda informativa?',
+        'INCOME': '¿De dónde provienen sus ingresos?',
         "FINANCING": "¿De dónde provienen sus ingresos?",
         'THREATS': '¿Experimentaron agresiones o amenazas en 2024?',
-        'NARRATIVE': 'Narrativa',
-        'BASIC_INFO': 'Información Básica',
-        'BBOX': 'Límites Geográficos',
-        'CENTROID': 'Centro Geográfico',
+  
         
         // Hiring subcategories
         'CONTRATO INDEFINIDO': 'Contrato Indefinido',
@@ -653,22 +651,24 @@ function translateKeyToTitle(key) {
         'NO RESPONDE': 'No Responde',
         'ECONÓMICAS': 'Económicas',
         'AMENAZAS DIGITALES': 'Amenazas Digitales',
+
+        // Income subcategories
+        'MEMBRESÍAS': 'Membresías',
+        'FINANCIACIÓN PÚBLICA': 'Financiación Pública',
+        'VENTA DE PRODUCTOS': 'Venta de Productos',
+        'CROWDFUNDING': 'Crowdfunding',
+        'SUBSCRIPCIONES': 'Suscripciones',
+        'CONTENIDO PARA CLIENTES': 'Contenido para Clientes',
+        'PUBLIREPORTAJES': 'Publireportajes',
+        'DONACIONES PARTICULARES': 'Donaciones Particulares',
+        'PAUTA DE VENTA DIRECTA': 'Pauta de Venta Directa',
+        'PAUTA PROGRAMÁTICA': 'Pauta Programática',
+        'ORGANIZACIÓN DE EVENTOS': 'Organización de Eventos',
+        'CONSULTORÍA': 'Consultoría',
+        'CUSTOM_ANSWERS': 'Otras Respuestas',
+        'SERVICIOS DE FORMACIÓN': 'Servicios de Formación',
+        'SUBSIDIOS O GRANTS': 'Subsidios o Grants'
         
-        // Basic info
-        'KEY': 'Código',
-        'LEVEL': 'Nivel',
-        'COUNTRY': 'País',
-        'NAME': 'Nombre',
-        'PARENT': 'Padre',
-        'POPULATION': 'Población',
-        'AREA': 'Área',
-        'NEWS_ORG_COUNT': 'Organizaciones de Noticias',
-        'JOURNALIST_COUNT': 'Periodistas',
-        'RATIO_POP_NEWS_ORG': 'Ratio Población/Organizaciones',
-        'RATIO_POP_JOURNALISTS': 'Ratio Población/Periodistas',
-        'RATIO_AREA_JOURNALIST': 'Ratio Área/Periodistas',
-        'RATIO_JOURNALISTS_NEWS_ORG': 'Ratio Periodistas/Organizaciones',
-        'CLASSIFICATION': 'Clasificación'
     };
     
     return titleMap[key] || key;
@@ -682,7 +682,7 @@ function translateKeyToTitle(key) {
 function translateKeyToSubtitle(key) {
     const subtitleMap = {
         'HIRING': 'Porcentaje de medios que contratan periodistas mediante…',
-        "FINANCING": "Porcentaje de medios que reciben ingresos provenientes de…",
+        "INCOME": "Porcentaje de medios que reciben ingresos provenientes de…",
         'PLATFORMS': 'Porcentaje de medios que tienen presencia en…',
         'THEMES': 'Porcentaje de medios que cubren temas de…',
         'THREATS': 'Porcentaje de medios cuyos periodistas sufrieron…'
