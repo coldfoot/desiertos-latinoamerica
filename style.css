@@ -422,6 +422,10 @@ span.highlight[data-tipo-paisage="bosque"] {
     color: var(--color-bg);
 }
 
+[data-tipo-paisage] {
+    background-color: var(--local-color);
+}
+
 [data-story-text] {
     font-weight: bold;
 }
