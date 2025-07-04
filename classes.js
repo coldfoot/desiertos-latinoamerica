@@ -289,10 +289,18 @@ class Country {
                 'transparent'
             );
 
+            /*
             map.setPaintProperty(
                 this.country + '-provincia-border',
                 'line-color',
                 'transparent'
+            );*/
+            map.setFilter(
+                this.country + '-provincia-border', [
+                    '==',
+                    'provincia',
+                    ''
+                ]
             );
 
             map.setPaintProperty(
