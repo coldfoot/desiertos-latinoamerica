@@ -870,29 +870,6 @@ function showCountryStory(pais) {
 
 }
 
-const colors_css = {
-    'desierto' : '',
-    'semidesierto' : '',
-    'semibosque' : '',
-    'bosque' : ''
-}
-
-const colours = Object.keys(colors_css);
-
-function populate_colors() {
-
-    const root = document.documentElement;
-
-    colours.forEach(colour => {
-
-        colors_css[colour] = getComputedStyle(root).getPropertyValue(`--color-${colour}`).trim();
-
-    })
-
-}
-
-populate_colors();
-
 const w_cutoff = 900;
 
 function get_bbox(country) {
@@ -955,33 +932,15 @@ function clear_latam() {
     );
 }
 
-let map;
+
 let story;
 
-//const bboxes = {};
-const bboxes = {
-    "argentina" : [-73.57626953125, -55.03212890625, -53.6685546875, -21.8025390625],
-    "chile" : [-109.434130859375, -55.89169921875, -66.435791015625, -17.5060546875],
-    "colombia" : [-79.025439453125, -4.23593750000001, -66.876025390625, 12.434375],
-    "mexico" : [-118.4013671875, 14.54541015625, -86.6962890625, 32.71533203125],
-    "peru" : [-81.33662109375, -18.34560546875, -68.68525390625, -0.041748046875]
-}
-
-const overall_bbox = [-118.4013671875, -55.891699218750006, -53.66855468749999, 32.71533203125];
-
-const colors = {};
 
 function init() {
 
     console.log("init");
 
-    // COLORS
-    const root = document.documentElement;
-    const rootStyles = getComputedStyle(root);
-    colors["accent"] = rootStyles.getPropertyValue('--color-accent');
-    colors["map"] = rootStyles.getPropertyValue('--color-map');
-
-    const dashboard = root.dataset.page;
+    // defined on classes.js
 
     if (!dashboard) {
         
@@ -991,93 +950,6 @@ function init() {
 
 
     //const countries = ["Argentina", "Colombia", "Peru", "Chile", "Mexico"];
-
-    mapboxgl.accessToken = 'pk.eyJ1IjoidGlhZ29tYnAiLCJhIjoiY2thdjJmajYzMHR1YzJ5b2huM2pscjdreCJ9.oT7nAiasQnIMjhUB-VFvmw';
-
-    map = new mapboxgl.Map({
-        container: dashboard ? 'map-dashboard' : 'map',
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: 'mapbox://styles/tiagombp/clgxtpl6400eg01p6dtzv8igv',
-        center: [-76.8, -4.48],
-        zoom: 2
-    });
-
-    map.on('load', () => {
-
-        map.addSource('countries', {
-            'type': 'vector',
-            'url': 'mapbox://tiagombp.bmw9axxy',
-            'promoteId' : 'country_name'
-        });
-
-        // The feature-state dependent fill-opacity expression will render the hover effect
-        // when a feature's hover state is set to true.
-        map.addLayer({
-            'id': 'countries-fills',
-            'type': 'fill',
-            'source': 'countries',
-            'source-layer' : 'data-blt69d',
-            'layout': {},
-            'paint': {
-                'fill-color': "#FF571D",
-                /*'fill-opacity': [
-                    'case',
-                    ['boolean', ['feature-state', 'hover'], false],
-                    1,
-                    0.5
-                ]*/
-            }
-        });
-
-        map.addLayer({
-            'id': 'countries-borders',
-            'type': 'line',
-            'source': 'countries',
-            'source-layer' : 'data-blt69d',
-            'layout': {},
-            'paint': {
-                'line-color': 'black',
-                'line-width': 1
-            }
-        });
-
-        plot_latam(dashboard);
-
-        story = new Story(".scroller-step");
-
-        //if (!dashboard) {
-            
-            countries["argentina"] = new Country("argentina", "", "mapbox://tiagombp.2c7pqb06", "large-units-argentina-9wj09y", "mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
-
-            countries["chile"]     = new Country("chile", "", "mapbox://tiagombp.0l57h9et", "large-units-chile-9v7av2", "mapbox://tiagombp.54kh6vm7", "small-units-chile-auxnhe");
-
-            countries["peru"] = new Country(
-                "peru", "",
-                "mapbox://tiagombp.d899dc8k", "large-units-peru-42epjp",
-                "mapbox://tiagombp.3636aktg",
-                "small-units-peru-3glt7j"
-            )
-
-        //}
-
-
-        /*
-        let flag_start = true;
-
-        map.on('sourcedata', () => { // para garantir que o source foi carregado
-            if (flag_start) {
-                console.log("Começou")
-                countries.forEach(country => get_bbox(country));
-                flag_start = false;
-            }
-        });
-        */
-
-
-
-        //map.querySourceFeatures("countries", {'sourceLayer' : 'data-blt69d'})
-
-    });
 
 }
 
