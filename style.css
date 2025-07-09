@@ -907,6 +907,10 @@ div.container-teaser-relato {
     display: initial;
 }
 
+[data-country="colombia"] .wrapper-btns-nav {
+    display: none;
+}
+
 .relato-colombia-localidad.expandido [data-relato-colombia-campo="AUTHOR"] { display: none; }
 .relato-colombia-localidad.expandido [data-relato-colombia-campo="RELATO"] { display: initial; }
 .relato-colombia-localidad.recolhido [data-relato-colombia-campo="AUTHOR"] { display: initial; }
