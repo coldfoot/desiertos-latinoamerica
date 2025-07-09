@@ -1093,35 +1093,422 @@ class UTmenor {
 
 class Bubble {
 
-    constructor(country_name, bbox_country, bubble_data) {
+    popup;
+    hoveredStateId;
+
+    constructor(country_name, bbox_country, bubble_data, bubble_layer) {
 
         this.country = country_name;
         this.bbox_country = bbox_country;
         this.data = bubble_data;
+        this.source_layer_name = bubble_layer;
+
+        this.hoveredStateId = null;
+
+        this.popup = new mapboxgl.Popup(
+            {
+                closeButton: false,
+                loseOnClick: false
+            }
+        );
+
+        this.load();
 
     }
 
     load() {
 
+        map.addSource(this.country + '-bubble', {
+            type: 'vector',
+            url : this.data,
+            'promoteId' : 'KEY'
+        });
+
         map.addLayer({
-              			'id': this.country + '-bubbles',
-              			'type': 'circle',
-              			'source': this.data,
-              			'paint': {
-              				'circle-color': [
+            'id': this.country + '-bubble',
+            'type': 'circle',
+            'source': this.country + '-bubble',
+            'source-layer' : this.source_layer_name,
+            'paint': {
+                'circle-color': [
 
-                                'match',
-                                ["get", "CLASSIFICATION", ["get", "BASIC_INFO"]],
-                                ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
-                                'gray'
+                    'match',
+                    ["get", "CLASSIFICATION"],
+                    ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
+                    'gray'
 
-                            ],
-              				'circle-opacity': 0,
-              				'circle-radius': 20
-              			}
-              		})
+                ],
+                'circle-opacity': 0,
+                'circle-radius': 10
+            }
+        })
+
+        map.addLayer({
+            'id': this.country + '-bubble-highlight',
+            'type': 'circle',
+            'source': this.country + '-bubble',
+            'source-layer': this.source_layer_name,
+            'paint': {
+                'circle-stroke-width': 3,
+            }, 
+            'filter': ['==', 'KEY', '']
+        }); 
+
     }
 
+    toggle_highlight(KEY) {
+
+        map.setFilter(
+            this.country + '-bubble-highlight', [
+                '==',
+                ['get', 'KEY'],
+                KEY
+            ]
+        );
+
+    }
+
+
+    render_pais() {
+
+        const pais = this.country;
+
+        plot_country(pais, 50);
+        update_breadcrumbs("pais", pais);
+        update_infocard(pais[0].toUpperCase() + pais.slice(1), pais, pais, "pais");
+        update_country_button(pais);
+
+        this.render_country_subnational();
+
+        countries_events.monitor_events('off'); // desliga monitor de eventos no nível de país
+
+        // troca de país
+        if ( (pais != last_country) & (last_country != undefined) ) {
+
+            console.log("Clear");
+            countries[last_country].clear_country_subnational();
+
+        }
+
+        last_country = pais;
+
+        this.monitor_events("on");  
+
+    }
+
+    render_country_subnational() {
+
+        map.setPaintProperty(this.country + "-bubble", "circle-opacity", 1);
+        map.setPaintProperty("countries-fills", "fill-color", "transparent");
+
+        if (["argentina", "chile", "peru"].includes(this.country)) {
+
+            this.paint_country_subnational("on");
+
+            this.ut_maior.monitor_events("on");
+            this.ut_maior.toggle_hover_border(); // será que não teria que estar junto com o monitor_events do ut_maior
+            this.ut_menor.monitor_events("off");
+            this.ut_menor.toggle_borders("off");
+            this.ut_maior.toggle_highlight_border('');
+            this.ut_menor.toggle_highlight('');
+
+
+        } else {
+
+            console.log("No data yet.")
+
+            //this.ut_maior.monitor_events("off");
+
+        }
+
+    }
+
+    clear_country_subnational() {
+
+        console.log(this.country + ' to clear')
+
+        map.setPaintProperty(
+            this.country + "-bubble", 
+            "circle-opacity",
+            0
+        )
+
+        this.ut_menor.toggle_borders("off");
+        this.ut_maior.toggle_highlight_border('');
+        this.ut_menor.toggle_highlight('');
+        this.ut_menor.monitor_events("off");
+
+        this.ut_maior.monitor_events("off");
+
+    }
+
+    render_bubble(key) {
+
+        const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == key)[0];
+
+        const name = place_data.BASIC_INFO.NAME;
+        const province_name = place_data.BASIC_INFO.PARENT;
+
+        last_localidad_location_data = place_data;
+
+        let last_provincia_name = last_provincia_location_data.BASIC_INFO.NAME;
+
+        // no caso de o usuário clicar numa localidade de outra provincia!
+        if (province_name != last_provincia_name) {
+
+            // atualizo a provincia
+            last_provincia_location_data = main_data[this.country].large_units.filter(d => d.BASIC_INFO.NAME == province_name)[0];
+
+        }
+
+        /*
+
+        const bbox_provincia = [
+            last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
+            last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
+        ]; 
+
+        map.fitBounds(
+
+            bbox_provincia, 
+
+            {
+                linear : false, // false means the map transitions using map.flyTo()
+                speed: 1, 
+                padding: {top: 80, bottom: 100, left: 30, right: 30},
+            }
+        );*/
+
+        update_breadcrumbs('ut-maior', `${localidad_name} (${province_name})`);
+
+        this.toggle_highlight(key);
+
+        update_infocard(
+            localidad_name,
+            localidad_key,
+            this.country,
+            "localidad"
+         );
+
+    }
+
+    mouse_enter_handler(e) {
+
+        let place_key = e.features[0].properties.KEY;
+
+        const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
+
+        // pop up
+        let coordinates = [
+            //e.features[0].geometries.coordinates[0],
+            //e.features[0].geometries.coordinates[1]
+            place_data.CENTROID.xc,
+            place_data.CENTROID.yc
+        ]; 
+
+        let name = place_data.BASIC_INFO.NAME;
+
+        console.log(coordinates);
+
+        this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
+
+        // precisa desse if aqui para fazer tirar o estado de hover da provincia anterior quando passa para outra provincia
+
+        if (this.hoveredStateId) {
+            map.setFeatureState(
+                { 
+                    source: this.country + '-bubble',
+                    sourceLayer: this.source_layer_name,
+                    id: this.hoveredStateId
+                },
+
+                { hover : false }
+            )
+
+        }
+
+        this.hoveredStateId = place_key;
+
+        map.setFeatureState(
+            { 
+                source: this.country + '-bubble',
+                sourceLayer: this.source_layer_name,
+                id: this.hoveredStateId
+            },
+
+            { hover : true }
+        )
+
+        //console.log('Hover no ', hoveredStateId)
+
+        // algo mais a fazer aqui
+
+    }
+
+    mouse_leave_handler() {
+
+        this.popup.remove();
+
+        if (this.hoveredStateId) {
+            map.setFeatureState(
+                { 
+                    source: this.country + '-bubble', 
+                    sourceLayer: this.source_layer_name,
+                    id: this.hoveredStateId 
+                },
+
+                { hover: false }
+            );
+        }
+    
+        this.hoveredStateId = null;
+    }
+
+    click_event_handler(e) {
+    
+        const place_key = e.features[0].properties.KEY; 
+
+        this.render_bubble(place_key);
+
+    }
+
+    monitor_events(option) {
+
+        // Bind handlers once and reuse them for on/off
+        if (!this._bound_mouse_enter_handler) {
+            this._bound_mouse_enter_handler = this.mouse_enter_handler.bind(this);
+            this._bound_mouse_leave_handler = this.mouse_leave_handler.bind(this);
+            this._bound_click_handler = this.click_event_handler.bind(this);
+        }
+
+        if (option == 'on') {
+
+            if (this.hoveredStateId) {
+
+                map.setFeatureState(
+                    { 
+                        source: this.country + '-bubble',
+                        sourceLayer: this.source_layer_name,
+                        id: this.hoveredStateId 
+                    },
+
+                    { hover: false }
+                );
+            }
+
+            map.on('mousemove', this.country + '-bubble', this._bound_mouse_enter_handler);
+
+            map.on('mouseleave', this.country + '-bubble', this._bound_mouse_leave_handler);
+
+            map.on('click', this.country + '-bubble', this._bound_click_handler);
+
+        } else {
+
+            map.off('mousemove', this.country + '-bubble', this._bound_mouse_enter_handler);
+
+            map.off('mouseleave', this.country + '-bubble', this._bound_mouse_leave_handler);
+
+            map.off('click', this.country + '-bubble', this._bound_click_handler);
+
+        }
+
+    }
+
+
+}
+
+function plot_country(country, padding) {
+
+    console.log(country);
+
+    current_country = country;
+
+    const bbox_highlighted = bboxes[country];
+
+    map.fitBounds(
+        bbox_highlighted, 
+        {
+            linear : false, // false means the map transitions using map.flyTo()
+            speed: 1, 
+            padding:  padding
+        }
+    );
+
+    console.log(colors["accent"], colors["map"]);
+
+    map.setPaintProperty(
+        'countries-fills', 
+        'fill-opacity',
+        ['case',
+            [
+                '==',
+                ['get', 'country_name'],
+                country
+            ],
+
+            1,
+            
+            0
+        ]
+
+    );
+
+    map.setPaintProperty(
+        'countries-borders', 
+        'line-opacity',
+        ['case',
+            [
+                '==',
+                ['get', 'country_name'],
+                country
+            ],
+
+            1,
+            
+            0
+        ]
+
+    );
+
+}
+
+function display_paisage(tipo_paisage, country) {
+
+    console.log(tipo_paisage, country);
+
+    if (tipo_paisage != '') {
+
+        map.setPaintProperty(
+            country + '-localidad',
+            'fill-color',
+            [
+                'case',
+                [
+                    '==',
+                    ['get', 'classification'],
+                    tipo_paisage.toUpperCase()
+                ],
+                colors_css[tipo_paisage],
+                'transparent'
+            ]
+        )
+
+    } else {
+
+        console.log(colors_css);
+
+        map.setPaintProperty(
+            country + '-localidad',
+            'fill-color',
+            [
+                'match',
+                ['get', 'classification'],
+                ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
+                'gray'
+            ]
+        );
+
+    }
 
 }
 
@@ -1239,8 +1626,6 @@ map.on('load', () => {
 
     plot_latam(dashboard);
 
-    story = new Story(".scroller-step");
-
     //if (!dashboard) {
         
         countries["argentina"] = new Country("argentina", "", "mapbox://tiagombp.2c7pqb06", "large-units-argentina-9wj09y", "mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
@@ -1252,8 +1637,11 @@ map.on('load', () => {
             "mapbox://tiagombp.d899dc8k", "large-units-peru-42epjp",
             "mapbox://tiagombp.3636aktg",
             "small-units-peru-3glt7j"
-        )
+        );
 
+        countries["colombia"] = new Bubble(
+            "colombia", "", "mapbox://tiagombp.27ddvbx4", "colombia-centroids-61kfe7"
+        );
 
 });
 
@@ -1298,11 +1686,6 @@ map.on("load", () => {
             }
         }); 
 
-        /*
-        countries["Argentina"] = new Country("Argentina", "", "mapbox://tiagombp.4fk72g1y", "provincia", "mapbox://tiagombp.d8u3a43g", "localidad");
-        countries["Chile"]     = new Country("Chile", "", "mapbox://tiagombp.af5egui6", "larger-units-chile-ctx9m7", "mapbox://tiagombp.5gi1do4b", "smaller-units-chile-81ipdl")
-        */
-
         countries_events.monitor_events("on");
 
         populate_datalist(data);
@@ -1311,98 +1694,3 @@ map.on("load", () => {
     })
 
 })
-
-function plot_country(country, padding) {
-
-    console.log(country);
-
-    current_country = country;
-
-    const bbox_highlighted = bboxes[country];
-
-    map.fitBounds(
-        bbox_highlighted, 
-        {
-            linear : false, // false means the map transitions using map.flyTo()
-            speed: 1, 
-            padding:  padding
-        }
-    );
-
-    console.log(colors["accent"], colors["map"]);
-
-    map.setPaintProperty(
-        'countries-fills', 
-        'fill-opacity',
-        ['case',
-            [
-                '==',
-                ['get', 'country_name'],
-                country
-            ],
-
-            1,
-            
-            0
-        ]
-
-    );
-
-    map.setPaintProperty(
-        'countries-borders', 
-        'line-opacity',
-        ['case',
-            [
-                '==',
-                ['get', 'country_name'],
-                country
-            ],
-
-            1,
-            
-            0
-        ]
-
-    );
-
-}
-
-function display_paisage(tipo_paisage, country) {
-
-    console.log(tipo_paisage, country);
-
-    if (tipo_paisage != '') {
-
-        map.setPaintProperty(
-            country + '-localidad',
-            'fill-color',
-            [
-                'case',
-                [
-                    '==',
-                    ['get', 'classification'],
-                    tipo_paisage.toUpperCase()
-                ],
-                colors_css[tipo_paisage],
-                'transparent'
-            ]
-        )
-
-    } else {
-
-        console.log(colors_css);
-
-        map.setPaintProperty(
-            country + '-localidad',
-            'fill-color',
-            [
-                'match',
-                ['get', 'classification'],
-                ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
-                'gray'
-            ]
-        );
-
-    }
-
-}

@@ -30,6 +30,420 @@ class MenuPaises {
 
 }
 
+let menu_paises;
+
+class Story {
+
+    step_actions = {
+
+        "country selection" : (direction) => {
+
+            if (direction == "forward") {
+
+                console.log("Country. Going down...");
+
+            } else {
+
+                plot_latam();
+                countries[current_country].ut_maior.toggle_hover_border("disable");
+
+                console.log("Country.Going up...");
+
+            }
+
+        },
+
+        "first paragraph" : (direction) => {
+
+            if (direction == "forward") {
+
+                console.log("First paragraph. Going down...");
+                
+                clear_latam();
+                showCountryStory(current_country);
+                countries[current_country].ut_maior.toggle_hover_border();
+
+
+            } else {
+
+                console.log("First paragraph. Going up...");
+
+                map.setPaintProperty(current_country + '-localidad', "fill-color", "transparent");
+
+            }
+
+        },
+
+         "second-desiertos" : (direction) => {
+
+            if (direction == "forward") {
+
+                display_paisage("desierto", current_country);
+
+
+            } else {
+
+                const bbox_highlighted = bboxes[current_country];
+
+                map.fitBounds(
+                    bbox_highlighted, 
+                    {
+                        linear : false, // false means the map transitions using map.flyTo()
+                        speed: 1, 
+                        padding:  padding
+                    }
+                );
+                countries[current_country].ut_menor.toggle_highlight("");
+    
+
+            }
+
+        },
+
+        "desierto mas poblado" : (direction) => {
+
+            last_localidad_location_data = story_info[current_country]["desierto-mas-poblado-data"];
+            last_provincia_location_data = story_info[current_country]["desierto-mas-poblado-parent-data"];
+            
+            const localidad_key = last_localidad_location_data.BASIC_INFO.KEY;
+            
+            const bbox_provincia = [
+                last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
+                last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
+            ]; 
+
+            map.fitBounds(
+
+                bbox_provincia, 
+
+                {
+                    linear : false, // false means the map transitions using map.flyTo()
+                    speed: 1, 
+                    padding: padding
+                }
+            );
+
+            //countries[current_country].ut_menor.toggle_borders("on");
+            //this.ut_maior.toggle_highlight_border(provincia_key);
+            map.moveLayer(current_country + "-provincia-border-hover");
+            map.moveLayer(current_country + "-provincia-border");
+            countries[current_country].ut_menor.toggle_highlight(localidad_key);
+
+
+            if (direction == "forward") {
+
+
+            } else {
+
+                display_paisage("desierto", current_country);
+
+            }
+
+        },
+
+        "todas las categorias" : (direction) => {
+
+            if (direction == "forward") {
+
+                const bbox_highlighted = bboxes[current_country];
+
+                map.fitBounds(
+                    bbox_highlighted, 
+                    {
+                        linear : false, // false means the map transitions using map.flyTo()
+                        speed: 1, 
+                        padding:  padding
+                    }
+                );
+                countries[current_country].ut_menor.toggle_highlight("");
+    
+
+                display_paisage("", current_country);
+
+
+            } else {
+
+
+            }
+
+        },
+
+        "semidesiertos" : (direction) => {
+
+            if (direction == "forward") {
+
+                display_paisage("semidesierto", current_country);
+
+
+            } else {
+
+                const bbox_highlighted = bboxes[current_country];
+
+                map.fitBounds(
+                    bbox_highlighted, 
+                    {
+                        linear : false, // false means the map transitions using map.flyTo()
+                        speed: 1, 
+                        padding:  padding
+                    }
+                );
+                countries[current_country].ut_menor.toggle_highlight("");
+    
+            }
+
+        },
+
+        "semidesierto mas poblado" : (direction) => {
+
+            last_localidad_location_data = story_info[current_country]["semidesierto-mas-poblado-data"];
+            last_provincia_location_data = story_info[current_country]["semidesierto-mas-poblado-parent-data"];
+            
+            const localidad_key = last_localidad_location_data.BASIC_INFO.KEY;
+            
+            const bbox_provincia = [
+                last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
+                last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
+            ]; 
+
+            map.fitBounds(
+
+                bbox_provincia, 
+
+                {
+                    linear : false, // false means the map transitions using map.flyTo()
+                    speed: 1, 
+                    padding: padding
+                }
+            );
+
+            //countries[current_country].ut_menor.toggle_borders("on");
+            //this.ut_maior.toggle_highlight_border(provincia_key);
+            //map.moveLayer(current_country + "-provincia-border-hover");
+            //map.moveLayer(current_country + "-provincia-border");
+            countries[current_country].ut_menor.toggle_highlight(localidad_key);
+
+            if (direction == "forward") {
+
+
+            } else {
+
+                display_paisage("semidesierto", current_country);
+
+            }
+
+        },
+
+        "semibosques" : (direction) => {
+
+            const bbox_highlighted = bboxes[current_country];
+
+            map.fitBounds(
+                bbox_highlighted, 
+                {
+                    linear : false, // false means the map transitions using map.flyTo()
+                    speed: 1, 
+                    padding:  padding
+                }
+            );
+            countries[current_country].ut_menor.toggle_highlight("");
+
+            display_paisage("semibosque", current_country);
+
+
+            if (direction == "forward") {
+
+
+            } else {
+
+
+            }
+
+        },
+
+        "semibosque mas poblado" : (direction) => {
+
+            last_localidad_location_data = story_info[current_country]["semibosque-mas-poblado-data"];
+            last_provincia_location_data = story_info[current_country]["semibosque-mas-poblado-parent-data"];
+            
+            const localidad_key = last_localidad_location_data.BASIC_INFO.KEY;
+            
+            const bbox_provincia = [
+                last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
+                last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
+            ]; 
+
+            map.fitBounds(
+
+                bbox_provincia, 
+
+                {
+                    linear : false, // false means the map transitions using map.flyTo()
+                    speed: 1, 
+                    padding: padding
+                }
+            );
+
+            //countries[current_country].ut_menor.toggle_borders("on");
+            //this.ut_maior.toggle_highlight_border(provincia_key);
+            //map.moveLayer(current_country + "-provincia-border-hover");
+            //map.moveLayer(current_country + "-provincia-border");
+            countries[current_country].ut_menor.toggle_highlight(localidad_key);
+
+            if (direction == "forward") {
+
+
+            } else {
+
+                display_paisage("semibosque", current_country);
+
+            }
+
+        },
+
+        "bosques" : (direction) => {
+
+            const bbox_highlighted = bboxes[current_country];
+
+            map.fitBounds(
+                bbox_highlighted, 
+                {
+                    linear : false, // false means the map transitions using map.flyTo()
+                    speed: 1, 
+                    padding:  padding
+                }
+            );
+            countries[current_country].ut_menor.toggle_highlight("");
+
+            display_paisage("bosque", current_country);
+
+
+            if (direction == "forward") {
+
+
+            } else {
+
+
+            }
+
+        },
+
+        "bosque mas poblado" : (direction) => {
+
+            last_localidad_location_data = story_info[current_country]["bosque-mas-poblado-data"];
+            last_provincia_location_data = story_info[current_country]["bosque-mas-poblado-parent-data"];
+            
+            const localidad_key = last_localidad_location_data.BASIC_INFO.KEY;
+            
+            const bbox_provincia = [
+                last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
+                last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
+            ]; 
+
+            map.fitBounds(
+
+                bbox_provincia, 
+
+                {
+                    linear : false, // false means the map transitions using map.flyTo()
+                    speed: 1, 
+                    padding: padding
+                }
+            );
+
+            //countries[current_country].ut_menor.toggle_borders("on");
+            //this.ut_maior.toggle_highlight_border(provincia_key);
+            //map.moveLayer(current_country + "-provincia-border-hover");
+            //map.moveLayer(current_country + "-provincia-border");
+            countries[current_country].ut_menor.toggle_highlight(localidad_key);
+
+            if (direction == "forward") {
+
+
+            } else {
+
+                display_paisage("bosque", current_country);
+
+            }
+
+        },
+
+        "penultimo" : (direction) => {
+
+            if (direction == "forward") {
+
+                const bbox_highlighted = bboxes[current_country];
+
+                map.fitBounds(
+                    bbox_highlighted, 
+                    {
+                        linear : false, // false means the map transitions using map.flyTo()
+                        speed: 1, 
+                        padding:  padding
+                    }
+                );
+
+                countries[current_country].ut_menor.toggle_highlight("");
+
+                display_paisage("", current_country);
+
+            }
+
+        }
+
+    };
+
+    constructor(step_selector) {
+
+        this.step_selector = step_selector;
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        this.steps_elements = document.querySelectorAll(step_selector);
+
+        this.monitora_scroller();
+
+    }
+
+    monitora_scroller() {
+
+        this.steps_elements.forEach(step_element => {
+
+            const step_name = step_element.dataset.slide;
+            const selector = this.step_selector + '[data-slide="' + step_name + '"]';
+
+            console.log(step_name, selector);
+
+            gsap.to(
+
+                selector, // só para constar, não vamos fazer nada com ele, na verdade
+
+                {
+                    scrollTrigger : {
+                        trigger: selector,
+                        markers: false,
+                        toggleClass: 'active',
+                        pin: false,
+                        start: "25% 60%",
+                        end: "75% 40%", 
+
+                        onEnter : () => this.step_actions[step_name]("forward"),
+                        onEnterBack : () => this.step_actions[step_name]("back"),
+                        //onLeave : () => v.scroller.linechart_regioes.render[step_name](forward = true),
+                        //onLeaveBack : () => v.scroller.linechart_regioes.render[step_name](forward = false)
+
+                    }
+
+                })
+            ;
+
+
+        })
+
+
+    }
+
+}
+
 function populate_story(country) {
 
     const spans = document.querySelectorAll("[data-story-text");
@@ -948,421 +1362,10 @@ function init() {
 
     }
 
+    story = new Story(".scroller-step");
 
     //const countries = ["Argentina", "Colombia", "Peru", "Chile", "Mexico"];
 
 }
 
 init();
-
-class Story {
-
-    step_actions = {
-
-        "country selection" : (direction) => {
-
-            if (direction == "forward") {
-
-                console.log("Country. Going down...");
-
-            } else {
-
-                plot_latam();
-                countries[current_country].ut_maior.toggle_hover_border("disable");
-
-                console.log("Country.Going up...");
-
-            }
-
-        },
-
-        "first paragraph" : (direction) => {
-
-            if (direction == "forward") {
-
-                console.log("First paragraph. Going down...");
-                
-                clear_latam();
-                showCountryStory(current_country);
-                countries[current_country].ut_maior.toggle_hover_border();
-
-
-            } else {
-
-                console.log("First paragraph. Going up...");
-
-                map.setPaintProperty(current_country + '-localidad', "fill-color", "transparent");
-
-            }
-
-        },
-
-         "second-desiertos" : (direction) => {
-
-            if (direction == "forward") {
-
-                display_paisage("desierto", current_country);
-
-
-            } else {
-
-                const bbox_highlighted = bboxes[current_country];
-
-                map.fitBounds(
-                    bbox_highlighted, 
-                    {
-                        linear : false, // false means the map transitions using map.flyTo()
-                        speed: 1, 
-                        padding:  padding
-                    }
-                );
-                countries[current_country].ut_menor.toggle_highlight("");
-    
-
-            }
-
-        },
-
-        "desierto mas poblado" : (direction) => {
-
-            last_localidad_location_data = story_info[current_country]["desierto-mas-poblado-data"];
-            last_provincia_location_data = story_info[current_country]["desierto-mas-poblado-parent-data"];
-            
-            const localidad_key = last_localidad_location_data.BASIC_INFO.KEY;
-            
-            const bbox_provincia = [
-                last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
-                last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
-            ]; 
-
-            map.fitBounds(
-
-                bbox_provincia, 
-
-                {
-                    linear : false, // false means the map transitions using map.flyTo()
-                    speed: 1, 
-                    padding: padding
-                }
-            );
-
-            //countries[current_country].ut_menor.toggle_borders("on");
-            //this.ut_maior.toggle_highlight_border(provincia_key);
-            map.moveLayer(current_country + "-provincia-border-hover");
-            map.moveLayer(current_country + "-provincia-border");
-            countries[current_country].ut_menor.toggle_highlight(localidad_key);
-
-
-            if (direction == "forward") {
-
-
-            } else {
-
-                display_paisage("desierto", current_country);
-
-            }
-
-        },
-
-        "todas las categorias" : (direction) => {
-
-            if (direction == "forward") {
-
-                const bbox_highlighted = bboxes[current_country];
-
-                map.fitBounds(
-                    bbox_highlighted, 
-                    {
-                        linear : false, // false means the map transitions using map.flyTo()
-                        speed: 1, 
-                        padding:  padding
-                    }
-                );
-                countries[current_country].ut_menor.toggle_highlight("");
-    
-
-                display_paisage("", current_country);
-
-
-            } else {
-
-
-            }
-
-        },
-
-        "semidesiertos" : (direction) => {
-
-            if (direction == "forward") {
-
-                display_paisage("semidesierto", current_country);
-
-
-            } else {
-
-                const bbox_highlighted = bboxes[current_country];
-
-                map.fitBounds(
-                    bbox_highlighted, 
-                    {
-                        linear : false, // false means the map transitions using map.flyTo()
-                        speed: 1, 
-                        padding:  padding
-                    }
-                );
-                countries[current_country].ut_menor.toggle_highlight("");
-    
-            }
-
-        },
-
-        "semidesierto mas poblado" : (direction) => {
-
-            last_localidad_location_data = story_info[current_country]["semidesierto-mas-poblado-data"];
-            last_provincia_location_data = story_info[current_country]["semidesierto-mas-poblado-parent-data"];
-            
-            const localidad_key = last_localidad_location_data.BASIC_INFO.KEY;
-            
-            const bbox_provincia = [
-                last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
-                last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
-            ]; 
-
-            map.fitBounds(
-
-                bbox_provincia, 
-
-                {
-                    linear : false, // false means the map transitions using map.flyTo()
-                    speed: 1, 
-                    padding: padding
-                }
-            );
-
-            //countries[current_country].ut_menor.toggle_borders("on");
-            //this.ut_maior.toggle_highlight_border(provincia_key);
-            //map.moveLayer(current_country + "-provincia-border-hover");
-            //map.moveLayer(current_country + "-provincia-border");
-            countries[current_country].ut_menor.toggle_highlight(localidad_key);
-
-            if (direction == "forward") {
-
-
-            } else {
-
-                display_paisage("semidesierto", current_country);
-
-            }
-
-        },
-
-        "semibosques" : (direction) => {
-
-            const bbox_highlighted = bboxes[current_country];
-
-            map.fitBounds(
-                bbox_highlighted, 
-                {
-                    linear : false, // false means the map transitions using map.flyTo()
-                    speed: 1, 
-                    padding:  padding
-                }
-            );
-            countries[current_country].ut_menor.toggle_highlight("");
-
-            display_paisage("semibosque", current_country);
-
-
-            if (direction == "forward") {
-
-
-            } else {
-
-
-            }
-
-        },
-
-        "semibosque mas poblado" : (direction) => {
-
-            last_localidad_location_data = story_info[current_country]["semibosque-mas-poblado-data"];
-            last_provincia_location_data = story_info[current_country]["semibosque-mas-poblado-parent-data"];
-            
-            const localidad_key = last_localidad_location_data.BASIC_INFO.KEY;
-            
-            const bbox_provincia = [
-                last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
-                last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
-            ]; 
-
-            map.fitBounds(
-
-                bbox_provincia, 
-
-                {
-                    linear : false, // false means the map transitions using map.flyTo()
-                    speed: 1, 
-                    padding: padding
-                }
-            );
-
-            //countries[current_country].ut_menor.toggle_borders("on");
-            //this.ut_maior.toggle_highlight_border(provincia_key);
-            //map.moveLayer(current_country + "-provincia-border-hover");
-            //map.moveLayer(current_country + "-provincia-border");
-            countries[current_country].ut_menor.toggle_highlight(localidad_key);
-
-            if (direction == "forward") {
-
-
-            } else {
-
-                display_paisage("semibosque", current_country);
-
-            }
-
-        },
-
-        "bosques" : (direction) => {
-
-            const bbox_highlighted = bboxes[current_country];
-
-            map.fitBounds(
-                bbox_highlighted, 
-                {
-                    linear : false, // false means the map transitions using map.flyTo()
-                    speed: 1, 
-                    padding:  padding
-                }
-            );
-            countries[current_country].ut_menor.toggle_highlight("");
-
-            display_paisage("bosque", current_country);
-
-
-            if (direction == "forward") {
-
-
-            } else {
-
-
-            }
-
-        },
-
-        "bosque mas poblado" : (direction) => {
-
-            last_localidad_location_data = story_info[current_country]["bosque-mas-poblado-data"];
-            last_provincia_location_data = story_info[current_country]["bosque-mas-poblado-parent-data"];
-            
-            const localidad_key = last_localidad_location_data.BASIC_INFO.KEY;
-            
-            const bbox_provincia = [
-                last_provincia_location_data.BBOX.minx, last_provincia_location_data.BBOX.miny,
-                last_provincia_location_data.BBOX.maxx, last_provincia_location_data.BBOX.maxy
-            ]; 
-
-            map.fitBounds(
-
-                bbox_provincia, 
-
-                {
-                    linear : false, // false means the map transitions using map.flyTo()
-                    speed: 1, 
-                    padding: padding
-                }
-            );
-
-            //countries[current_country].ut_menor.toggle_borders("on");
-            //this.ut_maior.toggle_highlight_border(provincia_key);
-            //map.moveLayer(current_country + "-provincia-border-hover");
-            //map.moveLayer(current_country + "-provincia-border");
-            countries[current_country].ut_menor.toggle_highlight(localidad_key);
-
-            if (direction == "forward") {
-
-
-            } else {
-
-                display_paisage("bosque", current_country);
-
-            }
-
-        },
-
-        "penultimo" : (direction) => {
-
-            if (direction == "forward") {
-
-                const bbox_highlighted = bboxes[current_country];
-
-                map.fitBounds(
-                    bbox_highlighted, 
-                    {
-                        linear : false, // false means the map transitions using map.flyTo()
-                        speed: 1, 
-                        padding:  padding
-                    }
-                );
-
-                countries[current_country].ut_menor.toggle_highlight("");
-
-                display_paisage("", current_country);
-
-            }
-
-        }
-
-    };
-
-    constructor(step_selector) {
-
-        this.step_selector = step_selector;
-
-        gsap.registerPlugin(ScrollTrigger);
-
-        this.steps_elements = document.querySelectorAll(step_selector);
-
-        this.monitora_scroller();
-
-    }
-
-    monitora_scroller() {
-
-        this.steps_elements.forEach(step_element => {
-
-            const step_name = step_element.dataset.slide;
-            const selector = this.step_selector + '[data-slide="' + step_name + '"]';
-
-            console.log(step_name, selector);
-
-            gsap.to(
-
-                selector, // só para constar, não vamos fazer nada com ele, na verdade
-
-                {
-                    scrollTrigger : {
-                        trigger: selector,
-                        markers: false,
-                        toggleClass: 'active',
-                        pin: false,
-                        start: "25% 60%",
-                        end: "75% 40%", 
-
-                        onEnter : () => this.step_actions[step_name]("forward"),
-                        onEnterBack : () => this.step_actions[step_name]("back"),
-                        //onLeave : () => v.scroller.linechart_regioes.render[step_name](forward = true),
-                        //onLeaveBack : () => v.scroller.linechart_regioes.render[step_name](forward = false)
-
-                    }
-
-                })
-            ;
-
-
-        })
-
-
-    }
-
-}
