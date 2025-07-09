@@ -1310,8 +1310,6 @@ class Bubble {
 
         let name = place_data.BASIC_INFO.NAME;
 
-        console.log(coordinates);
-
         this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
 
         // precisa desse if aqui para fazer tirar o estado de hover da provincia anterior quando passa para outra provincia
