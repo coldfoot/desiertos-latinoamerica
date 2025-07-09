@@ -864,6 +864,11 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     padding-top: 1rem;
 }
 
+/* in the case of colombia, there's no need to refer back to the provincia, since the relato will be placed directly in the localidad view! crazy, I know. */
+[data-country="colombia"] .localidad-informe-provincia {
+    display: none;
+}
+
 [data-tipo-conteudo="relato"].expandido .leer-mas {
     display: none;
 }
@@ -892,6 +897,12 @@ div.container-teaser-relato {
 [data-tipo-conteudo="relato"].expandido [data-relato-campo="RELATO"] { display: initial; }
 [data-tipo-conteudo="relato"].recolhido [data-relato-campo="AUTHOR"] { display: initial; }
 [data-tipo-conteudo="relato"].recolhido [data-relato-campo="RELATO"] { display: none; }
+
+.relato-colombia-localidad.expandido [data-relato-colombia-campo="AUTHOR"] { display: none; }
+.relato-colombia-localidad.expandido [data-relato-colombia-campo="RELATO"] { display: initial; }
+.relato-colombia-localidad.recolhido [data-relato-colombia-campo="AUTHOR"] { display: initial; }
+.relato-colombia-localidad.recolhido [data-relato-colombia-campo="RELATO"] { display: none; }
+
 
 .leer-mas:hover {
     color: var(--color-accent);

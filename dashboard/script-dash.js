@@ -277,10 +277,33 @@ function update_infocard(name, key, country, tipo) {
     console.log(name, key, country, tipo);
 
     text_panel.dataset.view = tipo;
+    text_panel.dataset.country = country;
 
     document.querySelector("[data-infocard-field]").innerHTML = name;
 
     control_nav_buttons(tipo);
+
+    // to fill the relato within the localidad view in the case of colombia
+    if (country == "colombia" && tipo == "localidad") {
+
+        const fields = ["TITLE", "TEASER", "AUTHOR", "RELATO", "MEDIO"];
+
+        const mini_data = last_provincia_location_data;
+        const narrative_data = mini_data.NARRATIVE;
+
+        fields.forEach(field => {
+
+            document.querySelector(`[data-relato-colombia-campo="${field}"]`).innerHTML = narrative_data[field];
+
+            if (field = "AUTHOR") {
+                container_relato.classList.remove("expandido");
+                container_relato.classList.add("recolhido");
+            }
+
+        })
+
+
+    }
 
     if (tipo == "provincia") {
 

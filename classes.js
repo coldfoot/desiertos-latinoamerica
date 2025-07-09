@@ -1150,6 +1150,8 @@ class Bubble {
             'source-layer': this.source_layer_name,
             'paint': {
                 'circle-stroke-width': 3,
+                'circle-color' : 'transparent',
+                'circle-radius' : 10
             }, 
             'filter': ['==', 'KEY', '']
         }); 
@@ -1246,12 +1248,12 @@ class Bubble {
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == key)[0];
 
-        const name = place_data.BASIC_INFO.NAME;
+        const localidad_name = place_data.BASIC_INFO.NAME;
         const province_name = place_data.BASIC_INFO.PARENT;
 
         last_localidad_location_data = place_data;
 
-        let last_provincia_name = last_provincia_location_data.BASIC_INFO.NAME;
+        let last_provincia_name = last_provincia_location_data ?  last_provincia_location_data.BASIC_INFO.NAME : null;
 
         // no caso de o usuário clicar numa localidade de outra provincia!
         if (province_name != last_provincia_name) {
@@ -1285,7 +1287,7 @@ class Bubble {
 
         update_infocard(
             localidad_name,
-            localidad_key,
+            key,
             this.country,
             "localidad"
          );
