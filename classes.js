@@ -404,7 +404,7 @@ class Country {
 
         console.log( (pais != last_country) & (last_country != undefined), (pais != last_country), last_country, pais);
 
-        // troca de país
+        // no caso de troca de país
         if ( (pais != last_country) & (last_country != undefined) ) {
 
             console.log("Clear");
@@ -1235,12 +1235,10 @@ class Bubble {
             0
         )
 
-        this.ut_menor.toggle_borders("off");
-        this.ut_maior.toggle_highlight_border('');
-        this.ut_menor.toggle_highlight('');
-        this.ut_menor.monitor_events("off");
+        this.toggle_highlight('');
 
-        this.ut_maior.monitor_events("off");
+        this.monitor_events("off");
+
 
     }
 
