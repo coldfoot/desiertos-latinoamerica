@@ -116,12 +116,23 @@ const summary_data = [];
 
 ```
 
+Gooey Effect: https://css-tricks.com/gooey-effect/
 
 # To-do
 
-[ ] Passos da história
-[ ] Dash / Barras de percentuais
-[ ] Dash / Textos dos tipos de terreno
+Deixar key, xc, yc, bbox?
+
+[ ] Refinar CSS Dash
+[ ] Incluir caixas informativas.
+[x] visao inicial latam, pq esse zoom ridículo?
+[x] textos dos países
+[x] alterar render_provincia
+[x] Passos da história
+[x] Dash / Barras de percentuais
+[x] Dash / Textos dos tipos de terreno
+[ ] Dados demais países história
+[ ] Evitar que a pessoa caia no meio da história
+[ ] Ver o toggle_highlight do UT menor. Método parece precisar de melhora.
 
 Mudar bbox para América do Sul?
 remover textos do estilo?
