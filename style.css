@@ -14,6 +14,27 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: 'nagel';
+  src: url('./fonts/Nagel_VF.woff') format('woff2');
+  font-weight: normal;
+  font-style: normal
+}
+
+@font-face {
+  font-family: 'nagel';
+  src: url('./fonts/Nagel_Bold.woff') format('woff2');
+  font-weight: bold;
+  font-style: normal
+}
+
+@font-face {
+  font-family: 'nagel';
+  src: url('./fonts/Nagel_Medium.woff') format('woff2');
+  font-weight: 500;
+  font-style: normal
+}
+
 * {
     box-sizing: border-box;
 }
@@ -25,7 +46,7 @@
     font-family: 'buendia', sans-serif;
     --color-bg: #f9ebd2; /*#F9F1E3;*/
     --color-accent: #FF571D;
-    --color-text: #333;
+    --color-text: var(--preto);
     --color-map: #e7e7e8;
     --bege-escuro: #F6E9CD;
     --preto: #4c4c4c;
@@ -413,12 +434,11 @@ header.show-menu .btn-menu-content {
 
 span.highlight {
     /*background-color: var(--color-accent);*/
-    color: var(--color-text);/*var(--color-bg);*/
     padding: 0.1rem 0.5rem;
     border-radius: 10px;
 }
 
-span.highlight[data-tipo-paisage="bosque"] {
+[data-tipo-paisage="bosque"] {
     color: var(--color-bg);
 }
 
@@ -443,7 +463,16 @@ span.highlight[data-tipo-paisage="bosque"] {
     /*border: 2px solid hotpink;*/
     display: flex;
     flex-direction: column;
+    color: var(--color-text);
 }
+
+.dashboard-wrapper h1 {
+    font-family: nagel;
+    font-weight: normal;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+
 
 .top-bar-dashboard {
     display: flex;
@@ -462,12 +491,17 @@ span.highlight[data-tipo-paisage="bosque"] {
 }
 
 div.logo-wrapper {
-    width: 60px;
-    background-color: white;
+    /*width: 60px;
+    background-color: white;*/
     border-radius: 50%;
     height: 2rem;
-    width: 2rem;
+    /*width: 2rem;*/
     margin: 1rem;
+}
+
+.logo-wrapper .logo {
+    height: 2rem;
+    display: block;
 }
 
 .main-dashboard {
@@ -508,6 +542,7 @@ div.logo-wrapper {
     gap: .5rem;
     padding: 1rem;
     width: /*100%;*/ 50vw;
+    font-family: nagel;
 }
 
 [data-tipo-paisage="desierto"] {--local-color: var(--color-desierto);}
@@ -604,7 +639,6 @@ p.description-tipo-paisage {
 }
 
 div[data-pais] > img {
-    width: 2.5rem;
     height: 2.5rem;
     border: 3px solid transparent;
     border-radius: 50%;
@@ -647,7 +681,9 @@ div.seleccione-ubicacion-container {
     background-color: transparent;
     border: 2px solid currentColor;
     border-radius: 5px;
-    font-family: inherit;
+    font-family: nagel;
+    font-size: 1.2em;
+    color: var(--color-text);
 }
 
 /* TEXT PANEL */
@@ -718,6 +754,11 @@ span[data-resumen-tipo-classificacao] {
 
 /* PLACE SUMMARY */
 
+.place-summary {
+    font-family: nagel;
+    font-size: 1.2em;
+}
+
 .place-summary .info-sin-datos {
     display: none;
 }
@@ -741,6 +782,7 @@ span[data-resumen-tipo-classificacao] {
 .place-paisage-composition {
     display: flex;
     flex-direction: row;
+    font-family: nagel;
 }
 
 .place-paisage-composition > span {
@@ -759,7 +801,10 @@ span[data-barchart="sin datos"] {background-color: grey;}
 span[data-barchart="desierto"] {background-color: var(--color-desierto);}
 span[data-barchart="semidesierto"] {background-color: var(--color-semidesierto);}
 span[data-barchart="semibosque"] {background-color: var(--color-semibosque);}
-span[data-barchart="bosque"] {background-color: var(--color-bosque);}
+span[data-barchart="bosque"] {
+    background-color: var(--color-bosque);
+    color: var(--color-bg);
+}
 
 [data-classification-localidad="sin datos"] .place-paisage-composition > span,
 [data-classification-localidad="desierto"] .place-paisage-composition > span,
@@ -787,6 +832,7 @@ span[data-barchart] .barchart-label {
 
 span[data-barchart] .barchart-label.displaced {
     transform: translate(-50%, 100%);
+    color: var(--color-text);
 }
 
 
@@ -835,10 +881,11 @@ span[data-barchart] .barchart-label.displaced {
 /* CONTEUDO */
 
 .text-panel-container .conteudo {
-    font-size: 0.9rem;
-    font-family: "Inconsolata";
+    font-size: 1rem;
+    font-family: "nagel";
     flex-basis: 100%;
     position: relative;
+    line-height: 1.5em;
     /*border: 1px dashed green;*/
 }
 
@@ -857,6 +904,8 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     padding: 2px 4px;
     font-size: .8em;
     color: var(--color-bg);
+    /*margin-left: 1ch;*/
+    display: inline-block;
 }
 
 .localidad-informe-provincia {
@@ -891,7 +940,7 @@ div.container-teaser-relato {
 }
 
 [data-relato-campo="AUTHOR"], [data-relato-colombia-campo="AUTHOR"] {
-    font-size: 1rem;
+    font-size: 1.2em;
 }
 
 [data-tipo-conteudo="relato"].expandido [data-relato-campo="AUTHOR"] { display: none; }
@@ -938,6 +987,11 @@ div.container-teaser-relato {
 [data-tipo-conteudo] h3,
 [data-tipo-conteudo] p.medio {
     margin-top: 0;
+}
+
+h3[data-resumen-campo="classification"] {
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .text-panel-container .conteudo > [data-tipo-conteudo].conteudo-active {
