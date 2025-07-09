@@ -899,6 +899,14 @@ div.container-teaser-relato {
 [data-tipo-conteudo="relato"].recolhido [data-relato-campo="AUTHOR"] { display: initial; }
 [data-tipo-conteudo="relato"].recolhido [data-relato-campo="RELATO"] { display: none; }
 
+.relato-colombia-localidad {
+    display: none;
+}
+
+[data-country="colombia"] .relato-colombia-localidad {
+    display: initial;
+}
+
 .relato-colombia-localidad.expandido [data-relato-colombia-campo="AUTHOR"] { display: none; }
 .relato-colombia-localidad.expandido [data-relato-colombia-campo="RELATO"] { display: initial; }
 .relato-colombia-localidad.recolhido [data-relato-colombia-campo="AUTHOR"] { display: initial; }
