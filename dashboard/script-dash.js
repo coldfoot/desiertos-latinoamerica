@@ -4,6 +4,7 @@ const menu_nav_conteudo = document.querySelector(".wrapper-btns-nav");
 const expand_button_mobile = document.querySelector(".expand-card-mobile");
 const text_panel = document.querySelector(".text-panel-container");
 const container_relato = document.querySelector("[data-tipo-conteudo='relato']");
+const container_relato_colombia = document.querySelector(".relato-colombia-localidad");
 const relato = document.querySelector("[data-relato-completo]");
 const header = document.querySelector("header");
 const btn_menu = document.querySelector(".btn-menu");
@@ -296,8 +297,8 @@ function update_infocard(name, key, country, tipo) {
             document.querySelector(`[data-relato-colombia-campo="${field}"]`).innerHTML = narrative_data[field];
 
             if (field = "AUTHOR") {
-                container_relato.classList.remove("expandido");
-                container_relato.classList.add("recolhido");
+                container_relato_colombia.classList.remove("expandido");
+                container_relato_colombia.classList.add("recolhido");
             }
 
         })
@@ -432,12 +433,20 @@ function update_place_summary(basic_info_data) {
 
 }
 
-const btn_leer_mas = document.querySelector(".leer-mas");
+const btn_leer_mas = container_relato.querySelector(".leer-mas");
+const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
 
 btn_leer_mas.addEventListener("click", e => {
 
     container_relato.classList.add("expandido");
     container_relato.classList.remove("recolhido");
+
+})
+
+btn_leer_mas_colombia.addEventListener("click", e => {
+
+    container_relato_colombia.classList.add("expandido");
+    container_relato_colombia.classList.remove("recolhido");
 
 })
 
