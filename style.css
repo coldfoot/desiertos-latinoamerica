@@ -51,6 +51,8 @@
     --bege-escuro: #F6E9CD;
     --preto: #4c4c4c;
 
+    --strips: #9a9a9a;
+
     --color-desierto: #FFA439;
     --color-semidesierto: #F2D6BA;
     --color-semibosque: #6C8B3C;
@@ -1189,4 +1191,45 @@ h3[data-resumen-campo="classification"] {
     background-color: var(--color-bg);
     opacity: 1;
     padding: 1rem;
+    overflow-y: auto;
+}
+
+.minicharts-global-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.mini-chart-title {
+    font-family: nagel;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+line.strip {
+    stroke: var(--strips);
+    stroke-width: 3;
+    opacity: 0.2;
+    transition: opacity .2s, transform .2s;
+    transform-origin: center 35px;
+}
+
+line.strip:hover {
+    opacity: 1;
+    transform: scaleY(130%);
+}
+
+line.tick {
+    stroke: var(--preto);
+    stroke-width: 1;
+}
+
+text.label {
+    font-size: 10px;
+    font-family: nagel;
+    text-anchor: middle;
+}
+
+rect.striplot-bg {
+    fill: rgba(0, 0, 0, 0.03);
 }
