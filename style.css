@@ -1147,3 +1147,46 @@ h3[data-resumen-campo="classification"] {
 
 
 }
+
+/* MODAL VIZ */
+
+.modal-viz {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: opacity .8s;
+}
+
+.modal-viz.modal-inactive {
+    pointer-events: none;
+    opacity: 0;
+}
+
+.modal-viz.modal-inactive .bg-modal-viz {
+    opacity: 0;
+}
+
+.bg-modal-viz {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-text);
+    opacity: .8;
+    transition: opacity .8s;
+}
+
+.container-viz {
+    position: absolute;
+    top: 2rem;
+    bottom: 2rem;
+    left: 2rem;
+    right: 2rem;
+    border-radius: 10px;
+    background-color: var(--color-bg);
+    opacity: 1;
+    padding: 1rem;
+}
