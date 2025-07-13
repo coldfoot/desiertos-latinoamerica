@@ -211,30 +211,13 @@
 
                 <div data-tipo-conteudo="datos">
 
-                    <details>
-                        <summary>¿En qué plataforma publican los medios?</summary>
-                        <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit laboriosam harum nostrum voluptatem quasi nobis id nulla reprehenderit dolores alias? Incidunt dolores magni nihil perferendis quo laboriosam beatae, doloribus nemo!</div>
-                    </details>
-
-                    <details>
-                        <summary>¿Cómo es el vínculo laboral con los periodistas?</summary>
-                        <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit laboriosam harum nostrum voluptatem quasi nobis id nulla reprehenderit dolores alias? Incidunt dolores magni nihil perferendis quo laboriosam beatae, doloribus nemo!</div>
-                    </details>
-
-                    <details>
-                        <summary>¿Qué temas cubren?</summary>
-                        <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit laboriosam harum nostrum voluptatem quasi nobis id nulla reprehenderit dolores alias? Incidunt dolores magni nihil perferendis quo laboriosam beatae, doloribus nemo!</div>
-                    </details>
-
-                    <details>
-                        <summary>¿Cómo se mantienen?</summary>
-                        <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit laboriosam harum nostrum voluptatem quasi nobis id nulla reprehenderit dolores alias? Incidunt dolores magni nihil perferendis quo laboriosam beatae, doloribus nemo!</div>
-                    </details>
-
-                    <details>
-                        <summary>¿Qué amenazas y agresiones sufren?</summary>
-                        <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit laboriosam harum nostrum voluptatem quasi nobis id nulla reprehenderit dolores alias? Incidunt dolores magni nihil perferendis quo laboriosam beatae, doloribus nemo!</div>
-                    </details>
+                    <ul>
+                        <li data-datos-topic="PLATFORMS">¿En qué plataforma publican los medios?</li>
+                        <li data-datos-topic="HIRING">¿Cómo es el vínculo laboral con los periodistas?</li>
+                        <li data-datos-topic="THEMES">¿Qué temas cubren?</li>
+                        <li data-datos-topic="INCOME">¿Cómo se mantienen?</li>
+                        <li data-datos-topic="THREATS">¿Qué amenazas y agresiones sufren?</li>
+                    </ul>
 
                 </div>
 
@@ -250,8 +233,11 @@
         </div>
     </div>
 
-    <div class="modal-viz modal-inactive">
+    <div class="modal-viz" data-modal-active="none">
+        <button class="close-modal">&times;</button>
         <div class="bg-modal-viz"></div>
+        <div class="container-modal-relato">
+        </div>
         <div class="container-viz">
             <h4 class="viz-main-title">¿En qué plataforma publican los medios?</h4>
             <p class="viz-subtitle">

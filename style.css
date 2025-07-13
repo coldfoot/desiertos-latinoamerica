@@ -1161,12 +1161,12 @@ h3[data-resumen-campo="classification"] {
     transition: opacity .8s;
 }
 
-.modal-viz.modal-inactive {
+.modal-viz[data-modal-active="none"] {
     pointer-events: none;
     opacity: 0;
 }
 
-.modal-viz.modal-inactive .bg-modal-viz {
+.modal-viz[data-modal-active="none"] .bg-modal-viz {
     opacity: 0;
 }
 
@@ -1181,7 +1181,26 @@ h3[data-resumen-campo="classification"] {
     transition: opacity .8s;
 }
 
-.container-viz {
+button.close-modal {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    top: 3rem;
+    right: 3rem;
+    font-weight: bold;
+    font-size: 2rem;
+    font-family: nagel;
+    transform-origin: center center;
+    transition: transform .1s;
+    z-index: 1;
+}
+
+button.close-modal:hover {
+    transform: scale(130%);
+}
+
+.container-viz,
+.container-modal-relato {
     position: absolute;
     top: 2rem;
     bottom: 2rem;
@@ -1193,6 +1212,9 @@ h3[data-resumen-campo="classification"] {
     padding: 2rem 4rem;
     overflow-y: auto;
 }
+
+[data-modal-active="relato"] .container-viz { display: none; }
+[data-modal-active="viz"] .container-modal-relato { display: none; }
 
 .viz-main-title {
     font-size: 2rem;

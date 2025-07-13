@@ -11,6 +11,9 @@ const btn_menu = document.querySelector(".btn-menu");
 const place_summary = document.querySelector(".place-summary");
 const search_container = document.querySelector(".seleccione-ubicacion-container");
 const btn_leer_provincia_from_localidad = document.querySelector(".localidad-informe-provincia");
+const btn_close_modal = document.querySelector("button.close-modal");
+const bg_modal = document.querySelector(".bg-modal-viz");
+const modal = document.querySelector(".modal-viz");
 
 btn_menu.addEventListener("click", e => {
 
@@ -129,6 +132,22 @@ menu_pais.addEventListener("click", e => {
     }
 
 })
+
+// MODAL
+
+bg_modal.addEventListener("click", e => {
+    toggle_modal("none");
+});
+
+btn_close_modal.addEventListener("click", e => {
+    toggle_modal("none");
+})
+
+function toggle_modal(modal_option) {
+    // none closes it
+    modal.dataset.modalActive = modal_option;
+
+}
 
 // NAV BUTTONS
 
