@@ -1190,7 +1190,7 @@ h3[data-resumen-campo="classification"] {
     border-radius: 10px;
     background-color: var(--color-bg);
     opacity: 1;
-    padding: 1rem;
+    padding: 2rem 4rem;
     overflow-y: auto;
 }
 
@@ -1204,6 +1204,7 @@ h3[data-resumen-campo="classification"] {
     font-family: nagel;
     font-weight: bold;
     padding-left: 20px;
+    margin: .5rem 0;
 }
 
 line.strip {
@@ -1212,6 +1213,21 @@ line.strip {
     opacity: 0.2;
     transition: opacity .2s, transform .2s;
     transform-origin: center 35px;
+}
+
+line.strip[data-strip-type="highlight"] {
+    opacity: 1;
+    color: blue;
+}
+
+line.strip[data-strip-type="promedio-country"] {
+    opacity: 1;
+    stroke: var(--color-accent);
+}
+
+line.strip[data-strip-type="promedio-provincia"] {
+    opacity: 1;
+    stroke: black;
 }
 
 line.strip:hover {
@@ -1232,4 +1248,26 @@ text.label {
 
 rect.striplot-bg {
     fill: rgba(0, 0, 0, 0.03);
+}
+
+.mini-chart-tooltip-container {
+    position: relative;
+}
+
+.minichart-promedio-country-label,
+.minichart-promedio-provincia-label {
+    position: absolute;
+    font-size: 10px;
+    text-transform: uppercase;
+    padding-bottom: .5em;
+    transform: translate(0, -100%);
+
+}
+
+.minichart-promedio-country-label {
+    color: var(--color-accent);
+}
+
+.make-left {
+    transform: translate(-100%, -100%);
 }
