@@ -122,8 +122,20 @@ Gooey Effect: https://css-tricks.com/gooey-effect/
 
 Deixar key, xc, yc, bbox?
 
+[ ] Completar "topics"
+[ ] Ajeitar relato
+[ ] Estilizar "datos"
+[ ] Download CSV
+[ ] Download PNG
+
+[x] Definit opacity, stroke-width no próprio svg com d3?
+
+[x] Visualizações!
+[ ] Trocar bolhas por símbolos.
+[ ] Modal Relato
 [ ] Refinar CSS Dash
 [ ] Incluir caixas informativas.
+[x] Ajustes no design, para aproximar
 [x] visao inicial latam, pq esse zoom ridículo?
 [x] textos dos países
 [x] alterar render_provincia
