@@ -1218,7 +1218,7 @@ button.close-modal:hover {
 
 .viz-main-title {
     font-size: 2rem;
-    margin: 0 .5rem;
+    margin: .5rem 0;
 }
 
 .minicharts-global-container {

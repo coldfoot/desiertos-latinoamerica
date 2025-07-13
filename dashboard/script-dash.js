@@ -149,6 +149,48 @@ function toggle_modal(modal_option) {
 
 }
 
+// DATOS
+
+function get_current_level() {
+    return text_panel.dataset.view;
+}
+
+function get_current_country() {
+    return text_panel.dataset.country
+}
+
+function click_on_datos(e) {
+
+    console.log(e);
+
+    if (e.target.tagName == "LI") {
+
+        toggle_modal("viz");
+
+        const topic = e.target.dataset.datosTopic;
+
+        const level = get_current_level();
+        const country = get_current_country();
+
+        if (level == "pais") {
+            visualize_topic(country, topic, level);
+        }
+
+        if (level == "provincia") {
+            const provincia = last_provincia_location_data.BASIC_INFO.NAME;
+            visualize_topic(country, topic, level, provincia);
+        }
+
+        if (level == "localidad") {
+            const provincia = last_provincia_location_data.BASIC_INFO.NAME;
+            const localidad = last_localidad_location_data.BASIC_INFO.NAME;
+            visualize_topic(country, topic, level, provincia, localidad);
+        }
+
+    }
+
+}
+
 // NAV BUTTONS
 
 function control_nav_buttons(modo) {
@@ -205,6 +247,17 @@ function show_conteudo(tipo_conteudo) {
         container_relato.classList.remove("expandido");
         container_relato.classList.add("recolhido");
 
+    }
+
+    // se for datos, monitora click!
+    if (tipo_conteudo == "datos") {
+        document.querySelector(".dashboard-datos-topics-container").addEventListener("click", click_on_datos);
+    } else {
+
+        if (document.querySelector(".dashboard-datos-topics-container")) {
+            document.querySelector(".dashboard-datos-topics-container").removeEventListener("click", click_on_datos);
+        }
+        
     }
 
 

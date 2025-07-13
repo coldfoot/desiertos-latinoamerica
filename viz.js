@@ -14,7 +14,9 @@ const topics = {
 
         subtitle : 'Mergulho?'
 
-    }
+    },
+
+    
 
 }
 
@@ -23,6 +25,8 @@ function visualize_topic(country, topic, level, provincia = undefined, localidad
     const title = document.querySelector(".viz-main-title");
     const subtitle = document.querySelector(".viz-subtitle");
     const global_container = document.querySelector(".minicharts-global-container");
+
+    console.log(country, topic, level, title);
 
     title.innerHTML = topics[topic].title;
     subtitle.innerHTML = topics[topic].subtitle;
@@ -34,8 +38,6 @@ function visualize_topic(country, topic, level, provincia = undefined, localidad
     const categories = summary.categories;
 
     categories.forEach(category => {
-
-        console.log(topic, category, data, data[category]);
 
         const chart = new Chart(
             topic,
@@ -53,11 +55,9 @@ function visualize_topic(country, topic, level, provincia = undefined, localidad
 function prepare_data(country, topic, level, provincia = undefined, localidad = undefined) {
     const startTime = performance.now();
 
-    console.log(level);
-
     let pre_data;
 
-    if (level == "country") {
+    if (level == "pais") {
 
         pre_data = main_data[country]["large_units"];
 
@@ -79,13 +79,13 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
                 // para destacar o próprio local
                 let flag_self;
 
-                if (level == "large_units") {
+                if (level == "provincia") {
                     if (unit.BASIC_INFO.NAME == provincia) {
                         flag_self = true;
                     }
                 }
 
-                if (level == "small_units") {
+                if (level == "localidad") {
                     if (unit.BASIC_INFO.NAME == localidad) {
                         flag_self = true;
                     }
@@ -109,9 +109,7 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
             "type" : "promedio-country"
         })
 
-        if (level == "small_units") {
-
-            console.log(level, "por que estou aqui?")
+        if (level == "localidad") {
 
             // adiciona a media da provincia
             prepared_data[category].push({
@@ -154,6 +152,7 @@ class Chart {
         this.container = d3.select(".minicharts-global-container");
 
         this.category = category;
+        this.category_adjusted = category.replace("_PCT", "").replace("_", " ");
 
         this.topic = topic;
 
@@ -172,7 +171,7 @@ class Chart {
         this.chart = this.container.append("div");
         this.chart.classed("mini-chart-container", true);
 
-        this.chart.append("h4").classed("mini-chart-title", true).text(this.category);
+        this.chart.append("h4").classed("mini-chart-title", true).text(this.category_adjusted);
 
         this.tooltipContainer = this.chart.append("div");
         this.tooltipContainer.classed("mini-chart-tooltip-container", true);
@@ -276,7 +275,7 @@ class Chart {
             .text(strip_promedio_country.datum().name.replace("Promedio ", ""))
         ;
 
-        // first check if there is a strip for the provincia (There won't be one if the level is "country")
+        // first check if there is a strip for the provincia (There won't be one if the level is "pais")
         if (this.svg.select("[data-strip-type='promedio-provincia']").nodes().length > 0) {
 
             const strip_promedio_provincia = this.svg.select("[data-strip-type='promedio-provincia']");
@@ -347,14 +346,12 @@ class Chart {
     showTooltip(mode = true, d) {
 
         this.tooltip.classed("tooltip-visible", mode);
-
-        console.log(mode, d);
         
         if (d) {
             this.tooltip.text(d.name + ': ' + (d.value * 100).toFixed(2) + "%");
             this.tooltip
                 .style("left", this.x(d.value) + "px")
-                .classed("make-left", (this.x(d.value) > this.w - 2 * this.ml) )
+                .classed("make-left", (this.x(d.value) > this.w/2) )
         }
 
     }
