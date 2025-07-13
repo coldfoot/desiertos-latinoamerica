@@ -140,9 +140,13 @@ class Chart {
         this.h = 100;
         this.w = 300;
         this.ml = 20; // lateral margin
-        this.mtop = 15; // vertical margin
+        this.label_height = 15;
+        this.mtop = 2 * this.label_height; // vertical margin
         this.strip_length = 40;
         this.gap = 5;
+
+        this.strip_width = 2;
+        this.strip_opacity = 0.2;
 
         this.y1 = this.mtop;
         this.y2 = this.mtop + this.strip_length;
@@ -159,6 +163,7 @@ class Chart {
         this.draw();
         this.make_axis();
         this.adds_labels();
+        this.adds_interaction(this);
 
     }
 
@@ -171,6 +176,11 @@ class Chart {
 
         this.tooltipContainer = this.chart.append("div");
         this.tooltipContainer.classed("mini-chart-tooltip-container", true);
+
+        this.tooltip = this.tooltipContainer.append("span")
+            .classed("mini-chart-tooltip", true)
+            .style("top", 0)
+        ;
 
         this.svg = this.tooltipContainer.append("svg");
         this.svg
@@ -214,9 +224,11 @@ class Chart {
             .join("line")
             .classed("strip", true)
             .attr("data-strip-type", d => d.type)
+            .attr("stroke-width", this.strip_width)
+            .attr("opacity", this.strip_opacity)
             .attr("x1", d => this.x(d.value))
             .attr("x2", d => this.x(d.value))
-            .attr("y1", this.y1)
+            .attr("y1", d => (d.type.search("promedio") > -1 ) ? this.y1 - this.label_height : this.y1)
             .attr("y2", this.y2)
         ;
 
@@ -286,17 +298,64 @@ class Chart {
 
     }
 
-    adds_interaction() {
+    adds_interaction(self) {
+        
+        this.strips.on("mouseover", function(e) {
 
-        this.strips.on("hover", (d) => {
+            const d = d3.select(this).datum();
 
-            console.log(d);
+            d3.select(this).transition().duration(100)
+                .attr("y1", 0)
+                .attr("stroke-width", 3)
+                .attr("opacity", 1)
+            ;
+
+            self.showTooltip(true, d);
+
+
+
+        })
+
+        this.strips.on("mousemove", function(e) {
+
+            const d = d3.select(this).datum();
+
+            d3.select(this).transition().duration(100)
+                .attr("y1", 0)
+                .attr("stroke-width", 3)
+                .attr("opacity", 1)
+            ;
+
+            self.showTooltip(true, d);
+
+        })
+
+        this.strips.on("mouseout", function(e) {
+
+            d3.select(this).transition().duration(100)
+                .attr("y1", self.y1)
+                .attr("stroke-width", self.strip_width)
+                .attr("opacity", self.strip_opacity)
+            ;
+
+            self.showTooltip(false);
 
         })
 
     }
 
-    showTooltip() {
+    showTooltip(mode = true, d) {
+
+        this.tooltip.classed("tooltip-visible", mode);
+
+        console.log(mode, d);
+        
+        if (d) {
+            this.tooltip.text(d.name + ': ' + (d.value * 100).toFixed(2) + "%");
+            this.tooltip
+                .style("left", this.x(d.value) + "px")
+                .classed("make-left", (this.x(d.value) > this.w - 2 * this.ml) )
+        }
 
     }
 

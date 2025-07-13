@@ -1194,10 +1194,16 @@ h3[data-resumen-campo="classification"] {
     overflow-y: auto;
 }
 
+.viz-main-title {
+    font-size: 2rem;
+    margin: 0 .5rem;
+}
+
 .minicharts-global-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 2rem;
+    justify-content: space-between;
 }
 
 .mini-chart-title {
@@ -1209,10 +1215,8 @@ h3[data-resumen-campo="classification"] {
 
 line.strip {
     stroke: var(--strips);
-    stroke-width: 3;
-    opacity: 0.2;
-    transition: opacity .2s, transform .2s;
-    transform-origin: center 35px;
+    /*stroke-width: 2;
+    opacity: 0.2;*/
 }
 
 line.strip[data-strip-type="highlight"] {
@@ -1228,11 +1232,6 @@ line.strip[data-strip-type="promedio-country"] {
 line.strip[data-strip-type="promedio-provincia"] {
     opacity: 1;
     stroke: black;
-}
-
-line.strip:hover {
-    opacity: 1;
-    transform: scaleY(130%);
 }
 
 line.tick {
@@ -1259,8 +1258,8 @@ rect.striplot-bg {
     position: absolute;
     font-size: 10px;
     text-transform: uppercase;
-    padding-bottom: .5em;
-    transform: translate(0, -100%);
+    padding: 0 .5em;
+    /*transform: translate(0, -100%);*/
 
 }
 
@@ -1269,5 +1268,20 @@ rect.striplot-bg {
 }
 
 .make-left {
-    transform: translate(-100%, -100%);
+    transform: translateX(-100%);
+    text-align: right;
+}
+
+.mini-chart-tooltip {
+    opacity: 0;
+    position: absolute;
+    transition: opacity .2s;
+    font-size: 12px;
+    font-family: nagel;
+    padding: 0 .5em;
+    width: 200px;
+}
+
+.mini-chart-tooltip.tooltip-visible {
+    opacity: 1;
 }
