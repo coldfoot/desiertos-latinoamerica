@@ -144,7 +144,7 @@ class Chart {
         this.strip_length = 40;
         this.gap = 5;
 
-        this.strip_width = 2;
+        this.strip_width = 3;
         this.strip_opacity = 0.2;
 
         this.y1 = this.mtop;
@@ -288,7 +288,7 @@ class Chart {
 
             // checks which one needs to go right or left
 
-            if (strip_promedio_country.attr("x1") > strip_promedio_provincia.attr("x1")) {
+            if (+strip_promedio_country.attr("x1") > +strip_promedio_provincia.attr("x1")) {
                 this.promedio_provincia_label.classed("make-left", true);
             } else {
                 this.promedio_country_label.classed("make-left", true)
@@ -306,7 +306,7 @@ class Chart {
 
             d3.select(this).transition().duration(100)
                 .attr("y1", 0)
-                .attr("stroke-width", 3)
+                .attr("stroke-width", 4)
                 .attr("opacity", 1)
             ;
 
@@ -322,7 +322,7 @@ class Chart {
 
             d3.select(this).transition().duration(100)
                 .attr("y1", 0)
-                .attr("stroke-width", 3)
+                .attr("stroke-width", 4)
                 .attr("opacity", 1)
             ;
 
