@@ -79,11 +79,12 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
                 // para destacar o próprio local
                 let flag_self;
 
+                /*
                 if (level == "provincia") {
                     if (unit.BASIC_INFO.NAME == provincia) {
                         flag_self = true;
                     }
-                }
+                }*/
 
                 if (level == "localidad") {
                     if (unit.BASIC_INFO.NAME == localidad) {
@@ -109,7 +110,7 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
             "type" : "promedio-country"
         })
 
-        if (level == "localidad") {
+        if (level != "pais") {
 
             // adiciona a media da provincia
             prepared_data[category].push({
@@ -331,8 +332,10 @@ class Chart {
 
         this.strips.on("mouseout", function(e) {
 
+            const d = d3.select(this).datum();
+
             d3.select(this).transition().duration(100)
-                .attr("y1", self.y1)
+                .attr("y1", (d.type.search("promedio") > -1 ) ? self.y1 - self.label_height : self.y1)
                 .attr("stroke-width", self.strip_width)
                 .attr("opacity", self.strip_opacity)
             ;
