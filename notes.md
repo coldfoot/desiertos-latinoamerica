@@ -133,10 +133,11 @@ Deixar key, xc, yc, bbox?
 [ ] corrigir search da colombia
 [ ] dados anteriores argentina
 
+
 [x] Definit opacity, stroke-width no próprio svg com d3?
 
 [x] Visualizações!
-[ ] Trocar bolhas por símbolos.
+[x] Trocar bolhas por símbolos.
 [x] Modal Relato
 [ ] Refinar CSS Dash
 [ ] Incluir caixas informativas.
