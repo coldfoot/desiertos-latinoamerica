@@ -33,12 +33,6 @@ btn_menu.addEventListener("click", e => {
 
 })
 
-btn_leer_provincia_from_localidad.addEventListener("click", e => {
-
-    countries[last_country].render_provincia();
-
-})
-
 const breadcrumbs = document.querySelector(".breadcrumbs");
 
 const cores_argentina = {
@@ -243,11 +237,11 @@ function control_nav_buttons(modo) {
 
 function show_conteudo(tipo_conteudo) {
 
+    /*
     if (tipo_conteudo == "relato") {
         container_relato.classList.remove("expandido");
         container_relato.classList.add("recolhido");
-
-    }
+    }*/
 
     // se for datos, monitora click!
     if (tipo_conteudo == "datos") {
@@ -359,7 +353,9 @@ function update_infocard(name, key, country, tipo) {
     // to fill the relato within the localidad view in the case of colombia
     if (country == "colombia" && tipo == "localidad") {
 
-        const fields = ["TITLE", "TEASER", "AUTHOR", "RELATO", "MEDIO"];
+        const fields = ["TITLE", "TEASER", "AUTHOR", 
+            //"RELATO",
+            "MEDIO"];
 
         const mini_data = last_provincia_location_data;
         const narrative_data = mini_data.NARRATIVE;
@@ -368,10 +364,11 @@ function update_infocard(name, key, country, tipo) {
 
             document.querySelector(`[data-relato-colombia-campo="${field}"]`).innerHTML = narrative_data[field];
 
+            /*
             if (field = "AUTHOR") {
                 container_relato_colombia.classList.remove("expandido");
                 container_relato_colombia.classList.add("recolhido");
-            }
+            }*/
 
         })
 
@@ -380,7 +377,9 @@ function update_infocard(name, key, country, tipo) {
 
     if (tipo == "provincia") {
 
-        const fields = ["TITLE", "TEASER", "AUTHOR", "RELATO", "MEDIO"];
+        const fields = ["TITLE", "TEASER", "AUTHOR", 
+            //"RELATO", 
+            "MEDIO"];
 
         const mini_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == name)[0]
         const narrative_data = mini_data.NARRATIVE;
@@ -389,10 +388,11 @@ function update_infocard(name, key, country, tipo) {
 
             document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
 
+            /*
             if (field = "AUTHOR") {
                 container_relato.classList.remove("expandido");
                 container_relato.classList.add("recolhido");
-            }
+            }*/
 
         })
 
@@ -454,7 +454,9 @@ function update_infocard(name, key, country, tipo) {
 
         document.querySelector("[data-tipo-conteudo='apresentacao']").innerHTML = `<p>${textos[country]}</p>`;
 
-        const fields = ["TITLE", "TEASER", "AUTHOR", "RELATO", "MEDIO"];
+        const fields = ["TITLE", "TEASER", "AUTHOR", 
+            //"RELATO", 
+            "MEDIO"];
 
         fields.forEach(field => {
 
@@ -505,22 +507,55 @@ function update_place_summary(basic_info_data) {
 
 }
 
+// LEER MAS, SHOW RELATO
+
 const btn_leer_mas = container_relato.querySelector(".leer-mas");
 const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
 
+
+function show_modal_relato() {
+
+    toggle_modal("relato");
+
+    const mini_data = last_provincia_location_data;
+    const narrative_data = mini_data.NARRATIVE;
+
+    const fields = ["AUTHOR", "TITLE", "RELATO"];
+
+    fields.forEach(field => {
+        document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = narrative_data[field];
+    })
+
+}
+
 btn_leer_mas.addEventListener("click", e => {
 
+    show_modal_relato();
+
+    /*
     container_relato.classList.add("expandido");
     container_relato.classList.remove("recolhido");
+    */
+   
 
 })
 
 btn_leer_mas_colombia.addEventListener("click", e => {
 
-    container_relato_colombia.classList.add("expandido");
-    container_relato_colombia.classList.remove("recolhido");
+    show_modal_relato();
+    //container_relato_colombia.classList.add("expandido");
+    //container_relato_colombia.classList.remove("recolhido");
 
 })
+
+btn_leer_provincia_from_localidad.addEventListener("click", e => {
+
+    show_modal_relato();
+    //countries[last_country].render_provincia();
+
+})
+
+
 
 function update_country_button(pais) {
 

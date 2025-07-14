@@ -1187,7 +1187,8 @@ li[data-datos-topic]::before {
     bottom: 0;
     left: 0;
     right: 0;
-    transition: opacity .8s;
+    transition: opacity .6s;
+    z-index: 2; /*para ficar acima do texto, no mobile */
 }
 
 .modal-viz[data-modal-active="none"] {
@@ -1207,21 +1208,29 @@ li[data-datos-topic]::before {
     right: 0;
     background-color: var(--color-text);
     opacity: .8;
-    transition: opacity .8s;
+    transition: opacity .6s;
 }
 
 button.close-modal {
     position: absolute;
-    background-color: transparent;
     border: none;
-    top: 3rem;
-    right: 3rem;
+    top: 1rem;
+    right: 1rem;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 3rem;
     font-family: nagel;
     transform-origin: center center;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    color: var(--color-bg);
     transition: transform .1s;
     z-index: 1;
+
+    width: 3rem;
+    height: 3rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
 button.close-modal:hover {
@@ -1237,13 +1246,18 @@ button.close-modal:hover {
     right: 2rem;
     border-radius: 10px;
     background-color: var(--color-bg);
-    opacity: 1;
+    opacity: 0;
     padding: 2rem 4rem;
     overflow-y: auto;
+    transition: opacity .6s;
 }
 
 [data-modal-active="relato"] .container-viz { display: none; }
 [data-modal-active="viz"] .container-modal-relato { display: none; }
+
+[data-modal-active="relato"] .container-modal-relato { opacity: 1; }
+[data-modal-active="viz"] .container-viz { opacity: 1; }
+
 
 .viz-main-title {
     font-size: 2rem;
@@ -1335,4 +1349,30 @@ rect.striplot-bg {
 
 .mini-chart-tooltip.tooltip-visible {
     opacity: 1;
+}
+
+/* MODAL RELATO */
+
+.modal-relato-wrapper-text {
+    font-family: nagel;
+    line-height: 1.5;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+[data-relato-modal-campo="AUTHOR"] {
+    margin-bottom: .25em;
+    font-size: .8em;
+}
+
+[data-relato-modal-campo="TITLE"] {
+    margin-top: .25em;
+    font-size: 1.5em;
+
+}
+
+.logo-wrapper-modal img {
+    height: 3rem;
+    display: block;
+    margin: 2rem 0;
 }
