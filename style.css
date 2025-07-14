@@ -1188,7 +1188,7 @@ li[data-datos-topic]::before {
     left: 0;
     right: 0;
     transition: opacity .6s;
-    z-index: 2; /*para ficar acima do texto, no mobile */
+    z-index: 3; /*para ficar acima do texto, no mobile */
 }
 
 .modal-viz[data-modal-active="none"] {
