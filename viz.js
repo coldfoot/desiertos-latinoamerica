@@ -10,11 +10,35 @@ const topics = {
 
     'PLATFORMS' : {
 
-        title : 'Plataformas?',
+        title : '¿En qué plataforma publican los medios?',
 
         subtitle : 'Mergulho?'
 
     },
+
+    "INCOME" : {
+
+        title : '¿Cómo se mantienen?',
+
+        subtitle : 'Income'
+
+    },
+
+    "THEMES" : {
+
+        title : '¿Qué temas cubren?',
+
+        subtitle : 'Temas...'
+
+    },
+
+    "THREATS" : {
+
+        title : '¿Qué amenazas y agresiones sufren?',
+
+        subtitle : 'Amenazas...'
+
+    }
 
     
 
