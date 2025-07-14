@@ -664,42 +664,74 @@ function populate_datalist(data) {
         const localidads = data[country].small_units;
         const provincias = data[country].large_units;
 
-        provincias.forEach(row => {
+        if (country != "colombia") {
 
-            const new_option = document.createElement("option");
+            provincias.forEach(row => {
 
-            //const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
+                const new_option = document.createElement("option");
+
+                //const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
+                
+                new_option.label = `${row.BASIC_INFO.NAME}, ${country_name}`
+                //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+                new_option.value = `${row.BASIC_INFO.NAME}, ${country_name}`
+                new_option.dataset.tipoLocalidade = "provincia";
+                new_option.dataset.key = row.BASIC_INFO.KEY;
+                new_option.dataset.country = country;
+
+                ref_datalist.appendChild(new_option);
+
+            })
             
-            new_option.label = `${row.BASIC_INFO.NAME}, ${country_name}`
-            //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+            localidads.forEach(row => {
 
-            new_option.value = `${row.BASIC_INFO.NAME}, ${country_name}`
-            new_option.dataset.tipoLocalidade = "provincia";
-            new_option.dataset.key = row.BASIC_INFO.KEY;
-            new_option.dataset.country = country;
+                const new_option = document.createElement("option");
 
-            ref_datalist.appendChild(new_option);
+                //const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
+                
+                new_option.label = `${row.BASIC_INFO.NAME}, ${row.BASIC_INFO.PARENT}, ${country_name}`;
+                //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
-        })
-        
-        localidads.forEach(row => {
+                new_option.value = `${row.BASIC_INFO.NAME}, ${row.BASIC_INFO.PARENT}, ${country_name}`;
+                new_option.dataset.tipoLocalidade = "localidad";
+                new_option.dataset.key = row.BASIC_INFO.KEY;
+                new_option.dataset.country = country;
+                new_option.dataset.parent = row.BASIC_INFO.PARENT;
 
-            const new_option = document.createElement("option");
+                ref_datalist.appendChild(new_option);
 
-            //const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
-            
-            new_option.label = `${row.BASIC_INFO.NAME}, ${row.BASIC_INFO.PARENT}, ${country_name}`;
-            //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+            })
 
-            new_option.value = `${row.BASIC_INFO.NAME}, ${row.BASIC_INFO.PARENT}, ${country_name}`;
-            new_option.dataset.tipoLocalidade = "localidad";
-            new_option.dataset.key = row.BASIC_INFO.KEY;
-            new_option.dataset.country = country;
-            new_option.dataset.parent = row.BASIC_INFO.PARENT;
+        } else {
+            // colombia
 
-            ref_datalist.appendChild(new_option);
+            localidads.forEach(row => {
 
-        })
+                if (row.BASIC_INFO.CLASSIFICATION == "SIN DATOS") return;
+
+                console.log("COLOMBIA: ", row.BASIC_INFO.NAME, ' ', row.BASIC_INFO.CLASSIFICATION);
+
+                const new_option = document.createElement("option");
+
+                //const country = row.COUNTRY[0].toUpperCase() + row.COUNTRY.slice(1).toLowerCase();
+                
+                new_option.label = `${row.BASIC_INFO.NAME}, ${row.BASIC_INFO.PARENT}, ${country_name}`;
+                //row.text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+                new_option.value = `${row.BASIC_INFO.NAME}, ${row.BASIC_INFO.PARENT}, ${country_name}`;
+                new_option.dataset.tipoLocalidade = "localidad";
+                new_option.dataset.key = row.BASIC_INFO.KEY;
+                new_option.dataset.country = country;
+                new_option.dataset.parent = row.BASIC_INFO.PARENT;
+
+                ref_datalist.appendChild(new_option);
+
+            })
+
+
+
+        }
 
     })
 
@@ -755,6 +787,7 @@ function monitor_search_bar(data) {
                 last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == parent)[0];
 
                 update_breadcrumbs('ut-maior', parent);
+
 
                 countries[country].render_localidad();
                 countries[country].ut_menor.monitor_events("on");
