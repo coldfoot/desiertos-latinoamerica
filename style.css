@@ -543,9 +543,12 @@ div.logo-wrapper {
     display: flex;
     flex-direction: row;
     gap: .5rem;
-    padding: 32px;
     width: /*100%;*/ 50vw;
     font-family: buendia;
+}
+
+.menu-tipo-paisage-wrapper {
+    padding: 32px;
 }
 
 [data-tipo-paisage="desierto"] {--local-color: var(--color-desierto);}
