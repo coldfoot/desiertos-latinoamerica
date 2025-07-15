@@ -54,10 +54,10 @@
 
     --strips: #9a9a9a;
 
-    --color-desierto: #FFA439;
-    --color-semidesierto: #F2D6BA;
-    --color-semibosque: #6C8B3C;
-    --color-bosque: #1A5B2E;
+    --color-desierto: #bc5006;/* #FFA439;*/
+    --color-semidesierto: #dab28d;/* #F2D6BA;*/
+    --color-semibosque: #c7ce30;/*#6C8B3C;*/
+    --color-bosque: #6d711f; /*#1A5B2E;*/
 
     background-color: var(--color-bg);
 
