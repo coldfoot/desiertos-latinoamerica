@@ -1688,6 +1688,12 @@ map.on("load", () => {
 
         populate_datalist(data);
         monitor_search_bar(data);
+
+        // changes color if dashboard;
+        if (dashboard) {
+            map.setPaintProperty("water", "fill-color", "#F9F1E3");
+            map.setPaintProperty("country-boundaries", "fill-color", "#F9F1E3");
+        }
         
     })
 
