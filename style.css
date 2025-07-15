@@ -44,11 +44,12 @@
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
     font-family: 'buendia', sans-serif;
-    --color-bg: #f9ebd2; /*#F9F1E3;*/
-    --color-accent: #FF571D;
+    --color-bg: var(--bege-fundo); /*#f9ebd2;* /*#F9F1E3;*/
+    --color-accent: #EC722E; /* #FF571D;*/
     --color-text: var(--preto);
     --color-map: #e7e7e8;
     --bege-escuro: #F6E9CD;
+    --bege-fundo: #F9F1E3;
     --preto: #4c4c4c;
 
     --strips: #9a9a9a;
@@ -109,8 +110,8 @@ button.btn-menu {
 .btn-menu-img {
     stroke: var(--color-accent);
     display: block;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     stroke-width: 5px;
     stroke-linecap: round;
 }
@@ -469,9 +470,9 @@ span.highlight {
 }
 
 .dashboard-wrapper h1 {
-    font-family: nagel;
-    font-weight: normal;
-    font-size: 1.5rem;
+    font-family: buendia;
+    font-weight: bold;
+    font-size: 1rem;
     text-transform: uppercase;
 }
 
@@ -542,9 +543,9 @@ div.logo-wrapper {
     display: flex;
     flex-direction: row;
     gap: .5rem;
-    padding: 1rem;
+    padding: 32px;
     width: /*100%;*/ 50vw;
-    font-family: nagel;
+    font-family: buendia;
 }
 
 [data-tipo-paisage="desierto"] {--local-color: var(--color-desierto);}
@@ -552,13 +553,17 @@ div.logo-wrapper {
 [data-tipo-paisage="semibosque"] {--local-color: var(--color-semibosque);}
 [data-tipo-paisage="bosque"] {--local-color: var(--color-bosque);}
 
+.menu-tipo-paisage [data-tipo-paisage] {
+    background-color: transparent;
+    color: var(--color-text);
+}
 
 .menu-tipo-paisage .img-paisage-container {
     
     height: 30px;
     width: 30px;
     border-radius: 8px;
-    background-color: var(--local-color);
+    background-color: transparent;/*var(--local-color);*/
 
 }
 
@@ -566,6 +571,9 @@ div.logo-wrapper {
     height: 100%;
     display: block;
     margin: 0 auto;
+    margin-left: -1px;
+    margin-top: -1px;
+    height: 32px;
 
 }
 
@@ -576,7 +584,7 @@ div[data-tipo-paisage] {
     align-items: center;
     transition: flex-grow .5s, flex-shrink .5s;
     flex: 1;
-    border: 1px solid var(--local-color);
+    border: 1px solid var(--color-text);/*var(--local-color);*/
 }
 
 .menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage] {
@@ -595,8 +603,8 @@ div[data-tipo-paisage] {
 
 p.description-tipo-paisage {
     margin: 0;
-    text-transform: uppercase;
-    font-size: .8rem;
+    font-size: 14px;
+    font-weight: bold;
     padding-left: .5em;
     padding-right: .5em;
     /*margin-left: .5rem;*/
@@ -610,6 +618,8 @@ p.description-tipo-paisage {
     display: block;
 }
 
+/* THE MAP */
+
 #map-dashboard {
     flex-grow: 1;
     background-color: gray;
@@ -620,9 +630,11 @@ p.description-tipo-paisage {
 .menu-pais-dash {
     display: flex;
     flex-direction: row;
-    margin: 1rem;
+    /*margin: 1rem;*/
+    padding-left: 32px;
+    padding-bottom: 32px;
     justify-content: flex-start;
-    gap: 1rem;
+    gap: 40px;
     margin-bottom: 0;
 }
 
@@ -641,10 +653,15 @@ p.description-tipo-paisage {
 }
 
 div[data-pais] > img {
-    height: 2.5rem;
+    height: 28px;
     border: 3px solid transparent;
     border-radius: 50%;
-    margin-right: .5rem;
+    margin-right: 8px;
+}
+
+div[data-pais] > span {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 div[data-pais].pais-selected > span {
@@ -672,19 +689,21 @@ div[data-pais]:hover img {
 div.seleccione-ubicacion-container {
 
     width: 100%;
-    padding: 1rem;
+    padding-left: 32px;
+    padding-bottom: 8px;
 
 }
 
 #dash-ubicacion {
 
     width: 100%;
-    height: 2rem;
+    height: 40px;
     background-color: transparent;
     border: 2px solid currentColor;
-    border-radius: 5px;
+    border-radius: 8px;
     font-family: nagel;
-    font-size: 1.2em;
+    font-size: 1rem;
+    padding: 4px 8px 4px 24px;
     color: var(--color-text);
 }
 
@@ -1045,6 +1064,10 @@ li[data-datos-topic]::before {
 
     .menu-tipo-paisage {
         width: 100%;
+    }
+
+    .menu-pais-dash {
+        gap: 20px;
     }
 
     .text-panel-container {
