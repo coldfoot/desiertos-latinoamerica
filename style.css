@@ -514,7 +514,7 @@ div.logo-wrapper {
 }
 
 .main-dashboard > div {
-    flex: 0 0 50%;
+    flex: 0 1 50%;
     /*border: 1px solid gold;*/
 }
 
@@ -537,18 +537,30 @@ div.logo-wrapper {
     /*border: 1px solid pink;*/
 }
 
+
+.map-panel-header > div + div {
+    margin-top: 32px;
+}
+
+/* this controls spacing between the left-handed menus*/
+.map-panel-header {
+    padding: 32px;
+    padding-bottom: 0;
+    padding-right: 0;
+}
+
 /* MENU TIPO PAISAGE */
 
 .menu-tipo-paisage {
     display: flex;
     flex-direction: row;
     gap: .5rem;
-    width: /*100%;*/ 50vw;
+    width: 100%;
     font-family: buendia;
 }
 
 .menu-tipo-paisage-wrapper {
-    padding: 32px;
+
 }
 
 [data-tipo-paisage="desierto"] {--local-color: var(--color-desierto);}
@@ -638,8 +650,6 @@ p.description-tipo-paisage {
     display: flex;
     flex-direction: row;
     /*margin: 1rem;*/
-    padding-left: 32px;
-    padding-bottom: 32px;
     justify-content: flex-start;
     gap: 40px;
     margin-bottom: 0;
@@ -696,9 +706,7 @@ div[data-pais]:hover img {
 div.seleccione-ubicacion-container {
 
     width: 100%;
-    padding-left: 32px;
-    padding-right: 32px;
-    padding-bottom: 8px;
+    margin-bottom: 8px;
 
 }
 
