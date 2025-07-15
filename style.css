@@ -815,6 +815,10 @@ span[data-resumen-tipo-classificacao] {
     display: inline;
 }
 
+[data-summary-field] strong {
+    font-weight: 500;
+}
+
 
 /* BARCHART PAISAGE COMPOSITION */
 
