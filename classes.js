@@ -1118,11 +1118,64 @@ class Bubble {
 
     load() {
 
+        const symbols = ['BOSQUE', 'SEMIBOSQUE', 'DESIERTO', 'SEMIDESIERTO'];
+
+        symbols.forEach(name => {
+
+            let filename = name.toLowerCase();
+            filename = `../img/symbol-${filename}.png`;
+
+            console.log(filename);
+            map.loadImage(
+                filename, 
+                (error, image) => {
+                    if (error) throw error;
+                    if (!map.hasImage(name)) {
+                        map.addImage(name, image);
+                    }
+                }
+            );
+        })
+
         map.addSource(this.country + '-bubble', {
             type: 'vector',
             url : this.data,
             'promoteId' : 'KEY'
         });
+
+        map.addLayer({
+            'id': this.country + '-bubble',
+            'type': 'symbol',
+            'source': this.country + '-bubble',
+            'source-layer' : this.source_layer_name,
+            'layout' : {
+                'icon-image' : ['get', 'CLASSIFICATION'],
+                'icon-size' : .25,
+                'icon-allow-overlap': true,
+                'icon-ignore-placement': true,
+                'symbol-placement': 'point',
+            },
+            'paint' : {
+                'icon-opacity' : 0
+            }
+        })
+
+        map.addLayer({
+            'id': this.country + '-bubble-highlight',
+            'type': 'symbol',
+            'source': this.country + '-bubble',
+            'source-layer': this.source_layer_name,
+            'layout' : {
+                'icon-image' : ['get', 'CLASSIFICATION'],
+                'icon-size' : .33
+            },
+            'paint' : {
+                'icon-opacity' : 1
+            },
+            'filter': ['==', 'KEY', '']
+        }); 
+
+        /*
 
         map.addLayer({
             'id': this.country + '-bubble',
@@ -1156,6 +1209,8 @@ class Bubble {
             'filter': ['==', 'KEY', '']
         }); 
 
+        */
+
     }
 
     toggle_highlight(KEY) {
@@ -1167,6 +1222,10 @@ class Bubble {
                 KEY
             ]
         );
+
+        const opacity = KEY == '' ? 0 : .7;
+
+        map.setPaintProperty(this.country + '-bubble', 'icon-opacity', opacity);
 
     }
 
@@ -1200,28 +1259,10 @@ class Bubble {
 
     render_country_subnational() {
 
-        map.setPaintProperty(this.country + "-bubble", "circle-opacity", 1);
+        //map.setPaintProperty(this.country + "-bubble", "circle-opacity", 1);
         map.setPaintProperty("countries-fills", "fill-color", "transparent");
+        map.setPaintProperty(this.country + '-bubble', 'icon-opacity', 1);
 
-        if (["argentina", "chile", "peru"].includes(this.country)) {
-
-            this.paint_country_subnational("on");
-
-            this.ut_maior.monitor_events("on");
-            this.ut_maior.toggle_hover_border(); // será que não teria que estar junto com o monitor_events do ut_maior
-            this.ut_menor.monitor_events("off");
-            this.ut_menor.toggle_borders("off");
-            this.ut_maior.toggle_highlight_border('');
-            this.ut_menor.toggle_highlight('');
-
-
-        } else {
-
-            console.log("No data yet.")
-
-            //this.ut_maior.monitor_events("off");
-
-        }
 
     }
 
@@ -1229,11 +1270,12 @@ class Bubble {
 
         console.log(this.country + ' to clear')
 
+        /* using '' as parameter in toggle_highlight will already set opacity to 0.
         map.setPaintProperty(
             this.country + "-bubble", 
-            "circle-opacity",
+            "icon-opacity",
             0
-        )
+        )*/
 
         this.toggle_highlight('');
 
