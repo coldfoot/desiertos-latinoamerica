@@ -806,12 +806,24 @@ class UTmenor {
 
     }
 
+    toggle_story_border(key) {
+
+        map.setFilter(
+            this.country + '-localidad-highlight', [
+                '==',
+                ['get', 'KEY'],
+                key
+            ]
+        );
+
+    }
+
     toggle_highlight(localidad) {
 
         // desnecessário isso aqui, melhorar.
         let local;
 
-        if (localidad == '') local = localidad;
+        if (localidad) local = localidad;
         else local = last_localidad_location_data.BASIC_INFO.KEY;
 
         map.setFilter(
