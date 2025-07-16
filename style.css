@@ -528,6 +528,10 @@ div.logo-wrapper {
     height: 100%;
 }
 
+.text-panel-container {
+    gap: 24px;
+}
+
 .text-panel-container[data-view="latam"] .place-summary,
 .text-panel-container[data-view="latam"] .place-paisage-composition {
     display: none;
