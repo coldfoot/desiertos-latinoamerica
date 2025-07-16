@@ -51,6 +51,7 @@
     --bege-escuro: #F6E9CD;
     --bege-fundo: #F9F1E3;
     --preto: #4c4c4c;
+    --red: #EA4A26;
 
     --strips: #9a9a9a;
 
@@ -86,6 +87,9 @@ header.top-bar {
     right: 0;
     height: auto;
     z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
 }
 
@@ -98,7 +102,7 @@ button.btn-menu {
     background-color: transparent;
     border: none;
     padding: 0;
-    margin-top: 25px;
+    margin-top: 0px;
     margin-right: 25px;
 
 }
@@ -228,6 +232,7 @@ header.show-menu .btn-menu-content {
     height: 100vh;
     position: relative;
     scroll-snap-align: start;
+    color: var(--color-text);
 
 }
 
@@ -243,28 +248,29 @@ header.show-menu .btn-menu-content {
 
 [data-slide="opening"] .text-slide-inner-wrapper {
 
-    max-width: 500px;
+    max-width: 550px;
     margin-left: 2rem;
 
 }
 
 [data-slide="opening"] * + * {
-    margin-top: 1.5rem;
+    margin-top: 32px;
 }
 
 [data-slide="opening"] p {
 
-    font-size: 1.3rem;
+    font-size: 24px;
 
 }
 
 [data-slide="opening"] h1.goo {
-    font-size: 3rem;
+    font-size: 64px;
+    font-style: italic;
     line-height: 1.35;
     display: inline;
     box-decoration-break: clone;
-    background: var(--color-accent);
-    padding: 0.5rem 1rem;
+    background: var(--red);/*var(--color-accent);*/
+    padding: 1rem 2rem;
     filter: url('#goo');
     color: var(--color-bg);
 }
@@ -273,37 +279,31 @@ header.show-menu .btn-menu-content {
 [data-slide="opening"] .btn-descubra a, 
 [data-slide="opening"] .btn-vaya-datos a {
     padding: 0.5rem 1rem;
+    padding-left: 0;
+    font-style: italic;
+    font-family: nagel;
 }
 
 [data-slide="opening"] a {
     text-decoration: none;
-    font-style: italic;
-    font-family: Serif;
+    /*font-style: italic;
+    font-family: Serif;*/
 }
-
-[data-slide="opening"] .btn-descubra {
-    position: relative;
-}
-
-[data-slide="opening"] .btn-descubra .btn-descubra-star {
-    position: absolute;
-    left: 0;
-    top: 0;
-    transform: translate(-50%, calc(-50% + 1rem));
-    height: 100px;
-}
-
 
 [data-slide="opening"] .btn-descubra a {
     color: var(--color-bg);
     border-radius: 10px;
-    background-color: var(--color-accent);
+    background-color: var(--red); /*var(--color-accent);*/
     z-index: 2;
     position: relative;
+    padding-left: 1rem;
+    font-style: normal;
+    font-family: buendia;
 }
 
 [data-slide="opening"] .btn-vaya-datos a {
-    color: var(--color-accent);
+    /*color: var(--color-accent);*/
+    color: currentColor;
     text-decoration: underline;
 }
 
@@ -366,7 +366,6 @@ header.show-menu .btn-menu-content {
     width: 4.5rem;
     height: 4.5rem;
     border-radius: 50%;
-    border: 1px solid currentColor;
     transform: translateX(25%);
 
 }
@@ -375,14 +374,10 @@ header.show-menu .btn-menu-content {
     font-size: 5rem;
     text-align: center;
     font-weight: 800;
-    position: relative;
 }
 
 [data-slide="country selection"] .slide-main-text p {
     margin: 0;
-    position: relative;
-    z-index: 1;
-    transform: translate(0, -10vh);
 }
 
 [data-slide="country selection"] .quiere-explorar-star {
