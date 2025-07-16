@@ -1,3 +1,12 @@
+document.querySelector("#opening").scrollIntoView({ behavior: "smooth" });
+
+const btnDescubra = document.querySelector(".btn-descubra");
+btnDescubra.addEventListener("click", e => {
+
+    document.querySelector("#country-selection").scrollIntoView({ behavior: "smooth" });
+
+});
+
 
 class MenuPaises {
 
@@ -19,6 +28,8 @@ class MenuPaises {
             current_country = pais;
 
             populate_story(pais);
+
+            showCountryStory(pais);
 
             document.querySelector("#page3").scrollIntoView({ behavior: "smooth" });
 
@@ -79,7 +90,7 @@ class Story {
             countries[current_country].ut_menor.toggle_story_border(story_info['key desierto']);
 
             map.setPaintProperty(            
-                this.country + '-localidad', 
+                current_country + '-localidad', 
                 'fill-color',
                 [
                     'case',

@@ -276,7 +276,7 @@ header.show-menu .btn-menu-content {
 }
 
 [data-slide="opening"] .subtitle, 
-[data-slide="opening"] .btn-descubra a, 
+[data-slide="opening"] .btn-descubra span, 
 [data-slide="opening"] .btn-vaya-datos a {
     padding: 0.5rem 1rem;
     padding-left: 0;
@@ -290,7 +290,7 @@ header.show-menu .btn-menu-content {
     font-family: Serif;*/
 }
 
-[data-slide="opening"] .btn-descubra a {
+[data-slide="opening"] .btn-descubra span {
     color: var(--color-bg);
     border-radius: 10px;
     background-color: var(--red); /*var(--color-accent);*/
