@@ -1697,7 +1697,9 @@ map.on('load', () => {
 // main function
 map.on("load", () => {
 
-    fetch("../data.json").then(response => response.json()).then(data => {
+    let path = dashboard ? '../' : './';
+
+    fetch(path + "data.json").then(response => response.json()).then(data => {
 
         main_data = data;
 
