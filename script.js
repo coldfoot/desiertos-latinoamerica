@@ -1,11 +1,17 @@
-if (!dashboard) document.querySelector("#opening").scrollIntoView({ behavior: "smooth" });
+let btnDescubra;
 
-const btnDescubra = document.querySelector(".btn-descubra");
-btnDescubra.addEventListener("click", e => {
+if (!dashboard) {
+    
+    document.querySelector("#opening").scrollIntoView({ behavior: "smooth" });
 
-    document.querySelector("#country-selection").scrollIntoView({ behavior: "smooth" });
+    btnDescubra = document.querySelector(".btn-descubra");
+    btnDescubra.addEventListener("click", e => {
 
-});
+        document.querySelector("#country-selection").scrollIntoView({ behavior: "smooth" });
+
+    });
+
+}
 
 
 class MenuPaises {
