@@ -1,4 +1,4 @@
-document.querySelector("#opening").scrollIntoView({ behavior: "smooth" });
+if (!dashboard) document.querySelector("#opening").scrollIntoView({ behavior: "smooth" });
 
 const btnDescubra = document.querySelector(".btn-descubra");
 btnDescubra.addEventListener("click", e => {
