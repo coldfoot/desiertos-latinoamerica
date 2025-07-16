@@ -1072,6 +1072,10 @@ li[data-datos-topic]::before {
 }
 
 @media (max-width: 900px) {
+
+    /*story*/
+
+    
     
     .main-dashboard {
         height: 100%;
@@ -1209,11 +1213,29 @@ li[data-datos-topic]::before {
     }
 
     [data-slide="opening"] {
-        padding: 1rem;
+        padding: 2rem 1rem;
+        justify-content: center;
+        align-items: flex-end;
     }
 
+    [data-slide="opening"] .text-slide-inner-wrapper {
+        padding: 1rem;
+        background-color: #FFFFFF90;
+        margin: 1rem;
+        padding-top: 3rem;
+        border-radius: 1rem;
+    }
+
+    [data-slide="opening"] * + * {
+        margin-top: 16px;
+    }
+
+
+
     [data-slide="opening"] h1.goo {
-        font-size: 1.5rem;
+        font-size: 3rem;
+        margin-top: 1rem;
+        font-weight: normal;
     }
 
     .btn-menu-img {
