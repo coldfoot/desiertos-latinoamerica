@@ -821,10 +821,7 @@ class UTmenor {
     toggle_highlight(localidad) {
 
         // desnecessário isso aqui, melhorar.
-        let local;
-
-        if (localidad) local = localidad;
-        else local = last_localidad_location_data.BASIC_INFO.KEY;
+        const local = (localidad != undefined) ? localidad : last_localidad_location_data.BASIC_INFO.KEY;
 
         map.setFilter(
             this.country + '-localidad-highlight', [
