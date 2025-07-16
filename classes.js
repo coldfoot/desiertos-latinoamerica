@@ -298,25 +298,14 @@ class Country {
         map.moveLayer(this.country + "-provincia-border-hover");
         map.moveLayer(this.country + "-provincia-border");
 
-        if (["argentina", "chile", "peru"].includes(this.country)) {
+        this.paint_country_subnational("on");
 
-            this.paint_country_subnational("on");
-
-            this.ut_maior.monitor_events("on");
-            this.ut_maior.toggle_hover_border(); // será que não teria que estar junto com o monitor_events do ut_maior
-            this.ut_menor.monitor_events("off");
-            this.ut_menor.toggle_borders("off");
-            this.ut_maior.toggle_highlight_border('');
-            this.ut_menor.toggle_highlight('');
-
-
-        } else {
-
-            console.log("No data yet.")
-
-            this.ut_maior.monitor_events("off");
-
-        }
+        this.ut_maior.monitor_events("on");
+        this.ut_maior.toggle_hover_border(); // será que não teria que estar junto com o monitor_events do ut_maior
+        this.ut_menor.monitor_events("off");
+        this.ut_menor.toggle_borders("off");
+        this.ut_maior.toggle_highlight_border('');
+        this.ut_menor.toggle_highlight('');
 
     }
 
@@ -329,7 +318,7 @@ class Country {
                 'fill-color',
                 [
                     'match',
-                    ['get', 'classification'],
+                    ['get', 'CLASSIFICATION'],
                     ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
                     'gray'
                 ]
@@ -434,7 +423,7 @@ class UTmaior {
         this.country = country;
         this.source_layer_name = source_layer_name;
 
-        this.key_id = 'key';
+        this.key_id = 'KEY';
 
         this.load(country, url, source_layer_name);
 
@@ -454,7 +443,7 @@ class UTmaior {
         map.addSource(country + '-provincia', {
             type: 'vector',
             url : url,
-            'promoteId' : 'key'
+            'promoteId' : 'KEY'
         });
 
         map.addLayer({
@@ -520,8 +509,8 @@ class UTmaior {
         map.setFilter(
             this.country + '-provincia-border', [
                 '==',
-                ['get', 'key'],
-                '__' + provincia_key // por causa
+                ['get', 'KEY'],
+                provincia_key // por causa
             ]
         );
 
@@ -543,9 +532,9 @@ class UTmaior {
 
     mouse_enter_handler(e) {
 
-        let place_key = e.features[0].properties.key;
+        let place_key = e.features[0].properties.KEY;
 
-        const place_data = main_data[this.country].large_units.filter(d => "__" + d.BASIC_INFO.KEY == place_key)[0];
+        const place_data = main_data[this.country].large_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
 
         // pop up
         let coordinates = [
@@ -611,10 +600,10 @@ class UTmaior {
 
     click_event_handler(e) {
     
-        const place_key = e.features[0].properties.key; 
+        const place_key = e.features[0].properties.KEY; 
         
         // porque o key é tipo "__Nome".
-        const place_data = main_data[this.country].large_units.filter(d => "__" + d.BASIC_INFO.KEY == place_key)[0];
+        const place_data = main_data[this.country].large_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
 
         const province_name = place_data.BASIC_INFO.NAME;
 
@@ -736,7 +725,7 @@ class UTmenor {
         map.addSource(country + '-localidad', {
             type: 'vector',
             url : url,
-            'promoteId' : "key"
+            'promoteId' : 'KEY'
         });
 
         map.addLayer({
@@ -828,7 +817,7 @@ class UTmenor {
         map.setFilter(
             this.country + '-localidad-highlight', [
                 '==',
-                ['get', 'key'],
+                ['get', 'KEY'],
                 local
             ]
         );
@@ -841,7 +830,7 @@ class UTmenor {
                 'case',
                 [
                     '==',
-                    ['get', 'key'],
+                    ['get', 'KEY'],
                     local
                 ],
                 1,
@@ -907,7 +896,7 @@ class UTmenor {
         // Change the cursor style as a UI indicator.
         map.getCanvas().style.cursor = 'pointer';
 
-        const place_key = e.features[0].properties.key;
+        const place_key = e.features[0].properties.KEY;
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
       
@@ -1036,7 +1025,7 @@ class UTmenor {
     }
     click_event_handler(e) {
 
-        const place_key = e.features[0].properties.key;
+        const place_key = e.features[0].properties.KEY;
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
       
@@ -1514,8 +1503,6 @@ function plot_country(country, padding) {
 
 function display_paisage(tipo_paisage, country) {
 
-    console.log(tipo_paisage, country);
-
     if (tipo_paisage != '') {
 
         map.setPaintProperty(
@@ -1525,7 +1512,7 @@ function display_paisage(tipo_paisage, country) {
                 'case',
                 [
                     '==',
-                    ['get', 'classification'],
+                    ['get', 'CLASSIFICATION'],
                     tipo_paisage.toUpperCase()
                 ],
                 colors_css[tipo_paisage],
@@ -1542,7 +1529,7 @@ function display_paisage(tipo_paisage, country) {
             'fill-color',
             [
                 'match',
-                ['get', 'classification'],
+                ['get', 'CLASSIFICATION'],
                 ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
                 'gray'
             ]
@@ -1668,19 +1655,30 @@ map.on('load', () => {
 
     //if (!dashboard) {
         
-        countries["argentina"] = new Country("argentina", "", "mapbox://tiagombp.2c7pqb06", "large-units-argentina-9wj09y", "mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
+        countries["argentina"] = new Country(
+            "argentina", "", 
+            "mapbox://tiagombp.2c7pqb06", "large-units-argentina-9wj09y", 
+            "mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
 
-        countries["chile"]     = new Country("chile", "", "mapbox://tiagombp.0l57h9et", "large-units-chile-9v7av2", "mapbox://tiagombp.54kh6vm7", "small-units-chile-auxnhe");
+        countries["chile"]     = new Country(
+            "chile", "", 
+            "mapbox://tiagombp.0l57h9et", "large-units-chile-9v7av2", 
+            "mapbox://tiagombp.54kh6vm7", "small-units-chile-auxnhe");
 
         countries["peru"] = new Country(
             "peru", "",
             "mapbox://tiagombp.d899dc8k", "large-units-peru-42epjp",
-            "mapbox://tiagombp.3636aktg",
-            "small-units-peru-3glt7j"
+            "mapbox://tiagombp.3636aktg", "small-units-peru-3glt7j"
         );
 
         countries["colombia"] = new Bubble(
             "colombia", "", "mapbox://tiagombp.27ddvbx4", "colombia-centroids-61kfe7"
+        );
+
+        countries["mexico"] = new Country(
+            "mexico", "",
+            "mapbox://tiagombp.3fbhy8tn", "mexico-large-units-bzhqx5",
+            "mapbox://tiagombp.4xdpwu31", "mexico-small-units-27jmw2"
         );
 
 });
