@@ -1123,8 +1123,10 @@ class Bubble {
 
         symbols.forEach(name => {
 
+            let path = dashboard ? '../img/' : './img/';
+
             let filename = name.toLowerCase();
-            filename = `../img/symbol-${filename}.png`;
+            filename = `${path}symbol-${filename}.png`;
 
             console.log(filename);
             map.loadImage(

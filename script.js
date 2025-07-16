@@ -27,6 +27,8 @@ class MenuPaises {
 
             current_country = pais;
 
+            if (pais == "colombia") return;
+
             populate_story(pais);
 
             showCountryStory(pais);
