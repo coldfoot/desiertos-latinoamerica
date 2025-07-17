@@ -107,7 +107,8 @@ button.btn-menu {
 
 }
 
-.top-bar-dashboard button.btn-menu {
+.top-bar-dashboard button.btn-menu,
+.top-bar-secondary-pages button.btn-menu {
     margin-top: 0;
 }
 
@@ -464,7 +465,8 @@ span.highlight {
     color: var(--color-text);
 }
 
-.dashboard-wrapper h1 {
+.dashboard-wrapper h1,
+.secondary-pages-wrapper h1 {
     font-family: buendia;
     font-weight: bold;
     font-size: 1rem;
@@ -472,7 +474,7 @@ span.highlight {
 }
 
 
-.top-bar-dashboard {
+.top-bar-dashboard, .top-bar-secondary-pages {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -480,11 +482,13 @@ span.highlight {
     color: white;
 }
 
-.dashboard-wrapper .btn-menu-img {
+.dashboard-wrapper .btn-menu-img,
+.top-bar-secondary-pages .btn-menu-img {
     stroke: white;
 }
 
-.dashboard-wrapper .btn-menu {
+.dashboard-wrapper .btn-menu,
+.top-bar-secondary-pages .btn-menu {
     margin-left: initial;
 }
 
@@ -1442,3 +1446,62 @@ rect.striplot-bg {
     display: block;
     margin: 2rem 0;
 }
+
+/* SECONDARY PAGES */
+
+.main-secondary-pages {
+    padding: 2rem;
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+p.text-secondary-pages {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    font-family: buendia;
+}
+
+h1.title-secondary-pages {
+    font-size: 2rem;
+    font-family: nagel;
+    font-weight: bold;
+    margin-top: 2rem;
+}
+
+h2.title-secondary-pages {
+    font-size: 1.5rem;
+    font-family: nagel;
+    font-weight: bold;
+    margin-top: 3rem;
+    border-top: 1px solid var(--color-text);
+    padding-top: 2rem;
+}
+
+details.creditos {
+    margin-bottom: 1.2em;
+    padding: 0.5em 1em;
+  }
+  summary.creditos {
+    font-family: nagel;
+    font-weight: 600;
+    font-size: 1.2em;
+    cursor: pointer;
+    outline: none;
+    padding: 0.3em 0;
+  }
+  ul.creditos {
+    margin: 0.5em 0 0 1.2em;
+    padding: 0;
+    list-style: none;
+  }
+  li.creditos {
+    margin-bottom: 0.3em;
+    font-size: 1.2em;
+  }
+  .role {
+    font-family: buendia;
+    color: var(--color-accent);
+    font-size: 0.98em;
+    font-style: italic;
+    margin-left: 0.5em;
+  }
