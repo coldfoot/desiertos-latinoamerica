@@ -1408,6 +1408,32 @@ li[data-datos-topic]::before {
         font-size: 3rem;
     }
 
+    /* MODAL VIZ MOBILE */
+    .modal-viz .container-viz,
+    .modal-viz .container-modal-relato {
+        top: 1rem;
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        padding: 10px 10px;
+    }
+
+    .modal-viz button.close-modal {
+        top: .5rem;
+        right: .5rem;
+    }
+
+    .modal-viz .minicharts-global-container {
+        justify-content: center;
+    }
+
+    .modal-viz .viz-subtitle,
+    .modal-viz .viz-main-title {
+
+        text-align: center;
+
+    }
+
 
 }
 
