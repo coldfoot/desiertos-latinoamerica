@@ -435,6 +435,8 @@ span.highlight {
     /*background-color: var(--color-accent);*/
     padding: 0.1rem 0.5rem;
     border-radius: 10px;
+    font-family: nagel;
+    text-transform: uppercase;
 }
 
 [data-tipo-paisage="bosque"] {
@@ -520,7 +522,7 @@ div.logo-wrapper {
 h4.chapeu-relato {
     font-family: nagel;
     font-weight: bolder;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-style: normal;
     text-transform: uppercase;
     color: var(--color-accent);
@@ -583,7 +585,7 @@ span.chapeu-relato-author {
 
 }
 
-[data-tipo-paisage="desierto"] {--local-color: var(--color-desierto);}
+[data-tipo-paisage="desierto"] {--local-color: var(--color-desierto); color: var(--bege-fundo);}
 [data-tipo-paisage="semidesierto"] {--local-color: var(--color-semidesierto);}
 [data-tipo-paisage="semibosque"] {--local-color: var(--color-semibosque);}
 [data-tipo-paisage="bosque"] {--local-color: var(--color-bosque);}
@@ -800,6 +802,10 @@ div.seleccione-ubicacion-container {
     color: var(--color-accent);
 }
 
+p[data-resumen-campo="descricao classificacao"] {
+    margin-top: 0;
+}
+
 .text-panel-container[data-classification-localidad="desierto"] h3[data-resumen-campo="classification"] { color: var(--color-desierto); }
 .text-panel-container[data-classification-localidad="semidesierto"] h3[data-resumen-campo="classification"] { color: var(--color-semidesierto); }
 .text-panel-container[data-classification-localidad="semibosque"] h3[data-resumen-campo="classification"] { color: var(--color-semibosque); }
@@ -981,7 +987,7 @@ span[data-barchart] .barchart-label.displaced {
 /* CONTEUDO */
 
 .text-panel-container .conteudo {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-family: "buendia";
     flex-basis: 100%;
     position: relative;
@@ -1004,12 +1010,13 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
 .text-panel-container .conteudo .leer-mas {
     font-weight: bold;
     background-color: var(--color-accent);
-    padding: 2px 4px;
-    font-size: 1.2em;
+    padding: .25rem .5rem .25rem .5rem;
+    font-size: 1em;
     color: var(--color-bg);
-    /*margin-left: 1ch;*/
     display: inline-block;
     text-transform: uppercase;
+    border-radius: 10px;
+    font-family: nagel;
 }
 
 .text-panel-container .conteudo .leer-mas:hover {
@@ -1020,9 +1027,14 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     margin-top: 1rem;
 }
 
+.leer-provincia-wrapper {
+    margin-top: 1rem;
+}
+
 .localidad-informe-provincia {
-    border-top: 1px solid currentColor;
-    padding-top: 1rem;
+    /* border-top: 1px solid currentColor; */
+    /* padding-top: 1rem; */
+    margin-top: 0;
 }
 
 /* in the case of colombia, there's no need to refer back to the provincia, since the relato will be placed directly in the localidad view! crazy, I know. */
@@ -1124,12 +1136,19 @@ div.content-divider {
 h3[data-resumen-campo="classification"] {
     font-size: 1.5em;
     font-weight: bold;
+    font-family: nagel;
+    text-transform: uppercase;
 }
 
 .text-panel-container .conteudo > [data-tipo-conteudo].conteudo-active {
     /*transform: rotate(0) translate(0,0);*/
     opacity: 1;
     pointer-events: initial;
+}
+
+.resumen-wrapper {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
 }
 
 /* DATOS */
