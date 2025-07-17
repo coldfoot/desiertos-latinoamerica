@@ -525,7 +525,7 @@ h4.chapeu-relato {
     font-size: 1rem;
     font-style: normal;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-text);
     margin: 0;
     margin-bottom: 2px;
 }
@@ -561,6 +561,10 @@ span.chapeu-relato-author {
 .text-panel-container[data-view="latam"] .place-summary,
 .text-panel-container[data-view="latam"] .place-paisage-composition {
     display: none;
+}
+
+.bar-wrapper {
+    margin-bottom: 15px;
 }
 
 .map-panel-container > div {
@@ -1018,18 +1022,21 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
 
 .text-panel-container .conteudo .leer-mas {
     font-weight: bold;
-    background-color: var(--color-accent);
-    padding: .25rem .5rem .25rem .5rem;
-    font-size: 1em;
-    color: var(--color-bg);
+    background-color: var(--color-bg);
+    /* padding: .25rem .5rem .25rem .5rem; */
+    font-size: 1.2em;
+    color: var(--color-text);
     display: inline-block;
     text-transform: uppercase;
+    text-decoration: underline;
     border-radius: 10px;
     font-family: nagel;
+    cursor: pointer;
+    padding-left: 5px;
 }
 
 .text-panel-container .conteudo .leer-mas:hover {
-    background-color: var(--color-text);
+    color: var(--color-accent);
 }
 
 .leer-mas-wrapper {
@@ -1122,9 +1129,9 @@ div.content-divider.bar-divider {
     font-family: nagel;
 }
 
-.leer-mas:hover {
+/* .leer-mas:hover {
     color: var(--color-accent);
-}
+} */
 
 .text-panel-container .conteudo > [data-tipo-conteudo] {
     height: 100%;
