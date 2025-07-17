@@ -95,7 +95,13 @@
 
                     <input type="search" id="dash-ubicacion" name="dash-ubicacion" placeholder="Selecciona tu ubicación" list="locations" aria-label="Search through list of location">
                     <datalist id="locations"></datalist>
-                </div>
+                    <div class="scope-warning-container">
+                        <div class="scope-warning-icon">i</div>
+                        <div class="scope-warning">
+                        Aquí tendremos un mensaje de advertencia sobre el alcance de los datos en cada país
+                        </div>
+                      </div>                
+                    </div>
 
             </div>
 
@@ -193,7 +199,8 @@
                             <p data-relato-colombia-campo="AUTHOR">Author</p>
 
                             <div class="container-teaser-relato">
-                                <div><span data-relato-colombia-campo="TEASER"></span> <span class="leer-mas">LEER MÁS</span></div>
+                                <div><span data-relato-colombia-campo="TEASER"></span>
+                                    <br><br><span class="leer-mas">LEER MÁS</span></div>
                                 <div data-relato-colombia-campo="RELATO"></div>
                             </div>
 
@@ -205,18 +212,24 @@
                 </div>
 
                 <div data-tipo-conteudo="relato" class="recolhido">
-                    <h3 data-relato-campo="TITLE">Relato de investigación</h3>
-                    <p data-relato-campo="AUTHOR">Author</p>
-
                     <div class="container-teaser-relato">
-                        <div>
-                            <span data-relato-campo="TEASER"></span> <span class="leer-mas">LEER MÁS</span>
+                        <h4 class="chapeu-relato">Relato de investigación | 
+                            <span class="chapeu-relato-author" data-relato-campo="AUTHOR">Author</span></h4>
+                        <h3 data-relato-campo="TITLE">Relato de investigación</h3>
+                        <!-- <p data-relato-campo="AUTHOR">Author</p> -->
+
+                            <div>
+                                <span data-relato-campo="TEASER"></span> <span class="leer-mas">LEER MÁS</span>
+                            </div>
+                    </div>
+
+                    <div class="container-medio-prototipico">
+                        <h4 class="chapeu-relato">Medio prototípico</h4>
+                        <div data-relato-campo="MEDIO" class="">
+                            El medio estándar en la provincia de Buenos Aires es un portal digital de noticias que emplea a alrededor de cinco periodistas, pero cuyas condiciones de contratación son inciertas. Este medio prototípico recibe publicidad oficial, aunque sus responsables no saben o prefieren no contestar qué porcentaje representa el aporte del Estado en el ingreso total. Su agenda informativa está centrada en la atención sanitaria, preocupación que coincide con la pandemia del coronavirus vigente al momento de la investigación.
                         </div>
                     </div>
 
-                    <div data-relato-campo="MEDIO" class="">
-                        El medio estándar en la provincia de Buenos Aires es un portal digital de noticias que emplea a alrededor de cinco periodistas, pero cuyas condiciones de contratación son inciertas. Este medio prototípico recibe publicidad oficial, aunque sus responsables no saben o prefieren no contestar qué porcentaje representa el aporte del Estado en el ingreso total. Su agenda informativa está centrada en la atención sanitaria, preocupación que coincide con la pandemia del coronavirus vigente al momento de la investigación.
-                    </div>
                 </div>
 
                 <div data-tipo-conteudo="datos">
@@ -224,9 +237,9 @@
                     <ul class="dashboard-datos-topics-container">
                         <li data-datos-topic="PLATFORMS">¿En qué plataforma publican los medios?</li>
                         <li data-datos-topic="HIRING">¿Cómo es el vínculo laboral con los periodistas?</li>
-                        <li data-datos-topic="THEMES">¿Qué temas cubren?</li>
-                        <li data-datos-topic="INCOME">¿Cómo se mantienen?</li>
-                        <li data-datos-topic="THREATS">¿Qué amenazas y agresiones sufren?</li>
+                        <li data-datos-topic="THEMES">¿Cuáles son las temáticas de su agenda informativa?</li>
+                        <li data-datos-topic="INCOME">¿De dónde provienen sus ingresos?</li>
+                        <li data-datos-topic="THREATS">¿Experimentaron agresiones o amenazas en 2024?</li>
                     </ul>
 
                 </div>

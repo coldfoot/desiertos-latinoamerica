@@ -12,7 +12,7 @@ const topics = {
 
         title : '¿En qué plataforma publican los medios?',
 
-        subtitle : 'Porcentaje de medios…'
+        subtitle : 'Porcentaje de medios que tienen presencia en…'
 
     },
 
@@ -26,9 +26,9 @@ const topics = {
 
     "THEMES" : {
 
-        title : '¿En qué plataformas publican?',
+        title : '¿Cuáles son las temáticas de su agenda informativa?',
 
-        subtitle : 'Porcentaje de medios que tienen presencia en…'
+        subtitle : 'Porcentaje de medios que cubren temas de…'
 
     },
 

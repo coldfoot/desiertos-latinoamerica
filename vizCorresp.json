@@ -62,7 +62,8 @@
             "PRINT": "Peri\u00f3dico impreso",
             "PODCAST": "P\u00f3dcast",
             "REVISTA": "Revista",
-            "WEBSITE": "Sitio web"
+            "WEBSITE": "Sitio web",
+            "OTRAS": "Otras plataformas"
         }
     },
     "INCOME": {
@@ -80,7 +81,8 @@
             "SERVICIOS DE FORMACI\u00d3N": "Servicios de formaci\u00f3n (venta de cursos, talleres, capacitaciones)",
             "SUBSIDIOS O GRANTS": "Subsidios o Grants",
             "SUBSCRIPCIONES": "Subscripciones",
-            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales"
+            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales",
+            "OTRAS": "Otras fuentes de ingresos"
         },
         "mexico": {
             "CROWDFUNDING": "Campa\u00f1as de recaudaci\u00f3n colectiva (crowdfunding)",
@@ -96,7 +98,8 @@
             "SERVICIOS DE FORMACI\u00d3N": "Servicios de formaci\u00f3n (venta de cursos, talleres, capacitaciones)",
             "SUBSIDIOS O GRANTS": "Subsidios o subvenciones",
             "SUBSCRIPCIONES": "Suscripciones",
-            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales"
+            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales",
+            "OTRAS": "Otras fuentes de ingresos"
         },
         "peru": {
             "CROWDFUNDING": "Campa\u00f1as de recaudaci\u00f3n colectiva (crowdfunding)",
@@ -112,7 +115,8 @@
             "SERVICIOS DE FORMACI\u00d3N": "Servicios de formaci\u00f3n (venta de cursos, talleres, capacitaciones)",
             "SUBSIDIOS O GRANTS": "Subvenciones",
             "SUBSCRIPCIONES": "Subscripciones",
-            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales"
+            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales",
+            "OTRAS": "Otras fuentes de ingresos"
         },
         "chile": {
             "CROWDFUNDING": "Campa\u00f1as de recaudaci\u00f3n colectiva (crowdfunding)",
@@ -128,7 +132,8 @@
             "SERVICIOS DE FORMACI\u00d3N": "Servicios de formaci\u00f3n (venta de cursos, talleres, capacitaciones)",
             "SUBSIDIOS O GRANTS": "Subsidios o Grants",
             "SUBSCRIPCIONES": "Subscripciones",
-            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales"
+            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales",
+            "OTRAS": "Otras fuentes de ingresos"
         }
     },
     "THEMES": {
@@ -141,7 +146,8 @@
             "MEDIO AMBIENTE": "Medio ambiente y sostenibilidad",
             "SERVICIOS": "Servicios públicos y desarrollo urbano",
             "SEGURIDAD": "Seguridad y convivencia",
-            "SOCIAL": "Temas sociales y calidad de vida"
+            "SOCIAL": "Temas sociales y calidad de vida",
+            "OTRAS": "Otras temáticas"
         }
     },
     "THREATS": {
@@ -154,7 +160,8 @@
             "GOBIERNO": "Presiones gubernamentales",
             "JUDICIAL": "Acoso judicial",
             "NO RESPONDE": "Prefiero no responder",
-            "NO RECIBE": "No recibimos agresiones ni amenazas"
+            "NO RECIBE": "No recibimos agresiones ni amenazas",
+            "OTRAS": "Otras amenazas"
         }
     }
 }
