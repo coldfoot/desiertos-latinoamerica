@@ -532,7 +532,7 @@ h4.chapeu-relato {
 }
 
 [data-view="localidad"] h4.chapeu-barras {
-    display: none;
+    opacity: 0;
 }
 
 h4.chapeu-barras {
