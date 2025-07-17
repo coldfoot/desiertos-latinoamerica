@@ -12,7 +12,7 @@ const topics = {
 
         title : '¿En qué plataforma publican los medios?',
 
-        subtitle : 'Mergulho?'
+        subtitle : 'Porcentaje de medios…'
 
     },
 
