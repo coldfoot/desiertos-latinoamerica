@@ -4,8 +4,8 @@ const topics = {
 
         title : '¿Qué tipo de vínculo laboral tienen los periodistas?',
 
-        subtitle : "<span data-viz-subtitle-field='highest-pct'></span> de los <span data-viz-subtitle-field='higher-pct'></span> medios de <span data-viz-subtitle-field='unit name'></span> contratan periodistas por meio de <span data-viz-subtitle-field='highest-pct-category'></span>, enquanto en <span data-viz-subtitle-field='upper unit name'> esta porcentaje es de <span data-viz-subtitle-field='upper unit value'>",
-
+        //subtitle : "<span data-viz-subtitle-field='highest-pct'></span> de los <span data-viz-subtitle-field='higher-pct'></span> medios de <span data-viz-subtitle-field='unit name'></span> contratan periodistas por meio de <span data-viz-subtitle-field='highest-pct-category'></span>, enquanto en <span data-viz-subtitle-field='upper unit name'> esta porcentaje es de <span data-viz-subtitle-field='upper unit value'>",
+        subtitle: "Porcentaje de medios que contratan periodistas mediante…"
     },
 
     'PLATFORMS' : {
@@ -18,25 +18,25 @@ const topics = {
 
     "INCOME" : {
 
-        title : '¿Cómo se mantienen?',
+        title : '¿De dónde provienen sus ingresos?',
 
-        subtitle : 'Income'
+        subtitle : 'Porcentaje de medios que reciben ingresos provenientes de…'
 
     },
 
     "THEMES" : {
 
-        title : '¿Qué temas cubren?',
+        title : '¿En qué plataformas publican?',
 
-        subtitle : 'Temas...'
+        subtitle : 'Porcentaje de medios que tienen presencia en…'
 
     },
 
     "THREATS" : {
 
-        title : '¿Qué amenazas y agresiones sufren?',
+        title : '¿Experimentaron agresiones o amenazas en 2024?',
 
-        subtitle : 'Amenazas...'
+        subtitle : 'Porcentaje de medios cuyos periodistas sufrieron….'
 
     }
 
