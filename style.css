@@ -523,10 +523,9 @@ h4.chapeu-relato {
     font-size: 0.8rem;
     font-style: normal;
     text-transform: uppercase;
-    color: var(--color-text);
+    color: var(--color-accent);
     margin: 0;
     margin-bottom: 2px;
-    padding-top: 1rem;
 }
 
 span.chapeu-relato-author {
@@ -576,7 +575,8 @@ span.chapeu-relato-author {
     flex-direction: row;
     gap: .5rem;
     width: 100%;
-    font-family: buendia;
+    font-family: nagel;
+    text-transform: uppercase;
 }
 
 .menu-tipo-paisage-wrapper {
@@ -673,6 +673,7 @@ p.description-tipo-paisage {
     justify-content: flex-start;
     gap: 40px;
     margin-bottom: 0;
+    font-family: 'nagel';
 }
 
 .menu-pais-dash > div[data-pais] {
@@ -794,7 +795,7 @@ div.seleccione-ubicacion-container {
 
 .text-panel-container h2 {
     margin: 0;
-    font-size: 2em;
+    font-size: 3em;
     font-style: italic;
     color: var(--color-accent);
 }
@@ -997,20 +998,26 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     margin: 0;
     font-style: italic;
     font-weight: lighter;
+    font-size: 1.2rem;
 }
 
 .text-panel-container .conteudo .leer-mas {
     font-weight: bold;
-    background-color: var(--preto);
+    background-color: var(--color-accent);
     padding: 2px 4px;
     font-size: 1.2em;
     color: var(--color-bg);
     /*margin-left: 1ch;*/
     display: inline-block;
+    text-transform: uppercase;
 }
 
 .text-panel-container .conteudo .leer-mas:hover {
-    background-color: var(--color-accent);
+    background-color: var(--color-text);
+}
+
+.leer-mas-wrapper {
+    margin-top: 1rem;
 }
 
 .localidad-informe-provincia {
@@ -1034,9 +1041,17 @@ div.container-teaser-relato {
 
 div.container-medio-prototipico {
     color: var(--color-text);
-    border-top: .5px solid var(--strips); 
+    /* border-top: .5px solid var(--strips);  */
     padding-top: .5rem;
 }
+
+div.content-divider {
+    border-top: .5px solid var(--color-text);
+    opacity: .5; 
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 
 [data-relato-campo="MEDIO"], [data-relato-colombia-campo="MEDIO"] {
 
@@ -1078,6 +1093,10 @@ div.container-medio-prototipico {
 .relato-colombia-localidad.recolhido [data-relato-colombia-campo="AUTHOR"] { display: initial; }
 .relato-colombia-localidad.recolhido [data-relato-colombia-campo="RELATO"] { display: none; }
 
+.leer-mas-wrapper {
+    margin-top: 1rem;
+    font-family: nagel;
+}
 
 .leer-mas:hover {
     color: var(--color-accent);
