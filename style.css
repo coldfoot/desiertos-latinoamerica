@@ -959,22 +959,18 @@ span[data-barchart] .barchart-label.displaced {
 
 .wrapper-btns-nav > button {
     font-size: 1.2rem;
-    padding: .5em 1em;
-    border-radius: 10px;
-    font-style: italic;
+    flex-basis: 50%;
+    padding: 0;
     background-color: transparent;
-    color: var(--color-accent);
-    border: 1px solid currentColor;
-    transition: flex-basis .3s;
-    font-family: 'buendia';
-    text-transform: uppercase;
+    color: var(--color-text);
+    border: none;
+    border-bottom: 1px solid currentColor;
+    font-family: 'nagel';
 }
 
-.wrapper-btns-nav[data-modo="localidad"] > button { flex-basis: 50%; }
-.wrapper-btns-nav[data-modo="provincia"] > button { flex-basis: 33%; }
-
 .wrapper-btns-nav > button:hover {
-    box-shadow: 2px 2px var(--color-accent);
+    box-shadow: 0px 2px var(--color-accent);
+    border-color: var(--color-accent);
 }
 
 .wrapper-btns-nav > button.btn-nav-active:hover {
@@ -982,8 +978,8 @@ span[data-barchart] .barchart-label.displaced {
 }
 
 .wrapper-btns-nav > button.btn-nav-active {
-    background-color: var(--color-accent);
-    color: var(--color-bg);
+    color: var(--color-accent);
+    border-width: 2px;
 }
 
 .wrapper-btns-nav > button.btn-hidden {
