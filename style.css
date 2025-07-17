@@ -528,11 +528,17 @@ h4.chapeu-relato {
     color: var(--color-accent);
     margin: 0;
     margin-bottom: 2px;
+    display: flex;
 }
 
 span.chapeu-relato-author {
     font-size: 0.8rem;
     font-weight: normal;
+}
+
+span.chapeu-relato-author::before {
+    content: ' ';
+    white-space: pre-wrap;
 }
 
 /* MAP PANEL */
