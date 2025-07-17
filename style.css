@@ -565,7 +565,7 @@ span.chapeu-relato-author::before {
 }
 
 .text-panel-container[data-view="latam"] .place-summary,
-.text-panel-container[data-view="latam"] .place-paisage-composition {
+.text-panel-container[data-view="latam"] .place-paisage-composition-wrapper {
     display: none;
 }
 
