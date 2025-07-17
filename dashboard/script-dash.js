@@ -358,9 +358,11 @@ function update_infocard(name, key, country, tipo) {
             "MEDIO"];
 
         const mini_data = last_provincia_location_data;
-        const narrative_data = mini_data.NARRATIVE;
+        let narrative_data = mini_data.NARRATIVE ? mini_data.NARRATIVE : {};
 
         fields.forEach(field => {
+
+            if (!narrative_data[field]) narrative_data[field] = '¡Dentro de poco!';
 
             document.querySelector(`[data-relato-colombia-campo="${field}"]`).innerHTML = narrative_data[field];
 
@@ -519,6 +521,13 @@ function show_modal_relato() {
 
     const mini_data = last_provincia_location_data;
     const narrative_data = mini_data.NARRATIVE;
+
+    if (!narrative_data) {
+
+        document.querySelector(`[data-relato-modal-campo="RELATO"]`).innerHTML = '¡Dentro de poco!';
+        return;
+
+    }
 
     const fields = ["AUTHOR", "TITLE", "RELATO"];
 
