@@ -531,6 +531,15 @@ h4.chapeu-relato {
     display: flex;
 }
 
+h4.chapeu-barras {
+    font-family: nagel;
+    font-weight: lighter;
+    font-size: .8rem;
+    font-style: normal;
+    text-transform: uppercase;
+    margin: 0 0 2px 0px;
+}
+
 span.chapeu-relato-author {
     font-size: 0.8rem;
     font-weight: normal;
@@ -1066,6 +1075,9 @@ div.content-divider {
     margin-bottom: 1rem;
 }
 
+div.content-divider.bar-divider {
+    margin: 0;
+}
 
 [data-relato-campo="MEDIO"], [data-relato-colombia-campo="MEDIO"] {
 
