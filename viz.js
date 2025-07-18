@@ -1,3 +1,171 @@
+const corresp = {
+    "HIRING": {
+        "argentina": {
+            "CONTRATO INDEFINIDO": "Relaci\u00f3n de dependencia",
+            "CONTRATO LIMITADO": "Contrato por tiempo limitado",
+            "PRACTICA PROFESIONAL": "Pasant\u00eda",
+            "CONTRATO POR PIEZAS": "Contrato por piezas/producciones/coberturas",
+            "TRABAJO INDEPENDIENTE": "Cuentapropismo",
+            "EMPLEO INFORMAL": "Empleo no registrado",
+            "COMISI\u00d3N": "Venta de publicidad o de espacios",
+            "TRABAJO VOLUNTARIO": "Trabajo voluntario",
+            "OTRAS": "Otras formas de relaci\u00f3n"
+        },
+        "mexico": {
+            "CONTRATO INDEFINIDO": "Contrato formal por tiempo indefinido",
+            "CONTRATO LIMITADO": "Contrato formal por tiempo determinado",
+            "PRACTICA PROFESIONAL": "Pr\u00e1ctica profesional",
+            "CONTRATO POR PIEZAS": "Contrato por notas/producciones/coberturas",
+            "TRABAJO INDEPENDIENTE": "Trabajo independiente",
+            "EMPLEO INFORMAL": "Empleo informal",
+            "COMISI\u00d3N": "Comisi\u00f3n o venta de publicidad o espacios",
+            "TRABAJO VOLUNTARIO": "Trabajo voluntario",
+            "OTRAS": "Otras formas de relaci\u00f3n"
+        },
+        "peru": {
+            "CONTRATO INDEFINIDO": "Contrato formal por tiempo indefinido",
+            "CONTRATO LIMITADO": "Contrato formal por tiempo determinado",
+            "PRACTICA PROFESIONAL": "Pr\u00e1ctica profesional",
+            "CONTRATO POR PIEZAS": "Contrato por notas/producciones/coberturas",
+            "TRABAJO INDEPENDIENTE": "Trabajo independiente",
+            "EMPLEO INFORMAL": "Empleo no registrado",
+            "COMISI\u00d3N": "Comisi\u00f3n o venta de publicidad o espacios",
+            "TRABAJO VOLUNTARIO": "Trabajo voluntario",
+            "OTRAS": "Otras formas de relaci\u00f3n"
+        },
+        "chile": {
+            "CONTRATO INDEFINIDO": "Contrato indefinido",
+            "CONTRATO LIMITADO": "Contrato por tiempo limitado",
+            "PRACTICA PROFESIONAL": "Pr\u00e1ctica profesional",
+            "CONTRATO POR PIEZAS": "Contrato por piezas/producciones/coberturas",
+            "TRABAJO INDEPENDIENTE": "Trabajo independiente",
+            "EMPLEO INFORMAL": "Empleo informal",
+            "COMISI\u00d3N": "Comisi\u00f3n o venta de publicidad o espacios",
+            "TRABAJO VOLUNTARIO": "Trabajo voluntario",
+            "OTRAS": "Otras formas de relaci\u00f3n"
+        }
+    },
+    "PLATFORMS": {
+        "all": {
+            "BLOG": "Blog",
+            "NEWSLETTER": "Bolet\u00edn de noticias o newsletter",
+            "TELEGRAM": "Canal de Telegram",
+            "TV": "Canal de televisi\u00f3n",
+            "TWITCH": "Canal de Twitch",
+            "WHATSAPP": "Canal de WhatsApp",
+            "YOUTUBE": "Canal de Youtube",
+            "INSTAGRAM": "Cuenta en Instagram",
+            "TIKTOK": "Cuenta en TikTok",
+            "X": "Cuenta en X",
+            "RADIO": "Estaci\u00f3n de radio",
+            "FACEBOOK": "P\u00e1gina o perfil en Facebook",
+            "PRINT": "Peri\u00f3dico impreso",
+            "PODCAST": "P\u00f3dcast",
+            "REVISTA": "Revista",
+            "WEBSITE": "Sitio web",
+            "OTRAS": "Otras plataformas"
+        }
+    },
+    "INCOME": {
+        "argentina": {
+            "CROWDFUNDING": "Campa\u00f1as de recaudaci\u00f3n colectiva (crowdfunding)",
+            "PUBLIREPORTAJES": "Contenido patrocinado y/o publireportajes",
+            "CONTENIDO PARA CLIENTES": "Creaci\u00f3n de contenido para clientes",
+            "DONACIONES PARTICULARES": "Donaciones particulares",
+            "FINANCIACI\u00d3N P\u00daBLICA": "Financiaci\u00f3n p\u00fablica",
+            "MEMBRES\u00cdAS": "Membres\u00edas",
+            "ORGANIZACI\u00d3N DE EVENTOS": "Organizaci\u00f3n de eventos",
+            "PAUTA DE VENTA DIRECTA": "Pauta de venta directa",
+            "PAUTA PROGRAM\u00c1TICA": "Pauta program\u00e1tica",
+            "CONSULTOR\u00cdA": "Servicios de consultor\u00eda",
+            "SERVICIOS DE FORMACI\u00d3N": "Servicios de formaci\u00f3n (venta de cursos, talleres, capacitaciones)",
+            "SUBSIDIOS O GRANTS": "Subsidios o Grants",
+            "SUBSCRIPCIONES": "Subscripciones",
+            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales",
+            "OTRAS": "Otras fuentes de ingresos"
+        },
+        "mexico": {
+            "CROWDFUNDING": "Campa\u00f1as de recaudaci\u00f3n colectiva (crowdfunding)",
+            "PUBLIREPORTAJES": "Contenido patrocinado y/o publireportajes",
+            "CONTENIDO PARA CLIENTES": "Creaci\u00f3n de contenido para clientes",
+            "DONACIONES PARTICULARES": "Donaciones particulares",
+            "FINANCIACI\u00d3N P\u00daBLICA": "Financiaci\u00f3n p\u00fablica",
+            "MEMBRES\u00cdAS": "Membres\u00edas",
+            "ORGANIZACI\u00d3N DE EVENTOS": "Organizaci\u00f3n de eventos",
+            "PAUTA DE VENTA DIRECTA": "Pauta de venta directa",
+            "PAUTA PROGRAM\u00c1TICA": "Pauta program\u00e1tica automatizada",
+            "CONSULTOR\u00cdA": "Servicios de consultor\u00eda",
+            "SERVICIOS DE FORMACI\u00d3N": "Servicios de formaci\u00f3n (venta de cursos, talleres, capacitaciones)",
+            "SUBSIDIOS O GRANTS": "Subsidios o subvenciones",
+            "SUBSCRIPCIONES": "Suscripciones",
+            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales",
+            "OTRAS": "Otras fuentes de ingresos"
+        },
+        "peru": {
+            "CROWDFUNDING": "Campa\u00f1as de recaudaci\u00f3n colectiva (crowdfunding)",
+            "PUBLIREPORTAJES": "Contenido patrocinado y/o publireportajes",
+            "CONTENIDO PARA CLIENTES": "Creaci\u00f3n de contenido para clientes",
+            "DONACIONES PARTICULARES": "Donaciones particulares",
+            "FINANCIACI\u00d3N P\u00daBLICA": "Financiaci\u00f3n p\u00fablica",
+            "MEMBRES\u00cdAS": "Membres\u00edas",
+            "ORGANIZACI\u00d3N DE EVENTOS": "Organizaci\u00f3n de eventos",
+            "PAUTA DE VENTA DIRECTA": "Pauta de venta directa",
+            "PAUTA PROGRAM\u00c1TICA": "Pauta program\u00e1tica automatizada",
+            "CONSULTOR\u00cdA": "Servicios de consultor\u00eda",
+            "SERVICIOS DE FORMACI\u00d3N": "Servicios de formaci\u00f3n (venta de cursos, talleres, capacitaciones)",
+            "SUBSIDIOS O GRANTS": "Subvenciones",
+            "SUBSCRIPCIONES": "Subscripciones",
+            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales",
+            "OTRAS": "Otras fuentes de ingresos"
+        },
+        "chile": {
+            "CROWDFUNDING": "Campa\u00f1as de recaudaci\u00f3n colectiva (crowdfunding)",
+            "PUBLIREPORTAJES": "Contenido patrocinado y/o publireportajes",
+            "CONTENIDO PARA CLIENTES": "Creaci\u00f3n de contenido para clientes",
+            "DONACIONES PARTICULARES": "Donaciones particulares",
+            "FINANCIACI\u00d3N P\u00daBLICA": "Financiaci\u00f3n p\u00fablica",
+            "MEMBRES\u00cdAS": "Membres\u00edas",
+            "ORGANIZACI\u00d3N DE EVENTOS": "Organizaci\u00f3n de eventos",
+            "PAUTA DE VENTA DIRECTA": "Pauta de venta directa",
+            "PAUTA PROGRAM\u00c1TICA": "Pauta program\u00e1tica",
+            "CONSULTOR\u00cdA": "Servicios de consultor\u00eda",
+            "SERVICIOS DE FORMACI\u00d3N": "Servicios de formaci\u00f3n (venta de cursos, talleres, capacitaciones)",
+            "SUBSIDIOS O GRANTS": "Subsidios o Grants",
+            "SUBSCRIPCIONES": "Subscripciones",
+            "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales",
+            "OTRAS": "Otras fuentes de ingresos"
+        }
+    },
+    "THEMES": {
+        "all": {
+            "DERECHOS": "Derechos y justicia social",
+            "ECONOMÍA": "Economía y desarrollo local",
+            "EMERGENCIAS": "Emergencias y desastres",
+            "GOBIERNO": "Gobierno y política local",
+            "INVESTIGACIÓN": "Investigación y vigilancia del poder",
+            "MEDIO AMBIENTE": "Medio ambiente y sostenibilidad",
+            "SERVICIOS": "Servicios públicos y desarrollo urbano",
+            "SEGURIDAD": "Seguridad y convivencia",
+            "SOCIAL": "Temas sociales y calidad de vida",
+            "OTRAS": "Otras temáticas"
+        }
+    },
+    "THREATS": {
+        "all": {
+            "FÍSICAS": "Agresiones físicas graves",
+            "AMENAZAS DIRECTAS": "Amenazas directas",
+            "AMENAZAS DIGITALES": "Amenazas digitales",
+            "CRIMEN ORGANIZADO": "Presiones del crimen organizado",
+            "ECONÓMICAS": "Presiones económicas",
+            "GOBIERNO": "Presiones gubernamentales",
+            "JUDICIAL": "Acoso judicial",
+            "NO RESPONDE": "Prefiero no responder",
+            "NO RECIBE": "No recibimos agresiones ni amenazas",
+            "OTRAS": "Otras amenazas"
+        }
+    }
+};
+
 const topics = {
 
     "HIRING" : {
@@ -49,8 +217,6 @@ function visualize_topic(country, topic, level, provincia = undefined, localidad
     const title = document.querySelector(".viz-main-title");
     const subtitle = document.querySelector(".viz-subtitle");
     const global_container = document.querySelector(".minicharts-global-container");
-
-    console.log(country, topic, level, title);
 
     title.innerHTML = topics[topic].title;
     subtitle.innerHTML = topics[topic].subtitle;
@@ -196,7 +362,17 @@ class Chart {
         this.chart = this.container.append("div");
         this.chart.classed("mini-chart-container", true);
 
-        this.chart.append("h4").classed("mini-chart-title", true).text(this.category_adjusted);
+        let corresp_atual = corresp[this.topic]["all"] ?
+            corresp[this.topic]["all"] :
+            corresp[this.topic][current_country]
+        ;
+
+        console.log(this.category, corresp_atual[this.category.slice(0,-4)]);
+
+        this.chart.append("h4").classed("mini-chart-title", true).text(
+            //this.category_adjusted
+            corresp_atual[this.category.slice(0,-4)]
+        );
 
         this.tooltipContainer = this.chart.append("div");
         this.tooltipContainer.classed("mini-chart-tooltip-container", true);

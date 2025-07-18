@@ -531,6 +531,10 @@ h4.chapeu-relato {
     display: flex;
 }
 
+[data-view="localidad"] h4.chapeu-barras {
+    opacity: 0;
+}
+
 h4.chapeu-barras {
     font-family: nagel;
     font-weight: lighter;
@@ -1411,6 +1415,73 @@ li[data-datos-topic]::before {
         font-size: 3rem;
     }
 
+    /* MODAL VIZ MOBILE */
+    .modal-viz .container-viz,
+    .modal-viz .container-modal-relato {
+        top: 1rem;
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        padding: 10px 10px;
+    }
+
+    .modal-viz button.close-modal {
+        top: .5rem;
+        right: .5rem;
+    }
+
+    .modal-viz .minicharts-global-container {
+        justify-content: center;
+    }
+
+    .modal-viz .viz-subtitle,
+    .modal-viz .viz-main-title {
+
+        text-align: center;
+
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .map-panel-header {
+        padding: 10px;
+        padding-top: 20px;
+
+    }
+
+    .map-panel-header > div + div {
+        margin-top: 20px;
+    }
+
+    div[data-pais] > span {
+        font-size: 14px;
+    }
+
+    div[data-pais] > img {
+        height: 22px;
+    }
+
+    .menu-pais-dash {
+        gap: 10px;
+    }
+
+    .menu-pais-dash > div[data-pais] {
+        flex: 0 0 0;
+    }
+
+    p.description-tipo-paisage {
+        font-size: 8px;
+    }
+
+    .menu-tipo-paisage img[data-icone] {
+        height: 22px;
+    }
+    .menu-tipo-paisage .img-paisage-container {
+        height: 20px;
+        width: 20px;
+    }
 
 }
 
@@ -1511,6 +1582,7 @@ button.close-modal:hover {
     font-weight: bold;
     padding-left: 20px;
     margin: .5rem 0;
+    max-width: 300px;
 }
 
 line.strip {
