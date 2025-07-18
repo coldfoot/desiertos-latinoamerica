@@ -521,7 +521,7 @@ div.logo-wrapper {
 
 h4.chapeu-relato {
     font-family: nagel;
-    font-weight: bolder;
+    font-weight: bold;
     font-size: 1rem;
     font-style: normal;
     text-transform: uppercase;
@@ -541,8 +541,8 @@ h4.chapeu-barras {
 }
 
 span.chapeu-relato-author {
-    font-size: 0.8rem;
     font-weight: normal;
+    font-size: 1rem;
 }
 
 span.chapeu-relato-author::before {
