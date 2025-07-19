@@ -1664,7 +1664,7 @@ map.on('load', () => {
 
     plot_latam(dashboard);
 
-    //if (!dashboard) {
+ //   if (!dashboard) {
         
         countries["argentina"] = new Country(
             "argentina", "", 

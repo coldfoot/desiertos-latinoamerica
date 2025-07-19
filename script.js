@@ -1,3 +1,5 @@
+console.log('Defining plot_latam function');
+
 let btnDescubra;
 
 if (!dashboard) {
@@ -247,6 +249,78 @@ class Story {
 
 }
 
+function pick_specific_desierto(country) {
+
+    console.log(country);
+
+    let desiertos;
+    if (country != 'colombia') {
+        console.log('country is not colombia');
+        desiertos = main_data[country].small_units.filter(d => d.BASIC_INFO.CLASSIFICATION == 'DESIERTO');
+        console.log(desiertos);
+    }
+    else {
+        console.log('country is colombia');
+        desiertos = main_data[country].small_units.filter(d => d.BASIC_INFO.CLASSIFICATION == 'SEMIDESIERTO');
+        console.log(desiertos);
+    }
+
+    console.log(desiertos);
+
+    const nof_desiertos = desiertos.length;
+
+    let selected_index;
+    let type_smaller_unit;
+    if (country == 'argentina') {
+        type_smaller_unit = 'departamento';
+        selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'San-Luis-del-Palmar__Corrientes__argentina');
+
+    } else if (country == 'chile') {
+
+        type_smaller_unit = 'comuna';
+        selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'Penaflor__Region-Metropolitana__chile');
+
+    } else if (country == 'peru') {
+
+        type_smaller_unit = 'provincia'
+        selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'Aija__Ancash__peru');
+
+    } else if (country == 'mexico') {   
+
+        type_smaller_unit = 'municipio';
+        selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'Celestun__Yucatan__mexico');
+
+    } else if (country == 'municipio') {
+
+        type_smaller_unit = 'departamento';
+        selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'Maicao__La-Guajira__colombia');
+
+    }
+
+    const mini_data = desiertos[selected_index];
+
+    const pais_formatado = country[0].toUpperCase() + country.slice(1);
+
+    const parent_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == mini_data.BASIC_INFO.PARENT)[0];
+
+    const bbox_provincia = [
+        parent_data.BBOX.minx, parent_data.BBOX.miny,
+        parent_data.BBOX.maxx, parent_data.BBOX.maxy
+    ]; 
+
+    return {
+        'type smaller unit': type_smaller_unit,
+        'nof desiertos' : nof_desiertos,
+        'name desierto' : mini_data.BASIC_INFO.NAME,
+        'parent desierto' : mini_data.BASIC_INFO.PARENT,
+        'pop desierto' : mini_data.BASIC_INFO.POPULATION,
+        'key desierto' : mini_data.BASIC_INFO.KEY,
+        'bbox provincia' : bbox_provincia,
+        'name pais' : pais_formatado
+    }
+
+}
+
 function picks_random_desierto(country) {
 
     const desiertos = main_data[country].small_units.filter(d => d.BASIC_INFO.CLASSIFICATION == 'DESIERTO');
@@ -283,7 +357,7 @@ let story_info;
 
 function populate_story(country) {
 
-    story_info = picks_random_desierto(country);
+    story_info = pick_specific_desierto(country);
 
     console.log(story_info);
 
