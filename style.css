@@ -52,6 +52,7 @@
     --bege-fundo: #F9F1E3;
     --preto: #4c4c4c;
     --red: #EA4A26;
+    --bg-box-mobile: #FFFFFFCF;
 
     --strips: #9a9a9a;
 
@@ -1361,9 +1362,22 @@ li[data-datos-topic]::before {
     .narrative .text-slide-inner-wrapper {
 
         grid-template-columns: 1fr;
-
-
+        grid-template-rows: 1fr .8fr .2fr;
     }
+
+    .narrative .text-slide-inner-wrapper .slide-main-text {
+        padding: 32px;
+        background-color: var(--bg-box-mobile);
+        margin: 1rem;
+        border-radius: 1rem;
+    }
+
+
+    .narrative .text-slide-inner-wrapper .slide-main-text p {
+
+        margin: 0;
+        font-size: 18px;
+    } 
 
     .narrative .text-slide-inner-wrapper .placeholder-map {
 
@@ -1373,7 +1387,7 @@ li[data-datos-topic]::before {
 
     .narrative .text-slide-inner-wrapper .slide-main-text {
 
-        grid-row: 2/3;
+        grid-row: 2/4;
         grid-column: 1;
         place-content: center;
 
@@ -1383,11 +1397,8 @@ li[data-datos-topic]::before {
         
         grid-row: 3/4;
         grid-column: 1;
-        stroke: var(--color-accent)
-    }
-
-    .narrative .text-slide-inner-wrapper .slide-main-text p {
-        font-size: 1rem;
+        stroke: var(--color-accent);
+        justify-self: center;
     }
 
     /* country selection */
@@ -1396,18 +1407,22 @@ li[data-datos-topic]::before {
 
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 4fr 1fr;
-        height: 100%;
+        grid-template-rows: 1fr 1fr;
+        height: 66%;
+        margin: 32px;
+        background-color: var(--bg-box-mobile);
+        border-radius: 1rem;
+        padding: 32px;
 
     }
 
     [data-slide="country selection"] .text-slide-inner-wrapper .slide-main-text {
-        grid-row: 2/3;
+        grid-row: 1/2;
     }
     
     [data-slide="country selection"] .text-slide-inner-wrapper .menu-paises-wrapper {
 
-        grid-row: 3/4;
+        grid-row: 2/3;
 
     }
 
@@ -1420,15 +1435,43 @@ li[data-datos-topic]::before {
         display: none;
     }
 
+    [data-slide="country selection"] ul.menu-paises {
+        padding: 0 32px;
+    }
+
     [data-slide="country selection"] ul.menu-paises li {
-        height: 1.5rem;
-        font-size: 1.5rem;
+        height: 30px;
+        font-size: 20px;
+        padding-left: 8px;
+        border: 1px solid currentColor;
+        font-family: nagel;
+        font-weight: normal;
+    }
+
+    [data-slide="country selection"] ul.menu-paises li a {
+        font-weight: normal;
     }
 
     [data-slide="country selection"] ul.menu-paises img {
         width: 2.5rem;
         height: 2.5rem;
     }
+
+    [data-slide="country selection"] {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    [data-slide="country selection"] .text-slide-inner-wrapper .slide-main-text p {
+
+        transform: none;
+        font-style: italic;
+        font-size: 3rem;
+        font-weight: normal;
+    }
+
+    /*opening*/
 
 
     [data-slide="opening"] p {
@@ -1443,7 +1486,7 @@ li[data-datos-topic]::before {
 
     [data-slide="opening"] .text-slide-inner-wrapper {
         padding: 32px;
-        background-color: #FFFFFF90;
+        background-color: var(--bg-box-mobile);
         margin: 1rem;
         margin-bottom: 32px;
         padding-top: 3rem;
@@ -1459,16 +1502,16 @@ li[data-datos-topic]::before {
     }
 
     [data-slide="opening"] .text-slide-inner-wrapper .subtitle {
-        padding-left: 32px;
+        padding-left: 16px;
     }
 
     [data-slide="opening"] .text-slide-inner-wrapper .btn-descubra {
-        padding-left: 16px;
+        padding-left: 0;
         font-size: 24px;
     }
 
     [data-slide="opening"] .text-slide-inner-wrapper .btn-vaya-datos {
-        padding-left: 32px;
+        padding-left: 16px;
     }
 
     [data-slide="opening"] .text-slide-inner-wrapper .btn-vaya-datos a {
@@ -1487,27 +1530,6 @@ li[data-datos-topic]::before {
         height: 30px;
         width: 30px;
         /*transform: scale(0.5);*/
-    }
-
-    [data-slide="country selection"] .text-slide-inner-wrapper {
-        height: auto;
-        margin: 32px;
-        background-color: #FFFFFF90;
-        border-radius: 1rem;
-        padding: 32px;
-    }
-
-    [data-slide="country selection"] {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-    }
-
-    [data-slide="country selection"] .text-slide-inner-wrapper .slide-main-text p {
-
-        transform: none;
-        font-style: italic;
-        font-size: 3rem;
     }
 
     /* MODAL VIZ MOBILE */
@@ -1540,6 +1562,22 @@ li[data-datos-topic]::before {
 
 @media (max-width: 500px) {
 
+    /* STORY */
+    [data-slide="opening"] h1.goo {
+        font-size: 40px;
+        padding: 8px 16px;
+    }
+
+    [data-slide="opening"] .text-slide-inner-wrapper .btn-descubra {
+        font-size: 16px;
+    }
+
+    [data-slide="opening"] .text-slide-inner-wrapper {
+        padding: 16px;
+        padding-top: 32px;
+    }
+
+    /* DASHBOARD */
     .map-panel-header {
         padding: 10px;
         padding-top: 20px;
