@@ -807,6 +807,11 @@ div.seleccione-ubicacion-container {
     margin-top: 0;
 }
 
+p.scope-warning-text {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 /* TEXT PANEL */
 
 .text-panel-container .expand-card-mobile {

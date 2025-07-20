@@ -353,7 +353,9 @@ function update_infocard(name, key, country, tipo) {
     // to fill the relato within the localidad view in the case of colombia
     if (country == "colombia" && tipo == "localidad") {
 
-        const fields = ["TITLE", "TEASER", "AUTHOR", 
+        const fields = ["TITLE", 
+           	// "TEASER", 
+            "AUTHOR", 
             //"RELATO",
             "MEDIO"];
 
@@ -379,7 +381,9 @@ function update_infocard(name, key, country, tipo) {
 
     if (tipo == "provincia") {
 
-        const fields = ["TITLE", "TEASER", "AUTHOR", 
+        const fields = ["TITLE", 
+            //"TEASER", 
+            "AUTHOR", 
             //"RELATO", 
             "MEDIO"];
 
@@ -446,17 +450,22 @@ function update_infocard(name, key, country, tipo) {
 
         const textos = {
 
-            "argentina" : "Explora Argentina provincia por provincia y descubre las condiciones del periodismo local en 561 departamentos. El estudio cubre desde Buenos Aires hasta Tierra del Fuego, incluyendo la Ciudad Autónoma de Buenos Aires. Busca tu departamento para conocer su clasificación informativa.",
+            "argentina" : "Explora las condiciones para el ejercicio del periodismo local en 560 departamentos de Argentina, distribuidos en 23 provincias y en la Ciudad Autónoma de Buenos Aires.",
 
-            "chile" : "Explora Chile región por región y descubre las condiciones del periodismo local en 336 comunas estudiadas. El estudio cubre las 15 regiones del país con cobertura parcial en la Región Metropolitana. Busca tu comuna o región para conocer su clasificación informativa.",
+            "chile" : "Explora las condiciones para el ejercicio del periodismo local en 315 comunas en Chile. El estudio cubre las 16 regiones del país, con cobertura parcial en la Región Metropolitana.",
 
-            "peru" : "Explora Perú departamento por departamento y descubre las condiciones del periodismo local en 245 provincias estudiadas. El estudio cubre los 25 departamentos del país, desde Amazonas hasta Ucayali, incluyendo Lima Metropolitana y la Provincia Constitucional del Callao. Busca tu provincia o departamento para conocer su clasificación informativa."
+            "peru" :  "Explora las condiciones para el ejercicio del periodismo local en 244 provincias de Perú, distribuidas en 26 regiones. El estudio incluye Lima Metropolitana, Lima Provincias y el Callao.",
 
+            "mexico": "Explora las condiciones para el ejercicio del periodismo local en 351 municipios de México distribuidos en 31 estados. El estudio incluye 9 de las 16 alcaldías de Ciudad de México.",
+
+            "colombia": "Explora las condiciones para el ejercicio del periodismo local en 34 municipios. La muestra incluye ciudades intermedias, capitales departamentales y municipios estratégicos."
         }
 
-        document.querySelector("[data-tipo-conteudo='apresentacao']").innerHTML = `<p>${textos[country]}</p>`;
+        document.querySelector("[data-tipo-conteudo='scope-warning']").innerHTML = `<p class='scope-warning-text'>${textos[country]}</p>`;
 
-        const fields = ["TITLE", "TEASER", "AUTHOR", 
+        const fields = ["TITLE", 
+            //"TEASER", 
+            "AUTHOR", 
             //"RELATO", 
             "MEDIO"];
 
