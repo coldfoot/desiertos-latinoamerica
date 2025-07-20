@@ -65,8 +65,9 @@ class Story {
 
             } else {
 
-                plot_latam();
                 countries[current_country].ut_maior.toggle_hover_border("disable");
+
+                plot_latam();
 
                 console.log("Country.Going up...");
 
@@ -75,6 +76,19 @@ class Story {
         },
 
         "random desierto" : (direction) => {
+
+            if (direction == "forward" & current_country == undefined) {
+
+
+                const pais = "argentina"
+
+                current_country = pais;
+
+                populate_story(pais);
+
+                showCountryStory(pais);
+
+            }
 
 
             console.log("First paragraph. Going down...");
