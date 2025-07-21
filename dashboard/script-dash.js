@@ -595,11 +595,17 @@ function compute_classification(country, provincia) {
 
     if (provincia) localidads = localidads.filter(d => d.BASIC_INFO.PARENT == provincia);
 
-    localidads = localidads.map(d => d.BASIC_INFO.CLASSIFICATION.toLowerCase())
+    localidads = localidads
+        .map(d => d.BASIC_INFO.CLASSIFICATION.toLowerCase())
+        .filter(d => d != "sin datos")
+    ;
 
     const n = localidads.length;
 
-    const classifications = ["sin datos", "desierto", "semidesierto", "semibosque", "bosque"];
+    const classifications = [
+        //"sin datos", 
+        "desierto", "semidesierto", "semibosque", "bosque"
+    ];
 
     const counts = {};
 
@@ -610,6 +616,8 @@ function compute_classification(country, provincia) {
         counts[classification] = (100 * count / n).toFixed(1) + "%";
 
     })
+
+    console.log(counts);
 
     return counts;
 
@@ -628,11 +636,13 @@ function update_classification_barcharts(counts) {
 
         let value;
 
+        label.classList.remove("displaced");
+
         if (counts == "reset") {
 
             bar.style.flexBasis = ""; // é diferente ser 0 (pq aí overrides o estilo da classe) de ""
             label.innerHTML = "";
-            label.classList.remove("displaced");
+            //label.classList.remove("displaced");
 
             return;
 
@@ -642,7 +652,7 @@ function update_classification_barcharts(counts) {
 
             bar.style.flexBasis = 0;
             label.innerHTML = "";
-            label.classList.remove("displaced");
+            //label.classList.remove("displaced");
 
         } else {
 
@@ -653,7 +663,7 @@ function update_classification_barcharts(counts) {
 
             // positioning
 
-            const w_bar = +value.slice(0,-1) * container_width / 100;
+            const w_bar = (+value.slice(0,-1)) * container_width / 100;
             const w_label = +window.getComputedStyle(label).width.slice(0,-2);
             
             console.log(tipo, value, container_width, w_bar, w_label);
