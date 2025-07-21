@@ -15,6 +15,21 @@ if (!dashboard) {
 
 }
 
+const arrows = document.querySelectorAll(".wrapper-arrow > svg");
+arrows.forEach(arrow => arrow.addEventListener("click", e => {
+
+    const slide = arrow.parentElement.parentElement.parentElement.dataset.slide;
+
+    const slide_no = story.steps.indexOf(slide);
+
+    const next_slide = story.steps[slide_no + 1];
+
+    const next_slide_element = document.querySelector(`[data-slide='${next_slide}']`);
+
+    next_slide_element.scrollIntoView({ behavior: "smooth" });
+
+}));
+
 
 class MenuPaises {
 
@@ -212,6 +227,8 @@ class Story {
     };
 
     constructor(step_selector) {
+
+        this.steps = Object.keys(this.step_actions);
 
         this.step_selector = step_selector;
 
