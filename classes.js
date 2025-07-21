@@ -1533,6 +1533,14 @@ function display_paisage(tipo_paisage, country) {
                 ]
             )
 
+            map.setFilter(
+                country + '-bubble-highlight', [
+                    '==',
+                    ['get', 'KEY'],
+                    ''
+                ]
+            );
+
         } else {
 
             map.setPaintProperty(
@@ -1560,6 +1568,14 @@ function display_paisage(tipo_paisage, country) {
                 country + '-bubble',
                 'icon-opacity',
                 1
+            );
+
+            map.setFilter(
+                country + '-bubble-highlight', [
+                    '==',
+                    ['get', 'KEY'],
+                    ''
+                ]
             );
 
         } else {
