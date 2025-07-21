@@ -452,6 +452,20 @@ span.highlight {
     font-weight: bold;
 }
 
+.btn-explora-final {
+    font-size: 1.3em;
+    padding: .5em 1em;
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.btn-explora-final a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 
 /******* DASHBOARD *********/
 
@@ -1564,17 +1578,23 @@ li[data-datos-topic]::before {
 
     /* STORY */
     [data-slide="opening"] h1.goo {
-        font-size: 40px;
+        font-size: 48px;
+        line-height: 1.1;
         padding: 8px 16px;
     }
 
-    [data-slide="opening"] .text-slide-inner-wrapper .btn-descubra {
-        font-size: 16px;
+    [data-slide="opening"] .text-slide-inner-wrapper .btn-descubra span {
+        font-size: 18px;
+        font-family: nagel;
     }
 
     [data-slide="opening"] .text-slide-inner-wrapper {
         padding: 16px;
         padding-top: 32px;
+    }
+
+    [data-slide="opening"] .text-slide-inner-wrapper .btn-vaya-datos {
+        font-size: 14px;
     }
 
     /* DASHBOARD */
