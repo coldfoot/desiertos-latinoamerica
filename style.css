@@ -1586,6 +1586,21 @@ li[data-datos-topic]::before {
 @media (max-width: 500px) {
 
     /* STORY */
+
+    .container > .text-container {
+
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: initial;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+        scroll-snap-type: y mandatory;
+    }
+
+
     [data-slide="opening"] h1.goo {
         font-size: 48px;
         line-height: 1.1;
