@@ -320,7 +320,7 @@ class Country {
                     'match',
                     ['get', 'CLASSIFICATION'],
                     ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
-                    'gray'
+                    'transparent'
                 ]
             );
 
@@ -1188,7 +1188,7 @@ class Bubble {
                     'match',
                     ["get", "CLASSIFICATION"],
                     ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
-                    'gray'
+                    'transparent'
 
                 ],
                 'circle-opacity': 0,
@@ -1542,7 +1542,7 @@ function display_paisage(tipo_paisage, country) {
                 'match',
                 ['get', 'CLASSIFICATION'],
                 ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
-                'gray'
+                'transparent'
             ]
         );
 
