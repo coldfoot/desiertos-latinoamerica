@@ -983,8 +983,15 @@ span[data-barchart] .barchart-label {
 }
 
 span[data-barchart] .barchart-label.displaced {
+    /*transform: translate(-50%, 100%);*/
+    /*color: var(--color-text);*/
+    color: transparent;
+}
+
+span[data-barchart]:hover .barchart-label.displaced {
+    background-color: var(--color-text);
+    color: var(--color-bg);
     transform: translate(-50%, 100%);
-    color: var(--color-text);
 }
 
 
