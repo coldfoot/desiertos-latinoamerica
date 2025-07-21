@@ -1859,6 +1859,11 @@ rect.striplot-bg {
 
 }
 
+[data-relato-modal-campo="MEDIO"] {
+    margin-bottom: .25em;
+    font-style: italic;
+}
+
 .logo-wrapper-modal img {
     height: 3rem;
     display: block;

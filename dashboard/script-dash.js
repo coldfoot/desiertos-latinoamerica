@@ -451,7 +451,8 @@ function update_infocard(name, key, country, tipo) {
 
     } if (tipo == "pais") {
 
-        const textos = {
+        // Updates the scope warning text
+        const scope_warnings = {
 
             "argentina" : "Explora las condiciones para el ejercicio del periodismo local en 560 departamentos de Argentina, distribuidos en 23 provincias y en la Ciudad Autónoma de Buenos Aires.",
 
@@ -464,24 +465,30 @@ function update_infocard(name, key, country, tipo) {
             "colombia": "Explora las condiciones para el ejercicio del periodismo local en 34 municipios. La muestra incluye ciudades intermedias, capitales departamentales y municipios estratégicos."
         }
 
-        document.querySelector("[data-tipo-conteudo='scope-warning']").innerHTML = `<p class='scope-warning-text'>${textos[country]}</p>`;
+        document.querySelector("[data-tipo-conteudo='scope-warning']").innerHTML = `<p class='scope-warning-text'>${scope_warnings[country]}</p>`;
 
-        const fields = ["TITLE", 
-            //"TEASER", 
-            "AUTHOR", 
-            //"RELATO", 
-            "MEDIO"];
+        // TO DO: add the country level narrative
 
-        fields.forEach(field => {
+        // const fields = ["TITLE", 
+        //     // "TEASER", 
+        //     "AUTHOR", 
+        //     // "RELATO", 
+        //     "MEDIO"
+        //     ];
 
-            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = "Dentro de poco";
+        // show_conteudo("relato");
+        
+        // fields.forEach(field => {
 
-            if (field = "AUTHOR") {
-                container_relato.classList.remove("expandido");
-                container_relato.classList.add("recolhido");
-            }
+        //     console.log(field);
+        //     document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = "Dentro de poco";
 
-        })
+        //     if (field = "AUTHOR") {
+        //         container_relato.classList.remove("expandido");
+        //         container_relato.classList.add("recolhido");
+        //     }
+
+        // })
 
         const basic_info_data = main_data[country].country[0].BASIC_INFO;
 
@@ -541,7 +548,7 @@ function show_modal_relato() {
 
     }
 
-    const fields = ["AUTHOR", "TITLE", "RELATO"];
+    const fields = ["AUTHOR", "TITLE", "MEDIO", "RELATO"];
 
     fields.forEach(field => {
         document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = narrative_data[field];
