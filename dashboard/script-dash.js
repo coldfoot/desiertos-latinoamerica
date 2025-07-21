@@ -121,6 +121,9 @@ menu_pais.addEventListener("click", e => {
         
         const pais = div_pais.dataset.pais; 
 
+        search_container.querySelector("input[list]").value = "";
+        populate_datalist(main_data, pais);
+
         countries[pais].render_pais();
 
     }
@@ -679,21 +682,28 @@ function update_classification_barcharts(counts) {
 
 }
 
-function populate_datalist(data) {
+function populate_datalist(data, country = null) {
 
     const ref_datalist = search_container.querySelector("datalist");
 
-    const countries = Object.keys(data);
+    // resets;
+    ref_datalist.innerHTML = "";
+
+    let countries;
+
+    if (country == null) countries = Object.keys(data);
+    else countries = [country];
 
     countries.forEach(country => {
 
         const country_name = country[0].toUpperCase() + country.slice(1);
 
         const localidads = data[country].small_units;
-        const provincias = data[country].large_units;
+        //const provincias = data[country].large_units;
 
         if (country != "colombia") {
 
+            /*
             provincias.forEach(row => {
 
                 const new_option = document.createElement("option");
@@ -711,6 +721,7 @@ function populate_datalist(data) {
                 ref_datalist.appendChild(new_option);
 
             })
+            */
             
             localidads.forEach(row => {
 

@@ -935,6 +935,7 @@ span[data-resumen-tipo-classificacao] {
     display: flex;
     flex-direction: row;
     font-family: nagel;
+    border: 1px solid currentColor;
 }
 
 .place-paisage-composition > span {
