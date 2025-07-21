@@ -98,6 +98,20 @@ breadcrumbs.addEventListener("click", e => {
 
 })
 
+// Function to reset the paisage type menu
+function resetPaisageMenu() {
+    // Remove the "has selection" class
+    menu_tipo_paisage.classList.remove("tipo-paisage-has-selection");
+    
+    // Remove "selected" class from all paisage options
+    const selectedPaisage = menu_tipo_paisage.querySelector(".tipo-paisage-selected");
+    if (selectedPaisage) {
+        selectedPaisage.classList.remove("tipo-paisage-selected");
+    }
+    
+    console.log("Paisage menu reset");
+}
+
 // Event listener for the tipo paisage button
 menu_tipo_paisage.addEventListener("click", e => {
 
@@ -151,7 +165,7 @@ menu_pais.addEventListener("click", e => {
 
     }
 
-    // TO DO: reset the menu_tipo_paisage on country change
+    resetPaisageMenu();
 
 })
 
@@ -504,8 +518,6 @@ function update_infocard(name, key, country, tipo) {
         }
 
         document.querySelector("[data-tipo-conteudo='scope-warning']").innerHTML = `<p class='scope-warning-text'>${scope_warnings[country]}</p>`;
-
-        // TO DO: add the country level narrative
 
         const fields = ["TITLE", 
             // "TEASER", 
