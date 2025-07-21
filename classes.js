@@ -1516,35 +1516,66 @@ function display_paisage(tipo_paisage, country) {
 
     if (tipo_paisage != '') {
 
-        map.setPaintProperty(
-            country + '-localidad',
-            'fill-color',
-            [
-                'case',
+        if (country == "colombia") {
+
+            map.setPaintProperty(
+                country + '-bubble',
+                'icon-opacity',
                 [
-                    '==',
-                    ['get', 'CLASSIFICATION'],
-                    tipo_paisage.toUpperCase()
-                ],
-                colors_css[tipo_paisage],
-                'transparent'
-            ]
-        )
+                    'case',
+                    [
+                        '==',
+                        ['get', 'CLASSIFICATION'],
+                        tipo_paisage.toUpperCase()
+                    ],
+                    1,
+                    0
+                ]
+            )
+
+        } else {
+
+            map.setPaintProperty(
+                country + '-localidad',
+                'fill-color',
+                [
+                    'case',
+                    [
+                        '==',
+                        ['get', 'CLASSIFICATION'],
+                        tipo_paisage.toUpperCase()
+                    ],
+                    colors_css[tipo_paisage],
+                    'transparent'
+                ]
+            )
+
+        }
 
     } else {
 
-        console.log(colors_css);
+        if (country == "colombia") {
 
-        map.setPaintProperty(
-            country + '-localidad',
-            'fill-color',
-            [
-                'match',
-                ['get', 'CLASSIFICATION'],
-                ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
-                'transparent'
-            ]
-        );
+            map.setPaintProperty(
+                country + '-bubble',
+                'icon-opacity',
+                1
+            );
+
+        } else {
+
+            map.setPaintProperty(
+                country + '-localidad',
+                'fill-color',
+                [
+                    'match',
+                    ['get', 'CLASSIFICATION'],
+                    ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
+                    'transparent'
+                ]
+            );
+
+        }
 
     }
 
