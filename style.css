@@ -1385,22 +1385,17 @@ li[data-datos-topic]::before {
     .narrative .text-slide-inner-wrapper {
 
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr .8fr .2fr;
+        grid-template-rows: 1fr .8fr 100px;
     }
 
-    .narrative .text-slide-inner-wrapper .slide-main-text {
+    .narrative .text-slide-inner-wrapper .slide-main-text p {
         padding: 32px;
         background-color: var(--bg-box-mobile);
         margin: 1rem;
         border-radius: 1rem;
-    }
-
-
-    .narrative .text-slide-inner-wrapper .slide-main-text p {
-
-        margin: 0;
         font-size: 18px;
-    } 
+        padding-bottom: 132px;
+    }
 
     .narrative .text-slide-inner-wrapper .placeholder-map {
 
@@ -1587,6 +1582,11 @@ li[data-datos-topic]::before {
 
     /* STORY */
 
+    html {
+        height: 100%;
+    }
+
+    /*
     .container > .text-container {
 
         position: fixed;
@@ -1598,6 +1598,10 @@ li[data-datos-topic]::before {
         overflow-y: scroll;
         scroll-behavior: smooth;
         scroll-snap-type: y mandatory;
+    }*/
+
+    .wrapper-arrow {
+        transform: translateY(-32px);
     }
 
 
