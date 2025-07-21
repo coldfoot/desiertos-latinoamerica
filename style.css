@@ -724,6 +724,7 @@ p.description-tipo-paisage {
     flex-direction: row;
     align-items: center;
     flex: 0 0 4rem;
+    cursor: pointer;
     /*flex: 1 1 15%;*/
 }
 
