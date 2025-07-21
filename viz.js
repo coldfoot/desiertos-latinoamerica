@@ -173,14 +173,14 @@ const topics = {
         title : '¿Qué tipo de vínculo laboral tienen los periodistas?',
 
         //subtitle : "<span data-viz-subtitle-field='highest-pct'></span> de los <span data-viz-subtitle-field='higher-pct'></span> medios de <span data-viz-subtitle-field='unit name'></span> contratan periodistas por meio de <span data-viz-subtitle-field='highest-pct-category'></span>, enquanto en <span data-viz-subtitle-field='upper unit name'> esta porcentaje es de <span data-viz-subtitle-field='upper unit value'>",
-        subtitle: "Porcentaje de medios que contratan periodistas mediante…"
+        subtitle: "Porcentaje de medios que dicen contratar periodistas mediante los seguientes vínculos laborales, por localidad"
     },
 
     'PLATFORMS' : {
 
         title : '¿En qué plataforma publican los medios?',
 
-        subtitle : 'Porcentaje de medios que tienen presencia en…'
+        subtitle : 'Porcentaje de medios que dicen que publican en las seguientes plataformas, por localidad'
 
     },
 
@@ -188,7 +188,7 @@ const topics = {
 
         title : '¿De dónde provienen sus ingresos?',
 
-        subtitle : 'Porcentaje de medios que reciben ingresos provenientes de…'
+        subtitle : 'Porcentaje de medios que dicen tener las siguientes fuentes de ingresos, por localidad'
 
     },
 
@@ -196,7 +196,7 @@ const topics = {
 
         title : '¿Cuáles son las temáticas de su agenda informativa?',
 
-        subtitle : 'Porcentaje de medios que cubren temas de…'
+        subtitle : 'Porcentaje de medios que dicen que las seguientes temáticas están en su agenda informativa, por localidad'
 
     },
 
@@ -204,7 +204,7 @@ const topics = {
 
         title : '¿Experimentaron agresiones o amenazas en 2024?',
 
-        subtitle : 'Porcentaje de medios cuyos periodistas sufrieron….'
+        subtitle : 'Porcentaje de medios cuyos periodistas experimentarón los siguientes tipos de agresiones o amenazas, por localidad'
 
     }
 
