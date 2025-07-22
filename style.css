@@ -1257,6 +1257,7 @@ li[data-datos-topic]::before {
 
     h1.title {
         font-size: 1rem;
+        text-align: center;
     }
 
     .map-panel-container {
@@ -1659,7 +1660,7 @@ li[data-datos-topic]::before {
     /* DASHBOARD */
     .map-panel-header {
         padding: 10px;
-        padding-top: 20px;
+        /*padding-top: 20px;*/
 
     }
 
