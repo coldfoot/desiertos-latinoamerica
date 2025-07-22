@@ -1,3 +1,8 @@
+///////////////////////
+/// QUERY SELECTORS ///
+///////////////////////
+
+// Query selectors for all elements of the page
 const menu_tipo_paisage = document.querySelector(".menu-tipo-paisage");
 const menu_pais         = document.querySelector(".menu-pais-dash");
 const menu_nav_conteudo = document.querySelector(".wrapper-btns-nav");
@@ -14,7 +19,52 @@ const btn_leer_provincia_from_localidad = document.querySelector(".leer-provinci
 const btn_close_modal = document.querySelector("button.close-modal");
 const bg_modal = document.querySelector(".bg-modal-viz");
 const modal = document.querySelector(".modal-viz");
+const breadcrumbs = document.querySelector(".breadcrumbs");
 
+///////////////////////
+/// COLOR HANDLING ///
+/////////////////////
+
+// Colors for Argentina
+const cores_argentina = {
+    "#D27B51" : "desierto",
+    "#DAB28D" : "semidesierto",
+    "#EEC471" : "semibosque",
+    "#99A860" : "bosque"
+}
+
+// Function to convert the colors for Argentina into the new colors for the map
+function converte_cores_argentina() {
+    map.setPaintProperty(
+        "Argentina-localidad", 
+        "fill-color", 
+        [ "case",
+
+            ["==", ["get", "color_real"], "#D27B51"], "#F6CEAB", //desierto
+            ["==", ["get", "color_real"], "#DAB28D"], "#EEAE7F", //semidesierto 
+            ["==", ["get", "color_real"], "#EEC471"], "#85A573", //semibosque 
+            ["==", ["get", "color_real"], "#99A860"], "#688E50", //semibosque 
+            
+            "gray"
+        ])
+}
+
+///////////////////////
+/// STATE TRACKING ///
+/////////////////////
+
+// Initiates an object to store the current place
+const current_place = {
+    country : '',
+    provincia : '',
+    localidad : ''
+}
+
+///////////////////////////
+/// MENUS FUNCTIONALITY ///
+///////////////////////////
+
+// Event listener for the menu button
 btn_menu.addEventListener("click", e => {
 
     const state = btn_menu.dataset.state;
@@ -33,36 +83,7 @@ btn_menu.addEventListener("click", e => {
 
 })
 
-const breadcrumbs = document.querySelector(".breadcrumbs");
-
-const cores_argentina = {
-    "#D27B51" : "desierto",
-    "#DAB28D" : "semidesierto",
-    "#EEC471" : "semibosque",
-    "#99A860" : "bosque"
-}
-
-function converte_cores_argentina() {
-    map.setPaintProperty(
-        "Argentina-localidad", 
-        "fill-color", 
-        [ "case",
-
-            ["==", ["get", "color_real"], "#D27B51"], "#F6CEAB", //desierto
-            ["==", ["get", "color_real"], "#DAB28D"], "#EEAE7F", //semidesierto 
-            ["==", ["get", "color_real"], "#EEC471"], "#85A573", //semibosque 
-            ["==", ["get", "color_real"], "#99A860"], "#688E50", //semibosque 
-            
-            "gray"
-        ])
-}
-
-const current_place = {
-    country : '',
-    provincia : '',
-    localidad : ''
-}
-
+// Event listener for the breadcrumbs
 breadcrumbs.addEventListener("click", e => {
 
     const breadcrumb_clicado = e.target.closest('.breadcrumbs > span');
@@ -77,6 +98,21 @@ breadcrumbs.addEventListener("click", e => {
 
 })
 
+// Function to reset the paisage type menu
+function resetPaisageMenu() {
+    // Remove the "has selection" class
+    menu_tipo_paisage.classList.remove("tipo-paisage-has-selection");
+    
+    // Remove "selected" class from all paisage options
+    const selectedPaisage = menu_tipo_paisage.querySelector(".tipo-paisage-selected");
+    if (selectedPaisage) {
+        selectedPaisage.classList.remove("tipo-paisage-selected");
+    }
+    
+    console.log("Paisage menu reset");
+}
+
+// Event listener for the tipo paisage button
 menu_tipo_paisage.addEventListener("click", e => {
 
     const tipo_paisage_selected = menu_tipo_paisage.querySelector(".tipo-paisage-selected");
@@ -113,6 +149,7 @@ menu_tipo_paisage.addEventListener("click", e => {
 
 })
 
+// Event listener for the pais button
 menu_pais.addEventListener("click", e => {
 
     const div_pais = e.target.closest('.menu-pais-dash > div[data-pais]');
@@ -128,9 +165,13 @@ menu_pais.addEventListener("click", e => {
 
     }
 
+    resetPaisageMenu();
+
 })
 
-// MODAL
+////////////////////////////////////
+/// MODAL (POP-UP) FUNCTIONALITY ///
+////////////////////////////////////
 
 bg_modal.addEventListener("click", e => {
     toggle_modal("none");
@@ -146,8 +187,11 @@ function toggle_modal(modal_option) {
 
 }
 
-// DATOS
+/////////////////////////////
+/// DATAVIZ FUNCTIONALITY ///
+/////////////////////////////
 
+// Function to get the current level
 function get_current_level() {
     return text_panel.dataset.view;
 }
@@ -188,7 +232,9 @@ function click_on_datos(e) {
 
 }
 
-// NAV BUTTONS
+/////////////////////////
+/// NAVIGATOR BUTTONS ///
+/////////////////////////
 
 function control_nav_buttons(modo) {
 
@@ -223,9 +269,9 @@ function control_nav_buttons(modo) {
 
         container_btns.dataset.modo = "pais";
 
-        btns_to_show = ["apresentacao", "datos"];
-        show_conteudo("apresentacao");
-        activate_button("apresentacao");
+        btns_to_show = ["relato", "datos"];
+        show_conteudo("relato");
+        activate_button("relato");
 
     }
 
@@ -367,8 +413,10 @@ function update_infocard(name, key, country, tipo) {
 
         fields.forEach(field => {
 
+            // While there is no data, we are adding a placeholder. We will remove this once we have data.
             if (!narrative_data[field]) narrative_data[field] = '¡Dentro de poco!';
 
+            // Selects the data-value of the field and updates it with the relevant narrative data
             document.querySelector(`[data-relato-colombia-campo="${field}"]`).innerHTML = narrative_data[field];
 
             /*
@@ -390,11 +438,13 @@ function update_infocard(name, key, country, tipo) {
             //"RELATO", 
             "MEDIO"];
 
+        // Selects only the data for the current province
         const mini_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == name)[0]
         const narrative_data = mini_data.NARRATIVE;
 
         fields.forEach(field => {
 
+            // Updates each data-value field with the relevant narrative data
             document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
 
             /*
@@ -407,10 +457,11 @@ function update_infocard(name, key, country, tipo) {
 
         document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = "";
 
+        // Selects the basic info data and updates the place summary above the view
         const basic_info_data = mini_data.BASIC_INFO;
-
         update_place_summary(basic_info_data);
 
+        // Computes the classification percentages and updates the barcharts
         const counts = compute_classification(country, name);
         update_classification_barcharts(counts);
 
@@ -418,10 +469,12 @@ function update_infocard(name, key, country, tipo) {
 
     if (tipo == "localidad") {
 
+        // Boolean for detecting if data exists for the current localidad
         const existem_dados = main_data[country].small_units.filter(d => d.BASIC_INFO.KEY == key).length > 0;
 
         let classification, basic_info_data;
 
+        // If there is data,update the relevant fields
         if (existem_dados) {
 
             basic_info_data = main_data[country].small_units.filter(d => d.BASIC_INFO.KEY == key)[0].BASIC_INFO;
@@ -446,12 +499,12 @@ function update_infocard(name, key, country, tipo) {
         }
 
          update_place_summary(basic_info_data);
-
          update_classification_barcharts("reset");
 
     } if (tipo == "pais") {
 
-        const textos = {
+        // Updates the scope warning text on country change
+        const scope_warnings = {
 
             "argentina" : "Explora las condiciones para el ejercicio del periodismo local en 560 departamentos de Argentina, distribuidos en 23 provincias y en la Ciudad Autónoma de Buenos Aires.",
 
@@ -464,16 +517,18 @@ function update_infocard(name, key, country, tipo) {
             "colombia": "Explora las condiciones para el ejercicio del periodismo local en 34 municipios. La muestra incluye ciudades intermedias, capitales departamentales y municipios estratégicos."
         }
 
-        document.querySelector("[data-tipo-conteudo='scope-warning']").innerHTML = `<p class='scope-warning-text'>${textos[country]}</p>`;
+        document.querySelector("[data-tipo-conteudo='scope-warning']").innerHTML = `<p class='scope-warning-text'>${scope_warnings[country]}</p>`;
 
         const fields = ["TITLE", 
-            //"TEASER", 
+            // "TEASER", 
             "AUTHOR", 
-            //"RELATO", 
-            "MEDIO"];
-
+            // "RELATO", 
+            "MEDIO"
+            ];
+        
         fields.forEach(field => {
 
+            console.log(field);
             document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = "Dentro de poco";
 
             if (field = "AUTHOR") {
@@ -483,12 +538,11 @@ function update_infocard(name, key, country, tipo) {
 
         })
 
+        // Updates the summary pannel for the country level
         const basic_info_data = main_data[country].country[0].BASIC_INFO;
-
         console.log(basic_info_data);
 
         update_place_summary(basic_info_data);
-
         const counts = compute_classification(country);
         update_classification_barcharts(counts);
 
@@ -526,26 +580,38 @@ function update_place_summary(basic_info_data) {
 const btn_leer_mas = container_relato.querySelector(".leer-mas");
 const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
 
-
 function show_modal_relato() {
 
     toggle_modal("relato");
 
-    const mini_data = last_provincia_location_data;
-    const narrative_data = mini_data.NARRATIVE;
+   // Get current level and country
+   const currentLevel = get_current_level();
+   const currentCountry = get_current_country();
+   
+   let mini_data;
+   let narrative_data;
 
-    if (!narrative_data) {
-
-        document.querySelector(`[data-relato-modal-campo="RELATO"]`).innerHTML = '¡Dentro de poco!';
-        return;
-
+    // Determine which data to use based on current level
+    if (currentLevel === "pais" || currentLevel === "latam") {
+        // Use country-level data
+        mini_data = main_data[currentCountry].country[0];
+        narrative_data = mini_data.NARRATIVE;
+    } else {
+        // Use province-level data (existing behavior)
+        mini_data = last_provincia_location_data;
+        narrative_data = mini_data.NARRATIVE;
     }
 
-    const fields = ["AUTHOR", "TITLE", "RELATO"];
+    const fields = ["AUTHOR", "TITLE", "MEDIO", "RELATO"];
 
     fields.forEach(field => {
-        document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = narrative_data[field];
+        if (!narrative_data) document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = '¡Dentro de poco!';
+        else document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = narrative_data[field];
+
     })
+
+
+
 
 }
 
