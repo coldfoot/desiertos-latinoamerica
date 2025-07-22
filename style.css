@@ -1053,7 +1053,7 @@ span[data-barchart]:hover .barchart-label.displaced {
 p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     display: inline; 
     margin: 0;
-    font-style: italic;
+    /* font-style: italic; */
     font-weight: lighter;
     font-size: 1.2rem;
 }
@@ -1864,6 +1864,17 @@ rect.striplot-bg {
     font-style: italic;
 }
 
+[data-relato-modal-campo="RELATO"] {
+    margin-bottom: .25em;
+    font-family: buendia;
+    font-size: 1.2em;
+}
+
+[data-relato-modal-campo="TEASER"] {
+    margin-bottom: .25em;
+    font-style: italic;
+}
+
 .logo-wrapper-modal img {
     height: 3rem;
     display: block;
@@ -1928,3 +1939,52 @@ details.creditos {
     font-style: italic;
     margin-left: 0.5em;
   }
+
+  /* Table formatting for RELATO modal content */
+[data-relato-modal-campo="RELATO"] table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-family: buendia;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+[data-relato-modal-campo="RELATO"] table th,
+[data-relato-modal-campo="RELATO"] table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+}
+
+[data-relato-modal-campo="RELATO"] table th {
+    background-color: var(--bege-claro);
+    font-family: nagel;
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--color-text);
+    border-bottom: 2px solid var(--bege-escuro);
+}
+
+
+[data-relato-modal-campo="RELATO"] table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Responsive table for mobile */
+@media (max-width: 768px) {
+    [data-relato-modal-campo="RELATO"] table {
+        font-size: 0.85em;
+    }
+    
+    [data-relato-modal-campo="RELATO"] table th,
+    [data-relato-modal-campo="RELATO"] table td {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+/* Optional: Zebra striping for better readability */
+[data-relato-modal-campo="RELATO"] table tr:nth-child(even) {
+    background-color: var(--bege-escuro);
+}

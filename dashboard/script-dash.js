@@ -403,10 +403,11 @@ function update_infocard(name, key, country, tipo) {
     if (country == "colombia" && tipo == "localidad") {
 
         const fields = ["TITLE", 
-           	// "TEASER", 
+           	"TEASER", 
             "AUTHOR", 
             //"RELATO",
-            "MEDIO"];
+            //"MEDIO"
+            ];
 
         const mini_data = last_provincia_location_data;
         let narrative_data = mini_data.NARRATIVE ? mini_data.NARRATIVE : {};
@@ -433,10 +434,11 @@ function update_infocard(name, key, country, tipo) {
     if (tipo == "provincia") {
 
         const fields = ["TITLE", 
-            //"TEASER", 
+            "TEASER", 
             "AUTHOR", 
             //"RELATO", 
-            "MEDIO"];
+            //"MEDIO"
+            ];
 
         // Selects only the data for the current province
         const mini_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == name)[0]
@@ -520,17 +522,29 @@ function update_infocard(name, key, country, tipo) {
         document.querySelector("[data-tipo-conteudo='scope-warning']").innerHTML = `<p class='scope-warning-text'>${scope_warnings[country]}</p>`;
 
         const fields = ["TITLE", 
-            // "TEASER", 
+            "TEASER", 
             "AUTHOR", 
             // "RELATO", 
-            "MEDIO"
+            // "MEDIO"
             ];
+
+        const country_data = main_data[country].country[0];
+        console.log(country_data);
+        const basic_info_data = main_data[country].country[0].BASIC_INFO;
+        const narrative_data = main_data[country].country[0].NARRATIVE;
+        console.log(narrative_data);
         
         fields.forEach(field => {
 
             console.log(field);
-            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = "Dentro de poco";
-
+            
+            if (narrative_data[field]) {
+                console.log("adding data for ", field);
+                document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
+            } else {
+                document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = "Dentro de poco";
+            }
+            
             if (field = "AUTHOR") {
                 container_relato.classList.remove("expandido");
                 container_relato.classList.add("recolhido");
@@ -538,9 +552,7 @@ function update_infocard(name, key, country, tipo) {
 
         })
 
-        // Updates the summary pannel for the country level
-        const basic_info_data = main_data[country].country[0].BASIC_INFO;
-        console.log(basic_info_data);
+
 
         update_place_summary(basic_info_data);
         const counts = compute_classification(country);
@@ -602,7 +614,7 @@ function show_modal_relato() {
         narrative_data = mini_data.NARRATIVE;
     }
 
-    const fields = ["AUTHOR", "TITLE", "MEDIO", "RELATO"];
+    const fields = ["AUTHOR", "TITLE","TEASER", "RELATO"];
 
     fields.forEach(field => {
         if (!narrative_data) document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = '¡Dentro de poco!';
