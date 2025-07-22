@@ -1988,3 +1988,65 @@ details.creditos {
 [data-relato-modal-campo="RELATO"] table tr:nth-child(even) {
     background-color: var(--bege-escuro);
 }
+
+/* Metodologia classes - duplicate of creditos styling */
+details.metodologia {
+    margin-bottom: 1.2em;
+    padding: 0.5em 1em;
+  }
+  summary.metodologia {
+    font-family: nagel;
+    font-weight: 600;
+    font-size: 1.2em;
+    cursor: pointer;
+    outline: none;
+    padding: 0.3em 0;
+  }
+  ul.metodologia {
+    margin: 0.5em 0 0 1.2em;
+    padding: 0;
+    font-weight: lighter;
+  }
+
+  ul.metodologia.numbered {
+    list-style: decimal;
+  }
+  li.metodologia {
+    margin-bottom: 0.6em;
+    font-size: 1.2em;
+    line-height: 1.2;
+  }
+
+  ul.metodologia.localidades {
+    font-size: .9em;
+    line-height: 1.2;
+}
+
+  li.metodologia strong {
+    font-weight: bold !important;
+}
+
+/* Nested collapsible summaries - progressively lighter */
+details.metodologia details.metodologia {
+    margin-left: 1em;
+}
+
+details.metodologia details.metodologia summary.metodologia {
+    font-size: 1.1em;
+}
+
+details.metodologia details.metodologia details.metodologia {
+    margin-left: 1.5em;
+}
+
+details.metodologia details.metodologia details.metodologia summary.metodologia {
+    font-size: 1em;
+}
+
+details.metodologia details.metodologia details.metodologia details.metodologia {
+    margin-left: 2em;
+}
+
+details.metodologia details.metodologia details.metodologia details.metodologia summary.metodologia {
+    font-size: 0.9em;
+}
