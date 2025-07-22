@@ -459,6 +459,8 @@ span.highlight {
     color: var(--color-bg);
     text-decoration: none;
     border-radius: 8px;
+    max-width: fit-content;
+    margin: 0 auto;
 }
 
 .btn-explora-final a {
@@ -1255,6 +1257,7 @@ li[data-datos-topic]::before {
 
     h1.title {
         font-size: 1rem;
+        text-align: center;
     }
 
     .map-panel-container {
@@ -1394,7 +1397,6 @@ li[data-datos-topic]::before {
         margin: 1rem;
         border-radius: 1rem;
         font-size: 18px;
-        padding-bottom: 132px;
     }
 
     .narrative .text-slide-inner-wrapper .placeholder-map {
@@ -1416,7 +1418,12 @@ li[data-datos-topic]::before {
         grid-row: 3/4;
         grid-column: 1;
         stroke: var(--color-accent);
-        justify-self: center;
+        align-self: center;
+    }
+
+    .narrative .text-slide-inner-wrapper .wrapper-arrow svg {
+        display: block;
+        margin: 0 auto;
     }
 
     /* country selection */
@@ -1586,6 +1593,26 @@ li[data-datos-topic]::before {
         height: 100%;
     }
 
+    .narrative .text-slide-inner-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .narrative .text-slide-inner-wrapper .slide-main-text p {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-radius: 1rem 1rem 0 0;
+    }
+
+    [data-slide="todas las categorias"] .text-slide-inner-wrapper .slide-main-text p {
+        padding-bottom: 32px;
+    }
+
+    [data-slide="todas las categorias"] .wrapper-arrow {
+        height: 60px;
+    }
+
     /*
     .container > .text-container {
 
@@ -1601,7 +1628,12 @@ li[data-datos-topic]::before {
     }*/
 
     .wrapper-arrow {
-        transform: translateY(-32px);
+        background-color: var(--bg-box-mobile);
+        width: calc(100% - 2rem);
+        margin: 1rem;
+        margin-top: 0;
+        border-radius: 0 0 1rem 1rem;
+        /*transform: translateY(-32px);*/
     }
 
 
@@ -1612,7 +1644,7 @@ li[data-datos-topic]::before {
     }
 
     [data-slide="opening"] .text-slide-inner-wrapper .btn-descubra span {
-        font-size: 18px;
+        font-size: 16px;
         font-family: nagel;
     }
 
@@ -1628,7 +1660,7 @@ li[data-datos-topic]::before {
     /* DASHBOARD */
     .map-panel-header {
         padding: 10px;
-        padding-top: 20px;
+        /*padding-top: 20px;*/
 
     }
 
@@ -1653,7 +1685,7 @@ li[data-datos-topic]::before {
     }
 
     p.description-tipo-paisage {
-        font-size: 10px;
+        font-size: 9px;
     }
 
     .menu-tipo-paisage img[data-icone] {
