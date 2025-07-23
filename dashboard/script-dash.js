@@ -60,7 +60,7 @@ breadcrumbs.addEventListener("click", e => {
 
     const breadcrumb_clicado = e.target.closest('.breadcrumbs > span');
 
-    const tipo = breadcrumb_clicado.dataset.breadcrumb;
+    const tipo = breadcrumb_clicado ? breadcrumb_clicado.dataset.breadcrumb : null;
 
     if (tipo == "pais") countries[last_country].render_pais();
     if (tipo == "ut-maior") countries[last_country].render_provincia(last_provincia_location_data["NAME"]);
@@ -355,6 +355,12 @@ function update_breadcrumbs(nivel, local) {
         bc_ut_menor.classList.remove("breadcrumb-inativo");
         
         bc_ut_menor.textContent = local;
+    }
+
+    if (nivel == "home") {
+        bc_ut_maior.classList.add("breadcrumb-inativo");
+        bc_ut_menor.classList.add("breadcrumb-inativo");
+        bc_country.classList.add("breadcrumb-inativo");
     }
 
 }
@@ -923,11 +929,8 @@ function resetToInitialState() {
     });
     
     // Clear breadcrumbs and hide country (which hides its pipe)
-    document.querySelector('[data-breadcrumb="pais"]').textContent = '';
-    document.querySelector('[data-breadcrumb="ut-maior"]').textContent = '';
-    document.querySelector('[data-breadcrumb="ut-menor"]').textContent = '';
-    document.querySelector('.breadcrumb-country').classList.add('breadcrumb-inativo');
-    
+    update_breadcrumbs("home");
+
     // Reset text panel to initial state using data attributes
     const textPanel = document.querySelector('.text-panel-container');
     textPanel.setAttribute('data-view', 'latam');
@@ -945,9 +948,7 @@ function resetToInitialState() {
     }
     
     // Show only initial content
-    document.querySelector('[data-tipo-conteudo="apresentacao"]').classList.add('conteudo-active');
-    document.querySelector('[data-tipo-conteudo="resumen"]').classList.remove('conteudo-active');
-    document.querySelector('[data-tipo-conteudo="relato"]').classList.remove('conteudo-active');
+    show_conteudo("apresentacao");
     
     // Reset map to Latin America view
     plot_latam(true); // true = dashboard mode
