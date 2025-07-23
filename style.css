@@ -134,20 +134,12 @@ button.btn-menu {
     transition: transform .5s, opacity .5s;
 }
 
-button.btn-menu:hover .line-bottom {
+button.btn-menu[data-state="burger"]:hover .line-bottom {
     transform: translate(0, -50%) rotate(60deg);
 }
 
-button.btn-menu:hover .line-mid {
+button.btn-menu[data-state="burger"]:hover .line-mid {
     transform: rotate(-60deg) translate(0, -25%);
-}
-
-button.btn-menu[data-state="close menu"] .line-bottom {
-    transform: rotate(-45deg);
-}
-
-button.btn-menu[data-state="close menu"] .line-top {
-    transform: rotate(45deg) translate(12.5%, 0);
 }
 
 button.btn-menu[data-state="close menu"] .line-mid {
