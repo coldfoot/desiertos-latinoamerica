@@ -1474,8 +1474,6 @@ function plot_country(country, padding) {
         }
     );
 
-    console.log(colors["accent"], colors["map"]);
-
     map.setPaintProperty(
         'countries-fills', 
         'fill-opacity',

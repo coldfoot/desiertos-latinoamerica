@@ -80,7 +80,7 @@ class Story {
 
             } else {
 
-                countries[current_country].ut_maior.toggle_hover_border("disable");
+                countries[current_country].clear_country_subnational();
 
                 plot_latam();
 
@@ -288,15 +288,11 @@ function pick_specific_desierto(country) {
     if (country != 'colombia') {
         console.log('country is not colombia');
         desiertos = main_data[country].small_units.filter(d => d.BASIC_INFO.CLASSIFICATION == 'DESIERTO');
-        console.log(desiertos);
     }
     else {
         console.log('country is colombia');
         desiertos = main_data[country].small_units.filter(d => d.BASIC_INFO.CLASSIFICATION == 'SEMIDESIERTO');
-        console.log(desiertos);
     }
-
-    console.log(desiertos);
 
     const nof_desiertos = desiertos.length;
 
