@@ -122,6 +122,10 @@ button.btn-menu {
     stroke-linecap: round;
 }
 
+.top-bar .btn-menu-img {
+    stroke: var(--red);
+}
+
 .btn-menu-img .line-top { transform-origin: 12.5% 12.5%; }
 .btn-menu-img .line-bottom { transform-origin: 12.5% 75%; }
 .btn-menu-img .line-mid    { transform-origin: 87.5% 25%; }
@@ -422,6 +426,8 @@ header.show-menu .btn-menu-content {
     max-width: 800px;
     margin: 0 3rem;
     line-height: 1.2;
+    padding: 1rem;
+    background-color: var(--bege-escuro);
 
 }
 
