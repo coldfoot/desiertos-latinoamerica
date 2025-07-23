@@ -1696,7 +1696,7 @@ li[data-datos-topic]::before {
 
     [data-slide="opening"] h1.goo {
         font-size: 48px;
-        line-height: 1.1;
+        line-height: 1.2;
         padding: 8px 16px;
     }
 
@@ -1834,7 +1834,6 @@ button.close-modal:hover {
 [data-modal-active="relato"] .container-modal-relato { opacity: 1; }
 [data-modal-active="viz"] .container-viz { opacity: 1; }
 
-
 .viz-main-title {
     font-size: 2rem;
     margin: .5rem 0;
@@ -1964,11 +1963,43 @@ rect.striplot-bg {
     font-style: italic;
 }
 
+
+
 .logo-wrapper-modal img {
     height: 3rem;
     display: block;
     margin: 2rem 0;
 }
+
+.logo-wrapper-modal {
+    margin-right: auto;
+}
+
+.footer-modal-viz {
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+a.modal-viz-descargar-datos {
+    background-color: transparent;
+    color: var(--color-accent);
+    border: none;
+    font-family: nagel;
+    text-transform: uppercase;
+    text-decoration: underline;
+
+
+}
+
+.modal-viz-descargar-datos img {
+    display: inline-block;
+    stroke: var(--color-accent);
+    height: 1rem;
+
+}
+
 
 /* SECONDARY PAGES */
 
