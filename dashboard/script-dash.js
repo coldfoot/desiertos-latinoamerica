@@ -64,6 +64,7 @@ breadcrumbs.addEventListener("click", e => {
 
     if (tipo == "pais") countries[last_country].render_pais();
     if (tipo == "ut-maior") countries[last_country].render_provincia(last_provincia_location_data["NAME"]);
+    if (tipo == "home") resetToInitialState();
     //if (tipo == "ut-menor") render_localidad(last_localidad_location_data[this.key_name]); // na verdade nao precisa fazer nada, já está no local
 
 })
@@ -909,18 +910,6 @@ const levels = {
 }
 
 /* Handles the HOME breadcrumb click */
-
-
-// Add this to your existing event listeners
-document.addEventListener('DOMContentLoaded', function() {
-    const homeBreadcrumb = document.querySelector('[data-breadcrumb="home"]');
-    if (homeBreadcrumb) {
-        homeBreadcrumb.addEventListener('click', function() {
-            // Reset to initial state
-            resetToInitialState();
-        });
-    }
-});
 
 function resetToInitialState() {
     // Reset country selection
