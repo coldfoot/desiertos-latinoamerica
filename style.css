@@ -1156,7 +1156,17 @@ div.content-divider.bar-divider {
 }
 
 [data-country="colombia"] .wrapper-btns-nav {
+    /* display: none; */
+    
+}
+
+[data-country="colombia"] .wrapper-btns-nav > [data-btn-nav="datos"] {
     display: none;
+    /* opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    filter: grayscale(100%);
+    color: var(--strips); */
 }
 
 .relato-colombia-localidad.expandido [data-relato-colombia-campo="AUTHOR"] { display: none; }
