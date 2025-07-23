@@ -394,7 +394,14 @@ function populate_story(country) {
 
         const campo = span.dataset.storyText;
 
-        span.innerHTML = story_info[campo];
+        span.innerHTML = campo == 'pop desierto' 
+        ?   story_info[campo].toLocaleString('pt-BR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+                useGrouping: true
+            })
+        : story_info[campo]
+        ;
 
     })
 
