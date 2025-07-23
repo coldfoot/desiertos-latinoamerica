@@ -886,13 +886,16 @@ span[data-resumen-tipo-classificacao] {
 }
 
 .breadcrumb-ut-maior::before,
-.breadcrumb-ut-menor::before {
+.breadcrumb-ut-menor::before, 
+.breadcrumb-country::before {
     content: "|";
     margin: 1rem;
 }
 
+.breadcrumb-home:hover,
 .breadcrumb-country:hover,
-.breadcrumb-ut-maior:hover {
+.breadcrumb-ut-maior:hover,
+.breadcrumb-ut-menor:hover {
 
     color: var(--color-accent);
 
@@ -901,6 +904,7 @@ span[data-resumen-tipo-classificacao] {
 .breadcrumbs .breadcrumb-inativo {
     display: none;
 }
+
 
 /* PLACE SUMMARY */
 
@@ -1000,6 +1004,10 @@ span[data-barchart]:hover .barchart-label.displaced {
 
 
 /* BUTTONS NAV DATOS RELATO MEDIO */
+
+.wrapper-btns-nav[data-modo="latam"] {
+    display: none;
+}
 
 .wrapper-btns-nav {
     margin-top: auto;
@@ -1363,6 +1371,25 @@ li[data-datos-topic]::before {
 
     .breadcrumbs {
         font-size: 10px;
+    }
+
+    .breadcrumb-home {
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        display: inline-flex;
+        align-items: center;
+        margin-right: 8px;
+    }
+    
+    .breadcrumb-home:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    .breadcrumb-home svg {
+        width: 16px;
+        height: 16px;
     }
 
 

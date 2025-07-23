@@ -367,9 +367,9 @@ function update_breadcrumbs(nivel, local) {
     if (nivel == "pais") {
         bc_ut_maior.classList.add("breadcrumb-inativo");
         bc_ut_menor.classList.add("breadcrumb-inativo");
+        bc_country.classList.remove("breadcrumb-inativo"); // Show country and its pipe
         
         bc_country.textContent = local;
-        //last_country = local;
     }
 
     if (nivel == "ut-maior") {
@@ -940,3 +940,80 @@ const levels = {
 
 }
 
+/* Handles the HOME breadcrumb click */
+
+
+// Add this to your existing event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    const homeBreadcrumb = document.querySelector('[data-breadcrumb="home"]');
+    if (homeBreadcrumb) {
+        homeBreadcrumb.addEventListener('click', function() {
+            // Reset to initial state
+            resetToInitialState();
+        });
+    }
+});
+
+function resetToInitialState() {
+    // Reset country selection
+    document.querySelectorAll('[data-pais]').forEach(btn => {
+        btn.classList.remove('pais-selected');
+    });
+    
+    // Reset paisage selection  
+    document.querySelectorAll('[data-tipo-paisage]').forEach(btn => {
+        btn.classList.remove('tipo-paisage-selected');
+    });
+    
+    // Clear breadcrumbs and hide country (which hides its pipe)
+    document.querySelector('[data-breadcrumb="pais"]').textContent = '';
+    document.querySelector('[data-breadcrumb="ut-maior"]').textContent = '';
+    document.querySelector('[data-breadcrumb="ut-menor"]').textContent = '';
+    document.querySelector('.breadcrumb-country').classList.add('breadcrumb-inativo');
+    
+    // Reset text panel to initial state using data attributes
+    const textPanel = document.querySelector('.text-panel-container');
+    textPanel.setAttribute('data-view', 'latam');
+    textPanel.setAttribute('data-country', '');
+    textPanel.setAttribute('data-classification-localidad', '');
+    
+    // Clear infocard title
+    document.querySelector("[data-infocard-field='title']").innerHTML = 'Título del Informe Regional';
+    // Reset scope warning to initial text
+    document.querySelector('.scope-warning').innerHTML = '¿Tu comunidad vive en un desierto o en un bosque informativo? Haz clic en cualquier país para conocer la clasificación de sus territorios y el perfil de sus ecosistemas informativos.';
+    // Set navigation buttons to latam mode
+    const navButtons = document.querySelector('.wrapper-btns-nav');
+    if (navButtons) {
+        navButtons.setAttribute('data-modo', 'latam');
+    }
+    
+    // Show only initial content
+    document.querySelector('[data-tipo-conteudo="apresentacao"]').classList.add('conteudo-active');
+    document.querySelector('[data-tipo-conteudo="resumen"]').classList.remove('conteudo-active');
+    document.querySelector('[data-tipo-conteudo="relato"]').classList.remove('conteudo-active');
+    
+    // Reset map to Latin America view
+    plot_latam(true); // true = dashboard mode
+    
+    // Reset fill color back to original orange
+    map.setPaintProperty('countries-fills', 'fill-color', '#FF571D');
+    map.setPaintProperty('countries-borders', 'line-color', 'black');
+    
+        
+    // Clear any country-specific layers
+    if (current_country && countries[current_country]) {
+        countries[current_country].clear_country_subnational();
+    }
+    
+    // Reset current_country
+    current_country = undefined;
+    
+    // Re-enable country click events
+    countries_events.monitor_events("on");
+    
+    // Clear search input
+    const searchInput = document.getElementById('dash-ubicacion');
+    if (searchInput) {
+        searchInput.value = '';
+    }
+}
