@@ -405,14 +405,19 @@ let padding;
 function showCountryStory(pais) {
 
     const screen_width = window.innerWidth;
+    const screen_height = window.innerHeight;
+
+    const h_3 = screen_height / 3;
+
 
     const pad_right = screen_width < 900 ? 30 : screen_width / 2;
+    const pad_bottom = screen_width < 900 ? screen_height / 3 : 30;
 
     padding = {
         right: pad_right,
         left: 30,
         top: 30,
-        bottom: 30
+        bottom: pad_bottom
     }
 
     plot_country(pais, padding);
