@@ -1630,17 +1630,6 @@ li[data-datos-topic]::before {
         height: 100%;
     }
 
-    .text-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: initial;
-        overflow: auto;
-        scroll-snap-type: y mandatory;
-    }
-
     .narrative .text-slide-inner-wrapper {
         display: flex;
         flex-direction: column;
@@ -1660,6 +1649,20 @@ li[data-datos-topic]::before {
     [data-slide="todas las categorias"] .wrapper-arrow {
         height: 60px;
     }
+
+    /* dealing with ddress bar on mobile */
+    .text-slide {
+        padding-bottom: 32px;
+    }
+
+    @supports(height: 100dvh) {
+
+        .text-slide {
+            padding-bottom: 0;
+            height: 100dvh;
+        }
+    }
+
 
     /*
     .container > .text-container {
