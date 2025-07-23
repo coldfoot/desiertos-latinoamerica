@@ -22,34 +22,6 @@ const modal = document.querySelector(".modal-viz");
 const breadcrumbs = document.querySelector(".breadcrumbs");
 
 ///////////////////////
-/// COLOR HANDLING ///
-/////////////////////
-
-// Colors for Argentina
-const cores_argentina = {
-    "#D27B51" : "desierto",
-    "#DAB28D" : "semidesierto",
-    "#EEC471" : "semibosque",
-    "#99A860" : "bosque"
-}
-
-// Function to convert the colors for Argentina into the new colors for the map
-function converte_cores_argentina() {
-    map.setPaintProperty(
-        "Argentina-localidad", 
-        "fill-color", 
-        [ "case",
-
-            ["==", ["get", "color_real"], "#D27B51"], "#F6CEAB", //desierto
-            ["==", ["get", "color_real"], "#DAB28D"], "#EEAE7F", //semidesierto 
-            ["==", ["get", "color_real"], "#EEC471"], "#85A573", //semibosque 
-            ["==", ["get", "color_real"], "#99A860"], "#688E50", //semibosque 
-            
-            "gray"
-        ])
-}
-
-///////////////////////
 /// STATE TRACKING ///
 /////////////////////
 
@@ -826,8 +798,6 @@ function populate_datalist(data, country = null) {
             localidads.forEach(row => {
 
                 if (row.BASIC_INFO.CLASSIFICATION == "SIN DATOS") return;
-
-                console.log("COLOMBIA: ", row.BASIC_INFO.NAME, ' ', row.BASIC_INFO.CLASSIFICATION);
 
                 const new_option = document.createElement("option");
 
