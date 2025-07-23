@@ -62,10 +62,8 @@ breadcrumbs.addEventListener("click", e => {
 
     const tipo = breadcrumb_clicado.dataset.breadcrumb;
 
-    let provincia_id = last_country == "Argentina" ? 'nam' : 'NAME';
-
     if (tipo == "pais") countries[last_country].render_pais();
-    if (tipo == "ut-maior") countries[last_country].render_provincia(last_provincia_location_data[provincia_id]);
+    if (tipo == "ut-maior") countries[last_country].render_provincia(last_provincia_location_data["NAME"]);
     //if (tipo == "ut-menor") render_localidad(last_localidad_location_data[this.key_name]); // na verdade nao precisa fazer nada, já está no local
 
 })
