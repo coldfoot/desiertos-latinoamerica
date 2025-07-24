@@ -223,12 +223,11 @@ function gen_csv() {
     const header = ["Pais", "Provincia / Estado", "Localidad / Cidade", "Topico", ...categories];
     output.push(header);
 
-
     units.forEach(unit => {
 
         const values = categories.map(category => summary_data.data[category].filter(d => d.name == unit)[0].value)
 
-        const row = [summary_data.header.country, summary_data.header.provincia, summary_data,header.topic, unit, ...values];
+        const row = [summary_data.header.country, summary_data.header.provincia, summary_data.header.topic, unit, ...values];
         const row_string = row.join(" ; ");
         output.push(row_string);
 
@@ -236,7 +235,8 @@ function gen_csv() {
 
     const output_string = output.join("\n");
 
-    const blob = new Blob([output_string], { type: 'text/csv' });
+    // Add BOM for UTF-8 encoding
+    const blob = new Blob(["\uFEFF" + output_string], { type: 'text/csv;charset=utf-8' });
 
     const url = URL.createObjectURL(blob);
 
@@ -257,7 +257,6 @@ function prepare_download_datos_btn(ref) {
     //btn.click();
 
     //setTimeout(() => URL.revokeObjectURL(url), 100);
-
 
 }
 
