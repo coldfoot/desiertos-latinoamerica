@@ -3,6 +3,7 @@
 ///////////////////////
 
 // Query selectors for all elements of the page
+const body = document.querySelector("body");
 const menu_tipo_paisage = document.querySelector(".menu-tipo-paisage");
 const menu_pais         = document.querySelector(".menu-pais-dash");
 const menu_nav_conteudo = document.querySelector(".wrapper-btns-nav");
@@ -172,7 +173,11 @@ function toggle_modal(modal_option) {
 
 // Function to get the current level
 function get_current_level() {
-    return text_panel.dataset.view;
+    return body.dataset.view;
+}
+
+function set_current_level(level) {
+    body.dataset.view = level;
 }
 
 function get_current_country() {
@@ -377,7 +382,7 @@ function update_infocard(name, key, country, tipo) {
 
     console.log(name, key, country, tipo);
 
-    text_panel.dataset.view = tipo;
+    set_current_level(tipo);//body.dataset.view = tipo;
     text_panel.dataset.country = country;
 
     document.querySelector("[data-infocard-field]").innerHTML = name;
