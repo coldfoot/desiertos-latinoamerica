@@ -212,6 +212,57 @@ const topics = {
 
 }
 
+let summary_data;
+
+function gen_csv() {
+
+    const output = [];
+    const categories = summary_data.categories;
+    const units = summary_data.data[categories[0]].map(d => d.name);
+
+    const header = ["Pais", "Provincia / Estado", "Localidad / Cidade", "Topico", ...categories];
+    output.push(header);
+
+
+    units.forEach(unit => {
+
+        const values = categories.map(category => summary_data.data[category].filter(d => d.name == unit)[0].value)
+
+        const row = [summary_data.header.country, summary_data.header.provincia, summary_data,header.topic, unit, ...values];
+        const row_string = row.join(" ; ");
+        output.push(row_string);
+
+    })
+
+    const output_string = output.join("\n");
+
+    const blob = new Blob([output_string], { type: 'text/csv' });
+
+    const url = URL.createObjectURL(blob);
+
+    return url
+
+}
+
+function prepare_download_datos_btn(ref) {
+
+    const btn = document.querySelector(ref);
+
+    const url = gen_csv();
+    btn.href = url;
+    btn.download = `datos_${summary_data.header.country}_${summary_data.header.provincia}${summary_data.header.topic}.csv`;
+
+    console.log(btn, btn.download);
+
+    //btn.click();
+
+    //setTimeout(() => URL.revokeObjectURL(url), 100);
+
+
+}
+
+
+
 function visualize_topic(country, topic, level, provincia = undefined, localidad = undefined) {
 
     const title = document.querySelector(".viz-main-title");
@@ -223,6 +274,17 @@ function visualize_topic(country, topic, level, provincia = undefined, localidad
     global_container.innerHTML = "";
 
     const summary = prepare_data(country, topic, level, provincia, localidad);
+
+    console.log(provincia);
+    
+    // data for the download button
+    summary_data = summary;
+    summary_data["header"] = {
+        country,
+        provincia,
+        topic
+    };
+
 
     const data = summary.data;
     const categories = summary.categories;
@@ -236,6 +298,8 @@ function visualize_topic(country, topic, level, provincia = undefined, localidad
         )
 
     })
+
+    prepare_download_datos_btn(".modal-viz-descargar-datos");
 
 
 
@@ -366,8 +430,6 @@ class Chart {
             corresp[this.topic]["all"] :
             corresp[this.topic][current_country]
         ;
-
-        console.log(this.category, corresp_atual[this.category.slice(0,-4)]);
 
         this.chart.append("h4").classed("mini-chart-title", true).text(
             //this.category_adjusted
