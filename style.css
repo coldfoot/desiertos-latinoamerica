@@ -1617,7 +1617,8 @@ li[data-datos-topic]::before {
     }
 
     .modal-viz .viz-subtitle,
-    .modal-viz .viz-main-title {
+    .modal-viz .viz-main-title,
+    .chapeu-viz-main-title {
 
         text-align: center;
 
@@ -1873,6 +1874,7 @@ button.close-modal:hover {
     padding-left: 20px;
     margin: .5rem 0;
     max-width: 300px;
+    height: 4ch;
 }
 
 line.strip {
@@ -1883,7 +1885,7 @@ line.strip {
 
 line.strip[data-strip-type="highlight"] {
     opacity: 1;
-    color: blue;
+    stroke: var(--color-accent);
 }
 
 line.strip[data-strip-type="promedio-country"] {
@@ -1915,18 +1917,24 @@ rect.striplot-bg {
     position: relative;
 }
 
-.minichart-promedio-country-label,
-.minichart-promedio-provincia-label {
+/*.minichart-promedio-country-label,
+.minichart-promedio-provincia-label,*/
+.minichart-selected-unit-label {
     position: absolute;
     font-size: 10px;
     text-transform: uppercase;
-    padding: 0 .5em;
+    padding: 0 3px;
+    text-align: left;
+    color: var(--color-accent);
+    width: max-content;
     /*transform: translate(0, -100%);*/
-
 }
 
-.minichart-promedio-country-label {
+.chapeu-viz-main-title {
     color: var(--color-accent);
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
 }
 
 .make-left {

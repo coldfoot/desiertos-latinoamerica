@@ -173,14 +173,14 @@ const topics = {
         title : '¿Qué tipo de vínculo laboral tienen los periodistas?',
 
         //subtitle : "<span data-viz-subtitle-field='highest-pct'></span> de los <span data-viz-subtitle-field='higher-pct'></span> medios de <span data-viz-subtitle-field='unit name'></span> contratan periodistas por meio de <span data-viz-subtitle-field='highest-pct-category'></span>, enquanto en <span data-viz-subtitle-field='upper unit name'> esta porcentaje es de <span data-viz-subtitle-field='upper unit value'>",
-        subtitle: "Porcentaje de medios que contratan periodistas mediante los seguientes vínculos laborales, por localidad"
+        subtitle: "Porcentaje de medios que contratan periodistas mediante los seguientes vínculos laborales:"
     },
 
     'PLATFORMS' : {
 
         title : '¿En qué plataforma publican los medios?',
 
-        subtitle : 'Porcentaje de medios que publican en las seguientes plataformas, por localidad'
+        subtitle : 'Porcentaje de medios que publican en las seguientes plataformas:'
 
     },
 
@@ -188,7 +188,7 @@ const topics = {
 
         title : '¿De dónde provienen sus ingresos?',
 
-        subtitle : 'Porcentaje de medios que tienen las siguientes fuentes de ingresos, por localidad'
+        subtitle : 'Porcentaje de medios que tienen las siguientes fuentes de ingresos:'
 
     },
 
@@ -196,7 +196,7 @@ const topics = {
 
         title : '¿Cuáles son las temáticas de su agenda informativa?',
 
-        subtitle : 'Porcentaje de medios que tienen las seguientes temáticas en su agenda informativa, por localidad'
+        subtitle : 'Porcentaje de medios que tienen las seguientes temáticas en su agenda informativa:'
 
     },
 
@@ -204,7 +204,7 @@ const topics = {
 
         title : '¿Experimentaron agresiones o amenazas en 2024?',
 
-        subtitle : 'Porcentaje de medios cuyos periodistas experimentarón los siguientes tipos de agresiones o amenazas, por localidad'
+        subtitle : 'Porcentaje de medios cuyos periodistas experimentarón los siguientes tipos de agresiones o amenazas:'
 
     }
 
@@ -244,12 +244,17 @@ function gen_csv() {
 
 }
 
-function prepare_download_datos_btn(ref) {
+function prepare_download_datos_btn(ref, level) {
 
     const btn = document.querySelector(ref);
 
     const url = gen_csv();
     btn.href = url;
+
+    let filename = `datos_${summary_data.header.country}_${summary_data.header.provincia}`;
+
+    if (level != "country") filename += ``
+
     btn.download = `datos_${summary_data.header.country}_${summary_data.header.provincia}${summary_data.header.topic}.csv`;
 
     console.log(btn, btn.download);
@@ -260,9 +265,11 @@ function prepare_download_datos_btn(ref) {
 
 }
 
-
+let selected_unit;
 
 function visualize_topic(country, topic, level, provincia = undefined, localidad = undefined) {
+
+    // level: country / provincia / localidad
 
     const title = document.querySelector(".viz-main-title");
     const subtitle = document.querySelector(".viz-subtitle");
@@ -273,34 +280,35 @@ function visualize_topic(country, topic, level, provincia = undefined, localidad
     global_container.innerHTML = "";
 
     const summary = prepare_data(country, topic, level, provincia, localidad);
-
-    console.log(provincia);
     
+    // selected_unit will be populated by prepare_data
+    //document.querySelector('.chapeu-viz-main-title').innerHTML = selected_unit;
+
     // data for the download button
     summary_data = summary;
     summary_data["header"] = {
+        level,
         country,
         provincia,
+        localidad,
         topic
     };
-
 
     const data = summary.data;
     const categories = summary.categories;
 
-    categories.forEach(category => {
+    categories.forEach( (category, i) => {
 
         const chart = new Chart(
             topic,
             category,
-            data[category]
+            data[category],
+            i + 1 // a chart number, to control the styling of some elements.
         )
 
     })
 
-    prepare_download_datos_btn(".modal-viz-descargar-datos");
-
-
+    prepare_download_datos_btn(".modal-viz-descargar-datos", level);
 
 }
 
@@ -308,19 +316,32 @@ function visualize_topic(country, topic, level, provincia = undefined, localidad
 function prepare_data(country, topic, level, provincia = undefined, localidad = undefined) {
     const startTime = performance.now();
 
+
     let pre_data;
 
     if (level == "pais") {
 
+        pre_data = main_data[country].country;
+
+        selected_unit = country_names[country];
+    }
+
+    if (level == "provincia") {
+
         pre_data = main_data[country]["large_units"];
 
-    } else {
+        selected_unit = provincia;
+    }
+
+    if (level == "localidad") {
 
         pre_data = main_data[country]["small_units"].filter(d => d.BASIC_INFO.PARENT == provincia);
 
+        selected_unit = localidad;
     }
 
     const prepared_data = {};
+    const values_for_selected_units = [];
 
     const categories = Object.keys(main_data[country].country[0][topic]).filter(d => d.slice(-3) == "PCT");
 
@@ -339,10 +360,12 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
                     }
                 }*/
 
-                if (level == "localidad") {
-                    if (unit.BASIC_INFO.NAME == localidad) {
+                if (unit.BASIC_INFO.NAME == selected_unit) {
                         flag_self = true;
-                    }
+                        values_for_selected_units.push({
+                            category: category,
+                            value : unit[topic][category]
+                        })
                 }
 
                 return ({
@@ -356,13 +379,18 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
             } 
         )
 
+        /*
+
         // adiciona a media do país
         prepared_data[category].push({
             "name" : "Promedio " + country,
             "value" : main_data[country].country[0][topic][category],
             "type" : "promedio-country"
-        })
+        }) 
+        
+        */
 
+        /*
         if (level != "pais") {
 
             // adiciona a media da provincia
@@ -373,11 +401,23 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
             })
 
         }
+        */
 
     })
 
+
+    // sort categories
+
+    console.log(values_for_selected_units);
+
+    values_for_selected_units.sort( (a,b) => b.value - a.value);
+
+    console.log(values_for_selected_units);
+
+    const categories_ordenadas = values_for_selected_units.map(d => d.category);
+
     return {
-        categories: categories,
+        categories: categories_ordenadas,
         data: prepared_data
     }
 
@@ -385,9 +425,10 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
 
 class Chart {
 
-    constructor(topic, category, data) {
+    constructor(topic, category, data, chart_no) {
 
         this.data = data;
+        this.chart_no = chart_no;
 
         this.h = 100;
         this.w = 300;
@@ -415,6 +456,7 @@ class Chart {
         this.make_background();
         this.draw();
         this.make_axis();
+        //if (chart_no == 1) this.adds_labels(); // adds only for the first one.
         this.adds_labels();
         this.adds_interaction(this);
 
@@ -424,6 +466,7 @@ class Chart {
 
         this.chart = this.container.append("div");
         this.chart.classed("mini-chart-container", true);
+       // this.chart.attr("data-minichart-no", this.chart_no);
 
         let corresp_atual = corresp[this.topic]["all"] ?
             corresp[this.topic]["all"] :
@@ -452,8 +495,12 @@ class Chart {
             .attr("height", this.h)
         ;
 
+        this.selected_unit_label = this.tooltipContainer.append("span").classed("minichart-selected-unit-label", true);
+
+        /*
         this.promedio_country_label = this.tooltipContainer.append("span").classed("minichart-promedio-country-label", true);
         this.promedio_provincia_label = this.tooltipContainer.append("span").classed("minichart-promedio-provincia-label", true);
+        */
 
     }
 
@@ -489,7 +536,8 @@ class Chart {
             .attr("opacity", this.strip_opacity)
             .attr("x1", d => this.x(d.value))
             .attr("x2", d => this.x(d.value))
-            .attr("y1", d => (d.type.search("promedio") > -1 ) ? this.y1 - this.label_height : this.y1)
+            //.attr("y1", d => (d.type.search("promedio") > -1 ) ? this.y1 - this.label_height : this.y1)
+            .attr("y1", d => (d.type == "highlight") ? this.y1 - this.label_height : this.y1)
             .attr("y2", this.y2)
         ;
 
@@ -530,6 +578,19 @@ class Chart {
 
     adds_labels() {
 
+        const strip_selected_unit = this.svg.select("[data-strip-type='highlight']");
+
+        this.selected_unit_label
+            .style("top", strip_selected_unit.attr("y1") + "px")
+            .style("left", strip_selected_unit.attr("x1") + "px")
+            .classed("make-left", +strip_selected_unit.attr("x1") > this.w/2)
+            .text( 
+                `${strip_selected_unit.datum().name} 
+                (${(strip_selected_unit.datum().value * 100).toFixed(1)}%)`
+            )
+        ;
+
+        /*
         const strip_promedio_country = this.svg.select("[data-strip-type='promedio-country']");
         this.promedio_country_label
             .style("top", strip_promedio_country.attr("y1") + "px")
@@ -556,6 +617,7 @@ class Chart {
             }
 
         }
+        */
 
     }
 
@@ -596,7 +658,7 @@ class Chart {
             const d = d3.select(this).datum();
 
             d3.select(this).transition().duration(100)
-                .attr("y1", (d.type.search("promedio") > -1 ) ? self.y1 - self.label_height : self.y1)
+                .attr("y1", (d.type == "highlight" ) ? self.y1 - self.label_height : self.y1)
                 .attr("stroke-width", self.strip_width)
                 .attr("opacity", self.strip_opacity)
             ;
