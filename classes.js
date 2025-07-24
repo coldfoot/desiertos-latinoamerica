@@ -1599,6 +1599,15 @@ function display_paisage(tipo_paisage, country) {
 
 let map;
 
+// converte nomes
+const country_names = {
+    "argentina" : "Argentina",
+    "chile" : "Chile",
+    "colombia" : "Colombia",
+    "mexico" : "México",
+    "peru" : "Perú"
+}
+
 // countries bboxes
 const bboxes = {
     "argentina" : [-73.57626953125, -55.03212890625, -53.6685546875, -21.8025390625],
