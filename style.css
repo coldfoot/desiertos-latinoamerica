@@ -45,7 +45,7 @@
     scroll-snap-type: y mandatory;
     font-family: 'buendia', sans-serif;
     --color-bg: var(--bege-fundo); /*#f9ebd2;* /*#F9F1E3;*/
-    --color-accent: #EA4A26; /*#EC722E; /* #FF571D;*/
+    --color-accent: #EC722E; /* #FF571D;*/
     --color-text: var(--preto);
     --color-map: #e7e7e8;
     --bege-escuro: #F6E9CD;
@@ -155,6 +155,10 @@ button.btn-menu[data-state="close menu"] .line-mid {
     z-index: 4;
     transition: transform .4s;
     transform: translateX(100%);
+}
+
+.secondary-pages-wrapper .btn-menu-content {
+    position: fixed;
 }
 
 .dashboard-wrapper .btn-menu-content {
