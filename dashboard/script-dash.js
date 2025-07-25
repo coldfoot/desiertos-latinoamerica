@@ -998,7 +998,7 @@ function resetToInitialState() {
     textPanel.setAttribute('data-classification-localidad', '');
     
     // Clear infocard title
-    document.querySelector("[data-infocard-field='title']").innerHTML = 'Título del Informe Regional';
+    document.querySelector("[data-infocard-field='title']").innerHTML = 'Así son los ecosistemas de noticias locales en Argentina, Chile, Colombia, México y Perú';
     // Reset scope warning to initial text
     document.querySelector('.scope-warning').innerHTML = '¿Tu comunidad vive en un desierto o en un bosque informativo? Haz clic en cualquier país para conocer la clasificación de sus territorios y el perfil de sus ecosistemas informativos.';
     // Set navigation buttons to latam mode
