@@ -776,7 +776,7 @@ function populate_datalist(data, country = null) {
 
     countries.forEach(country => {
 
-        const country_name = country[0].toUpperCase() + country.slice(1);
+        const country_name = country_names[country];//country[0].toUpperCase() + country.slice(1);
 
         const localidads = data[country].small_units;
         //const provincias = data[country].large_units;
