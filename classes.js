@@ -210,6 +210,7 @@ class Country {
             last_provincia_location_data.bbox = bbox_provincia;
 
         }*/
+       console.log(padding);
 
         map.fitBounds(
 
@@ -218,7 +219,7 @@ class Country {
             {
                 linear : false, // false means the map transitions using map.flyTo()
                 speed: 1, 
-                padding: {top: 80, bottom: 100, left: 30, right: 30},
+                padding: padding//{top: 80, bottom: 100, left: 30, right: 30},
             }
         );
 
@@ -267,7 +268,7 @@ class Country {
             {
                 linear : false, // false means the map transitions using map.flyTo()
                 speed: 1, 
-                padding: {top: 80, bottom: 100, left: 30, right: 30},
+                padding: padding//{top: 80, bottom: 100, left: 30, right: 30},
             }
         );
 
@@ -382,7 +383,7 @@ class Country {
 
         const pais = this.country;
 
-        plot_country(pais, 50);
+        plot_country(pais, padding);
         update_breadcrumbs("pais", country_names[pais]);
         update_infocard(country_names[pais], pais, pais, "pais");
         update_country_button(pais);
@@ -1276,7 +1277,7 @@ class Bubble {
 
         const pais = this.country;
 
-        plot_country(pais, 50);
+        plot_country(pais, padding);
         update_breadcrumbs("pais", country_names[pais]);
         update_infocard(country_names[pais], pais, pais, "pais");
         update_country_button(pais);

@@ -408,11 +408,10 @@ function populate_story(country) {
 }
 
 let padding;
+const screen_width = window.innerWidth;
+const screen_height = window.innerHeight;
 
 function showCountryStory(pais) {
-
-    const screen_width = window.innerWidth;
-    const screen_height = window.innerHeight;
 
     const h_3 = screen_height / 3;
 
@@ -454,13 +453,17 @@ function get_bbox(country) {
 }
 
 function plot_latam(dashboard = false) {
-    map.fitBounds(overall_bbox, {
-        padding:  {
+
+    padding = {
             left: dashboard ? 50 : 500,
             top: 20,
             right: 50,
-            bottom: 20
-        }
+            bottom: screen_width > 500 ? 20 : screen_height/3
+        };
+
+    map.fitBounds(overall_bbox, {
+        padding: padding
+
     });
 
     map.setPaintProperty(
