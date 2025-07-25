@@ -30,7 +30,7 @@
         <ul>
             <li><a href="../index.html">Introducción</a></li>
             <li><a href="../dashboard/index.html">⁠Mapa interactivo</a></li>
-            <li><a href="https://github.com/coldfoot/desiertos-latinoamerica-data">⁠Datos y metodología</a></li>
+            <li><a href="../metodologia/index.html">⁠Datos y metodología</a></li>
             <li><a href="../creditos/index.html">⁠Créditos</a></li>
         </ul>
     </div>
@@ -1371,28 +1371,6 @@
 
   </div>
 </body>
-<script>
-  // Handles menu functionality
-  const header = document.querySelector("header");
-  const btn_menu = document.querySelector(".btn-menu");
-
-    btn_menu.addEventListener("click", e => {
-
-    const state = btn_menu.dataset.state;
-
-    if (state == "burger") {
-
-        btn_menu.dataset.state = "close menu";
-        header.classList.add("show-menu");
-
-    } else if (state == "close menu") {
-
-        btn_menu.dataset.state = "burger";
-        header.classList.remove("show-menu");
-
-    }
-  });
-
-  
-</script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="../script-btn.js"></script>
 </html> 
