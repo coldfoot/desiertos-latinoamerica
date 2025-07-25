@@ -504,7 +504,7 @@ function update_infocard(name, key, country, tipo) {
 
             "argentina" : "Explora las condiciones para el ejercicio del periodismo local en 560 departamentos de Argentina, distribuidos en 23 provincias y en la Ciudad Autónoma de Buenos Aires.",
 
-            "chile" : "Explora las condiciones para el ejercicio del periodismo local en 315 comunas en Chile. El estudio cubre las 16 regiones del país, con cobertura parcial en la Región Metropolitana.",
+            "chile" : "Explora las condiciones para el ejercicio del periodismo local en 314 comunas en Chile. El estudio cubre las 16 regiones del país, con cobertura parcial en la Región Metropolitana.",
 
             "peru" :  "Explora las condiciones para el ejercicio del periodismo local en 244 provincias de Perú, distribuidas en 26 regiones. El estudio incluye Lima Metropolitana, Lima Provincias y el Callao.",
 
