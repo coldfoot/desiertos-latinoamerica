@@ -45,7 +45,7 @@
     scroll-snap-type: y mandatory;
     font-family: 'buendia', sans-serif;
     --color-bg: var(--bege-fundo); /*#f9ebd2;* /*#F9F1E3;*/
-    --color-accent: #EC722E; /* #FF571D;*/
+    --color-accent: #EA4A26; /*#EC722E; /* #FF571D;*/
     --color-text: var(--preto);
     --color-map: #e7e7e8;
     --bege-escuro: #F6E9CD;
@@ -646,6 +646,7 @@ span.chapeu-relato-author::before {
 [data-view="latam"] .menu-tipo-paisage,
 [data-country="colombia"] .menu-tipo-paisage {
     pointer-events: none;
+    filter: grayscale(100%);
     opacity: .5;
 }
 
