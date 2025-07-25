@@ -215,7 +215,13 @@ function control_nav_buttons(modo) {
 
         btns_to_show = ["relato", "datos"];
 
-        show_conteudo("relato");
+        if (["Buenos Aires", "Córdoba", "Santa Fe"].includes(last_provincia_location_data.BASIC_INFO.NAME)) {
+            show_conteudo("relato con desplegables");
+        } else {
+            show_conteudo("relato");
+
+        }
+
         activate_button("relato");
 
     }
@@ -409,18 +415,54 @@ function update_infocard(name, key, country, tipo) {
         const mini_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == name)[0]
         const narrative_data = mini_data.NARRATIVE;
 
-        fields.forEach(field => {
+        // logic for merged provincias
+        if ((["Buenos Aires", "Córdoba", "Santa Fe"].includes(name))) {
 
-            // Updates each data-value field with the relevant narrative data
-            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
+            const sub_provincias = Object.keys(narrative_data);
 
-            /*
-            if (field = "AUTHOR") {
-                container_relato.classList.remove("expandido");
-                container_relato.classList.add("recolhido");
-            }*/
+            const desplegables_els = document.querySelectorAll(".desplegable-sub-provincia");
 
-        })
+            // hides all desplegables
+            desplegables_els.forEach(desplegable => desplegable.classList.add("desplegable-inactivo"));
+
+            sub_provincias.forEach( (sub_provincia, i) => {
+
+                console.log(sub_provincia, i, desplegables_els, desplegables_els[i]);
+                // shows the respective desplegable
+                desplegables_els[i].classList.remove("desplegable-inactivo");
+
+                // sub_provincia title to show on collapsed view
+                desplegables_els[i].querySelector("summary").innerHTML = sub_provincia;
+
+                fields.forEach(field => {
+
+                    const content = narrative_data[sub_provincia][field];
+
+                    desplegables_els[i].querySelector(`[data-relato-campo-desplegable="${field}"]`).innerHTML = content;
+
+                })
+
+            })
+
+
+
+        } else {
+
+            fields.forEach(field => {
+
+                // Updates each data-value field with the relevant narrative data
+                document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
+
+                /*
+                if (field = "AUTHOR") {
+                    container_relato.classList.remove("expandido");
+                    container_relato.classList.add("recolhido");
+                }*/
+
+            })
+
+        }
+
 
         document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = "";
 

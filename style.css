@@ -1190,14 +1190,18 @@ div.content-divider.bar-divider {
 
 }
 
-[data-relato-campo="TITLE"], [data-relato-colombia-campo="TITLE"] {
+[data-relato-campo="TITLE"], 
+[data-relato-colombia-campo="TITLE"], 
+[data-relato-campo-desplegable="TITLE"] {
     font-size: 1.3em;
     margin: 0;
     margin-bottom: 6px;
     font-family: "nagel";
 }
 
-[data-relato-campo="AUTHOR"], [data-relato-colombia-campo="AUTHOR"] {
+[data-relato-campo="AUTHOR"], 
+[data-relato-colombia-campo="AUTHOR"],
+[data-relato-campo-desplegable="AUTHOR"] {
     font-size: 0.8rem;
 }
 
@@ -1259,6 +1263,22 @@ div.content-divider.bar-divider {
 [data-tipo-conteudo] h3,
 [data-tipo-conteudo] p.medio {
     margin-top: 0;
+}
+
+.desplegable-sub-provincia.desplegable-inactivo {
+    display: none;
+}
+
+.desplegable-sub-provincia summary {
+    font-family: nagel;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--color-accent);
+    text-transform: uppercase;
+}
+
+.desplegable-sub-provincia + .desplegable-sub-provincia {
+    margin-top: 24px;
 }
 
 h3[data-resumen-campo="classification"] {
