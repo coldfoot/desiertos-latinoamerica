@@ -71,8 +71,6 @@ class CountriesEvents {
         map.getCanvas().style.cursor = '';
         this.popup.remove();
 
-        //console.log('fired mouse leave!!!!!!!', dash.map.localidad.hoveredStateId);
-
         if (this.hoveredStateId !== null) {
 
             map.setFeatureState(
@@ -103,8 +101,6 @@ class CountriesEvents {
             country: country
 
         };
-
-        console.log(country);
 
         map.setFeatureState(
             { 
@@ -392,8 +388,6 @@ class Country {
         this.render_country_subnational(pais); // os eventos do subnacional estao aqui dentro
         countries_events.monitor_events('off'); // desliga monitor de eventos no nível de país
 
-        console.log( (pais != last_country) & (last_country != undefined), (pais != last_country), last_country, pais);
-
         // no caso de troca de país
         if ( (pais != last_country) & (last_country != undefined) ) {
 
@@ -504,8 +498,6 @@ class UTmaior {
     }
 
     toggle_highlight_border(provincia_key) {
-
-        console.log(provincia_key);
 
         map.setFilter(
             this.country + '-provincia-border', [
@@ -689,6 +681,11 @@ class UTmenor {
     hoveredStateId;
     popup;
 
+    //temp
+    key_subprovincia_argentina;
+    flag_localidad_in_subprovincia_argentina;
+    subprovincia_argentina_name;
+
     constructor(country, url, source_layer_name) {
 
         this.country = country;
@@ -822,7 +819,10 @@ class UTmenor {
     toggle_highlight(localidad) {
 
         // desnecessário isso aqui, melhorar.
-        const local = (localidad != undefined) ? localidad : last_localidad_location_data.BASIC_INFO.KEY;
+        let local = (localidad != undefined) ? localidad : last_localidad_location_data.BASIC_INFO.KEY;
+
+        // remove this when the data is fixed; 
+        if (this.flag_localidad_in_subprovincia_argentina) local = this.key_subprovincia_argentina;
 
         map.setFilter(
             this.country + '-localidad-highlight', [
@@ -1056,6 +1056,7 @@ class UTmenor {
     }
     click_event_handler(e) {
 
+        this.flag_localidad_in_subprovincia_argentina = false;
         let place_key = e.features[0].properties.KEY;
 
                 // remove this when the data is fixed;
@@ -1066,6 +1067,10 @@ class UTmenor {
             keys_provincias_merged.forEach(key => {
 
                 if (place_key.search(key) > -1) {
+
+                    this.key_subprovincia_argentina = place_key; // to use in the toggle highlight, remove when the data is coherent
+                    this.flag_localidad_in_subprovincia_argentina = true;
+                    this.subprovincia_argentina_name = argentina_subprovincias_names[key];
 
                     place_key = place_key.replace(key, argentina_keys[key]);
 
@@ -1168,7 +1173,6 @@ class Bubble {
             let filename = name.toLowerCase();
             filename = `${path}symbol-${filename}.png`;
 
-            console.log(filename);
             map.loadImage(
                 filename, 
                 (error, image) => {
@@ -1289,7 +1293,6 @@ class Bubble {
         // troca de país
         if ( (pais != last_country) & (last_country != undefined) ) {
 
-            console.log("Clear");
             countries[last_country].clear_country_subnational();
 
         }
@@ -1421,8 +1424,6 @@ class Bubble {
 
             { hover : true }
         )
-
-        //console.log('Hover no ', hoveredStateId)
 
         // algo mais a fazer aqui
 
@@ -1660,6 +1661,17 @@ const argentina_keys = {
     "Buenos-Aires-Conurbano__argentina" : "Buenos-Aires__argentina",
     "Buenos-Aires-Zona-2__argentina" : "Buenos-Aires__argentina",
     "Buenos-Aires-Zona-3__argentina" : "Buenos-Aires__argentina"
+}
+
+const argentina_subprovincias_names = {
+    "Cordoba-Sur__argentina" : "Córdoba (Sur)",
+    "Cordoba-Norte__argentina" : "Córdoba (Norte)",
+    "Santa-Fe-CentroSur__argentina" : "Santa Fe (Centro-Sur)",
+    "Santa-Fe-Norte__argentina" : "Santa Fe (Norte)", 
+    "Buenos-Aires-Conurbano__argentina" : "Buenos Aires (Conurbano)",
+    "Buenos-Aires-Zona-2__argentina" : "Buenos Aires (Zona 2)",
+    "Buenos-Aires-Zona-3__argentina" : "Buenos Aires (Zona 3)"
+
 }
 
 // countries bboxes

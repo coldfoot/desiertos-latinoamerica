@@ -160,8 +160,6 @@ function get_current_country() {
 
 function click_on_datos(e) {
 
-    console.log(e);
-
     if (e.target.tagName == "LI") {
 
         toggle_modal("viz");
@@ -298,8 +296,6 @@ menu_nav_conteudo.addEventListener("click", e => {
 
         tipo_conteudo = e.target.dataset.btnNav;
 
-        console.log(tipo_conteudo);
-
         //switch_conteudo()
 
         // conteúdos
@@ -360,8 +356,6 @@ function update_breadcrumbs(nivel, local) {
 
 function update_infocard(name, key, country, tipo) {
 
-    console.log(name, key, country, tipo);
-
     set_current_level(tipo);//body.dataset.view = tipo;
     text_panel.dataset.country = country;
 
@@ -382,14 +376,10 @@ function update_infocard(name, key, country, tipo) {
         const mini_data = last_localidad_location_data;
         const narrative_data = mini_data.NARRATIVE
 
-        console.log(narrative_data);
-
         fields.forEach(field => {
 
             // While there is no data, we are adding a placeholder. We will remove this once we have data.
             if (!narrative_data[field]) narrative_data[field] = '¡Dentro de poco!';
-
-            console.log(field);
             
             // Selects the data-value of the field and updates it with the relevant narrative data
             document.querySelector(`[data-relato-colombia-campo="${field}"]`).innerHTML = narrative_data[field];
@@ -430,7 +420,6 @@ function update_infocard(name, key, country, tipo) {
 
             sub_provincias.forEach( (sub_provincia, i) => {
 
-                console.log(sub_provincia, i, desplegables_els, desplegables_els[i]);
                 // shows the respective desplegable
                 desplegables_els[i].classList.remove("desplegable-inactivo");
 
@@ -548,8 +537,6 @@ function update_infocard(name, key, country, tipo) {
         console.log(narrative_data);
         
         fields.forEach(field => {
-
-            console.log(field);
             
             if (narrative_data[field]) {
                 console.log("adding data for ", field);
@@ -606,49 +593,53 @@ function show_modal_relato(sub_provincia = undefined) {
 
     toggle_modal("relato");
 
-   // Get current level and country
-   const currentLevel = get_current_level();
-   const currentCountry = get_current_country();
+    // Get current level and country
+    const currentLevel = get_current_level();
+    const currentCountry = get_current_country();
+
+    // checks if we're in a localidad that was flag as been in one of the merged provincias
+    // this flag is set on the click_event_handler of the localidad layer
+    if (countries[currentCountry].ut_menor.flag_localidad_in_subprovincia_argentina) {
+        sub_provincia = countries[currentCountry].ut_menor.subprovincia_argentina_name;
+    }
    
-   let mini_data;
-   let narrative_data;
-   let province;
-   let children_city;
+    let mini_data;
+    let narrative_data;
+    let province;
+    let children_city;
 
-    // Determine which data to use based on current level
-    if (currentLevel === "pais" || currentLevel === "latam") {
-        // Use country-level data
-        mini_data = main_data[currentCountry].country[0];
-        narrative_data = mini_data.NARRATIVE;
-    } 
-    else if (currentCountry === "colombia") {
+        // Determine which data to use based on current level
+        if (currentLevel === "pais" || currentLevel === "latam") {
+            // Use country-level data
+            mini_data = main_data[currentCountry].country[0];
+            narrative_data = mini_data.NARRATIVE;
+        } 
+        else if (currentCountry === "colombia") {
 
-        mini_data = last_localidad_location_data;
-        narrative_data = mini_data.NARRATIVE;
-    }
-    else {
-        // Use province-level data (existing behavior)
-        mini_data = last_provincia_location_data;
-
-        narrative_data = mini_data.NARRATIVE;
-
-        if (["Buenos Aires", "Córdoba", "Santa Fe"].includes(last_provincia_location_data.BASIC_INFO.NAME)) {
-
-            console.log(narrative_data, sub_provincia);
-            narrative_data = narrative_data[sub_provincia];
-            console.log(narrative_data);
-
+            mini_data = last_localidad_location_data;
+            narrative_data = mini_data.NARRATIVE;
         }
-        
-    }
+        else {
+            // Use province-level data (existing behavior)
+            mini_data = last_provincia_location_data;
 
-    const fields = ["AUTHOR", "TITLE","TEASER", "RELATO"];
+            narrative_data = mini_data.NARRATIVE;
 
-    fields.forEach(field => {
-        if (!narrative_data) document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = '¡Dentro de poco!';
-        else document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = narrative_data[field];
+            if (["Buenos Aires", "Córdoba", "Santa Fe"].includes(last_provincia_location_data.BASIC_INFO.NAME)) {
 
-    })
+                narrative_data = narrative_data[sub_provincia];
+
+            }
+            
+        }
+
+        const fields = ["AUTHOR", "TITLE","TEASER", "RELATO"];
+
+        fields.forEach(field => {
+            if (!narrative_data) document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = '¡Dentro de poco!';
+            else document.querySelector(`[data-relato-modal-campo=${field}]`).innerHTML = narrative_data[field];
+
+        })
 
 
 
@@ -709,7 +700,6 @@ function update_country_button(pais) {
 
 function compute_classification(country, provincia) {
 
-    console.log(provincia);
     let localidads = main_data[country].small_units;
 
     if (provincia) localidads = localidads.filter(d => d.BASIC_INFO.PARENT == provincia);
@@ -735,8 +725,6 @@ function compute_classification(country, provincia) {
         counts[classification] = (100 * count / n).toFixed(1) + "%";
 
     })
-
-    console.log(counts);
 
     return counts;
 
@@ -784,11 +772,8 @@ function update_classification_barcharts(counts) {
 
             const w_bar = (+value.slice(0,-1)) * container_width / 100;
             const w_label = +window.getComputedStyle(label).width.slice(0,-2);
-            
-            console.log(tipo, value, container_width, w_bar, w_label);
 
             if (w_label > w_bar) {
-                console.log("Adding DISPLACED ", w_label, w_bar );
                 label.classList.add("displaced");
             }
 
@@ -916,8 +901,6 @@ function monitor_search_bar(data) {
             const key = selectedOption.dataset.key;
             const country = selectedOption.dataset.country;
             console.log("Selected option:", selectedOption, "Tipo:", tipo, "Key:", key);
-
-            console.log(value, selectedOption, key, tipo, country);
 
             if (last_country) {
                 countries[last_country].clear_country_subnational();
