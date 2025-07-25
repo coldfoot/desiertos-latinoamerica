@@ -1604,7 +1604,7 @@ const country_names = {
     "argentina" : "Argentina",
     "chile" : "Chile",
     "colombia" : "Colombia",
-    "mexico" : "México",
+    "mexico" : "Mexico",
     "peru" : "Perú"
 }
 
