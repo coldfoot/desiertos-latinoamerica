@@ -44,11 +44,19 @@ btn_menu.addEventListener("click", e => {
     if (state == "burger") {
 
         btn_menu.dataset.state = "close menu";
+        d3.select(".line-top").transition().duration(500)
+            .attr("y2", 30);
+        d3.select(".line-bottom").transition().duration(500)
+            .attr("y2", 10);
         header.classList.add("show-menu");
 
     } else if (state == "close menu") {
 
         btn_menu.dataset.state = "burger";
+        d3.select(".line-top").transition().duration(500)
+            .attr("y2", 10);
+        d3.select(".line-bottom").transition().duration(500)
+            .attr("y2", 30);
         header.classList.remove("show-menu");
 
     }
@@ -961,7 +969,7 @@ function resetToInitialState() {
     
     // Show only initial content
     show_conteudo("apresentacao");
-    
+
     // Reset map to Latin America view
     plot_latam(true); // true = dashboard mode
     

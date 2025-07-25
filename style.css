@@ -134,20 +134,12 @@ button.btn-menu {
     transition: transform .5s, opacity .5s;
 }
 
-button.btn-menu:hover .line-bottom {
+button.btn-menu[data-state="burger"]:hover .line-bottom {
     transform: translate(0, -50%) rotate(60deg);
 }
 
-button.btn-menu:hover .line-mid {
+button.btn-menu[data-state="burger"]:hover .line-mid {
     transform: rotate(-60deg) translate(0, -25%);
-}
-
-button.btn-menu[data-state="close menu"] .line-bottom {
-    transform: rotate(-45deg);
-}
-
-button.btn-menu[data-state="close menu"] .line-top {
-    transform: rotate(45deg) translate(12.5%, 0);
 }
 
 button.btn-menu[data-state="close menu"] .line-mid {
@@ -211,8 +203,11 @@ header.show-menu .btn-menu-content {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100vh;
+    /*width: 100%;
+    height: 100vh;*/
+    bottom: 0;
+    right: 0;
+    height: initial;
     background-color: var(--color-bg);
     transition: opacity .5s;
     opacity: 1;
@@ -1323,7 +1318,7 @@ li[data-datos-topic]::before {
     .place-summary,
     h4.chapeu-barras,
     span[data-barchart] .barchart-label {
-        font-size: 11px;
+        font-size: 14px;
     }
 
     h4.chapeu-barras {
@@ -1351,7 +1346,7 @@ li[data-datos-topic]::before {
     .text-panel-container .conteudo,
     .text-panel-container .conteudo [data-tipo-conteudo="apresentacao"],
     .resumen-wrapper {
-        font-size: 12px;
+        font-size: 14px;
         line-height: 1.5;
     }
 
@@ -1648,6 +1643,10 @@ li[data-datos-topic]::before {
         border-radius: 1rem 1rem 0 0;
     }
 
+    .narrative .text-slide-inner-wrapper .wrapper-arrow svg {
+        height: 50px;
+    }
+
     [data-slide="todas las categorias"] .text-slide-inner-wrapper .slide-main-text p {
         padding-bottom: 32px;
     }
@@ -1662,6 +1661,8 @@ li[data-datos-topic]::before {
     }
 
     @supports(height: 100dvh) {
+
+
 
         .text-slide {
             padding-bottom: 0;
@@ -1690,13 +1691,14 @@ li[data-datos-topic]::before {
         margin: 1rem;
         margin-top: 0;
         border-radius: 0 0 1rem 1rem;
+        padding-bottom: 30px; /*to fit Mapbox logo*/
         /*transform: translateY(-32px);*/
     }
 
 
     [data-slide="opening"] h1.goo {
         font-size: 48px;
-        line-height: 1.1;
+        line-height: 1.2;
         padding: 8px 16px;
     }
 
@@ -1751,6 +1753,18 @@ li[data-datos-topic]::before {
     .menu-tipo-paisage .img-paisage-container {
         height: 20px;
         width: 20px;
+    }
+
+    .place-summary,
+    h4.chapeu-barras,
+    span[data-barchart] .barchart-label {
+        font-size: 10px;
+    }
+
+    .text-panel-container .conteudo,
+    .text-panel-container .conteudo [data-tipo-conteudo="apresentacao"],
+    .resumen-wrapper {
+        font-size: 12px;
     }
 
 }
@@ -1833,7 +1847,6 @@ button.close-modal:hover {
 
 [data-modal-active="relato"] .container-modal-relato { opacity: 1; }
 [data-modal-active="viz"] .container-viz { opacity: 1; }
-
 
 .viz-main-title {
     font-size: 2rem;
@@ -1964,11 +1977,43 @@ rect.striplot-bg {
     font-style: italic;
 }
 
+
+
 .logo-wrapper-modal img {
     height: 3rem;
     display: block;
     margin: 2rem 0;
 }
+
+.logo-wrapper-modal {
+    margin-right: auto;
+}
+
+.footer-modal-viz {
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+a.modal-viz-descargar-datos {
+    background-color: transparent;
+    color: var(--color-accent);
+    border: none;
+    font-family: nagel;
+    text-transform: uppercase;
+    text-decoration: underline;
+
+
+}
+
+.modal-viz-descargar-datos img {
+    display: inline-block;
+    stroke: var(--color-accent);
+    height: 1rem;
+
+}
+
 
 /* SECONDARY PAGES */
 

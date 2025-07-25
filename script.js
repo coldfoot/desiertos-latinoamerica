@@ -80,7 +80,7 @@ class Story {
 
             } else {
 
-                countries[current_country].ut_maior.toggle_hover_border("disable");
+                countries[current_country].clear_country_subnational();
 
                 plot_latam();
 
@@ -288,15 +288,11 @@ function pick_specific_desierto(country) {
     if (country != 'colombia') {
         console.log('country is not colombia');
         desiertos = main_data[country].small_units.filter(d => d.BASIC_INFO.CLASSIFICATION == 'DESIERTO');
-        console.log(desiertos);
     }
     else {
         console.log('country is colombia');
         desiertos = main_data[country].small_units.filter(d => d.BASIC_INFO.CLASSIFICATION == 'SEMIDESIERTO');
-        console.log(desiertos);
     }
-
-    console.log(desiertos);
 
     const nof_desiertos = desiertos.length;
 
@@ -398,7 +394,14 @@ function populate_story(country) {
 
         const campo = span.dataset.storyText;
 
-        span.innerHTML = story_info[campo];
+        span.innerHTML = campo == 'pop desierto' 
+        ?   story_info[campo].toLocaleString('pt-BR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+                useGrouping: true
+            })
+        : story_info[campo]
+        ;
 
     })
 
@@ -409,14 +412,19 @@ let padding;
 function showCountryStory(pais) {
 
     const screen_width = window.innerWidth;
+    const screen_height = window.innerHeight;
+
+    const h_3 = screen_height / 3;
+
 
     const pad_right = screen_width < 900 ? 30 : screen_width / 2;
+    const pad_bottom = screen_width < 900 ? screen_height / 3 : 30;
 
     padding = {
         right: pad_right,
         left: 30,
         top: 30,
-        bottom: 30
+        bottom: pad_bottom
     }
 
     plot_country(pais, padding);
