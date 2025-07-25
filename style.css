@@ -1119,7 +1119,8 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     font-size: 1.2rem;
 }
 
-.text-panel-container .conteudo .leer-mas {
+.text-panel-container .conteudo .leer-mas,
+.text-panel-container .conteudo .leer-mas-desplegable {
     font-weight: bold;
     background-color: var(--color-bg);
     /* padding: .25rem .5rem .25rem .5rem; */
@@ -1134,7 +1135,8 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     padding-left: 5px;
 }
 
-.text-panel-container .conteudo .leer-mas:hover {
+.text-panel-container .conteudo .leer-mas:hover,
+.text-panel-container .conteudo .leer-mas-desplegable:hover {
     color: var(--color-accent);
 }
 

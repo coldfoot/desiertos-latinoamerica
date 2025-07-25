@@ -19,6 +19,9 @@ const btn_close_modal = document.querySelector("button.close-modal");
 const bg_modal = document.querySelector(".bg-modal-viz");
 const modal = document.querySelector(".modal-viz");
 const breadcrumbs = document.querySelector(".breadcrumbs");
+const btn_leer_mas = container_relato.querySelector(".leer-mas");
+const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
+const btns_leer_mas_subprovincia_argentina = document.querySelectorAll(".leer-mas-desplegable");
 
 ///////////////////////
 /// STATE TRACKING ///
@@ -434,6 +437,9 @@ function update_infocard(name, key, country, tipo) {
                 // sub_provincia title to show on collapsed view
                 desplegables_els[i].querySelector("summary").innerHTML = sub_provincia;
 
+                // updates sub_provincia information to data-attribute, to be used when the user clicks on "LEER MAS"
+                desplegables_els[i].querySelector(".leer-mas-desplegable").dataset.subprovincia = sub_provincia;
+
                 fields.forEach(field => {
 
                     const content = narrative_data[sub_provincia][field];
@@ -596,10 +602,7 @@ function update_place_summary(basic_info_data) {
 
 // LEER MAS, SHOW RELATO
 
-const btn_leer_mas = container_relato.querySelector(".leer-mas");
-const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
-
-function show_modal_relato() {
+function show_modal_relato(sub_provincia = undefined) {
 
     toggle_modal("relato");
 
@@ -626,7 +629,17 @@ function show_modal_relato() {
     else {
         // Use province-level data (existing behavior)
         mini_data = last_provincia_location_data;
+
         narrative_data = mini_data.NARRATIVE;
+
+        if (["Buenos Aires", "Córdoba", "Santa Fe"].includes(last_provincia_location_data.BASIC_INFO.NAME)) {
+
+            console.log(narrative_data, sub_provincia);
+            narrative_data = narrative_data[sub_provincia];
+            console.log(narrative_data);
+
+        }
+        
     }
 
     const fields = ["AUTHOR", "TITLE","TEASER", "RELATO"];
@@ -667,6 +680,16 @@ btn_leer_provincia_from_localidad.addEventListener("click", e => {
     show_modal_relato();
     //countries[last_country].render_provincia();
 
+})
+
+btns_leer_mas_subprovincia_argentina.forEach(btn => {
+    btn.addEventListener("click", e => {
+
+        const sub_provincia = e.target.dataset.subprovincia;
+
+        show_modal_relato(sub_provincia);
+
+    })
 })
 
 
