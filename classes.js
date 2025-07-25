@@ -92,7 +92,7 @@ class CountriesEvents {
 
         const country = e.features[0].properties.country_name.toLowerCase();
 
-        if (country == "colombia") return;
+        //if (country == "colombia") return;
 
         const local = {
 
