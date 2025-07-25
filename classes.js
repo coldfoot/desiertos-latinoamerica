@@ -909,6 +909,8 @@ class UTmenor {
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
       
+        if (!place_data) return;
+
         let coordinates = [
             place_data.CENTROID.xc,
             place_data.CENTROID.yc
@@ -1037,6 +1039,8 @@ class UTmenor {
         const place_key = e.features[0].properties.KEY;
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
+
+        if (!place_data) return;
       
         const localidad_name = place_data.BASIC_INFO.NAME;
         
