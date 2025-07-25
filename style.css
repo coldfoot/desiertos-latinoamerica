@@ -303,16 +303,7 @@ header.show-menu .btn-menu-content {
     cursor: default;
 }
 [data-slide="opening"] .btn-descubra span:hover {
-    color: var(--color-bg);
-    border-radius: 10px;
-    /* background-color: var(--color-accent); */
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
-    z-index: 2;
-    position: relative;
-    padding-left: 1rem;
-    font-style: normal;
-    font-family: buendia;
-    cursor: default;
 }
 
 [data-slide="opening"] .btn-vaya-datos a {
@@ -366,15 +357,6 @@ header.show-menu .btn-menu-content {
 }
 
 [data-slide="country selection"] ul.menu-paises li:hover {
-    font-size: 2rem;
-    list-style: none;
-    border-top: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    /*padding: .5rem 0 .5rem 2rem;*/
-    margin-right: 2rem;
-    height: 3rem;
-    padding-left: 2rem;
-    cursor: default;
     filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
 }
 
