@@ -958,7 +958,7 @@ function resetToInitialState() {
 
     // Reset text panel to initial state using data attributes
     const textPanel = document.querySelector('.text-panel-container');
-    textPanel.setAttribute('data-view', 'latam');
+    set_current_level("latam");
     textPanel.setAttribute('data-country', '');
     textPanel.setAttribute('data-classification-localidad', '');
     

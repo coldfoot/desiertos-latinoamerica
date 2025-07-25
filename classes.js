@@ -383,8 +383,8 @@ class Country {
         const pais = this.country;
 
         plot_country(pais, 50);
-        update_breadcrumbs("pais", pais);
-        update_infocard(pais[0].toUpperCase() + pais.slice(1), pais, pais, "pais");
+        update_breadcrumbs("pais", country_names[pais]);
+        update_infocard(country_names[pais], pais, pais, "pais");
         update_country_button(pais);
 
         console.log("Render pais, ", pais, this.country, last_country);
@@ -1239,8 +1239,8 @@ class Bubble {
         const pais = this.country;
 
         plot_country(pais, 50);
-        update_breadcrumbs("pais", pais);
-        update_infocard(pais[0].toUpperCase() + pais.slice(1), pais, pais, "pais");
+        update_breadcrumbs("pais", country_names[pais]);
+        update_infocard(country_names[pais], pais, pais, "pais");
         update_country_button(pais);
 
         this.render_country_subnational();
