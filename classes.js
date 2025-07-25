@@ -1164,6 +1164,7 @@ class Bubble {
 
     load() {
 
+        /*
         const symbols = ['BOSQUE', 'SEMIBOSQUE', 'DESIERTO', 'SEMIDESIERTO'];
 
         symbols.forEach(name => {
@@ -1182,7 +1183,7 @@ class Bubble {
                     }
                 }
             );
-        })
+        }) */
 
         map.addSource(this.country + '-bubble', {
             type: 'vector',
@@ -1190,6 +1191,7 @@ class Bubble {
             'promoteId' : 'KEY'
         });
 
+        /*
         map.addLayer({
             'id': this.country + '-bubble',
             'type': 'symbol',
@@ -1220,9 +1222,7 @@ class Bubble {
                 'icon-opacity' : 1
             },
             'filter': ['==', 'KEY', '']
-        }); 
-
-        /*
+        }); */
 
         map.addLayer({
             'id': this.country + '-bubble',
@@ -1230,14 +1230,14 @@ class Bubble {
             'source': this.country + '-bubble',
             'source-layer' : this.source_layer_name,
             'paint': {
-                'circle-color': [
+                'circle-color': "#EA4A26"/*[
 
                     'match',
                     ["get", "CLASSIFICATION"],
                     ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
                     'transparent'
 
-                ],
+                ]*/,
                 'circle-opacity': 0,
                 'circle-radius': 10
             }
@@ -1250,13 +1250,12 @@ class Bubble {
             'source-layer': this.source_layer_name,
             'paint': {
                 'circle-stroke-width': 3,
-                'circle-color' : 'transparent',
-                'circle-radius' : 10
+                'circle-color' : "#EA4A26",
+                'circle-radius' : 10,
+                'circle-opacity' : 1
             }, 
             'filter': ['==', 'KEY', '']
         }); 
-
-        */
 
     }
 
@@ -1272,7 +1271,8 @@ class Bubble {
 
         const opacity = KEY == '' ? 0 : .7;
 
-        map.setPaintProperty(this.country + '-bubble', 'icon-opacity', opacity);
+        //map.setPaintProperty(this.country + '-bubble', 'icon-opacity', opacity);
+        map.setPaintProperty(this.country + '-bubble', 'circle-opacity', opacity);
 
     }
 
@@ -1305,9 +1305,10 @@ class Bubble {
 
     render_country_subnational() {
 
-        //map.setPaintProperty(this.country + "-bubble", "circle-opacity", 1);
+        this.toggle_highlight('');
+        map.setPaintProperty(this.country + "-bubble", "circle-opacity", 1);
         map.setPaintProperty("countries-fills", "fill-color", "transparent");
-        map.setPaintProperty(this.country + '-bubble', 'icon-opacity', 1);
+        //map.setPaintProperty(this.country + '-bubble', 'icon-opacity', 1);
 
 
     }

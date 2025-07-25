@@ -155,7 +155,11 @@ function set_current_level(level) {
 }
 
 function get_current_country() {
-    return text_panel.dataset.country
+    return body.dataset.country
+}
+
+function set_current_country(country) {
+    return body.dataset.country = country; 
 }
 
 function click_on_datos(e) {
@@ -357,7 +361,7 @@ function update_breadcrumbs(nivel, local) {
 function update_infocard(name, key, country, tipo) {
 
     set_current_level(tipo);//body.dataset.view = tipo;
-    text_panel.dataset.country = country;
+    set_current_country(country);
 
     document.querySelector("[data-infocard-field]").innerHTML = name;
 

@@ -643,8 +643,10 @@ span.chapeu-relato-author::before {
 
 /* MENU TIPO PAISAGE */
 
-[data-view="latam"] .menu-tipo-paisage {
+[data-view="latam"] .menu-tipo-paisage,
+[data-country="colombia"] .menu-tipo-paisage {
     pointer-events: none;
+    opacity: .5;
 }
 
 .menu-tipo-paisage {
@@ -654,6 +656,7 @@ span.chapeu-relato-author::before {
     width: 100%;
     font-family: nagel;
     text-transform: uppercase;
+    transition: opacity .5s;
 }
 
 .menu-tipo-paisage-wrapper {
@@ -977,6 +980,14 @@ span[data-resumen-tipo-classificacao] {
 
 
 /* BARCHART PAISAGE COMPOSITION */
+
+[data-country="colombia"] .place-paisage-composition-wrapper,
+[data-country="colombia"] .wrapper-btns-nav,
+[data-country="colombia"] .resumen-wrapper,
+[data-country="colombia"] .leer-provincia-wrapper,
+[data-country="colombia"] .content-divider {
+    display: none;
+}
 
 .place-paisage-composition {
     display: flex;
@@ -2304,9 +2315,9 @@ details.metodologia details.metodologia details.metodologia details.metodologia 
     }
 }
 
-.text-panel-container[data-country="argentina"] .star-note-explanation,
-.text-panel-container[data-country="peru"] .star-note-explanation,
-.text-panel-container[data-country="argentina"] .star-note,
-.text-panel-container[data-country="peru"] .star-note {
+[data-country="argentina"] .star-note-explanation,
+[data-country="peru"] .star-note-explanation,
+[data-country="argentina"] .star-note,
+[data-country="peru"] .star-note {
     display: none
 }
