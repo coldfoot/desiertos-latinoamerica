@@ -214,20 +214,33 @@ const topics = {
 
 let summary_data;
 
-function gen_csv() {
+function gen_csv(level) {
 
     const output = [];
     const categories = summary_data.categories;
     const units = summary_data.data[categories[0]].map(d => d.name);
 
-    const header = ["Pais", "Provincia / Estado", "Localidad / Cidade", "Topico", ...categories];
-    output.push(header);
+    let header;
+    
+    if (level == "pais") header = ["Pais", "Topico", ...categories];
+
+    if (level == "provincia") header = ["Pais" , "Provincia / Estado", "Topico", ...categories];
+
+    if (level == "localidad") header = ["Pais" , "Provincia / Estado" , "Localidad / Cidade" , "Topico", ...categories];
+    output.push(header.join(" ; "));
 
     units.forEach(unit => {
 
-        const values = categories.map(category => summary_data.data[category].filter(d => d.name == unit)[0].value)
+        const values = categories.map(
+            category => ((summary_data.data[category].filter(d => d.name == unit)[0].value) * 100).toFixed(1) + "%" );
+        
+        const row = [];
 
-        const row = [summary_data.header.country, summary_data.header.provincia, summary_data.header.topic, unit, ...values];
+        if (level != "pais") row.push(country_names[summary_data.header.country]);
+        
+        if (level == "localidad") row.push(summary_data.header.provincia);
+        
+        row.push(unit, summary_data.header.topic, ...values);
         const row_string = row.join(" ; ");
         output.push(row_string);
 
@@ -248,16 +261,18 @@ function prepare_download_datos_btn(ref, level) {
 
     const btn = document.querySelector(ref);
 
-    const url = gen_csv();
+    const url = gen_csv(level);
     btn.href = url;
 
-    let filename = `datos_${summary_data.header.country}_${summary_data.header.provincia}`;
+    let filename = `datos_${summary_data.header.country}`;
 
-    if (level != "country") filename += ``
+    if (level != "pais") filename += `_${summary_data.header.provincia}`
 
-    btn.download = `datos_${summary_data.header.country}_${summary_data.header.provincia}${summary_data.header.topic}.csv`;
+    if (level == "localidad") filename += `_${summary_data.header.localidad}`
 
-    console.log(btn, btn.download);
+    filename += `_${summary_data.header.topic}.csv`
+
+    btn.download = filename;
 
     //btn.click();
 
@@ -371,7 +386,7 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
                 return ({
 
                     "name" : unit.BASIC_INFO.NAME,
-                    "value" : unit[topic][category],
+                    "value" : unit[topic][category] ? unit[topic][category] : 0,
                     "type" : flag_self ? "highlight" : ""
 
                 })
@@ -408,11 +423,7 @@ function prepare_data(country, topic, level, provincia = undefined, localidad = 
 
     // sort categories
 
-    console.log(values_for_selected_units);
-
     values_for_selected_units.sort( (a,b) => b.value - a.value);
-
-    console.log(values_for_selected_units);
 
     const categories_ordenadas = values_for_selected_units.map(d => d.category);
 

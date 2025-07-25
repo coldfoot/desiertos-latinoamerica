@@ -2018,6 +2018,9 @@ a.modal-viz-descargar-datos {
     font-family: nagel;
     text-transform: uppercase;
     text-decoration: underline;
+    display: flex;
+    align-items: center;
+    gap: .25em;
 
 
 }
