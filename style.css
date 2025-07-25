@@ -1786,6 +1786,8 @@ li[data-datos-topic]::before {
     }
 
     .text-panel-container {
+        margin: 16px;
+        margin-bottom: 0;
         padding-top: 8px;
         gap: 8px;
     }
@@ -1801,6 +1803,11 @@ li[data-datos-topic]::before {
     .resumen-wrapper {
         font-size: 12px;
     }
+
+    .modal-viz .container-viz, .modal-viz .container-modal-relato {
+        padding: 20px;
+    }
+
 
 }
 
