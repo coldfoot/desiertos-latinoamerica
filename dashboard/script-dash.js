@@ -596,12 +596,6 @@ function show_modal_relato(sub_provincia = undefined) {
     // Get current level and country
     const currentLevel = get_current_level();
     const currentCountry = get_current_country();
-
-    // checks if we're in a localidad that was flag as been in one of the merged provincias
-    // this flag is set on the click_event_handler of the localidad layer
-    if (countries[currentCountry].ut_menor.flag_localidad_in_subprovincia_argentina) {
-        sub_provincia = countries[currentCountry].ut_menor.subprovincia_argentina_name;
-    }
    
     let mini_data;
     let narrative_data;
@@ -624,6 +618,12 @@ function show_modal_relato(sub_provincia = undefined) {
             mini_data = last_provincia_location_data;
 
             narrative_data = mini_data.NARRATIVE;
+
+            // checks if we're in a localidad that was flag as been in one of the merged provincias
+            // this flag is set on the click_event_handler of the localidad layer
+            if (countries[currentCountry].ut_menor.flag_localidad_in_subprovincia_argentina) {
+                sub_provincia = countries[currentCountry].ut_menor.subprovincia_argentina_name;
+            }
 
             if (["Buenos Aires", "Córdoba", "Santa Fe"].includes(last_provincia_location_data.BASIC_INFO.NAME)) {
 
