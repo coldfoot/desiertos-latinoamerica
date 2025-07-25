@@ -547,7 +547,7 @@ h4.chapeu-relato {
     color: var(--color-text);
     margin: 0;
     margin-bottom: 2px;
-    display: flex;
+    /*display: flex;*/
 }
 
 [data-view="localidad"] h4.chapeu-barras {
@@ -568,10 +568,11 @@ span.chapeu-relato-author {
     font-size: 1rem;
 }
 
+/*
 span.chapeu-relato-author::before {
     content: ' ';
     white-space: pre-wrap;
-}
+}*/
 
 /* MAP PANEL */
 
@@ -888,6 +889,11 @@ span[data-resumen-tipo-classificacao] {
 
 .breadcrumbs > span {
     cursor: pointer;
+}
+
+.breadcrumb-home img {
+    width: 1em;
+    height: 0.8em;
 }
 
 .breadcrumb-ut-maior::before,
