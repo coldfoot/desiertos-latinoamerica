@@ -147,13 +147,19 @@ button.btn-menu[data-state="close menu"] .line-mid {
 }
 
 .btn-menu-content {
+    --cor-menu: var(--red);
     position: absolute;
-    /*top: 81px;*/
+    top: 81px;
     right: 0;
     /*background-color: var(--color-accent);*/
     z-index: 4;
     transition: transform .4s;
     transform: translateX(100%);
+}
+
+.dashboard-wrapper .btn-menu-content {
+    top: auto;
+    --cor-menu: var(--color-accent);
 }
 
 header.show-menu .btn-menu-content {
@@ -169,7 +175,7 @@ header.show-menu .btn-menu-content {
 .btn-menu-content li {
     list-style: none;
     text-align: right;
-    background-color: var(--color-accent);
+    background-color: var(--cor-menu);
     border: 2px solid var(--color-bg);
     color: white;
     border-radius: 10px;
@@ -190,8 +196,8 @@ header.show-menu .btn-menu-content {
 }
 .btn-menu-content li:hover {
     background-color: white;
-    color: var(--color-accent);
-    border-color: var(--color-accent);
+    color: var(--cor-menu);
+    border-color: var(--cor-menu);
 }
 
 /* */

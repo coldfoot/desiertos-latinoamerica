@@ -12,8 +12,6 @@ const text_panel = document.querySelector(".text-panel-container");
 const container_relato = document.querySelector("[data-tipo-conteudo='relato']");
 const container_relato_colombia = document.querySelector(".relato-colombia-localidad");
 const relato = document.querySelector("[data-relato-completo]");
-const header = document.querySelector("header");
-const btn_menu = document.querySelector(".btn-menu");
 const place_summary = document.querySelector(".place-summary");
 const search_container = document.querySelector(".seleccione-ubicacion-container");
 const btn_leer_provincia_from_localidad = document.querySelector(".leer-provincia");
@@ -36,33 +34,6 @@ const current_place = {
 ///////////////////////////
 /// MENUS FUNCTIONALITY ///
 ///////////////////////////
-
-// Event listener for the menu button
-btn_menu.addEventListener("click", e => {
-
-    const state = btn_menu.dataset.state;
-
-    if (state == "burger") {
-
-        btn_menu.dataset.state = "close menu";
-        d3.select(".line-top").transition().duration(500)
-            .attr("y2", 30);
-        d3.select(".line-bottom").transition().duration(500)
-            .attr("y2", 10);
-        header.classList.add("show-menu");
-
-    } else if (state == "close menu") {
-
-        btn_menu.dataset.state = "burger";
-        d3.select(".line-top").transition().duration(500)
-            .attr("y2", 10);
-        d3.select(".line-bottom").transition().duration(500)
-            .attr("y2", 30);
-        header.classList.remove("show-menu");
-
-    }
-
-})
 
 // Event listener for the breadcrumbs
 breadcrumbs.addEventListener("click", e => {
