@@ -314,8 +314,11 @@ menu_nav_conteudo.addEventListener("click", e => {
         // botoes
         activate_button(tipo_conteudo);
 
-        if (tipo_conteudo == "relato" & ["Buenos Aires", "Córdoba", "Santa Fe"].includes(last_provincia_location_data.BASIC_INFO.NAME)) tipo_conteudo = "relato con desplegables";
+        if (get_current_level() == "provincia") {
 
+            if (tipo_conteudo == "relato" & ["Buenos Aires", "Córdoba", "Santa Fe"].includes(last_provincia_location_data.BASIC_INFO.NAME)) tipo_conteudo = "relato con desplegables";
+
+        }
         // conteúdos
         show_conteudo(tipo_conteudo);
 
