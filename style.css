@@ -967,10 +967,21 @@ span[data-barchart="sin datos"] {
 }
 
 
-span[data-barchart="sin datos"] {background-color: grey;}
-span[data-barchart="desierto"] {background-color: var(--color-desierto);}
-span[data-barchart="semidesierto"] {background-color: var(--color-semidesierto);}
-span[data-barchart="semibosque"] {background-color: var(--color-semibosque);}
+span[data-barchart="sin datos"] {
+    background-color: grey;
+}
+span[data-barchart="desierto"] {
+    background-color: var(--color-desierto);
+    color: var(--color-bg);
+}
+span[data-barchart="semidesierto"] {
+    background-color: var(--color-semidesierto);
+    color: var(--color-text);
+}
+span[data-barchart="semibosque"] {
+    background-color: var(--color-semibosque);
+    color: var(--color-text);
+}
 span[data-barchart="bosque"] {
     background-color: var(--color-bosque);
     color: var(--color-bg);
@@ -997,7 +1008,6 @@ span[data-barchart] .barchart-label {
     top: 50%;
     left: 50%;
     font-size: .8em;
-    color: var(--color-bg);
     transform: translate(-50%, -50%);
 }
 
