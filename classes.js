@@ -92,6 +92,8 @@ class CountriesEvents {
 
         const country = e.features[0].properties.country_name.toLowerCase();
 
+        if (country == "colombia") return;
+
         const local = {
 
             local : '',//localidad,
@@ -1812,6 +1814,8 @@ map.on('load', () => {
             "mapbox://tiagombp.3fbhy8tn", "mexico-large-units-bzhqx5",
             "mapbox://tiagombp.4xdpwu31", "mexicosmallunits"
         );
+
+        
 
 });
 

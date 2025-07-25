@@ -771,9 +771,11 @@ p.description-tipo-paisage {
     /*flex: 1 1 15%;*/
 }
 
-.menu-pais-dash > div[data-pais].unavailable {
+.menu-pais-dash > div[data-pais].unavailable,
+li[data-pais].unavailable {
     pointer-events: none;
-    filter: grayscale();
+    filter: grayscale(100%);
+    opacity: 0.5;
 }
 
 div[data-pais] > img {
