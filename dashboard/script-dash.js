@@ -300,15 +300,13 @@ menu_nav_conteudo.addEventListener("click", e => {
 
         tipo_conteudo = e.target.dataset.btnNav;
 
-        //switch_conteudo()
+        // botoes
+        activate_button(tipo_conteudo);
+
+        if (tipo_conteudo == "relato" & ["Buenos Aires", "Córdoba", "Santa Fe"].includes(last_provincia_location_data.BASIC_INFO.NAME)) tipo_conteudo = "relato con desplegables";
 
         // conteúdos
-
         show_conteudo(tipo_conteudo);
-
-        // botoes)
-
-        activate_button(tipo_conteudo);
 
     }
 
