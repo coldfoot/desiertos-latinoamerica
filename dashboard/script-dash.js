@@ -203,14 +203,25 @@ function control_nav_buttons(modo) {
 
     let btns_to_show;
 
+    const country = get_current_country();
+
     if (modo == "localidad") {
 
         container_btns.dataset.modo = "localidad";
 
-        btns_to_show = ["resumen", "datos"];
+        if (country == "colombia") {
 
-        show_conteudo("resumen");
-        activate_button("resumen");
+            btns_to_show = ["relato"];
+            show_conteudo("relato");
+            activate_button("relato");
+
+        } else {
+
+            btns_to_show = ["resumen", "datos"];
+            show_conteudo("resumen");
+            activate_button("resumen");
+
+        }
 
     }
 
