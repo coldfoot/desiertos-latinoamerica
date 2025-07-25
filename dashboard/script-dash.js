@@ -386,14 +386,18 @@ function update_infocard(name, key, country, tipo) {
             //"MEDIO"
             ];
 
-        const mini_data = last_provincia_location_data;
-        let narrative_data = mini_data.NARRATIVE ? mini_data.NARRATIVE : {};
+        const mini_data = last_localidad_location_data;
+        const narrative_data = mini_data.NARRATIVE
+
+        console.log(narrative_data);
 
         fields.forEach(field => {
 
             // While there is no data, we are adding a placeholder. We will remove this once we have data.
             if (!narrative_data[field]) narrative_data[field] = '¡Dentro de poco!';
 
+            console.log(field);
+            
             // Selects the data-value of the field and updates it with the relevant narrative data
             document.querySelector(`[data-relato-colombia-campo="${field}"]`).innerHTML = narrative_data[field];
 
@@ -579,13 +583,21 @@ function show_modal_relato() {
    
    let mini_data;
    let narrative_data;
+   let province;
+   let children_city;
 
     // Determine which data to use based on current level
     if (currentLevel === "pais" || currentLevel === "latam") {
         // Use country-level data
         mini_data = main_data[currentCountry].country[0];
         narrative_data = mini_data.NARRATIVE;
-    } else {
+    } 
+    else if (currentCountry === "colombia") {
+
+        mini_data = last_localidad_location_data;
+        narrative_data = mini_data.NARRATIVE;
+    }
+    else {
         // Use province-level data (existing behavior)
         mini_data = last_provincia_location_data;
         narrative_data = mini_data.NARRATIVE;
