@@ -905,7 +905,26 @@ class UTmenor {
         // Change the cursor style as a UI indicator.
         map.getCanvas().style.cursor = 'pointer';
 
-        const place_key = e.features[0].properties.KEY;
+        let place_key = e.features[0].properties.KEY;
+
+        // remove this when the data is fixed;
+        if (current_country == "argentina") {
+
+            const keys_provincias_merged = Object.keys(argentina_keys);
+
+            keys_provincias_merged.forEach(key => {
+
+                if (place_key.search(key) > -1) {
+
+                    place_key = place_key.replace(key, argentina_keys[key]);
+
+                    return;
+                    
+                }
+
+            })
+
+        }
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
       
@@ -1036,7 +1055,26 @@ class UTmenor {
     }
     click_event_handler(e) {
 
-        const place_key = e.features[0].properties.KEY;
+        let place_key = e.features[0].properties.KEY;
+
+                // remove this when the data is fixed;
+        if (current_country == "argentina") {
+
+            const keys_provincias_merged = Object.keys(argentina_keys);
+
+            keys_provincias_merged.forEach(key => {
+
+                if (place_key.search(key) > -1) {
+
+                    place_key = place_key.replace(key, argentina_keys[key]);
+
+                    return;
+                    
+                }
+
+            })
+
+        }
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
 
@@ -1612,6 +1650,17 @@ const country_names = {
     "peru" : "Perú"
 }
 
+// to fix Argentina keys for the merged provincias
+const argentina_keys = {
+    "Cordoba-Sur__argentina" : "Cordoba__argentina",
+    "Cordoba-Norte__argentina" : "Cordoba__argentina",
+    "Santa-Fe-CentroSur__argentina" : "Santa-Fe__argentina",
+    "Santa-Fe-Norte__argentina" : "Santa-Fe__argentina", 
+    "Buenos-Aires-Conurbano__argentina" : "Buenos-Aires__argentina",
+    "Buenos-Aires-Zona-2__argentina" : "Buenos-Aires__argentina",
+    "Buenos-Aires-Zona-3__argentina" : "Buenos-Aires__argentina"
+}
+
 // countries bboxes
 const bboxes = {
     "argentina" : [-73.57626953125, -55.03212890625, -53.6685546875, -21.8025390625],
@@ -1731,8 +1780,8 @@ map.on('load', () => {
 
         countries["chile"]     = new Country(
             "chile", "", 
-            "mapbox://tiagombp.0l57h9et", "large-units-chile-9v7av2", 
-            "mapbox://tiagombp.54kh6vm7", "small-units-chile-auxnhe");
+            "mapbox://tiagombp.0l57h9et", "chilelargeunits", 
+            "mapbox://tiagombp.54kh6vm7", "chilesmallunits");
 
         countries["peru"] = new Country(
             "peru", "",
@@ -1747,7 +1796,7 @@ map.on('load', () => {
         countries["mexico"] = new Country(
             "mexico", "",
             "mapbox://tiagombp.3fbhy8tn", "mexico-large-units-bzhqx5",
-            "mapbox://tiagombp.4xdpwu31", "mexico-small-units-27jmw2"
+            "mapbox://tiagombp.4xdpwu31", "mexicosmallunits"
         );
 
 });
