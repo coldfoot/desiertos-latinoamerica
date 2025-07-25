@@ -671,7 +671,7 @@ span.chapeu-relato-author::before {
 [data-tipo-paisage="desierto"] {--local-color: var(--color-desierto); color: var(--bege-fundo);}
 [data-tipo-paisage="semidesierto"] {--local-color: var(--color-semidesierto);}
 [data-tipo-paisage="semibosque"] {--local-color: var(--color-semibosque);}
-[data-tipo-paisage="bosque"] {--local-color: var(--color-bosque);}
+[data-tipo-paisage="bosque"] {--local-color: var(--color-bosque); color: var(--bege-fundo);}
 
 .menu-tipo-paisage [data-tipo-paisage] {
     background-color: transparent;
@@ -702,13 +702,23 @@ div[data-tipo-paisage] {
     display: flex;
     justify-content: start;
     align-items: center;
-    transition: flex-grow .5s, flex-shrink .5s;
+    transition: background-color .4s, color .4s;
     flex: 1;
-    border: 1px solid var(--color-text);/*var(--local-color);*/
+    border: 1px solid var(--local-color);/*var(--color-text);*/
 }
 
+div[data-tipo-paisage].tipo-paisage-selected {
+    background-color: var(--local-color);
+    color: var(--color-bg);
+}
+
+div[data-tipo-paisage="semibosque"].tipo-paisage-selected,
+div[data-tipo-paisage="semidesierto"].tipo-paisage-selected {
+    color: var(--color-text);
+}
+
+/*
 .menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage] {
-    /*flex: 0 1 50px;*/
     flex: 0;
 }
 
@@ -718,8 +728,7 @@ div[data-tipo-paisage] {
 
 .menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage].tipo-paisage-selected {
     flex: 1;
-    /*border-color: var(--color-accent);*/
-}
+}*/
 
 p.description-tipo-paisage {
     margin: 0;
@@ -730,6 +739,7 @@ p.description-tipo-paisage {
     /*margin-left: .5rem;*/
 }
 
+/*
 .menu-tipo-paisage.tipo-paisage-has-selection p.description-tipo-paisage {
     display: none;
 }
@@ -740,7 +750,7 @@ p.description-tipo-paisage {
 
 .menu-tipo-paisage.tipo-paisage-has-selection div[data-tipo-paisage].tipo-paisage-selected p.description-tipo-paisage {
     display: block;
-}
+}*/
 
 /* THE MAP */
 
