@@ -300,6 +300,19 @@ header.show-menu .btn-menu-content {
     padding-left: 1rem;
     font-style: normal;
     font-family: buendia;
+    cursor: default;
+}
+[data-slide="opening"] .btn-descubra span:hover {
+    color: var(--color-bg);
+    border-radius: 10px;
+    /* background-color: var(--color-accent); */
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    z-index: 2;
+    position: relative;
+    padding-left: 1rem;
+    font-style: normal;
+    font-family: buendia;
+    cursor: default;
 }
 
 [data-slide="opening"] .btn-vaya-datos a {
@@ -327,12 +340,10 @@ header.show-menu .btn-menu-content {
 }
 
 [data-slide="country selection"] .text-slide-inner-wrapper .menu-paises-wrapper {
-
 }
 
 [data-slide="country selection"] ul.menu-paises {
 
-    padding: 0;
 }
 
 [data-slide="country selection"] ul.menu-paises li + li {
@@ -350,6 +361,21 @@ header.show-menu .btn-menu-content {
     margin-right: 2rem;
     height: 3rem;
     padding-left: 2rem;
+    cursor: default;
+    background-color: var(--bege-escuro);
+}
+
+[data-slide="country selection"] ul.menu-paises li:hover {
+    font-size: 2rem;
+    list-style: none;
+    border-top: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    /*padding: .5rem 0 .5rem 2rem;*/
+    margin-right: 2rem;
+    height: 3rem;
+    padding-left: 2rem;
+    cursor: default;
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
 }
 
 [data-slide="country selection"] ul.menu-paises li a {
@@ -360,6 +386,7 @@ header.show-menu .btn-menu-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: default;
 }
 
 [data-slide="country selection"] ul.menu-paises img {
@@ -368,6 +395,7 @@ header.show-menu .btn-menu-content {
     height: 4.5rem;
     border-radius: 50%;
     transform: translateX(25%);
+    cursor: default;
 
 }
 
@@ -1589,6 +1617,7 @@ li[data-datos-topic]::before {
     [data-slide="opening"] .text-slide-inner-wrapper .btn-descubra {
         padding-left: 0;
         font-size: 24px;
+        cursor: pointer;
     }
 
     [data-slide="opening"] .text-slide-inner-wrapper .btn-vaya-datos {
@@ -2217,4 +2246,32 @@ details.metodologia details.metodologia details.metodologia details.metodologia 
 
 details.metodologia details.metodologia details.metodologia details.metodologia summary.metodologia {
     font-size: 0.9em;
+}
+
+/* Scope note on the data pannel */
+.star-note {
+    font-size: 0.8em;
+    font-style: italic;
+    vertical-align: super;
+}
+
+.star-note-explanation {
+    font-size: 0.7em;
+    font-family: nagel;
+    font-weight: lighter;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+@media (max-width: 900px) {
+    .star-note-explanation {
+        font-size: 0.95em;
+    }
+}
+
+.text-panel-container[data-country="argentina"] .star-note-explanation,
+.text-panel-container[data-country="peru"] .star-note-explanation,
+.text-panel-container[data-country="argentina"] .star-note,
+.text-panel-container[data-country="peru"] .star-note {
+    display: none
 }
