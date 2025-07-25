@@ -590,15 +590,19 @@ function update_place_summary(basic_info_data) {
 
         const field = div.dataset.summaryField;
 
-        div.querySelector(".summary-value").innerHTML = basic_info_data[field] == null ? 0 : basic_info_data[field].toLocaleString('pt-BR', {
+        let value = basic_info_data[field];
+
+        if (value == null) value = 0
+        else value = basic_info_data[field].toLocaleString('pt-BR', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
                 useGrouping: true
-        });
+        })
 
+        if (field.startsWith("RATIO") & value == 0) value = "–";
 
+        div.querySelector(".summary-value").innerHTML = value;
 
-        
     })
 
 }
