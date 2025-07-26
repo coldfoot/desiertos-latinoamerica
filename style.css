@@ -1720,7 +1720,8 @@ li[data-datos-topic]::before {
 
     /* MODAL VIZ MOBILE */
     .modal-viz .container-viz,
-    .modal-viz .container-modal-relato {
+    .modal-viz .container-modal-relato,
+    .modal-viz .container-modal-relato-regional {
         top: 1rem;
         bottom: 1rem;
         left: 1rem;
@@ -1911,7 +1912,7 @@ li[data-datos-topic]::before {
         font-size: 12px;
     }
 
-    .modal-viz .container-viz, .modal-viz .container-modal-relato {
+    .modal-viz .container-viz, .modal-viz .container-modal-relato, .container-modal-relato-regional {
         padding: 20px;
     }
 
@@ -2286,14 +2287,14 @@ table.informe-regional tr:last-child td {
 @media (max-width: 768px) {
     [data-relato-modal-campo="RELATO"] table,
     table.informe-regional {
-        font-size: 0.85em;
+        font-size: 0.6em;
     }
     
     [data-relato-modal-campo="RELATO"] table th,
     [data-relato-modal-campo="RELATO"] table td,
     table.informe-regional th,
     table.informe-regional td {
-        padding: 0.5rem 0.25rem;
+        padding: 0.5em 0.25em;
     }
 }
 
