@@ -22,6 +22,7 @@ const breadcrumbs = document.querySelector(".breadcrumbs");
 const btn_leer_mas = container_relato.querySelector(".leer-mas");
 const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
 const btns_leer_mas_subprovincia_argentina = document.querySelectorAll(".leer-mas-desplegable");
+const btn_leer_mas_informe_regional = document.querySelector(".leer-mas-informe-regional");
 
 ///////////////////////
 /// STATE TRACKING ///
@@ -675,7 +676,6 @@ btn_leer_mas.addEventListener("click", e => {
     container_relato.classList.remove("recolhido");
     */
    
-
 })
 
 btn_leer_mas_colombia.addEventListener("click", e => {
@@ -701,6 +701,12 @@ btns_leer_mas_subprovincia_argentina.forEach(btn => {
         show_modal_relato(sub_provincia);
 
     })
+})
+
+btn_leer_mas_informe_regional.addEventListener("click", e => {
+
+    toggle_modal("relato regional");
+
 })
 
 

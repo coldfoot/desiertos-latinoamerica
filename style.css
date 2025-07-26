@@ -1153,7 +1153,8 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
 }
 
 .text-panel-container .conteudo .leer-mas,
-.text-panel-container .conteudo .leer-mas-desplegable {
+.text-panel-container .conteudo .leer-mas-desplegable,
+.leer-mas-informe-regional {
     font-weight: bold;
     background-color: var(--color-bg);
     /* padding: .25rem .5rem .25rem .5rem; */
@@ -1167,6 +1168,8 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     cursor: pointer;
     padding-left: 5px;
 }
+
+.leer-mas-informe-regional {padding-left: 0;}
 
 .text-panel-container .conteudo .leer-mas:hover,
 .text-panel-container .conteudo .leer-mas-desplegable:hover {
@@ -1227,7 +1230,8 @@ div.content-divider.bar-divider {
 
 [data-relato-campo="TITLE"], 
 [data-relato-colombia-campo="TITLE"], 
-[data-relato-campo-desplegable="TITLE"] {
+[data-relato-campo-desplegable="TITLE"],
+.modal-relato-regional-title {
     font-size: 1.3em;
     margin: 0;
     margin-bottom: 6px;
@@ -1973,7 +1977,8 @@ button.close-modal:hover {
 }
 
 .container-viz,
-.container-modal-relato {
+.container-modal-relato,
+.container-modal-relato-regional {
     position: absolute;
     top: 2rem;
     bottom: 2rem;
@@ -1988,10 +1993,17 @@ button.close-modal:hover {
 }
 
 [data-modal-active="relato"] .container-viz { display: none; }
+[data-modal-active="relato"] .container-modal-relato-regional { display: none; }
+
 [data-modal-active="viz"] .container-modal-relato { display: none; }
+[data-modal-active="viz"] .container-modal-relato-regional { display: none; }
 
 [data-modal-active="relato"] .container-modal-relato { opacity: 1; }
 [data-modal-active="viz"] .container-viz { opacity: 1; }
+
+[data-modal-active="relato regional"] .container-viz { display: none; }
+[data-modal-active="relato regional"] .container-modal-relato { display: none; }
+[data-modal-active="relato regional"] .container-modal-relato-regional { opacity : 1;}
 
 .viz-main-title {
     font-size: 2rem;
@@ -2389,3 +2401,27 @@ h4.intertitulo-relato {
 .barchart-relato-regional span {
     background-color: var(--local-color);
 }
+
+.container-modal-relato-regional .informe-regional-wrapper {
+    line-height: 1.5;
+    max-width: 620px;
+    margin: 0 auto;
+    margin-bottom: .25em;
+    font-family: buendia;
+    font-size: 1.2em;
+}
+
+.container-modal-relato-regional .logo-wrapper-modal {
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+/*
+.container-modal-relato .informe-regional-wrapper {
+    display: none;
+}
+
+[data-view="latam"] .container-modal-relato .informe-regional-wrapper {
+    display: initial;
+}*/
+
