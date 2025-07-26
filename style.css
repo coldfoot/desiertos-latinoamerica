@@ -938,7 +938,7 @@ span[data-resumen-tipo-classificacao] {
     cursor: pointer;
 }
 
-.breadcrumb-home img {
+.breadcrumb-home svg {
     width: 1em;
     height: 0.8em;
 }
