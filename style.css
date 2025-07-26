@@ -552,6 +552,11 @@ div.logo-wrapper {
     margin: 1rem;
 }
 
+div.title-wrapper a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 .logo-wrapper .logo {
     height: 2rem;
     display: block;
