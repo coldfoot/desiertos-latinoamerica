@@ -1384,6 +1384,10 @@ li[data-datos-topic]::before {
         text-align: center;
     }
 
+    .map-panel-header {
+        padding-right: 32px;
+    }
+
     .map-panel-container {
         gap: 0;
     }
