@@ -2425,6 +2425,9 @@ h4.intertitulo-relato {
     margin: 0 auto;
 }
 
+p.nota-metodologica {
+    font-size: .8em;
+}
 /*
 .container-modal-relato .informe-regional-wrapper {
     display: none;
