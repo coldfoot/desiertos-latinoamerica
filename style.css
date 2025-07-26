@@ -2230,7 +2230,8 @@ details.creditos {
   }
 
   /* Table formatting for RELATO modal content */
-[data-relato-modal-campo="RELATO"] table {
+[data-relato-modal-campo="RELATO"] table,
+table.informe-regional {
     width: 100%;
     border-collapse: collapse;
     margin: 1.5rem 0;
@@ -2240,14 +2241,17 @@ details.creditos {
 }
 
 [data-relato-modal-campo="RELATO"] table th,
-[data-relato-modal-campo="RELATO"] table td {
+[data-relato-modal-campo="RELATO"] table td,
+table.informe-regional th,
+table.informe-regional td {
     padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
     vertical-align: top;
 }
 
-[data-relato-modal-campo="RELATO"] table th {
+[data-relato-modal-campo="RELATO"] table th,
+table.informe-regional th {
     background-color: var(--bege-claro);
     font-family: nagel;
     font-weight: 600;
@@ -2257,24 +2261,29 @@ details.creditos {
 }
 
 
-[data-relato-modal-campo="RELATO"] table tr:last-child td {
+[data-relato-modal-campo="RELATO"] table tr:last-child td,
+table.informe-regional tr:last-child td {
     border-bottom: none;
 }
 
 /* Responsive table for mobile */
 @media (max-width: 768px) {
-    [data-relato-modal-campo="RELATO"] table {
+    [data-relato-modal-campo="RELATO"] table,
+    table.informe-regional {
         font-size: 0.85em;
     }
     
     [data-relato-modal-campo="RELATO"] table th,
-    [data-relato-modal-campo="RELATO"] table td {
+    [data-relato-modal-campo="RELATO"] table td,
+    table.informe-regional th,
+    table.informe-regional td {
         padding: 0.5rem 0.25rem;
     }
 }
 
 /* Optional: Zebra striping for better readability */
-[data-relato-modal-campo="RELATO"] table tr:nth-child(even) {
+[data-relato-modal-campo="RELATO"] table tr:nth-child(even),
+table.informe-regional tr:nth-child(even) {
     background-color: var(--bege-escuro);
 }
 
