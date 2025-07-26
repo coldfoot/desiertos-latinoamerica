@@ -578,7 +578,7 @@ div.title-wrapper a {
     /*border: 1px solid gold;*/
 }
 
-h4.chapeu-relato {
+h4.chapeu-relato, h4.chapeu-informe-regional {
     font-family: nagel;
     font-weight: bold;
     font-size: 1rem;
@@ -603,7 +603,7 @@ h4.chapeu-barras {
     margin: 0 0 2px 0px;
 }
 
-span.chapeu-relato-author {
+span.chapeu-relato-author, span.chapeu-informe-regional-author {
     font-weight: normal;
     font-size: 1rem;
 }
