@@ -299,27 +299,27 @@ function pick_specific_desierto(country) {
     let selected_index;
     let type_smaller_unit;
     if (country == 'argentina') {
-        type_smaller_unit = 'departamento';
+        type_smaller_unit = 'un departamento';
         selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'San-Luis-del-Palmar__Corrientes__argentina');
 
     } else if (country == 'chile') {
 
-        type_smaller_unit = 'comuna';
+        type_smaller_unit = 'una comuna';
         selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'Penaflor__Region-Metropolitana__chile');
 
     } else if (country == 'peru') {
 
-        type_smaller_unit = 'provincia'
+        type_smaller_unit = 'una provincia'
         selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'Aija__Ancash__peru');
 
     } else if (country == 'mexico') {   
 
-        type_smaller_unit = 'municipio';
+        type_smaller_unit = 'un municipio';
         selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'Celestun__Yucatan__mexico');
 
     } else if (country == 'municipio') {
 
-        type_smaller_unit = 'departamento';
+        type_smaller_unit = 'un departamento';
         selected_index = desiertos.findIndex(d => d.BASIC_INFO.KEY == 'Maicao__La-Guajira__colombia');
 
     }
