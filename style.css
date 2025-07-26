@@ -161,9 +161,13 @@ button.btn-menu[data-state="close menu"] .line-mid {
     position: fixed;
 }
 
+.dashboard-wrapper .btn-menu-content,
+.secondary-pages-wrapper .btn-menu-content {
+    --cor-menu: var(--color-accent);
+}
+
 .dashboard-wrapper .btn-menu-content {
     top: auto;
-    --cor-menu: var(--color-accent);
 }
 
 header.show-menu .btn-menu-content {
@@ -2425,6 +2429,9 @@ h4.intertitulo-relato {
     margin: 0 auto;
 }
 
+p.nota-metodologica {
+    font-size: .8em;
+}
 /*
 .container-modal-relato .informe-regional-wrapper {
     display: none;
