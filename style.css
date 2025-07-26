@@ -2358,3 +2358,25 @@ details.metodologia details.metodologia details.metodologia details.metodologia 
 [data-country="peru"] .star-note {
     display: none
 }
+
+/* RELATO REGIONAL */
+
+h3.intertitulo-relato,
+h4.intertitulo-relato {
+    font-family: nagel;
+    font-weight: bold;
+}
+
+h4.intertitulo-relato {
+    margin: 0;
+    font-size: 1em;
+}
+
+.barchart-relato-regional {
+    height: 10px;
+    display: flex;
+}
+
+.barchart-relato-regional span {
+    background-color: var(--local-color);
+}
