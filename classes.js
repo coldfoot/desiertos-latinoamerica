@@ -824,7 +824,7 @@ class UTmenor {
         let local = (localidad != undefined) ? localidad : last_localidad_location_data.BASIC_INFO.KEY;
 
         // remove this when the data is fixed; 
-        if (this.flag_localidad_in_subprovincia_argentina) local = this.key_subprovincia_argentina;
+        if (localidad != '' & this.flag_localidad_in_subprovincia_argentina) local = this.key_subprovincia_argentina;
 
         map.setFilter(
             this.country + '-localidad-highlight', [
