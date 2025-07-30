@@ -1770,7 +1770,8 @@ map.on('load', () => {
                 1,
                 0.5
             ]*/
-        }
+        },
+        'filter': ['!=', ['get', 'country_name'], 'Colombia']
     });
 
     map.addLayer({
@@ -1782,7 +1783,8 @@ map.on('load', () => {
         'paint': {
             'line-color': 'black',
             'line-width': 1
-        }
+        },
+        'filter': ['!=', ['get', 'country_name'], 'Colombia']
     });
 
     plot_latam(dashboard);
@@ -1805,9 +1807,9 @@ map.on('load', () => {
             "mapbox://tiagombp.3636aktg", "small-units-peru-3glt7j"
         );
 
-        countries["colombia"] = new Bubble(
+        /*countries["colombia"] = new Bubble(
             "colombia", "", "mapbox://tiagombp.27ddvbx4", "colombia-centroids-61kfe7"
-        );
+        );*/
 
         countries["mexico"] = new Country(
             "mexico", "",
@@ -1859,7 +1861,8 @@ map.on("load", () => {
                 3,
                 0
             ]
-            }
+            },
+            'filter': ['!=', ['get', 'country_name'], 'Colombia']
         }); 
 
         countries_events.monitor_events("on");
