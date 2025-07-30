@@ -2442,3 +2442,12 @@ p.nota-metodologica {
     display: initial;
 }*/
 
+/* Hide Colombia buttons on main page */
+.menu-paises li[data-pais="colombia"] {
+    display: none;
+}
+
+/* Hide Colombia buttons on dashboard */
+.menu-pais-dash div[data-pais="colombia"] {
+    display: none;
+}
