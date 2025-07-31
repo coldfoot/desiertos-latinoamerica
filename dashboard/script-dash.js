@@ -24,6 +24,31 @@ const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas
 const btns_leer_mas_subprovincia_argentina = document.querySelectorAll(".leer-mas-desplegable");
 const btn_leer_mas_informe_regional = document.querySelector(".leer-mas-informe-regional");
 
+///////////
+/// Dashboard parameters ///
+/// for users coming from the link in the static pages
+
+const url_params = new URLSearchParams(window.location.search);
+const url_place_key = url_params.get("ubicacion");
+
+if (url_place_key != null) {
+
+    const country = url_place[1];
+
+    // isso deveria estar mais parametrizado :/
+    update_country_button(country);
+    update_breadcrumbs("pais", country);
+    countries_events.monitor_events('off');
+    map.setPaintProperty("countries-borders", "line-color", "transparent");
+    map.setPaintProperty("countries-fills", "fill-color", "transparent");
+    countries[country].paint_country_subnational("on");
+
+    last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.KEY == url_place_key)[0];
+    countries[country].render_provincia();
+
+}
+
+
 ///////////////////////
 /// STATE TRACKING ///
 /////////////////////
