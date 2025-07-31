@@ -74,3 +74,18 @@ ggplot(argentina) + geom_sf()
 
 #merge_provincias(provincias_buenos_aires, "Buenos-Aires__argentina")
 
+
+
+# bboxes, centroids -------------------------------------------------------
+
+argentina <- st_read("argentina-large-units-joined.geojson")
+
+argentina %>% filter(KEY=="Buenos-Aires__argentina") %>% st_bbox()
+argentina %>% filter(KEY=="Buenos-Aires__argentina") %>% st_centroid()
+
+argentina %>% filter(KEY=="Santa-Fe__argentina") %>% st_bbox()
+argentina %>% filter(KEY=="Santa-Fe__argentina") %>% st_centroid()
+sf::sf_use_s2(TRUE)
+
+argentina %>% filter(KEY=="Cordoba__argentina") %>% st_bbox()
+argentina %>% filter(KEY=="Cordoba__argentina") %>% st_centroid()
