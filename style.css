@@ -61,6 +61,11 @@
     --color-semibosque: #e4d25d;/* #c7ce30;/*#6C8B3C;*/
     --color-bosque: #395300;/*#6d711f; /*#1A5B2E;*/
 
+    --color-desierto-transp: #bc500640;/* #FFA439;*/
+    --color-semidesierto-transp: #dab28d40;/* #F2D6BA;*/
+    --color-semibosque-transp: #e4d25d40;/* #c7ce30;/*#6C8B3C;*/
+    --color-bosque-transp: #39530040;/*#6d711f; /*#1A5B2E;*/
+
     background-color: var(--color-bg);
 
 }
@@ -677,14 +682,18 @@ span.chapeu-relato-author::before {
 
 }
 
-[data-tipo-paisage="desierto"] {--local-color: var(--color-desierto); color: var(--bege-fundo);}
-[data-tipo-paisage="semidesierto"] {--local-color: var(--color-semidesierto);}
-[data-tipo-paisage="semibosque"] {--local-color: var(--color-semibosque);}
-[data-tipo-paisage="bosque"] {--local-color: var(--color-bosque); color: var(--bege-fundo);}
+[data-tipo-paisage="desierto"] {--local-color: var(--color-desierto); color: var(--bege-fundo); --local-color-transp: var(--color-desierto-transp);}
+[data-tipo-paisage="semidesierto"] {--local-color: var(--color-semidesierto); --local-color-transp: var(--color-semidesierto-transp);}
+[data-tipo-paisage="semibosque"] {--local-color: var(--color-semibosque); --local-color-transp: var(--color-semibosque-transp);}
+[data-tipo-paisage="bosque"] {--local-color: var(--color-bosque); color: var(--bege-fundo); --local-color-transp: var(--color-bosque-transp);}
 
 .menu-tipo-paisage [data-tipo-paisage] {
     background-color: transparent;
     color: var(--color-text);
+}
+
+.menu-tipo-paisage [data-tipo-paisage]:hover {
+    background-color: var(--local-color-transp);
 }
 
 .menu-tipo-paisage .img-paisage-container {
@@ -711,7 +720,7 @@ div[data-tipo-paisage] {
     display: flex;
     justify-content: start;
     align-items: center;
-    transition: background-color .4s, color .4s;
+    transition: background-color .2s, color .2s;
     flex: 1;
     border: 1px solid var(--local-color);/*var(--color-text);*/
 }
@@ -719,6 +728,10 @@ div[data-tipo-paisage] {
 div[data-tipo-paisage].tipo-paisage-selected {
     background-color: var(--local-color);
     color: var(--color-bg);
+}
+
+.menu-tipo-paisage [data-tipo-paisage].tipo-paisage-selected:hover {
+    background-color: var(--local-color);
 }
 
 div[data-tipo-paisage="semibosque"].tipo-paisage-selected,
@@ -2450,4 +2463,28 @@ p.nota-metodologica {
 /* Hide Colombia buttons on dashboard */
 .menu-pais-dash div[data-pais="colombia"] {
     display: none;
+}
+
+
+/* STATIC PAGES */
+
+.container-relato-static {
+    
+    padding: 10px;
+
+}
+
+h2.static-page-place-name {
+    font-size: 3em;
+    font-style: italic;
+    color: var(--color-accent);
+    font-family: buendia;
+    margin: 0;
+}
+
+img.static-page-map {
+    max-width: 100%;
+    width: 400px;
+    display: block;
+    margin: 0 auto 2rem;
 }
