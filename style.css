@@ -2464,3 +2464,27 @@ p.nota-metodologica {
 .menu-pais-dash div[data-pais="colombia"] {
     display: none;
 }
+
+
+/* STATIC PAGES */
+
+.container-relato-static {
+    
+    padding: 10px;
+
+}
+
+h2.static-page-place-name {
+    font-size: 3em;
+    font-style: italic;
+    color: var(--color-accent);
+    font-family: buendia;
+    margin: 0;
+}
+
+img.static-page-map {
+    max-width: 100%;
+    width: 400px;
+    display: block;
+    margin: 0 auto 2rem;
+}
