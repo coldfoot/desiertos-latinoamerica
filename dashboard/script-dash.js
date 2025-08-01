@@ -23,6 +23,7 @@ const btn_leer_mas = container_relato.querySelector(".leer-mas");
 const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
 const btns_leer_mas_subprovincia_argentina = document.querySelectorAll(".leer-mas-desplegable");
 const btn_leer_mas_informe_regional = document.querySelector(".leer-mas-informe-regional");
+const btns_toggle_year_argentina = document.querySelector(".toggle-year-for-argentina");
 
 ///////////
 /// Dashboard parameters ///
@@ -53,6 +54,9 @@ map.once('idle', () => {
         last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.KEY == url_place_key)[0];
         countries[country].render_provincia();
 
+        // clear URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+
     }
 
 });
@@ -82,6 +86,33 @@ const current_place = {
 ///////////////////////////
 /// MENUS FUNCTIONALITY ///
 ///////////////////////////
+
+btns_toggle_year_argentina.addEventListener("click", e => {
+
+    if (e.target.tagName == "BUTTON") {
+
+        btns_toggle_year_argentina.querySelectorAll("button").forEach(btn => btn.classList.remove("year-selected"));
+
+        const year = e.target.dataset.toggleYearArgentina;
+
+        e.target.classList.add("year-selected");
+
+        const suffix = year == "2021" ? "_2021" : "";
+
+        map.setPaintProperty(
+            'argentina-localidad',
+            'fill-color',
+            [
+                'match',
+                ['get', 'CLASSIFICATION' + suffix],
+                ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
+                'transparent'
+            ]
+        )
+
+    }
+
+})
 
 // Event listener for the breadcrumbs
 breadcrumbs.addEventListener("click", e => {
@@ -695,6 +726,12 @@ function show_modal_relato(sub_provincia = undefined) {
                 narrative_data = narrative_data[sub_provincia];
 
             }
+
+            // sets the link to static url href attribute
+            const provincia = mini_data.BASIC_INFO.NAME;
+            const dir_name = slugify(provincia);
+
+            document.querySelector(".link-to-static-url").setAttribute("href", "../static/" + currentCountry + '/' + dir_name);
             
         }
 
