@@ -228,6 +228,9 @@ class Country {
         this.ut_maior.monitor_events("off");
         this.ut_menor.monitor_events("on");
 
+        map.moveLayer(this.country + "-provincia-border-hover");
+        map.moveLayer(this.country + "-provincia-border");
+
         update_infocard(provincia_name, provincia_key, this.country, "provincia");
 
     }
