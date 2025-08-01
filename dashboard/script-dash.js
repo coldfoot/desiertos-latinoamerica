@@ -30,24 +30,43 @@ const btn_leer_mas_informe_regional = document.querySelector(".leer-mas-informe-
 
 const url_params = new URLSearchParams(window.location.search);
 const url_place_key = url_params.get("ubicacion");
+console.log(url_params, url_place_key);
 
-if (url_place_key != null) {
+map.once('idle', () => {
 
-    const country = url_place[1];
+    if (url_place_key != null) {
 
-    // isso deveria estar mais parametrizado :/
-    update_country_button(country);
-    update_breadcrumbs("pais", country);
-    countries_events.monitor_events('off');
-    map.setPaintProperty("countries-borders", "line-color", "transparent");
-    map.setPaintProperty("countries-fills", "fill-color", "transparent");
-    countries[country].paint_country_subnational("on");
+        const country = url_place_key.split("__")[1];
+        console.log(country);
 
-    last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.KEY == url_place_key)[0];
-    countries[country].render_provincia();
+        last_country = country;
+        current_country = country;
 
+        // isso deveria estar mais parametrizado :/
+        update_country_button(country);
+        update_breadcrumbs("pais", country);
+        countries_events.monitor_events('off');
+        map.setPaintProperty("countries-borders", "line-color", "transparent");
+        map.setPaintProperty("countries-fills", "fill-color", "transparent");
+        countries[country].paint_country_subnational("on");
+
+        last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.KEY == url_place_key)[0];
+        countries[country].render_provincia();
+
+    }
+
+});
+
+//// Converts Provincia name to the format used in the static pages urls
+function slugify(name) {
+    return name
+        .normalize("NFD")                    // decompose accents (e.g. ñ → n + ̃)
+        .replace(/[\u0300-\u036f]/g, "")    // remove diacritical marks
+        .replace(/['’"]/g, "")              // remove apostrophes and quotes
+        .replace(/\s+/g, "_")               // replace whitespace with underscores
+        .replace(/[^a-zA-Z0-9_]/g, "")      // remove all other special characters
+        .toLowerCase();                     // lowercase
 }
-
 
 ///////////////////////
 /// STATE TRACKING ///
