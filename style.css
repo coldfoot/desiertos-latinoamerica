@@ -980,6 +980,14 @@ span[data-resumen-tipo-classificacao] {
     display: initial;
 }
 
+.resumen-tipo-classificacao-2021-argentina {
+    display: none;
+}
+
+[data-country="argentina"] .resumen-tipo-classificacao-2021-argentina {
+    display: initial;
+}
+
 .text-panel-container .author {
     font-style: italic;
 }

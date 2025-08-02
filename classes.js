@@ -1562,6 +1562,20 @@ function plot_country(country, padding) {
 
 function display_paisage(tipo_paisage, country) {
 
+    let suffix = "";
+
+
+    if (country == "argentina") {
+
+        // if argentina, check which classification should be used
+        const btn_selected = btns_toggle_year_argentina.querySelector(".year-selected");
+        const year_argentina = btn_selected.dataset.toggleYearArgentina;
+        if (year_argentina == "2021") suffix += "_2021";
+
+    }
+
+    console.log(tipo_paisage, country, suffix);
+
     if (tipo_paisage != '') {
 
         if (country == "colombia") {
@@ -1598,7 +1612,7 @@ function display_paisage(tipo_paisage, country) {
                     'case',
                     [
                         '==',
-                        ['get', 'CLASSIFICATION'],
+                        ['get', 'CLASSIFICATION' + suffix],
                         tipo_paisage.toUpperCase()
                     ],
                     colors_css[tipo_paisage],
@@ -1633,7 +1647,7 @@ function display_paisage(tipo_paisage, country) {
                 'fill-color',
                 [
                     'match',
-                    ['get', 'CLASSIFICATION'],
+                    ['get', 'CLASSIFICATION' + suffix],
                     ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
                     'transparent'
                 ]
@@ -1797,7 +1811,8 @@ map.on('load', () => {
         countries["argentina"] = new Country(
             "argentina", "", 
             "mapbox://tiagombp.2c7pqb06", "large-units-argentina-9wj09y", 
-            "mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
+            //"mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
+            "mapbox://tiagombp.064o047k", "argentina-small-units_1-0st5p6");
 
         countries["chile"]     = new Country(
             "chile", "", 

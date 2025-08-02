@@ -97,6 +97,15 @@ btns_toggle_year_argentina.addEventListener("click", e => {
 
         e.target.classList.add("year-selected");
 
+        // check if there's a category selected in the menu paisage
+        const btn_paisage_selected = menu_tipo_paisage.querySelector(".tipo-paisage-selected");
+        if (btn_paisage_selected) {
+            const paisage = btn_paisage_selected.dataset.tipoPaisage;
+            console.log(btn_paisage_selected, paisage);
+            display_paisage(paisage, "argentina");
+            return;
+        }
+
         const suffix = year == "2021" ? "_2021" : "";
 
         map.setPaintProperty(
@@ -582,6 +591,15 @@ function update_infocard(name, key, country, tipo) {
             document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = classification.toLowerCase();
 
             document.querySelector(`[data-relato-campo="PARENT"]`).innerHTML = basic_info_data.PARENT;
+
+            if (country == "argentina") {
+
+                const classificacion2021 = document.querySelector(".resumen-tipo-classificacao-2021-argentina [data-tipo-paisage]");
+
+                classificacion2021.dataset.tipoPaisage = basic_info_data.CLASSIFICATION_2021.toLowerCase();
+                classificacion2021.innerHTML = basic_info_data.CLASSIFICATION_2021;
+
+            }
 
 
         } else {
