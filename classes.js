@@ -913,6 +913,7 @@ class UTmenor {
 
         let place_key = e.features[0].properties.KEY;
 
+        /*
         // remove this when the data is fixed;
         if (current_country == "argentina") {
 
@@ -930,7 +931,7 @@ class UTmenor {
 
             })
 
-        }
+        }*/
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
       
@@ -1064,7 +1065,8 @@ class UTmenor {
         this.flag_localidad_in_subprovincia_argentina = false;
         let place_key = e.features[0].properties.KEY;
 
-                // remove this when the data is fixed;
+        /*
+        // remove this when the data is fixed;
         if (current_country == "argentina") {
 
             const keys_provincias_merged = Object.keys(argentina_keys);
@@ -1085,7 +1087,7 @@ class UTmenor {
 
             })
 
-        }
+        }*/
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
 
@@ -1673,6 +1675,7 @@ const country_names = {
 }
 
 // to fix Argentina keys for the merged provincias
+/*
 const argentina_keys = {
     "Cordoba-Sur__argentina" : "Cordoba__argentina",
     "Cordoba-Norte__argentina" : "Cordoba__argentina",
@@ -1692,7 +1695,7 @@ const argentina_subprovincias_names = {
     "Buenos-Aires-Zona-2__argentina" : "Buenos Aires (Zona 2)",
     "Buenos-Aires-Zona-3__argentina" : "Buenos Aires (Zona 3)"
 
-}
+}*/
 
 // countries bboxes
 const bboxes = {
