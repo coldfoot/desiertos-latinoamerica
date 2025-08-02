@@ -1103,7 +1103,8 @@ function resetToInitialState() {
     // Reset text panel to initial state using data attributes
     const textPanel = document.querySelector('.text-panel-container');
     set_current_level("latam");
-    textPanel.setAttribute('data-country', '');
+    set_current_country("");
+    //textPanel.setAttribute('data-country', '');
     textPanel.setAttribute('data-classification-localidad', '');
     
     // Clear infocard title
