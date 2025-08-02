@@ -2006,6 +2006,10 @@ li[data-datos-topic]::before {
         padding: 1rem;
     }
 
+    div[data-relato-modal-campo="RELATO"] {
+        font-size: 1em;
+    }
+
 
 }
 
