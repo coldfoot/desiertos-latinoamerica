@@ -24,6 +24,8 @@ const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas
 const btns_leer_mas_subprovincia_argentina = document.querySelectorAll(".leer-mas-desplegable");
 const btn_leer_mas_informe_regional = document.querySelector(".leer-mas-informe-regional");
 const btns_toggle_year_argentina = document.querySelector(".toggle-year-for-argentina");
+const btn_barchart_argentina_2021 = document.querySelector("button.argentina-ver-datos-2021");
+const barchart_argentina_2021 = document.querySelector(".place-paisage-composition-argentina-2021");
 
 ///////////
 /// Dashboard parameters ///
@@ -71,6 +73,31 @@ function slugify(name) {
         .replace(/[^a-zA-Z0-9_]/g, "")      // remove all other special characters
         .toLowerCase();                     // lowercase
 }
+
+function toggle_barchart_argentina_2021(option) {
+
+    // option: on / off
+
+    if (option == "on") {
+
+        btn_barchart_argentina_2021.classList.remove("btn-barchart-active");
+        barchart_argentina_2021.classList.add("barchart-active");
+
+    } else {
+
+        btn_barchart_argentina_2021.classList.add("btn-barchart-active");
+        barchart_argentina_2021.classList.remove("barchart-active");
+    }
+
+
+
+}
+
+btn_barchart_argentina_2021.addEventListener("click", e => {
+
+    toggle_barchart_argentina_2021("on");
+
+})
 
 ///////////////////////
 /// STATE TRACKING ///
@@ -570,6 +597,11 @@ function update_infocard(name, key, country, tipo) {
         const counts = compute_classification(country, name);
         update_classification_barcharts(counts);
 
+        if (country == "argentina") {
+            const counts_2021 = compute_classification(country, name, "_2021");
+            update_classification_barcharts(counts_2021, true);
+        }
+
     }
 
     if (tipo == "localidad") {
@@ -667,6 +699,10 @@ function update_infocard(name, key, country, tipo) {
         update_place_summary(basic_info_data);
         const counts = compute_classification(country);
         update_classification_barcharts(counts);
+        if (country == "argentina") {
+            const counts_2021 = compute_classification(country, undefined, "_2021");
+            update_classification_barcharts(counts_2021, true);
+        }
 
     }
 
@@ -823,14 +859,14 @@ function update_country_button(pais) {
 
 }
 
-function compute_classification(country, provincia) {
+function compute_classification(country, provincia, suffix = "") {
 
     let localidads = main_data[country].small_units;
 
     if (provincia) localidads = localidads.filter(d => d.BASIC_INFO.PARENT == provincia);
 
     localidads = localidads
-        .map(d => d.BASIC_INFO.CLASSIFICATION.toLowerCase())
+        .map(d => d.BASIC_INFO["CLASSIFICATION" + suffix].toLowerCase())
         .filter(d => d != "sin datos")
     ;
 
@@ -851,15 +887,23 @@ function compute_classification(country, provincia) {
 
     })
 
+    console.log(country, provincia, suffix, counts);
+
     return counts;
 
 }
 
-function update_classification_barcharts(counts) {
+function update_classification_barcharts(counts, last_year = false) {
 
-    const barcharts = document.querySelectorAll("[data-barchart]");
-    const container = document.querySelector(".place-paisage-composition");
+    let container_ref = ".place-paisage-composition";
+
+    if (last_year) container_ref = ".place-paisage-composition-argentina-2021";
+
+    const barcharts = document.querySelectorAll(container_ref + " [data-barchart]");
+    const container = document.querySelector(container_ref);
     const container_width = +window.getComputedStyle(container).width.slice(0,-2);
+
+    console.log(container);
 
     barcharts.forEach(bar => {
 

@@ -382,6 +382,9 @@ class Country {
 
     render_pais() {
 
+        // resets barchart for argentina 2021 data
+        toggle_barchart_argentina_2021("off");
+
         const pais = this.country;
 
         plot_country(pais, padding);
