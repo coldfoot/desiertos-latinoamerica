@@ -24,7 +24,7 @@ const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas
 const btns_leer_mas_subprovincia_argentina = document.querySelectorAll(".leer-mas-desplegable");
 const btn_leer_mas_informe_regional = document.querySelector(".leer-mas-informe-regional");
 const btns_toggle_year_argentina = document.querySelector(".toggle-year-for-argentina");
-const btn_barchart_argentina_2021 = document.querySelector("button.argentina-ver-datos-2021");
+//const btn_barchart_argentina_2021 = document.querySelector("button.argentina-ver-datos-2021");
 const barchart_argentina_2021 = document.querySelector(".place-paisage-composition-argentina-2021");
 
 ///////////
@@ -73,7 +73,7 @@ function slugify(name) {
         .replace(/[^a-zA-Z0-9_]/g, "")      // remove all other special characters
         .toLowerCase();                     // lowercase
 }
-
+/*
 function toggle_barchart_argentina_2021(option) {
 
     // option: on / off
@@ -98,6 +98,7 @@ btn_barchart_argentina_2021.addEventListener("click", e => {
     toggle_barchart_argentina_2021("on");
 
 })
+*/
 
 ///////////////////////
 /// STATE TRACKING ///

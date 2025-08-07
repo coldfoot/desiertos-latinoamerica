@@ -792,21 +792,39 @@ p.description-tipo-paisage {
 }
 
 .place-paisage-composition-argentina-2021,
-button.argentina-ver-datos-2021 {
+.argentina-barchart-title {
     display: none;
+}
+
+.argentina-barchart-title {
+    margin-bottom: 8px;
+    margin-top: 8px;
+    font-family: nagel;
+    font-weight: bold;
+}
+
+.argentina-barchart-title:first-of-type {
+    margin-top: 0;
 }
 
 .place-paisage-composition-argentina-2021 {
     margin-top: 5px;
-    opacity: .8;
+    /*opacity: .8;*/
 }
 
-[data-country="argentina"] .toggle-year-for-argentina,
-[data-country="argentina"] button.argentina-ver-datos-2021.btn-barchart-active {
+[data-country="argentina"] .toggle-year-for-argentina {
     display: initial;
 }
 
-button.argentina-ver-datos-2021 {
+[data-country="argentina"] p.argentina-barchart-title {
+    display: block;
+}
+
+[data-country="argentina"] h4.chapeu-barras {
+    display: none;
+}
+
+p.argentina-barchart-tile {
     height: 1.5rem;
     text-transform: uppercase;
     font-family: nagel;
@@ -1097,7 +1115,7 @@ span[data-resumen-tipo-classificacao] {
 }
 
 .place-paisage-composition,
-[data-country="argentina"] .place-paisage-composition-argentina-2021.barchart-active {
+[data-country="argentina"] .place-paisage-composition-argentina-2021 {
     display: flex;
     flex-direction: row;
     font-family: nagel;
