@@ -2555,6 +2555,25 @@ p.nota-metodologica {
     padding: 10px;
 
 }
+
+.static-pages .scope-warning-container { 
+
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 5px;
+
+}
+
+.static-pages .scope-warning {
+
+    background-color: var(--color-bg);
+
+}
+
+.container-relato-static .menu-tipo-paisage {
+    pointer-events: none;
+}
+
 .container-relato-static [data-relato-modal-campo="MEDIO"] {
     border-bottom: 1px solid var(--color-accent);
     padding-bottom: 1rem;
@@ -2569,6 +2588,22 @@ p.nota-metodologica {
 
 .map-wrapper-full-bleed {
     background-color: var(--bege-mapa);
+    padding-top: 2rem;
+}
+
+.map-wrapper-full-bleed a {
+    text-decoration: none;
+}
+
+.map-wrapper-full-bleed a:hover .scope-warning {
+    box-shadow: 0px 0px 10px var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.map-wrapper-full-bleed a:hover .scope-warning-icon {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+
 }
 
 h2.static-page-place-name {
