@@ -50,6 +50,7 @@
     --color-map: #e7e7e8;
     --bege-escuro: #F6E9CD;
     --bege-fundo: #F9F1E3;
+    --bege-mapa: #f9ebd2;
     --preto: #4c4c4c;
     --red: #EA4A26;
     --bg-box-mobile: #FFFFFFCF;
@@ -2545,6 +2546,10 @@ p.nota-metodologica {
 
 /* STATIC PAGES */
 
+.static-pages {
+    --color-accent: var(--red);
+}
+
 .container-relato-static {
     
     padding: 10px;
@@ -2563,7 +2568,7 @@ p.nota-metodologica {
 }
 
 .map-wrapper-full-bleed {
-    background-color: var(--bege-escuro);
+    background-color: var(--bege-mapa);
 }
 
 h2.static-page-place-name {
@@ -2574,6 +2579,7 @@ h2.static-page-place-name {
     margin: 0;
     line-height: 1;
     margin-top: 1rem;
+    margin-bottom: .5rem;
     font-weight: normal;
 }
 
@@ -2589,7 +2595,7 @@ a.link-to-static-url {
 
     background-color: var(--color-accent);
     color: var(--color-bg);
-    padding: 0 .25em;
+    padding: .1em .5em;
     font-size: 1.5em;
     border-radius: 6px;
     margin: 1rem auto;
