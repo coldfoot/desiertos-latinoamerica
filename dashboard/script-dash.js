@@ -20,7 +20,7 @@ const bg_modal = document.querySelector(".bg-modal-viz");
 const modal = document.querySelector(".modal-viz");
 const breadcrumbs = document.querySelector(".breadcrumbs");
 const btn_leer_mas = container_relato.querySelector(".leer-mas");
-const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
+//const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
 const btns_leer_mas_subprovincia_argentina = document.querySelectorAll(".leer-mas-desplegable");
 const btn_leer_mas_informe_regional = document.querySelector(".leer-mas-informe-regional");
 const btns_toggle_year_argentina = document.querySelector(".toggle-year-for-argentina");
@@ -40,7 +40,12 @@ map.once('idle', () => {
 
     if (url_place_key != null) {
 
-        const country = url_place_key.split("__")[1];
+        const components_ubicacion = url_place_key.split("__");
+        const qde_termos = components_ubicacion.length;
+        const index_country = qde_termos - 1; // sempre vai ser o último termo
+        // na verdade, só se for colombia que vai ter 3 termos;
+
+        const country = url_place_key.split("__")[index_country];
         console.log(country);
 
         last_country = country;
@@ -52,11 +57,23 @@ map.once('idle', () => {
         countries_events.monitor_events('off');
         map.setPaintProperty("countries-borders", "line-color", "transparent");
         map.setPaintProperty("countries-fills", "fill-color", "transparent");
-        countries[country].paint_country_subnational("on");
+        
+        if (country == "colombia") {
 
-        last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.KEY == url_place_key)[0];
-        countries[country].render_provincia();
+            last_country = country;
+            
+            plot_country(country, padding);
+            countries[country].render_country_subnational();
+            countries[country].monitor_events("on"); 
+            countries[country].render_bubble(url_place_key);
 
+        } else {
+
+            countries[country].paint_country_subnational("on");
+            last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.KEY == url_place_key)[0];
+            countries[country].render_provincia();
+
+        }
         // clear URL
         window.history.replaceState({}, document.title, window.location.pathname);
 
@@ -493,6 +510,8 @@ function update_infocard(name, key, country, tipo) {
 
     control_nav_buttons(tipo);
 
+    console.log(name, key, country, tipo);
+
     // to fill the relato within the localidad view in the case of colombia
     if (country == "colombia" && tipo == "localidad") {
 
@@ -505,14 +524,16 @@ function update_infocard(name, key, country, tipo) {
 
         const mini_data = last_localidad_location_data;
         const narrative_data = mini_data.NARRATIVE
-
+        
         fields.forEach(field => {
 
             // While there is no data, we are adding a placeholder. We will remove this once we have data.
             if (!narrative_data[field]) narrative_data[field] = '¡Dentro de poco!';
             
             // Selects the data-value of the field and updates it with the relevant narrative data
-            document.querySelector(`[data-relato-colombia-campo="${field}"]`).innerHTML = narrative_data[field];
+            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
+
+            console.log(document.querySelector(`[data-relato-campo="${field}"]`));
 
             /*
             if (field = "AUTHOR") {
@@ -764,6 +785,20 @@ function show_modal_relato(sub_provincia = undefined) {
 
             mini_data = last_localidad_location_data;
             narrative_data = mini_data.NARRATIVE;
+
+            // MELHORAR, não precisava repetir, mas o tmepo tá curto
+
+            // sets the link to static url href attribute
+            const provincia = mini_data.BASIC_INFO.NAME;
+            const dir_name = slugify(provincia);
+
+            const url_on_bar = window.location.href;
+            const pos_string_dashboard = url_on_bar.search("/dashboard");
+            const basic_url = url_on_bar.slice(0, pos_string_dashboard); //"https://coldfoot.studio/desiertos-latinoamerica"
+            console.log(basic_url);
+
+            link_to_static_report.setAttribute("data-href", basic_url + "/static/" + currentCountry + '/' + dir_name);
+            
         }
         else {
             // Use province-level data (existing behavior)
@@ -787,7 +822,10 @@ function show_modal_relato(sub_provincia = undefined) {
             const provincia = mini_data.BASIC_INFO.NAME;
             const dir_name = slugify(provincia);
 
-            const basic_url = "https://coldfoot.studio/desiertos-latinoamerica"
+            const url_on_bar = window.location.href;
+            const pos_string_dashboard = url_on_bar.search("/dashboard");
+            const basic_url = url_on_bar.slice(0, pos_string_dashboard); //"https://coldfoot.studio/desiertos-latinoamerica"
+            console.log(basic_url);
 
             link_to_static_report.setAttribute("data-href", basic_url + "/static/" + currentCountry + '/' + dir_name);
             
@@ -950,14 +988,6 @@ btn_leer_mas.addEventListener("click", e => {
     container_relato.classList.remove("recolhido");
     */
    
-})
-
-btn_leer_mas_colombia.addEventListener("click", e => {
-
-    show_modal_relato();
-    //container_relato_colombia.classList.add("expandido");
-    //container_relato_colombia.classList.remove("recolhido");
-
 })
 
 btn_leer_provincia_from_localidad.addEventListener("click", e => {
