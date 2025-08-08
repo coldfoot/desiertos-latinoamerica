@@ -1606,9 +1606,11 @@ function display_paisage(tipo_paisage, country) {
     if (country == "argentina") {
 
         // if argentina, check which classification should be used
-        const btn_selected = btns_toggle_year_argentina.querySelector(".year-selected");
-        const year_argentina = btn_selected.dataset.toggleYearArgentina;
-        if (year_argentina == "2021") suffix += "_2021";
+        if (dashboard) {
+            const btn_selected = btns_toggle_year_argentina.querySelector(".year-selected");
+            const year_argentina = btn_selected.dataset.toggleYearArgentina;
+            if (year_argentina == "2021") suffix += "_2021";
+        }
 
     }
 
