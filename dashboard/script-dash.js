@@ -817,7 +817,8 @@ link_to_static_report.addEventListener("click", async () => {
         link_to_static_report.classList.add("clicked");
         window.setTimeout( () => {
             link_to_static_report.classList.remove("clicked")
-        }, 2000);
+        }, 3000);
+        animate_share_button(4000);
         //alert("Dashboard link copied to clipboard!");
     } catch (err) {
         console.error("Failed to copy: ", err);
@@ -825,6 +826,120 @@ link_to_static_report.addEventListener("click", async () => {
     }
 
 })
+
+function animate_share_button(duration) {
+    const svg = d3.select("svg.share-button");
+
+    svg.selectAll("circle").transition().duration(duration * .25)
+        .attr("cx", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[0] * 1;
+
+        })
+        .attr("cy", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[1] * 1;
+
+        })
+        .attr("r", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[2] * 1;
+
+        })
+    ;
+
+    svg.selectAll("line").transition().duration(duration * .25)
+        .attr("x1", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[0] * 1;
+
+        })
+        .attr("y1", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[1] * 1;
+
+        })
+        .attr("x2", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[2] * 1;
+
+        })
+        .attr("y2", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[3] * 1;
+
+        })        
+    ;
+
+    svg.selectAll("circle").transition().delay(duration * .25).duration(duration * .75)
+        .attr("cx", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[0] * 1;
+
+        })
+        .attr("cy", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[1] * 1;
+
+        })
+        .attr("r", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[2] * 1;
+
+        })  
+    ;
+    
+    svg.selectAll("line").transition().delay(duration * .25).duration(duration * .75)
+        .attr("x1", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[0] * 1;
+
+        })
+        .attr("y1", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[1] * 1;
+
+        })
+        .attr("x2", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[2] * 1;
+
+        })
+        .attr("y2", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[3] * 1;
+
+        })        
+    ;
+}
 
 btn_leer_mas.addEventListener("click", e => {
 

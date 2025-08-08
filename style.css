@@ -2672,8 +2672,9 @@ a.link-to-dashboard {
     color: var(--color-accent);
 }
 
-.link-to-static-url img {
+.link-to-static-url svg {
     height: 1.2em;
+    width: 1.2em;
 }
 
 /*shows only on provincia and city view */
@@ -2686,14 +2687,13 @@ a.link-to-dashboard {
     display: none;
 }
 
-.link-to-static-url.clicked > * {
+.link-to-static-url.clicked > .text-link-to-static-url {
     display: none;
 }
 
 .link-to-static-url.clicked .enlace-copiado {
     display: initial;
-    animation: shine 2s;
-    padding-left: 1.1em;
+    animation: shine 3s;
 
 }
 
