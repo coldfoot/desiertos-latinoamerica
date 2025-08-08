@@ -26,6 +26,7 @@ const btn_leer_mas_informe_regional = document.querySelector(".leer-mas-informe-
 const btns_toggle_year_argentina = document.querySelector(".toggle-year-for-argentina");
 //const btn_barchart_argentina_2021 = document.querySelector("button.argentina-ver-datos-2021");
 const barchart_argentina_2021 = document.querySelector(".place-paisage-composition-argentina-2021");
+const link_to_static_report = document.querySelector(".link-to-static-url");
 
 ///////////
 /// Dashboard parameters ///
@@ -786,7 +787,9 @@ function show_modal_relato(sub_provincia = undefined) {
             const provincia = mini_data.BASIC_INFO.NAME;
             const dir_name = slugify(provincia);
 
-            document.querySelector(".link-to-static-url").setAttribute("href", "../static/" + currentCountry + '/' + dir_name);
+            const basic_url = "https://coldfoot.studio/desiertos-latinoamerica"
+
+            link_to_static_report.setAttribute("data-href", basic_url + "/static/" + currentCountry + '/' + dir_name);
             
         }
 
@@ -802,6 +805,26 @@ function show_modal_relato(sub_provincia = undefined) {
 
 
 }
+
+// COPIES LINK TO STATIC URL
+link_to_static_report.addEventListener("click", async () => {
+
+    const url_to_copy = link_to_static_report.getAttribute("data-href");
+    console.log(url_to_copy);
+
+    try {
+        await navigator.clipboard.writeText(url_to_copy);
+        link_to_static_report.classList.add("clicked");
+        window.setTimeout( () => {
+            link_to_static_report.classList.remove("clicked")
+        }, 2000);
+        //alert("Dashboard link copied to clipboard!");
+    } catch (err) {
+        console.error("Failed to copy: ", err);
+        alert("Could not copy the link.");
+    }
+
+})
 
 btn_leer_mas.addEventListener("click", e => {
 

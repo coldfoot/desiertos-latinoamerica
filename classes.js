@@ -485,7 +485,7 @@ class UTmaior {
                     ['feature-state', 'hover'], 
                     false
                 ],
-                4,
+                country == "chile" ? 2 : 4,
                 1
             ]
             }
@@ -499,7 +499,7 @@ class UTmaior {
             'layout': {},
             'paint': {
                 'line-color': 'black',
-                'line-width': 4
+                'line-width': country == "chile" ? 2 : 4
             },
             'filter': ['==', 'provincia', '']}); // puts behind road-label
 
@@ -780,7 +780,7 @@ class UTmenor {
                     ['feature-state', 'hover'], 
                     false
                 ],
-                3,
+                country == "chile" ? 1 : 3,
                 0
             ]
             }
@@ -806,7 +806,7 @@ class UTmenor {
             'layout': {},
             'paint': {
                 'line-color': 'black',
-                'line-width': 3,
+                'line-width': country == "chile" ? 1 : 3,
             }, 'filter': ['==', this.key_id, '']
         }); 
 
@@ -1152,12 +1152,15 @@ class Bubble {
     popup;
     hoveredStateId;
 
-    constructor(country_name, bbox_country, bubble_data, bubble_layer) {
+    constructor(country_name, bbox_country, bubble_data, bubble_layer, provincia_data, provincia_layer) {
 
         this.country = country_name;
         this.bbox_country = bbox_country;
         this.data = bubble_data;
         this.source_layer_name = bubble_layer;
+
+        this.provincia_data = provincia_data;
+        this.provincia_layer = provincia_layer;
 
         this.hoveredStateId = null;
 
@@ -1194,6 +1197,30 @@ class Bubble {
                 }
             );
         }) */
+
+        /* adding provincia borders too */
+        map.addSource(this.country + '-provincia', {
+            type: 'vector',
+            url : this.provincia_data,
+            'promoteId' : 'KEY'
+        });
+
+        map.addLayer({
+            'id': this.country + '-provincia-border',
+            'type': 'line',
+            'source': this.country + '-provincia',
+            'source-layer': this.provincia_layer,
+            'layout': {},
+            'paint': {
+                'line-color': '#EC722E',
+                'line-width': .5,
+                'line-opacity' : 0
+            }
+        }); 
+
+
+
+
 
         map.addSource(this.country + '-bubble', {
             type: 'vector',
@@ -1240,7 +1267,7 @@ class Bubble {
             'source': this.country + '-bubble',
             'source-layer' : this.source_layer_name,
             'paint': {
-                'circle-color': "#EA4A26"/*[
+                'circle-color': "#EC722E"/*[
 
                     'match',
                     ["get", "CLASSIFICATION"],
@@ -1249,7 +1276,7 @@ class Bubble {
 
                 ]*/,
                 'circle-opacity': 0,
-                'circle-radius': 10
+                'circle-radius': 8
             }
         })
 
@@ -1286,6 +1313,10 @@ class Bubble {
 
     }
 
+    toggle_borders(opacity) {
+        map.setPaintProperty(this.country + '-provincia-border', 'line-opacity', opacity);
+    }
+
 
     render_pais() {
 
@@ -1318,6 +1349,7 @@ class Bubble {
         this.toggle_highlight('');
         map.setPaintProperty(this.country + "-bubble", "circle-opacity", 1);
         map.setPaintProperty("countries-fills", "fill-color", "transparent");
+        this.toggle_borders(1);
         //map.setPaintProperty(this.country + '-bubble', 'icon-opacity', 1);
 
 
@@ -1335,6 +1367,7 @@ class Bubble {
         )*/
 
         this.toggle_highlight('');
+        this.toggle_borders(0);
 
         this.monitor_events("off");
 
@@ -1585,6 +1618,10 @@ function display_paisage(tipo_paisage, country) {
 
         if (country == "colombia") {
 
+            return;
+
+            /*
+
             map.setPaintProperty(
                 country + '-bubble',
                 'icon-opacity',
@@ -1606,7 +1643,7 @@ function display_paisage(tipo_paisage, country) {
                     ['get', 'KEY'],
                     ''
                 ]
-            );
+            );*/
 
         } else {
 
@@ -1631,6 +1668,8 @@ function display_paisage(tipo_paisage, country) {
 
         if (country == "colombia") {
 
+            return;
+            /*
             map.setPaintProperty(
                 country + '-bubble',
                 'icon-opacity',
@@ -1643,7 +1682,7 @@ function display_paisage(tipo_paisage, country) {
                     ['get', 'KEY'],
                     ''
                 ]
-            );
+            );*/
 
         } else {
 
@@ -1794,7 +1833,7 @@ map.on('load', () => {
                 0.5
             ]*/
         },
-        'filter': ['!=', ['get', 'country_name'], 'Colombia']
+        //'filter': ['!=', ['get', 'country_name'], 'Colombia']
     });
 
     map.addLayer({
@@ -1807,7 +1846,7 @@ map.on('load', () => {
             'line-color': 'black',
             'line-width': 1
         },
-        'filter': ['!=', ['get', 'country_name'], 'Colombia']
+        //'filter': ['!=', ['get', 'country_name'], 'Colombia']
     });
 
     plot_latam(dashboard);
@@ -1831,9 +1870,10 @@ map.on('load', () => {
             "mapbox://tiagombp.3636aktg", "small-units-peru-3glt7j"
         );
 
-        /*countries["colombia"] = new Bubble(
-            "colombia", "", "mapbox://tiagombp.27ddvbx4", "colombia-centroids-61kfe7"
-        );*/
+        countries["colombia"] = new Bubble(
+            "colombia", "", "mapbox://tiagombp.27ddvbx4", "colombia-centroids-61kfe7",
+            "mapbox://tiagombp.5o0t2e64", "colombia-large-units_1-aj79kf"
+        );
 
         countries["mexico"] = new Country(
             "mexico", "",
@@ -1886,7 +1926,7 @@ map.on("load", () => {
                 0
             ]
             },
-            'filter': ['!=', ['get', 'country_name'], 'Colombia']
+            //'filter': ['!=', ['get', 'country_name'], 'Colombia']
         }); 
 
         countries_events.monitor_events("on");

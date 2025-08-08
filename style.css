@@ -1107,7 +1107,7 @@ span[data-resumen-tipo-classificacao] {
 /* BARCHART PAISAGE COMPOSITION */
 
 [data-country="colombia"] .place-paisage-composition-wrapper,
-/*[data-country="colombia"] .wrapper-btns-nav,*/
+[data-country="colombia"] .wrapper-btns-nav,
 [data-country="colombia"] .resumen-wrapper,
 [data-country="colombia"] .leer-provincia-wrapper,
 [data-country="colombia"] .content-divider {
@@ -2551,15 +2551,15 @@ p.nota-metodologica {
     display: initial;
 }*/
 
-/* Hide Colombia buttons on main page */
+/* Hide Colombia buttons on main page 
 .menu-paises li[data-pais="colombia"] {
     display: none;
 }
 
-/* Hide Colombia buttons on dashboard */
+/* Hide Colombia buttons on dashboard
 .menu-pais-dash div[data-pais="colombia"] {
     display: none;
-}
+} */
 
 
 /* STATIC PAGES */
@@ -2643,8 +2643,7 @@ img.static-page-map {
     margin: 0 auto 1rem;
 }
 
-a.link-to-dashboard,
-a.link-to-static-url {
+a.link-to-dashboard {
 
     background-color: var(--color-accent);
     color: var(--color-bg);
@@ -2659,9 +2658,58 @@ a.link-to-static-url {
 
 }
 
+/* This link is on the dashboard's modal window for the report */
+
+.link-to-static-url {
+    font-size: 1em;
+    font-family: nagel;
+    text-transform: uppercase;
+    text-decoration: underline;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .25em;
+    color: var(--color-accent);
+}
+
+.link-to-static-url img {
+    height: 1.2em;
+}
+
 /*shows only on provincia and city view */
-[data-view="pais"] a.link-to-static-url,
-[data-view="latam"] a.link-to-static-url {
+[data-view="pais"] .link-to-static-url,
+[data-view="latam"] .link-to-static-url {
     display: none;
+}
+
+.link-to-static-url .enlace-copiado {
+    display: none;
+}
+
+.link-to-static-url.clicked > * {
+    display: none;
+}
+
+.link-to-static-url.clicked .enlace-copiado {
+    display: initial;
+    animation: shine 2s;
+    padding-left: 1.1em;
+
+}
+
+@keyframes shine {
+
+    0% {
+        text-shadow: 0 0 0px #EC722E;
+    }
+
+    50% {
+        text-shadow: 0 0 10px #EC722E;
+    }
+    
+    100% {
+        text-shadow: 0 0 0px #EC722E;
+    }
+
 }
 
