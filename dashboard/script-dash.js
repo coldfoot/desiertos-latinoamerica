@@ -524,7 +524,7 @@ function update_infocard(name, key, country, tipo) {
 
         const mini_data = last_localidad_location_data;
         const narrative_data = mini_data.NARRATIVE
-        
+
         fields.forEach(field => {
 
             // While there is no data, we are adding a placeholder. We will remove this once we have data.
@@ -820,7 +820,7 @@ function show_modal_relato(sub_provincia = undefined) {
 
             // sets the link to static url href attribute
             const provincia = mini_data.BASIC_INFO.NAME;
-            const dir_name = slugify(provincia);
+            const dir_name = slugify(sub_provincia ? sub_provincia : provincia); // if it's a subprovincia (argentina) report, use it as the dir name
 
             const url_on_bar = window.location.href;
             const pos_string_dashboard = url_on_bar.search("/dashboard");
