@@ -20,9 +20,103 @@ const bg_modal = document.querySelector(".bg-modal-viz");
 const modal = document.querySelector(".modal-viz");
 const breadcrumbs = document.querySelector(".breadcrumbs");
 const btn_leer_mas = container_relato.querySelector(".leer-mas");
-const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
+//const btn_leer_mas_colombia = container_relato_colombia.querySelector(".leer-mas");
 const btns_leer_mas_subprovincia_argentina = document.querySelectorAll(".leer-mas-desplegable");
 const btn_leer_mas_informe_regional = document.querySelector(".leer-mas-informe-regional");
+const btns_toggle_year_argentina = document.querySelector(".toggle-year-for-argentina");
+//const btn_barchart_argentina_2021 = document.querySelector("button.argentina-ver-datos-2021");
+const barchart_argentina_2021 = document.querySelector(".place-paisage-composition-argentina-2021");
+const link_to_static_report = document.querySelector(".link-to-static-url");
+
+///////////
+/// Dashboard parameters ///
+/// for users coming from the link in the static pages
+
+const url_params = new URLSearchParams(window.location.search);
+const url_place_key = url_params.get("ubicacion");
+console.log(url_params, url_place_key);
+
+map.once('idle', () => {
+
+    if (url_place_key != null) {
+
+        const components_ubicacion = url_place_key.split("__");
+        const qde_termos = components_ubicacion.length;
+        const index_country = qde_termos - 1; // sempre vai ser o último termo
+        // na verdade, só se for colombia que vai ter 3 termos;
+
+        const country = url_place_key.split("__")[index_country];
+        console.log(country);
+
+        last_country = country;
+        current_country = country;
+
+        // isso deveria estar mais parametrizado :/
+        update_country_button(country);
+        update_breadcrumbs("pais", country);
+        countries_events.monitor_events('off');
+        map.setPaintProperty("countries-borders", "line-color", "transparent");
+        map.setPaintProperty("countries-fills", "fill-color", "transparent");
+        
+        if (country == "colombia") {
+
+            last_country = country;
+            
+            plot_country(country, padding);
+            countries[country].render_country_subnational();
+            countries[country].monitor_events("on"); 
+            countries[country].render_bubble(url_place_key);
+
+        } else {
+
+            countries[country].paint_country_subnational("on");
+            last_provincia_location_data = main_data[country].large_units.filter(d => d.BASIC_INFO.KEY == url_place_key)[0];
+            countries[country].render_provincia();
+
+        }
+        // clear URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+    }
+
+});
+
+//// Converts Provincia name to the format used in the static pages urls
+function slugify(name) {
+    return name
+        .normalize("NFD")                    // decompose accents (e.g. ñ → n + ̃)
+        .replace(/[\u0300-\u036f]/g, "")    // remove diacritical marks
+        .replace(/['’"]/g, "")              // remove apostrophes and quotes
+        .replace(/\s+/g, "_")               // replace whitespace with underscores
+        .replace(/[^a-zA-Z0-9_]/g, "")      // remove all other special characters
+        .toLowerCase();                     // lowercase
+}
+/*
+function toggle_barchart_argentina_2021(option) {
+
+    // option: on / off
+
+    if (option == "on") {
+
+        btn_barchart_argentina_2021.classList.remove("btn-barchart-active");
+        barchart_argentina_2021.classList.add("barchart-active");
+
+    } else {
+
+        btn_barchart_argentina_2021.classList.add("btn-barchart-active");
+        barchart_argentina_2021.classList.remove("barchart-active");
+    }
+
+
+
+}
+
+btn_barchart_argentina_2021.addEventListener("click", e => {
+
+    toggle_barchart_argentina_2021("on");
+
+})
+*/
 
 ///////////////////////
 /// STATE TRACKING ///
@@ -38,6 +132,42 @@ const current_place = {
 ///////////////////////////
 /// MENUS FUNCTIONALITY ///
 ///////////////////////////
+
+btns_toggle_year_argentina.addEventListener("click", e => {
+
+    if (e.target.tagName == "BUTTON") {
+
+        btns_toggle_year_argentina.querySelectorAll("button").forEach(btn => btn.classList.remove("year-selected"));
+
+        const year = e.target.dataset.toggleYearArgentina;
+
+        e.target.classList.add("year-selected");
+
+        // check if there's a category selected in the menu paisage
+        const btn_paisage_selected = menu_tipo_paisage.querySelector(".tipo-paisage-selected");
+        if (btn_paisage_selected) {
+            const paisage = btn_paisage_selected.dataset.tipoPaisage;
+            console.log(btn_paisage_selected, paisage);
+            display_paisage(paisage, "argentina");
+            return;
+        }
+
+        const suffix = year == "2021" ? "_2021" : "";
+
+        map.setPaintProperty(
+            'argentina-localidad',
+            'fill-color',
+            [
+                'match',
+                ['get', 'CLASSIFICATION' + suffix],
+                ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
+                'transparent'
+            ]
+        )
+
+    }
+
+})
 
 // Event listener for the breadcrumbs
 breadcrumbs.addEventListener("click", e => {
@@ -380,6 +510,8 @@ function update_infocard(name, key, country, tipo) {
 
     control_nav_buttons(tipo);
 
+    console.log(name, key, country, tipo);
+
     // to fill the relato within the localidad view in the case of colombia
     if (country == "colombia" && tipo == "localidad") {
 
@@ -399,7 +531,9 @@ function update_infocard(name, key, country, tipo) {
             if (!narrative_data[field]) narrative_data[field] = '¡Dentro de poco!';
             
             // Selects the data-value of the field and updates it with the relevant narrative data
-            document.querySelector(`[data-relato-colombia-campo="${field}"]`).innerHTML = narrative_data[field];
+            document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
+
+            console.log(document.querySelector(`[data-relato-campo="${field}"]`));
 
             /*
             if (field = "AUTHOR") {
@@ -486,6 +620,11 @@ function update_infocard(name, key, country, tipo) {
         const counts = compute_classification(country, name);
         update_classification_barcharts(counts);
 
+        if (country == "argentina") {
+            const counts_2021 = compute_classification(country, name, "_2021");
+            update_classification_barcharts(counts_2021, true);
+        }
+
     }
 
     if (tipo == "localidad") {
@@ -507,6 +646,15 @@ function update_infocard(name, key, country, tipo) {
             document.querySelector("[data-classification-localidad]").dataset.classificationLocalidad = classification.toLowerCase();
 
             document.querySelector(`[data-relato-campo="PARENT"]`).innerHTML = basic_info_data.PARENT;
+
+            if (country == "argentina") {
+
+                const classificacion2021 = document.querySelector(".resumen-tipo-classificacao-2021-argentina [data-tipo-paisage]");
+
+                classificacion2021.dataset.tipoPaisage = basic_info_data.CLASSIFICATION_2021.toLowerCase();
+                classificacion2021.innerHTML = basic_info_data.CLASSIFICATION_2021;
+
+            }
 
 
         } else {
@@ -574,6 +722,10 @@ function update_infocard(name, key, country, tipo) {
         update_place_summary(basic_info_data);
         const counts = compute_classification(country);
         update_classification_barcharts(counts);
+        if (country == "argentina") {
+            const counts_2021 = compute_classification(country, undefined, "_2021");
+            update_classification_barcharts(counts_2021, true);
+        }
 
     }
 
@@ -633,6 +785,20 @@ function show_modal_relato(sub_provincia = undefined) {
 
             mini_data = last_localidad_location_data;
             narrative_data = mini_data.NARRATIVE;
+
+            // MELHORAR, não precisava repetir, mas o tmepo tá curto
+
+            // sets the link to static url href attribute
+            const provincia = mini_data.BASIC_INFO.NAME;
+            const dir_name = slugify(provincia);
+
+            const url_on_bar = window.location.href;
+            const pos_string_dashboard = url_on_bar.search("/dashboard");
+            const basic_url = url_on_bar.slice(0, pos_string_dashboard); //"https://coldfoot.studio/desiertos-latinoamerica"
+            console.log(basic_url);
+
+            link_to_static_report.setAttribute("data-href", basic_url + "/static/" + currentCountry + '/' + dir_name);
+            
         }
         else {
             // Use province-level data (existing behavior)
@@ -651,6 +817,17 @@ function show_modal_relato(sub_provincia = undefined) {
                 narrative_data = narrative_data[sub_provincia];
 
             }
+
+            // sets the link to static url href attribute
+            const provincia = mini_data.BASIC_INFO.NAME;
+            const dir_name = slugify(sub_provincia ? sub_provincia : provincia); // if it's a subprovincia (argentina) report, use it as the dir name
+
+            const url_on_bar = window.location.href;
+            const pos_string_dashboard = url_on_bar.search("/dashboard");
+            const basic_url = url_on_bar.slice(0, pos_string_dashboard); //"https://coldfoot.studio/desiertos-latinoamerica"
+            console.log(basic_url);
+
+            link_to_static_report.setAttribute("data-href", basic_url + "/static/" + currentCountry + '/' + dir_name);
             
         }
 
@@ -667,6 +844,141 @@ function show_modal_relato(sub_provincia = undefined) {
 
 }
 
+// COPIES LINK TO STATIC URL
+link_to_static_report.addEventListener("click", async () => {
+
+    const url_to_copy = link_to_static_report.getAttribute("data-href");
+    console.log(url_to_copy);
+
+    try {
+        await navigator.clipboard.writeText(url_to_copy);
+        link_to_static_report.classList.add("clicked");
+        window.setTimeout( () => {
+            link_to_static_report.classList.remove("clicked")
+        }, 3000);
+        animate_share_button(4000);
+        //alert("Dashboard link copied to clipboard!");
+    } catch (err) {
+        console.error("Failed to copy: ", err);
+        alert("Could not copy the link.");
+    }
+
+})
+
+function animate_share_button(duration) {
+    const svg = d3.select("svg.share-button");
+
+    svg.selectAll("circle").transition().duration(duration * .25)
+        .attr("cx", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[0] * 1;
+
+        })
+        .attr("cy", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[1] * 1;
+
+        })
+        .attr("r", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[2] * 1;
+
+        })
+    ;
+
+    svg.selectAll("line").transition().duration(duration * .25)
+        .attr("x1", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[0] * 1;
+
+        })
+        .attr("y1", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[1] * 1;
+
+        })
+        .attr("x2", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[2] * 1;
+
+        })
+        .attr("y2", (d, i, els) => {
+
+            const attrs = els[i].dataset.final.split(",");
+
+            return attrs[3] * 1;
+
+        })        
+    ;
+
+    svg.selectAll("circle").transition().delay(duration * .25).duration(duration * .75)
+        .attr("cx", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[0] * 1;
+
+        })
+        .attr("cy", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[1] * 1;
+
+        })
+        .attr("r", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[2] * 1;
+
+        })  
+    ;
+    
+    svg.selectAll("line").transition().delay(duration * .25).duration(duration * .75)
+        .attr("x1", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[0] * 1;
+
+        })
+        .attr("y1", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[1] * 1;
+
+        })
+        .attr("x2", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[2] * 1;
+
+        })
+        .attr("y2", (d, i, els) => {
+
+            const attrs = els[i].dataset.initial.split(",");
+
+            return attrs[3] * 1;
+
+        })        
+    ;
+}
+
 btn_leer_mas.addEventListener("click", e => {
 
     show_modal_relato();
@@ -676,14 +988,6 @@ btn_leer_mas.addEventListener("click", e => {
     container_relato.classList.remove("recolhido");
     */
    
-})
-
-btn_leer_mas_colombia.addEventListener("click", e => {
-
-    show_modal_relato();
-    //container_relato_colombia.classList.add("expandido");
-    //container_relato_colombia.classList.remove("recolhido");
-
 })
 
 btn_leer_provincia_from_localidad.addEventListener("click", e => {
@@ -724,14 +1028,14 @@ function update_country_button(pais) {
 
 }
 
-function compute_classification(country, provincia) {
+function compute_classification(country, provincia, suffix = "") {
 
     let localidads = main_data[country].small_units;
 
     if (provincia) localidads = localidads.filter(d => d.BASIC_INFO.PARENT == provincia);
 
     localidads = localidads
-        .map(d => d.BASIC_INFO.CLASSIFICATION.toLowerCase())
+        .map(d => d.BASIC_INFO["CLASSIFICATION" + suffix].toLowerCase())
         .filter(d => d != "sin datos")
     ;
 
@@ -752,15 +1056,23 @@ function compute_classification(country, provincia) {
 
     })
 
+    console.log(country, provincia, suffix, counts);
+
     return counts;
 
 }
 
-function update_classification_barcharts(counts) {
+function update_classification_barcharts(counts, last_year = false) {
 
-    const barcharts = document.querySelectorAll("[data-barchart]");
-    const container = document.querySelector(".place-paisage-composition");
+    let container_ref = ".place-paisage-composition";
+
+    if (last_year) container_ref = ".place-paisage-composition-argentina-2021";
+
+    const barcharts = document.querySelectorAll(container_ref + " [data-barchart]");
+    const container = document.querySelector(container_ref);
     const container_width = +window.getComputedStyle(container).width.slice(0,-2);
+
+    console.log(container);
 
     barcharts.forEach(bar => {
 
@@ -1004,7 +1316,8 @@ function resetToInitialState() {
     // Reset text panel to initial state using data attributes
     const textPanel = document.querySelector('.text-panel-container');
     set_current_level("latam");
-    textPanel.setAttribute('data-country', '');
+    set_current_country("");
+    //textPanel.setAttribute('data-country', '');
     textPanel.setAttribute('data-classification-localidad', '');
     
     // Clear infocard title

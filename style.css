@@ -50,6 +50,7 @@
     --color-map: #e7e7e8;
     --bege-escuro: #F6E9CD;
     --bege-fundo: #F9F1E3;
+    --bege-mapa: #f9ebd2;
     --preto: #4c4c4c;
     --red: #EA4A26;
     --bg-box-mobile: #FFFFFFCF;
@@ -779,6 +780,83 @@ p.description-tipo-paisage {
 #map-dashboard {
     flex-grow: 1;
     background-color: gray;
+    position: relative;
+}
+
+.toggle-year-for-argentina {
+    position: absolute;
+    top: 0px;
+    left: 32px;
+    display: none;
+    z-index: 1;
+}
+
+.place-paisage-composition-argentina-2021,
+.argentina-barchart-title {
+    display: none;
+}
+
+.argentina-barchart-title {
+    margin-bottom: 8px;
+    margin-top: 8px;
+    font-family: nagel;
+    font-weight: bold;
+}
+
+.argentina-barchart-title:first-of-type {
+    margin-top: 0;
+}
+
+.place-paisage-composition-argentina-2021 {
+    margin-top: 5px;
+    /*opacity: .8;*/
+}
+
+[data-country="argentina"] .toggle-year-for-argentina {
+    display: initial;
+}
+
+[data-country="argentina"] p.argentina-barchart-title {
+    display: block;
+}
+
+[data-country="argentina"] h4.chapeu-barras {
+    display: none;
+}
+
+p.argentina-barchart-tile {
+    height: 1.5rem;
+    text-transform: uppercase;
+    font-family: nagel;
+    color: var(--color-accent);
+    background-color: transparent;
+    border: none;
+    font-size: .8em;
+    padding: 0;
+    font-weight: bold;
+    margin-top: 7px; /* (5px mais 1px de cada borda) */
+}
+
+button[data-toggle-year-argentina] {
+    font-family: nagel;
+    border: 1px solid var(--color-text);
+    background-color: var(--color-bg);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    transition: background-color .2s;
+}
+
+button[data-toggle-year-argentina]:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+button[data-toggle-year-argentina].year-selected:hover,
+button[data-toggle-year-argentina].year-selected {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    border-color: var(--color-text);
 }
 
 /* MENU PAIS */
@@ -945,6 +1023,14 @@ span[data-resumen-tipo-classificacao] {
     display: initial;
 }
 
+.resumen-tipo-classificacao-2021-argentina {
+    display: none;
+}
+
+[data-country="argentina"] .resumen-tipo-classificacao-2021-argentina {
+    display: initial;
+}
+
 .text-panel-container .author {
     font-style: italic;
 }
@@ -1021,21 +1107,23 @@ span[data-resumen-tipo-classificacao] {
 /* BARCHART PAISAGE COMPOSITION */
 
 [data-country="colombia"] .place-paisage-composition-wrapper,
-/*[data-country="colombia"] .wrapper-btns-nav,*/
+[data-country="colombia"] .wrapper-btns-nav,
 [data-country="colombia"] .resumen-wrapper,
 [data-country="colombia"] .leer-provincia-wrapper,
 [data-country="colombia"] .content-divider {
     display: none;
 }
 
-.place-paisage-composition {
+.place-paisage-composition,
+[data-country="argentina"] .place-paisage-composition-argentina-2021 {
     display: flex;
     flex-direction: row;
     font-family: nagel;
     border: 1px solid currentColor;
 }
 
-.place-paisage-composition > span {
+.place-paisage-composition > span,
+.place-paisage-composition-argentina-2021 > span {
     flex: 0 0 25%;
     height: 1.5rem;
     transition: flex-basis 0.4s;
@@ -1238,7 +1326,7 @@ div.content-divider.bar-divider {
     margin: 0;
 }
 
-[data-relato-campo="MEDIO"], [data-relato-colombia-campo="MEDIO"] {
+[data-relato-campo="MEDIO"] {
 
     /* padding-top: .5rem; */
     /*border-top: 1px solid currentColor;*/
@@ -1246,7 +1334,6 @@ div.content-divider.bar-divider {
 }
 
 [data-relato-campo="TITLE"], 
-[data-relato-colombia-campo="TITLE"], 
 [data-relato-campo-desplegable="TITLE"],
 .modal-relato-regional-title {
     font-size: 1.3em;
@@ -1256,7 +1343,6 @@ div.content-divider.bar-divider {
 }
 
 [data-relato-campo="AUTHOR"], 
-[data-relato-colombia-campo="AUTHOR"],
 [data-relato-campo-desplegable="AUTHOR"] {
     font-size: 0.8rem;
 }
@@ -1287,11 +1373,6 @@ div.content-divider.bar-divider {
     filter: grayscale(100%);
     color: var(--strips); */
 }
-
-.relato-colombia-localidad.expandido [data-relato-colombia-campo="AUTHOR"] { display: none; }
-.relato-colombia-localidad.expandido [data-relato-colombia-campo="RELATO"] { display: initial; }
-.relato-colombia-localidad.recolhido [data-relato-colombia-campo="AUTHOR"] { display: initial; }
-.relato-colombia-localidad.recolhido [data-relato-colombia-campo="RELATO"] { display: none; }
 
 .leer-mas-wrapper {
     margin-top: 1rem;
@@ -1866,6 +1947,10 @@ li[data-datos-topic]::before {
 
     }
 
+    .toggle-year-for-argentina {
+        left: 10px;
+    }
+
     .map-panel-header > div + div {
         margin-top: 10px;
     }
@@ -1931,6 +2016,10 @@ li[data-datos-topic]::before {
 
     div.main-secondary-pages {
         padding: 1rem;
+    }
+
+    div[data-relato-modal-campo="RELATO"] {
+        font-size: 1em;
     }
 
 
@@ -2455,22 +2544,76 @@ p.nota-metodologica {
     display: initial;
 }*/
 
-/* Hide Colombia buttons on main page */
+/* Hide Colombia buttons on main page 
 .menu-paises li[data-pais="colombia"] {
     display: none;
 }
 
-/* Hide Colombia buttons on dashboard */
+/* Hide Colombia buttons on dashboard
 .menu-pais-dash div[data-pais="colombia"] {
     display: none;
-}
+} */
 
 
 /* STATIC PAGES */
 
+.static-pages {
+    --color-accent: var(--red);
+}
+
 .container-relato-static {
     
     padding: 10px;
+
+}
+
+.static-pages .scope-warning-container { 
+
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 5px;
+
+}
+
+.static-pages .scope-warning {
+
+    background-color: var(--color-bg);
+
+}
+
+.container-relato-static .menu-tipo-paisage {
+    pointer-events: none;
+}
+
+.container-relato-static [data-relato-modal-campo="MEDIO"] {
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    font-style: normal;
+    font-family: nagel;
+}
+
+.container-relato-static [data-relato-modal-campo="MEDIO"] p.medio {
+    margin: 0;
+}
+
+.map-wrapper-full-bleed {
+    background-color: var(--bege-mapa);
+    padding-top: 2rem;
+}
+
+.map-wrapper-full-bleed a {
+    text-decoration: none;
+}
+
+.map-wrapper-full-bleed a:hover .scope-warning {
+    box-shadow: 0px 0px 10px var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.map-wrapper-full-bleed a:hover .scope-warning-icon {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
 
 }
 
@@ -2480,11 +2623,95 @@ h2.static-page-place-name {
     color: var(--color-accent);
     font-family: buendia;
     margin: 0;
+    line-height: 1;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+    font-weight: normal;
 }
 
 img.static-page-map {
     max-width: 100%;
     width: 400px;
     display: block;
-    margin: 0 auto 2rem;
+    margin: 0 auto 1rem;
 }
+
+[data-country="colombia"] img.static-page-map,
+[data-country="colombia"] .menu-tipo-paisage {
+    display: none;
+}
+
+[data-country="colombia"] .map-wrapper-full-bleed {
+    background-color: transparent;
+}
+
+a.link-to-dashboard {
+
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    padding: .1em .5em;
+    font-size: 1.5em;
+    border-radius: 6px;
+    margin: 1rem auto;
+    display: inline-block;
+    /* width: fit-content; */
+    text-decoration: none;
+    font-family: buendia;
+
+}
+
+/* This link is on the dashboard's modal window for the report */
+
+.link-to-static-url {
+    font-size: 1em;
+    font-family: nagel;
+    text-transform: uppercase;
+    text-decoration: underline;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .25em;
+    color: var(--color-accent);
+}
+
+.link-to-static-url svg {
+    height: 1.2em;
+    width: 1.2em;
+}
+
+/*shows only on provincia and city view */
+[data-view="pais"] .link-to-static-url,
+[data-view="latam"] .link-to-static-url {
+    display: none;
+}
+
+.link-to-static-url .enlace-copiado {
+    display: none;
+}
+
+.link-to-static-url.clicked > .text-link-to-static-url {
+    display: none;
+}
+
+.link-to-static-url.clicked .enlace-copiado {
+    display: initial;
+    animation: shine 3s;
+
+}
+
+@keyframes shine {
+
+    0% {
+        text-shadow: 0 0 0px #EC722E;
+    }
+
+    50% {
+        text-shadow: 0 0 10px #EC722E;
+    }
+    
+    100% {
+        text-shadow: 0 0 0px #EC722E;
+    }
+
+}
+

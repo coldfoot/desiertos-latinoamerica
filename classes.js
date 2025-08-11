@@ -228,6 +228,9 @@ class Country {
         this.ut_maior.monitor_events("off");
         this.ut_menor.monitor_events("on");
 
+        map.moveLayer(this.country + "-provincia-border-hover");
+        map.moveLayer(this.country + "-provincia-border");
+
         update_infocard(provincia_name, provincia_key, this.country, "provincia");
 
     }
@@ -379,6 +382,9 @@ class Country {
 
     render_pais() {
 
+        // resets barchart for argentina 2021 data
+        //toggle_barchart_argentina_2021("off");
+
         const pais = this.country;
 
         plot_country(pais, padding);
@@ -479,7 +485,7 @@ class UTmaior {
                     ['feature-state', 'hover'], 
                     false
                 ],
-                4,
+                country == "chile" ? 2 : 4,
                 1
             ]
             }
@@ -493,7 +499,7 @@ class UTmaior {
             'layout': {},
             'paint': {
                 'line-color': 'black',
-                'line-width': 4
+                'line-width': country == "chile" ? 2 : 4
             },
             'filter': ['==', 'provincia', '']}); // puts behind road-label
 
@@ -774,7 +780,7 @@ class UTmenor {
                     ['feature-state', 'hover'], 
                     false
                 ],
-                3,
+                country == "chile" ? 1 : 3,
                 0
             ]
             }
@@ -800,7 +806,7 @@ class UTmenor {
             'layout': {},
             'paint': {
                 'line-color': 'black',
-                'line-width': 3,
+                'line-width': country == "chile" ? 1 : 3,
             }, 'filter': ['==', this.key_id, '']
         }); 
 
@@ -910,6 +916,7 @@ class UTmenor {
 
         let place_key = e.features[0].properties.KEY;
 
+        /*
         // remove this when the data is fixed;
         if (current_country == "argentina") {
 
@@ -927,7 +934,7 @@ class UTmenor {
 
             })
 
-        }
+        }*/
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
       
@@ -1061,7 +1068,8 @@ class UTmenor {
         this.flag_localidad_in_subprovincia_argentina = false;
         let place_key = e.features[0].properties.KEY;
 
-                // remove this when the data is fixed;
+        /*
+        // remove this when the data is fixed;
         if (current_country == "argentina") {
 
             const keys_provincias_merged = Object.keys(argentina_keys);
@@ -1082,7 +1090,7 @@ class UTmenor {
 
             })
 
-        }
+        }*/
 
         const place_data = main_data[this.country].small_units.filter(d => d.BASIC_INFO.KEY == place_key)[0];
 
@@ -1144,12 +1152,15 @@ class Bubble {
     popup;
     hoveredStateId;
 
-    constructor(country_name, bbox_country, bubble_data, bubble_layer) {
+    constructor(country_name, bbox_country, bubble_data, bubble_layer, provincia_data, provincia_layer) {
 
         this.country = country_name;
         this.bbox_country = bbox_country;
         this.data = bubble_data;
         this.source_layer_name = bubble_layer;
+
+        this.provincia_data = provincia_data;
+        this.provincia_layer = provincia_layer;
 
         this.hoveredStateId = null;
 
@@ -1186,6 +1197,30 @@ class Bubble {
                 }
             );
         }) */
+
+        /* adding provincia borders too */
+        map.addSource(this.country + '-provincia', {
+            type: 'vector',
+            url : this.provincia_data,
+            'promoteId' : 'KEY'
+        });
+
+        map.addLayer({
+            'id': this.country + '-provincia-border',
+            'type': 'line',
+            'source': this.country + '-provincia',
+            'source-layer': this.provincia_layer,
+            'layout': {},
+            'paint': {
+                'line-color': '#EC722E',
+                'line-width': .5,
+                'line-opacity' : 0
+            }
+        }); 
+
+
+
+
 
         map.addSource(this.country + '-bubble', {
             type: 'vector',
@@ -1232,7 +1267,7 @@ class Bubble {
             'source': this.country + '-bubble',
             'source-layer' : this.source_layer_name,
             'paint': {
-                'circle-color': "#EA4A26"/*[
+                'circle-color': "#EC722E"/*[
 
                     'match',
                     ["get", "CLASSIFICATION"],
@@ -1241,7 +1276,7 @@ class Bubble {
 
                 ]*/,
                 'circle-opacity': 0,
-                'circle-radius': 10
+                'circle-radius': 8
             }
         })
 
@@ -1278,6 +1313,10 @@ class Bubble {
 
     }
 
+    toggle_borders(opacity) {
+        map.setPaintProperty(this.country + '-provincia-border', 'line-opacity', opacity);
+    }
+
 
     render_pais() {
 
@@ -1310,6 +1349,7 @@ class Bubble {
         this.toggle_highlight('');
         map.setPaintProperty(this.country + "-bubble", "circle-opacity", 1);
         map.setPaintProperty("countries-fills", "fill-color", "transparent");
+        this.toggle_borders(1);
         //map.setPaintProperty(this.country + '-bubble', 'icon-opacity', 1);
 
 
@@ -1327,6 +1367,7 @@ class Bubble {
         )*/
 
         this.toggle_highlight('');
+        this.toggle_borders(0);
 
         this.monitor_events("off");
 
@@ -1559,9 +1600,29 @@ function plot_country(country, padding) {
 
 function display_paisage(tipo_paisage, country) {
 
+    let suffix = "";
+
+
+    if (country == "argentina") {
+
+        // if argentina, check which classification should be used
+        if (dashboard) {
+            const btn_selected = btns_toggle_year_argentina.querySelector(".year-selected");
+            const year_argentina = btn_selected.dataset.toggleYearArgentina;
+            if (year_argentina == "2021") suffix += "_2021";
+        }
+
+    }
+
+    console.log(tipo_paisage, country, suffix);
+
     if (tipo_paisage != '') {
 
         if (country == "colombia") {
+
+            return;
+
+            /*
 
             map.setPaintProperty(
                 country + '-bubble',
@@ -1584,7 +1645,7 @@ function display_paisage(tipo_paisage, country) {
                     ['get', 'KEY'],
                     ''
                 ]
-            );
+            );*/
 
         } else {
 
@@ -1595,7 +1656,7 @@ function display_paisage(tipo_paisage, country) {
                     'case',
                     [
                         '==',
-                        ['get', 'CLASSIFICATION'],
+                        ['get', 'CLASSIFICATION' + suffix],
                         tipo_paisage.toUpperCase()
                     ],
                     colors_css[tipo_paisage],
@@ -1609,6 +1670,8 @@ function display_paisage(tipo_paisage, country) {
 
         if (country == "colombia") {
 
+            return;
+            /*
             map.setPaintProperty(
                 country + '-bubble',
                 'icon-opacity',
@@ -1621,7 +1684,7 @@ function display_paisage(tipo_paisage, country) {
                     ['get', 'KEY'],
                     ''
                 ]
-            );
+            );*/
 
         } else {
 
@@ -1630,7 +1693,7 @@ function display_paisage(tipo_paisage, country) {
                 'fill-color',
                 [
                     'match',
-                    ['get', 'CLASSIFICATION'],
+                    ['get', 'CLASSIFICATION' + suffix],
                     ...Object.keys(colors_css).flatMap(key => [key.toUpperCase(), colors_css[key]]),
                     'transparent'
                 ]
@@ -1656,6 +1719,7 @@ const country_names = {
 }
 
 // to fix Argentina keys for the merged provincias
+/*
 const argentina_keys = {
     "Cordoba-Sur__argentina" : "Cordoba__argentina",
     "Cordoba-Norte__argentina" : "Cordoba__argentina",
@@ -1675,7 +1739,7 @@ const argentina_subprovincias_names = {
     "Buenos-Aires-Zona-2__argentina" : "Buenos Aires (Zona 2)",
     "Buenos-Aires-Zona-3__argentina" : "Buenos Aires (Zona 3)"
 
-}
+}*/
 
 // countries bboxes
 const bboxes = {
@@ -1771,7 +1835,7 @@ map.on('load', () => {
                 0.5
             ]*/
         },
-        'filter': ['!=', ['get', 'country_name'], 'Colombia']
+        //'filter': ['!=', ['get', 'country_name'], 'Colombia']
     });
 
     map.addLayer({
@@ -1784,7 +1848,7 @@ map.on('load', () => {
             'line-color': 'black',
             'line-width': 1
         },
-        'filter': ['!=', ['get', 'country_name'], 'Colombia']
+        //'filter': ['!=', ['get', 'country_name'], 'Colombia']
     });
 
     plot_latam(dashboard);
@@ -1794,7 +1858,8 @@ map.on('load', () => {
         countries["argentina"] = new Country(
             "argentina", "", 
             "mapbox://tiagombp.2c7pqb06", "large-units-argentina-9wj09y", 
-            "mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
+            //"mapbox://tiagombp.0fsztx9y", "small-units-argentina-dpc40y");
+            "mapbox://tiagombp.064o047k", "argentina-small-units_1-0st5p6");
 
         countries["chile"]     = new Country(
             "chile", "", 
@@ -1807,9 +1872,10 @@ map.on('load', () => {
             "mapbox://tiagombp.3636aktg", "small-units-peru-3glt7j"
         );
 
-        /*countries["colombia"] = new Bubble(
-            "colombia", "", "mapbox://tiagombp.27ddvbx4", "colombia-centroids-61kfe7"
-        );*/
+        countries["colombia"] = new Bubble(
+            "colombia", "", "mapbox://tiagombp.27ddvbx4", "colombia-centroids-61kfe7",
+            "mapbox://tiagombp.5o0t2e64", "colombia-large-units_1-aj79kf"
+        );
 
         countries["mexico"] = new Country(
             "mexico", "",
@@ -1862,7 +1928,7 @@ map.on("load", () => {
                 0
             ]
             },
-            'filter': ['!=', ['get', 'country_name'], 'Colombia']
+            //'filter': ['!=', ['get', 'country_name'], 'Colombia']
         }); 
 
         countries_events.monitor_events("on");

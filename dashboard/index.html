@@ -120,6 +120,11 @@
 
             <div id="map-dashboard">
 
+                <div class="toggle-year-for-argentina">
+                    <button data-toggle-year-argentina="2025" class="year-selected">2025</button>
+                    <button data-toggle-year-argentina="2021">2021</button>
+                </div>
+
 
             </div>
 
@@ -186,6 +191,7 @@
 
             <div class="place-paisage-composition-wrapper">
                 <h4 class="chapeu-barras">Categorización</h4> 
+                <p class="argentina-barchart-title">Datos de 2025</p>
                 <div class="place-paisage-composition">
                     <!--<span data-barchart="sin datos"><span class="barchart-label"></span></span>-->
                     <span data-barchart="desierto"><span class="barchart-label"></span></span>
@@ -193,6 +199,15 @@
                     <span data-barchart="semibosque"><span class="barchart-label"></span></span>
                     <span data-barchart="bosque"><span class="barchart-label"></span></span>
                 </div>
+                <p class="argentina-barchart-title">Datos de 2021</p>
+                <div class="place-paisage-composition-argentina-2021">
+                    <!--<span data-barchart="sin datos"><span class="barchart-label"></span></span>-->
+                    <span data-barchart="desierto"><span class="barchart-label"></span></span>
+                    <span data-barchart="semidesierto"><span class="barchart-label"></span></span>
+                    <span data-barchart="semibosque"><span class="barchart-label"></span></span>
+                    <span data-barchart="bosque"><span class="barchart-label"></span></span>
+                </div>
+
             </div>
 
             <div class="wrapper-btns-nav" data-modo="latam">
@@ -232,32 +247,18 @@
     
                         </p>
                     </div>
+
+                    <p class="resumen-tipo-classificacao-2021-argentina">
+                        En 2021 esta localidad era un <span class="highlight" data-tipo-paisage="desierto">DESIERTO</span>.
+                    </p>
+
                     <div class="leer-provincia-wrapper">
                         <!-- <h4 class="chapeu-relato">Informe</h4>  -->
                         <p class="localidad-informe-provincia">
                             Para comprender las condiciones de esta región, lea el informe de la provincia de <strong data-relato-campo="PARENT"></strong>.
                                 <span class="leer-mas leer-provincia">Leer</span>
                         </p>
-                    </div>
-
-                    <div class="relato-colombia-localidad recolhido">
-                        <div class="content-divider"></div>
-                        <h4 class="chapeu-relato">Informe | 
-                            <span class="chapeu-relato-author" data-relato-colombia-campo="AUTHOR">Author</span>
-                        </h4>
-                        <h3 data-relato-colombia-campo="TITLE">Informe</h3>
-
-                            <div class="teaser-wrapper">
-                                <span data-relato-colombia-campo="TEASER"></span>
-                                <span class="leer-mas">LEER MÁS</span>
-                            </div>
-                            <!-- <div class="content-divider"></div> -->
-                            <!-- <div data-relato-colombia-campo="MEDIO" class="">
-                                El medio estándar en la provincia de Buenos Aires es un portal digital de noticias que emplea a alrededor de cinco periodistas, pero cuyas condiciones de contratación son inciertas. Este medio prototípico recibe publicidad oficial, aunque sus responsables no saben o prefieren no contestar qué porcentaje representa el aporte del Estado en el ingreso total. Su agenda informativa está centrada en la atención sanitaria, preocupación que coincide con la pandemia del coronavirus vigente al momento de la investigación.
-                            </div> -->
-
-                    </div>
-                    
+                    </div>             
                 </div>
 
                 <div data-tipo-conteudo="relato con desplegables">
@@ -357,6 +358,25 @@
                 <h4 class="chapeu-relato">Informe | 
                     <span class="chapeu-relato-author" data-relato-modal-campo="AUTHOR">Author</span></h4>
                 <h3 data-relato-modal-campo="TITLE">Informe</h3>
+
+                <p data-href="" class="link-to-static-url">
+
+                    <svg class="share-button" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox= "10 10 40 40" width="50" height="50" fill="#F9F1E3" stroke="#EC722E" stroke-width="2">
+
+                        <line class="share-line1" x1="40" y1="20" x2="20" y2="30" data-initial="40,20,20,30" data-final="20,30,30,40"></line>
+                        <line class="share-line2" x1="20" y1="30" x2="40" y2="40" data-initial="20,30,40,40" data-final="30,40,50,20"></line>
+                        <circle class="share-circle1" cx="40" cy="20" r="5" data-initial="40,20,5" data-final="20,30,0"></circle>
+                        <circle class="share-circle2"cx="40" cy="40" r="5" data-initial="40,40,5" data-final="50,20,0"></circle>
+                        <circle class="share-circle3" cx="20" cy="30" r="5" data-initial="20,30,5" data-final="30,40,0"></circle>
+
+                    </svg>
+                    
+                    <span class="text-link-to-static-url">Compartir este informe</span>
+                    
+                    <span class="enlace-copiado">¡Enlace copiado!</span></p>
+
                 <!-- <h3 data-relato-modal-campo="TITLE">Relato de investigación</h3> -->
                 <p data-relato-modal-campo="TEASER"></p>
                 <div data-relato-modal-campo="RELATO" class="relato-modal-content"></div>
