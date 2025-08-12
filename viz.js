@@ -80,7 +80,7 @@ const corresp = {
             "CONSULTOR\u00cdA": "Servicios de consultor\u00eda",
             "SERVICIOS DE FORMACI\u00d3N": "Servicios de formaci\u00f3n (venta de cursos, talleres, capacitaciones)",
             "SUBSIDIOS O GRANTS": "Subsidios o Grants",
-            "SUBSCRIPCIONES": "Subscripciones",
+            "SUBSCRIPCIONES": "Suscripciones",
             "VENTA DE PRODUCTOS": "Venta de productos f\u00edsicos o digitales",
             "OTRAS": "Otras fuentes de ingresos"
         },
