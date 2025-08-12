@@ -2492,6 +2492,69 @@ details.metodologia details.metodologia details.metodologia details.metodologia 
     font-size: 0.9em;
 }
 
+/* Recomendaciones classes - duplicate of metodologia styling */
+details.recomendaciones {
+    margin-bottom: 1.2em;
+    padding: 0.5em 1em;
+  }
+  
+  summary.recomendaciones {
+    font-family: nagel;
+    font-weight: 600;
+    font-size: 1.2em;
+    cursor: pointer;
+    outline: none;
+    padding: 0.3em 0;
+  }
+  ul.recomendaciones {
+    margin: 0.5em 0 0 1.2em;
+    padding: 0;
+    font-weight: lighter;
+  }
+
+  ul.recomendaciones.numbered {
+    list-style: decimal;
+  }
+  li.recomendaciones {
+    margin-bottom: 0.6em;
+    font-size: 1.2em;
+    line-height: 1.2;
+  }
+
+  ul.recomendaciones.localidades {
+    font-size: .9em;
+    line-height: 1.2;
+}
+
+  li.recomendaciones strong {
+    font-weight: bold !important;
+}
+
+/* Nested collapsible summaries - progressively lighter */
+details.recomendaciones details.recomendaciones {
+    margin-left: 1em;
+}
+
+details.recomendaciones details.recomendaciones summary.recomendaciones {
+    font-size: 1.1em;
+}
+
+details.recomendaciones details.recomendaciones details.recomendaciones {
+    margin-left: 1.5em;
+}
+
+details.recomendaciones details.recomendaciones details.recomendaciones summary.recomendaciones {
+    font-size: 1em;
+}
+
+details.recomendaciones details.recomendaciones details.recomendaciones details.recomendaciones {
+    margin-left: 2em;
+}
+
+details.recomendaciones details.recomendaciones details.recomendaciones details.recomendaciones summary.recomendaciones {
+    font-size: 0.9em;
+}
+
 /* Scope note on the data pannel */
 .star-note {
     font-size: 0.8em;
