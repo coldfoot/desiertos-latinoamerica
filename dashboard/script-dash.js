@@ -683,7 +683,7 @@ function update_infocard(name, key, country, tipo) {
 
             "mexico": "Explora las condiciones para el ejercicio del periodismo local en 351 municipios de México distribuidos en 31 estados. El estudio incluye 9 de las 16 alcaldías de Ciudad de México.",
 
-            "colombia": "Explora las condiciones para el ejercicio del periodismo local en 34 municipios. La muestra incluye ciudades intermedias, capitales departamentales y municipios estratégicos."
+            "colombia": "En Colombia se aplicó un enfoque metodológico diferencial. Por eso, en lugar de la clasificación en 4 categorías, encontrarás el análisis de 34 municipios priorizados y sus condiciones para el ejercicio del periodismo local."
         }
 
         document.querySelector("[data-tipo-conteudo='scope-warning']").innerHTML = `<p class='scope-warning-text'>${scope_warnings[country]}</p>`;
