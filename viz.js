@@ -204,7 +204,7 @@ const topics = {
 
         title : '¿Experimentaron agresiones o amenazas en 2024?',
 
-        subtitle : 'Porcentaje de medios cuyos periodistas experimentarón los siguientes tipos de agresiones o amenazas:'
+        subtitle : 'Porcentaje de medios cuyos periodistas experimentaron los siguientes tipos de agresiones o amenazas:'
 
     }
 

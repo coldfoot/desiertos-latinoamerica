@@ -33,7 +33,7 @@ class CountriesEvents {
             ( bboxes[country_key][1] + bboxes[country_key][3] ) / 2
         ];
 
-        this.popup.setLngLat(coordinates).setHTML(name).addTo(map);
+        this.popup.setLngLat(coordinates).setHTML(country_names[country_key]).addTo(map);
 
         ////////////
         // highlight polygon
