@@ -2658,39 +2658,10 @@ details.recomendaciones details.recomendaciones details.recomendaciones details.
     vertical-align: middle;
 }
 
-/* Donation section */
-.popup-dona {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
 .logo-fundacion {
     width: 77px;
     height: 75px;
     flex-shrink: 0;
-}
-
-.texto-dona {
-    flex: 1;
-}
-
-.texto-dona p {
-    margin-bottom: 0.75rem;
-    font-size: 0.9em;
-}
-
-@media (max-width: 768px) {
-    .popup-dona {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem;
-    }
-    
-    .redes-sociales {
-        justify-content: center;
-    }
 }
 
 .footer-bottom {
