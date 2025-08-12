@@ -56,6 +56,8 @@ class MenuPaises {
 
             showCountryStory(pais);
 
+            block_scroll(false);
+
             document.querySelector("#page3").scrollIntoView({ behavior: "smooth" });
 
             console.log(pais);
@@ -73,6 +75,8 @@ class Story {
     step_actions = {
 
         "country selection" : (direction) => {
+
+            block_scroll(true); // it will be unblocked by the click listener in the MenuPAises object
 
             if (direction == "forward") {
 
@@ -92,8 +96,9 @@ class Story {
 
         "random desierto" : (direction) => {
 
-            if (direction == "forward" & current_country == undefined) {
+            block_scroll(false);
 
+            if (direction == "forward" & current_country == undefined) {
 
                 const pais = "argentina"
 
@@ -104,7 +109,6 @@ class Story {
                 showCountryStory(pais);
 
             }
-
 
             console.log("First paragraph. Going down...");
             
@@ -247,6 +251,16 @@ class Story {
             const step_name = step_element.dataset.slide;
             const selector = this.step_selector + '[data-slide="' + step_name + '"]';
 
+            let start_parameter = "25% 60%";
+            let end_parameter = "75% 40%";
+
+            /*
+            if (step_name == "country selection") {
+                start_parameter = "90% bottom";
+                end_parameter = "10% top";
+            }*/
+
+
             console.log(step_name, selector);
 
             gsap.to(
@@ -259,8 +273,8 @@ class Story {
                         markers: false,
                         toggleClass: 'active',
                         pin: false,
-                        start: "25% 60%",
-                        end: "75% 40%", 
+                        start: start_parameter,
+                        end: end_parameter, 
 
                         onEnter : () => this.step_actions[step_name]("forward"),
                         onEnterBack : () => this.step_actions[step_name]("back"),
@@ -278,6 +292,16 @@ class Story {
 
     }
 
+}
+
+function block_scroll(toggle = true) {
+    if (toggle) {
+        document.body.style.overflow = 'hidden';
+        document.querySelector("[data-slide='country selection']").scrollIntoView({ behavior: "smooth" });
+    } else {
+        document.body.style.overflow = '';
+    }
+    
 }
 
 function pick_specific_desierto(country) {
@@ -326,7 +350,7 @@ function pick_specific_desierto(country) {
 
     const mini_data = desiertos[selected_index];
 
-    const pais_formatado = country[0].toUpperCase() + country.slice(1);
+    const pais_formatado = country_names[country];//country[0].toUpperCase() + country.slice(1);
 
     const parent_data = main_data[country].large_units.filter(d => d.BASIC_INFO.NAME == mini_data.BASIC_INFO.PARENT)[0];
 
