@@ -499,7 +499,7 @@ class UTmaior {
             'layout': {},
             'paint': {
                 'line-color': 'black',
-                'line-width': country == "chile" ? 2 : 4
+                'line-width': country == "chile" ? 1 : 4
             },
             'filter': ['==', 'provincia', '']}); // puts behind road-label
 
