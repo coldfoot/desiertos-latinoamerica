@@ -307,6 +307,21 @@ header.show-menu .btn-menu-content {
     color: var(--color-bg);
 }
 
+@media screen and (min-width: 900px) and (max-height: 720px) {
+  [data-slide="opening"] h1.goo {
+    padding: .5rem 1rem;
+    font-size: 56px;
+  }
+
+  [data-slide="opening"] h1.goo br {
+    display: none;
+  }
+
+  [data-slide="opening"] * + * {
+    margin-top: 16px;   
+  }
+}
+
 [data-slide="opening"] .subtitle, 
 [data-slide="opening"] .btn-descubra span, 
 [data-slide="opening"] .btn-vaya-datos a {
@@ -568,7 +583,7 @@ div.title-wrapper a {
 }
 
 .logo-wrapper .logo {
-    height: 2rem;
+    height: 2.2rem;
     display: block;
 }
 
@@ -1103,6 +1118,10 @@ span[data-resumen-tipo-classificacao] {
     font-weight: 500;
 }
 
+[data-country="colombia"] [data-summary-field="NEWS_ORG_COUNT"] strong::after {
+    content: " IDENTIFICADOS"
+}
+
 
 /* BARCHART PAISAGE COMPOSITION */
 
@@ -1256,6 +1275,11 @@ p.teaser {  /******** ARRUMAR ISSO NOS DADOS, TIRAR AS TAGAS ***/
     font-weight: lighter;
     font-size: 1.2rem;
 }
+
+/* NOME DA UT MENOR */
+[data-texto-ut-menor]::after { content: "esta región"; }
+[data-country="argentina"] [data-texto-ut-menor]::after { content: "esta provincia"; }
+[data-country="mexico"] [data-texto-ut-menor]::after { content: "este estado"; }
 
 .text-panel-container .conteudo .leer-mas,
 .text-panel-container .conteudo .leer-mas-desplegable,
