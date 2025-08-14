@@ -30,6 +30,14 @@ arrows.forEach(arrow => arrow.addEventListener("click", e => {
 
 }));
 
+function toggle_colombia(toggle) {
+    
+    const container = document.querySelector("[data-flag]");
+    
+    container.dataset.flag = toggle == "on" ? "colombia" : "";
+
+}
+
 
 class MenuPaises {
 
@@ -50,16 +58,18 @@ class MenuPaises {
 
             current_country = pais;
 
-            if (pais == "colombia") return;
+            
 
-            populate_story(pais);
-
-            showCountryStory(pais);
+            if (pais == "colombia") {
+                toggle_colombia("on");
+                document.querySelector("[data-slide='semibosque']").scrollIntoView({ behavior: "smooth" });
+            } else {
+                showCountryStory(pais);
+                populate_story(pais);
+                document.querySelector("#page3").scrollIntoView({ behavior: "smooth" });
+            }
 
             block_scroll(false);
-
-            document.querySelector("#page3").scrollIntoView({ behavior: "smooth" });
-
             console.log(pais);
 
         });
@@ -84,10 +94,9 @@ class Story {
 
             } else {
 
+                toggle_colombia("off");
                 countries[current_country].clear_country_subnational();
-
                 plot_latam();
-
                 console.log("Country.Going up...");
 
             }
@@ -97,6 +106,12 @@ class Story {
         "random desierto" : (direction) => {
 
             block_scroll(false);
+
+            if (current_country == "colombia") {
+
+                return;
+                
+            }
 
             if (direction == "forward" & current_country == undefined) {
 
@@ -151,6 +166,12 @@ class Story {
 
          "desiertos" : (direction) => {
 
+            if (current_country == "colombia") {
+
+                return;
+
+            }
+
             console.log("Desiertos...");
 
             if (direction == "forward") {
@@ -181,6 +202,13 @@ class Story {
 
         "semidesierto" : (direction) => {
 
+            if (current_country == "colombia") {
+                
+                if (direction == "back") document.querySelector("#country-selection").scrollIntoView({ behavior: "smooth" });
+
+                return;
+            };
+
             display_paisage("semidesierto", current_country);
 
             if (direction == "forward") {
@@ -194,6 +222,17 @@ class Story {
         },
 
         "semibosque" : (direction) => {
+
+            if (current_country == "colombia") {
+
+                block_scroll(false);
+
+                showCountryStory("colombia");
+                countries["colombia"].toggle_borders(1);
+                map.setPaintProperty("colombia-bubble", "circle-opacity", 0);
+                return;
+                
+            }
 
             display_paisage("semibosque", current_country);
 
@@ -209,6 +248,13 @@ class Story {
 
         "bosques" : (direction) => {
 
+            if (current_country == "colombia") {
+
+                map.setPaintProperty("colombia-bubble", "circle-opacity", 1);
+                return;
+
+            }
+
             display_paisage("bosque", current_country);
 
             if (direction == "forward") {
@@ -223,8 +269,9 @@ class Story {
 
         "todas las categorias" : (direction) => {
 
-            display_paisage("", current_country);
+            if (current_country == "colombia") return;
 
+            display_paisage("", current_country);
 
         }
 
@@ -260,9 +307,6 @@ class Story {
                 end_parameter = "10% top";
             }*/
 
-
-            console.log(step_name, selector);
-
             gsap.to(
 
                 selector, // só para constar, não vamos fazer nada com ele, na verdade
@@ -276,7 +320,8 @@ class Story {
                         start: start_parameter,
                         end: end_parameter, 
 
-                        onEnter : () => this.step_actions[step_name]("forward"),
+                        onEnter : () => {
+                            console.log(step_name); this.step_actions[step_name]("forward"); },
                         onEnterBack : () => this.step_actions[step_name]("back"),
                         //onLeave : () => v.scroller.linechart_regioes.render[step_name](forward = true),
                         //onLeaveBack : () => v.scroller.linechart_regioes.render[step_name](forward = false)
