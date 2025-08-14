@@ -1251,7 +1251,8 @@ function monitor_search_bar(data) {
             countries_events.monitor_events('off');
             map.setPaintProperty("countries-borders", "line-color", "transparent");
             map.setPaintProperty("countries-fills", "fill-color", "transparent");
-            countries[country].paint_country_subnational("on");
+
+            if (country != "colombia") countries[country].paint_country_subnational("on");
 
             if (tipo == "localidad") {
 
@@ -1262,10 +1263,20 @@ function monitor_search_bar(data) {
 
                 update_breadcrumbs('ut-maior', parent);
 
+                if (country == "colombia") {
+            
+                    plot_country(country, padding);
+                    countries[country].render_country_subnational();
+                    countries[country].monitor_events("on"); 
+                    countries[country].render_bubble(key);
 
-                countries[country].render_localidad();
-                countries[country].ut_menor.monitor_events("on");
 
+                } else {
+
+                    countries[country].render_localidad();
+                    countries[country].ut_menor.monitor_events("on");
+
+                }
 
             }
 
