@@ -2491,11 +2491,12 @@ details.metodologia {
   ul.metodologia.numbered {
     list-style: decimal;
   }
-  li.metodologia {
+  li.metodologia, ul.conclusiones {
     margin-bottom: 0.6em;
     font-size: 1.2em;
     line-height: 1.2;
   }
+
 
   ul.metodologia.localidades {
     font-size: .9em;
