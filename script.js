@@ -1,4 +1,4 @@
-console.log('Defining plot_latam function');
+console.log('Welcome! Our repo is available at https://github.com/coldfoot/desiertos-latinoamerica');
 
 let btnDescubra;
 
@@ -46,7 +46,7 @@ class MenuPaises {
         this.ref = ref;
         this.el = document.querySelector(ref);
 
-        console.log(this.el);
+        //console.log(this.el);
 
         this.el.addEventListener("click", e => {
 
@@ -70,7 +70,7 @@ class MenuPaises {
             }
 
             block_scroll(false);
-            console.log(pais);
+            //console.log(pais);
 
         });
 
@@ -90,14 +90,14 @@ class Story {
 
             if (direction == "forward") {
 
-                console.log("Country. Going down...");
+                //console.log("Country. Going down...");
 
             } else {
 
                 toggle_colombia("off");
                 countries[current_country].clear_country_subnational();
                 plot_latam();
-                console.log("Country.Going up...");
+                //console.log("Country.Going up...");
 
             }
 
@@ -125,7 +125,7 @@ class Story {
 
             }
 
-            console.log("First paragraph. Going down...");
+            //console.log("First paragraph. Going down...");
             
             clear_latam();
             //showCountryStory(current_country);
@@ -172,7 +172,7 @@ class Story {
 
             }
 
-            console.log("Desiertos...");
+            //console.log("Desiertos...");
 
             if (direction == "forward") {
 
@@ -320,8 +320,7 @@ class Story {
                         start: start_parameter,
                         end: end_parameter, 
 
-                        onEnter : () => {
-                            console.log(step_name); this.step_actions[step_name]("forward"); },
+                        onEnter : () => this.step_actions[step_name]("forward"),
                         onEnterBack : () => this.step_actions[step_name]("back"),
                         //onLeave : () => v.scroller.linechart_regioes.render[step_name](forward = true),
                         //onLeaveBack : () => v.scroller.linechart_regioes.render[step_name](forward = false)
@@ -351,15 +350,15 @@ function block_scroll(toggle = true) {
 
 function pick_specific_desierto(country) {
 
-    console.log(country);
+    //console.log(country);
 
     let desiertos;
     if (country != 'colombia') {
-        console.log('country is not colombia');
+        //console.log('country is not colombia');
         desiertos = main_data[country].small_units.filter(d => d.BASIC_INFO.CLASSIFICATION == 'DESIERTO');
     }
     else {
-        console.log('country is colombia');
+        //console.log('country is colombia');
         desiertos = main_data[country].small_units.filter(d => d.BASIC_INFO.CLASSIFICATION == 'SEMIDESIERTO');
     }
 
@@ -455,7 +454,7 @@ function populate_story(country) {
 
     story_info = pick_specific_desierto(country);
 
-    console.log(story_info);
+    //console.log(story_info);
 
     const spans = document.querySelectorAll("[data-story-text");
 
@@ -503,7 +502,7 @@ const w_cutoff = 900;
 
 function get_bbox(country) {
 
-    console.log(country);
+    //console.log(country);
 
     let locations = map.querySourceFeatures("countries", {
         sourceLayer: 'data-blt69d'
@@ -511,11 +510,11 @@ function get_bbox(country) {
         
     let desired_features = locations.filter(d => d.properties.country_name == country)[0];
 
-    console.log(desired_features);
+    //console.log(desired_features);
 
     let bbox_highlighted = turf.bbox(desired_features)
     
-    console.log(desired_features, bbox_highlighted);
+    //console.log(desired_features, bbox_highlighted);
 
     bboxes[country] = bbox_highlighted;
 
@@ -571,7 +570,7 @@ let story;
 
 function init() {
 
-    console.log("init");
+    //console.log("init");
 
     // defined on classes.js
 
