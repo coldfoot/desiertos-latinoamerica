@@ -2831,13 +2831,15 @@ details.recomendaciones details.recomendaciones details.recomendaciones details.
 }
 
 /* Scope note on the data pannel */
-.star-note {
+.star-note,
+.dagger-note-bosques {
     font-size: 0.8em;
     font-style: italic;
     vertical-align: super;
 }
 
-.star-note-explanation {
+.star-note-explanation,
+.dagger-note-explanation-bosques {
     font-size: 0.7em;
     font-family: nagel;
     font-weight: lighter;
@@ -2845,8 +2847,18 @@ details.recomendaciones details.recomendaciones details.recomendaciones details.
     margin-bottom: 0px;
 }
 
+.dagger-note-bosques, .dagger-note-explanation-bosques {
+    display: none;
+}
+
+[data-classification-localidad="bosque"] .dagger-note-bosques,
+[data-classification-localidad="bosque"] .dagger-note-explanation-bosques {
+    display: inline;
+}
+
 @media (max-width: 900px) {
-    .star-note-explanation {
+    .dagger-note-bosques,
+    .dagger-note-explanation-bosques {
         font-size: 0.95em;
     }
 }
