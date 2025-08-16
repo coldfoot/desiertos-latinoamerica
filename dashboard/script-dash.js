@@ -38,6 +38,18 @@ const url_place_key = url_params.get("ubicacion");
 
 map.once('idle', () => {
 
+    if (Object.keys(countries).includes(url_place_key)) {
+
+        // in case it's a country report
+
+        const country = url_place_key;
+
+        countries[country].render_pais();
+
+        return;
+
+    }
+
     if (url_place_key != null) {
 
         const components_ubicacion = url_place_key.split("__");
