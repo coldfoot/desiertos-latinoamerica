@@ -2618,22 +2618,22 @@ details.recomendaciones details.recomendaciones details.recomendaciones details.
     display: flex;
     flex-wrap: wrap;
     gap: 4rem;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
 }
 
 .logos-left {
-    flex: 0 0 400px;
+    flex: 0 0 150px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .logos-right {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .logos-label {
@@ -2650,11 +2650,21 @@ details.recomendaciones details.recomendaciones details.recomendaciones details.
     flex-wrap: wrap;
     gap: 2rem;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+}
+
+.logos-grid > a {
+    flex: 0 0 100px;
+}
+
+.logos-grid a[href="https://pregrado.upc.edu.pe/facultad-de-comunicaciones/"] {
+    order: 5;
+    align-self: center;
+    height: 120px;
 }
 
 .logos-grid img {
-    width: auto;
+    width: 100%;
     transition: opacity 0.3s ease;
 }
 
@@ -2662,11 +2672,46 @@ details.recomendaciones details.recomendaciones details.recomendaciones details.
     opacity: 0.7;
 }
 
+.logo-gabo-single img {
+    width: 100%;
+}
+
 .logo-gabo-single {
+    height: 120px;
     display: flex;
-    justify-content: center;
     align-items: center;
 }
+
+@media (max-width: 841px) {
+    .logo-gabo-single {
+        align-items: flex-start;
+    }
+
+}
+
+
+/*
+.logo-upc { 
+    height: 150px; 
+    max-width: 200px; 
+}
+.logo-fopea { 
+    height: 150px; 
+    max-width: 180px; 
+}
+.logo-flip { 
+    height: 55px; 
+    width: 120px; 
+    object-fit: fill; /* stretches to fill exactly */
+/*}
+.logo-cip-udp { 
+    height: 60px; 
+    width: 140px; 
+}
+.logo-quinto-elemento { 
+    height: 150px; 
+    width: 160px; 
+}*/
 
 /*
 @media (max-width: 768px) {
@@ -3089,28 +3134,5 @@ a.link-to-dashboard {
 
 }
 
-.logo-gabo-single img {
-    height: 60px;
-}
-.logo-upc { 
-    height: 150px; 
-    max-width: 200px; 
-}
-.logo-fopea { 
-    height: 150px; 
-    max-width: 180px; 
-}
-.logo-flip { 
-    height: 55px; 
-    width: 120px; 
-    object-fit: fill; /* stretches to fill exactly */
-}
-.logo-cip-udp { 
-    height: 60px; 
-    width: 140px; 
-}
-.logo-quinto-elemento { 
-    height: 150px; 
-    width: 160px; 
-}
+
 
