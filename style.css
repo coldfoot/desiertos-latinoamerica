@@ -3099,7 +3099,7 @@ a.link-to-dashboard {
 }
 
 /*shows only on provincia and city view */
-[data-view="pais"] .link-to-static-url,
+/* shows also on country level */
 [data-view="latam"] .link-to-static-url {
     display: none;
 }

@@ -792,6 +792,11 @@ function show_modal_relato(sub_provincia = undefined) {
             // Use country-level data
             mini_data = main_data[currentCountry].country[0];
             narrative_data = mini_data.NARRATIVE;
+
+            const url_on_bar = window.location.href;
+            const pos_string_dashboard = url_on_bar.search("/dashboard");
+            const basic_url = url_on_bar.slice(0, pos_string_dashboard); //"https://coldfoot.studio/desiertos-latinoamerica"
+            link_to_static_report.setAttribute("data-href", basic_url + "/static/" + currentCountry);
         } 
         else if (currentCountry === "colombia") {
 
