@@ -1,5 +1,3 @@
-console.log('Welcome! Our repo is available at https://github.com/coldfoot/desiertos-latinoamerica');
-
 let btnDescubra;
 
 if (!dashboard) {

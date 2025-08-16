@@ -1,3 +1,5 @@
+console.log('Welcome! Our repo is available at https://github.com/coldfoot/desiertos-latinoamerica');
+
 class CountriesEvents {
 
     constructor() {
@@ -130,7 +132,7 @@ class CountriesEvents {
 
         if (option == 'on') {
 
-            console.log('MONITORING COUNTRY EVENTS');
+            //console.log('MONITORING COUNTRY EVENTS');
 
             this.hoveredStateId = null;
 
@@ -140,7 +142,7 @@ class CountriesEvents {
 
         } else {
 
-            console.log('turning off COUNTRY event monitor');
+            //console.log('turning off COUNTRY event monitor');
 
             map.off('mousemove', 'countries-fills', this._bound_mouse_enter_handler);
             map.off('mouseleave', 'countries-fills', this._bound_mouse_leave_handler);
@@ -208,7 +210,7 @@ class Country {
             last_provincia_location_data.bbox = bbox_provincia;
 
         }*/
-       console.log(padding);
+       //console.log(padding);
 
         map.fitBounds(
 
@@ -361,7 +363,7 @@ class Country {
 
     clear_country_subnational() {
 
-        console.log(this.country + ' to clear')
+        //console.log(this.country + ' to clear')
 
         this.paint_country_subnational("off");
 
@@ -392,14 +394,14 @@ class Country {
         update_infocard(country_names[pais], pais, pais, "pais");
         update_country_button(pais);
 
-        console.log("Render pais, ", pais, this.country, last_country);
+        //console.log("Render pais, ", pais, this.country, last_country);
         this.render_country_subnational(pais); // os eventos do subnacional estao aqui dentro
         countries_events.monitor_events('off'); // desliga monitor de eventos no nível de país
 
         // no caso de troca de país
         if ( (pais != last_country) & (last_country != undefined) ) {
 
-            console.log("Clear");
+            //console.log("Clear");
             countries[last_country].clear_country_subnational();
 
 
@@ -1038,7 +1040,7 @@ class UTmenor {
 
         if (option == 'on') {
 
-            console.log("Turning on MONITORING for LOCALIDADS in " + this.country);
+            //console.log("Turning on MONITORING for LOCALIDADS in " + this.country);
 
             this.hoveredStateId = null;
 
@@ -1050,7 +1052,7 @@ class UTmenor {
 
         } else {
 
-            console.log("Turning off MONITORING for LOCALIDAS events in " + this.country)
+            //console.log("Turning off MONITORING for LOCALIDAS events in " + this.country)
 
             map.off('mousemove', this.country + '-localidad', this._bound_mouse_enter_handler);
 
@@ -1357,7 +1359,7 @@ class Bubble {
 
     clear_country_subnational() {
 
-        console.log(this.country + ' to clear')
+        //console.log(this.country + ' to clear')
 
         /* using '' as parameter in toggle_highlight will already set opacity to 0.
         map.setPaintProperty(
@@ -1547,7 +1549,7 @@ class Bubble {
 
 function plot_country(country, padding) {
 
-    console.log(country);
+    //console.log(country);
 
     current_country = country;
 
@@ -1614,7 +1616,7 @@ function display_paisage(tipo_paisage, country) {
 
     }
 
-    console.log(tipo_paisage, country, suffix);
+    //console.log(tipo_paisage, country, suffix);
 
     if (tipo_paisage != '') {
 
