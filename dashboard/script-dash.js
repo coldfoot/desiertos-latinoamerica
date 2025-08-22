@@ -34,9 +34,21 @@ const link_to_static_report = document.querySelector(".link-to-static-url");
 
 const url_params = new URLSearchParams(window.location.search);
 const url_place_key = url_params.get("ubicacion");
-console.log(url_params, url_place_key);
+//console.log(url_params, url_place_key);
 
 map.once('idle', () => {
+
+    if (Object.keys(countries).includes(url_place_key)) {
+
+        // in case it's a country report
+
+        const country = url_place_key;
+
+        countries[country].render_pais();
+
+        return;
+
+    }
 
     if (url_place_key != null) {
 
@@ -46,7 +58,7 @@ map.once('idle', () => {
         // na verdade, só se for colombia que vai ter 3 termos;
 
         const country = url_place_key.split("__")[index_country];
-        console.log(country);
+        //console.log(country);
 
         last_country = country;
         current_country = country;
@@ -147,7 +159,7 @@ btns_toggle_year_argentina.addEventListener("click", e => {
         const btn_paisage_selected = menu_tipo_paisage.querySelector(".tipo-paisage-selected");
         if (btn_paisage_selected) {
             const paisage = btn_paisage_selected.dataset.tipoPaisage;
-            console.log(btn_paisage_selected, paisage);
+            //console.log(btn_paisage_selected, paisage);
             display_paisage(paisage, "argentina");
             return;
         }
@@ -194,7 +206,7 @@ function resetPaisageMenu() {
         selectedPaisage.classList.remove("tipo-paisage-selected");
     }
     
-    console.log("Paisage menu reset");
+    //console.log("Paisage menu reset");
 }
 
 // Event listener for the tipo paisage button
@@ -510,7 +522,7 @@ function update_infocard(name, key, country, tipo) {
 
     control_nav_buttons(tipo);
 
-    console.log(name, key, country, tipo);
+    //console.log(name, key, country, tipo);
 
     // to fill the relato within the localidad view in the case of colombia
     if (country == "colombia" && tipo == "localidad") {
@@ -533,7 +545,7 @@ function update_infocard(name, key, country, tipo) {
             // Selects the data-value of the field and updates it with the relevant narrative data
             document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
 
-            console.log(document.querySelector(`[data-relato-campo="${field}"]`));
+            //console.log(document.querySelector(`[data-relato-campo="${field}"]`));
 
             /*
             if (field = "AUTHOR") {
@@ -696,15 +708,15 @@ function update_infocard(name, key, country, tipo) {
             ];
 
         const country_data = main_data[country].country[0];
-        console.log(country_data);
+        //console.log(country_data);
         const basic_info_data = main_data[country].country[0].BASIC_INFO;
         const narrative_data = main_data[country].country[0].NARRATIVE;
-        console.log(narrative_data);
+        //console.log(narrative_data);
         
         fields.forEach(field => {
             
             if (narrative_data[field]) {
-                console.log("adding data for ", field);
+                //console.log("adding data for ", field);
                 document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = narrative_data[field];
             } else {
                 document.querySelector(`[data-relato-campo="${field}"]`).innerHTML = "Dentro de poco";
@@ -780,6 +792,11 @@ function show_modal_relato(sub_provincia = undefined) {
             // Use country-level data
             mini_data = main_data[currentCountry].country[0];
             narrative_data = mini_data.NARRATIVE;
+
+            const url_on_bar = window.location.href;
+            const pos_string_dashboard = url_on_bar.search("/dashboard");
+            const basic_url = url_on_bar.slice(0, pos_string_dashboard); //"https://coldfoot.studio/desiertos-latinoamerica"
+            link_to_static_report.setAttribute("data-href", basic_url + "/static/" + currentCountry);
         } 
         else if (currentCountry === "colombia") {
 
@@ -795,7 +812,7 @@ function show_modal_relato(sub_provincia = undefined) {
             const url_on_bar = window.location.href;
             const pos_string_dashboard = url_on_bar.search("/dashboard");
             const basic_url = url_on_bar.slice(0, pos_string_dashboard); //"https://coldfoot.studio/desiertos-latinoamerica"
-            console.log(basic_url);
+            //console.log(basic_url);
 
             link_to_static_report.setAttribute("data-href", basic_url + "/static/" + currentCountry + '/' + dir_name);
             
@@ -825,7 +842,7 @@ function show_modal_relato(sub_provincia = undefined) {
             const url_on_bar = window.location.href;
             const pos_string_dashboard = url_on_bar.search("/dashboard");
             const basic_url = url_on_bar.slice(0, pos_string_dashboard); //"https://coldfoot.studio/desiertos-latinoamerica"
-            console.log(basic_url);
+            //console.log(basic_url);
 
             link_to_static_report.setAttribute("data-href", basic_url + "/static/" + currentCountry + '/' + dir_name);
             
@@ -848,7 +865,7 @@ function show_modal_relato(sub_provincia = undefined) {
 link_to_static_report.addEventListener("click", async () => {
 
     const url_to_copy = link_to_static_report.getAttribute("data-href");
-    console.log(url_to_copy);
+    //console.log(url_to_copy);
 
     try {
         await navigator.clipboard.writeText(url_to_copy);
@@ -1056,7 +1073,7 @@ function compute_classification(country, provincia, suffix = "") {
 
     })
 
-    console.log(country, provincia, suffix, counts);
+    //console.log(country, provincia, suffix, counts);
 
     return counts;
 
@@ -1072,7 +1089,7 @@ function update_classification_barcharts(counts, last_year = false) {
     const container = document.querySelector(container_ref);
     const container_width = +window.getComputedStyle(container).width.slice(0,-2);
 
-    console.log(container);
+    //console.log(container);
 
     barcharts.forEach(bar => {
 
@@ -1238,7 +1255,7 @@ function monitor_search_bar(data) {
             const tipo = selectedOption.dataset.tipoLocalidade;
             const key = selectedOption.dataset.key;
             const country = selectedOption.dataset.country;
-            console.log("Selected option:", selectedOption, "Tipo:", tipo, "Key:", key);
+            //console.log("Selected option:", selectedOption, "Tipo:", tipo, "Key:", key);
 
             if (last_country) {
                 countries[last_country].clear_country_subnational();
